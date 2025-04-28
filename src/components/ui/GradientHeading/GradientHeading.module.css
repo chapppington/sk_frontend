@@ -1,0 +1,9 @@
+.gradientHeading {
+  font-size: 3.2rem;
+  font-weight: 400;
+  background: linear-gradient(150deg, white, rgba(255, 255, 255, 1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+} 
