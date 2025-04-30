@@ -13,7 +13,7 @@ pnpm dev
 # or
 bun dev
 ```
-LOOK AT THIS BRO
+LOOK AT THIS
 
 ![image](https://github.com/user-attachments/assets/473a7ea1-60f6-48b5-8b07-420b66403b01)
 
