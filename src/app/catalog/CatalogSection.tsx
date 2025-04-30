@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -139,7 +139,7 @@ const services = [
   },
 ];
 
-const CatalogSection: React.FC = () => {
+const CatalogSection: FC = () => {
   const [activeTab, setActiveTab] = useState<"products" | "services">(
     "products"
   );

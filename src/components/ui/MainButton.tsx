@@ -101,7 +101,7 @@ const MainButton: FC<MainButtonProps> = ({
     >
       <div className={`flex items-center ${styles.padding}`}>
         <span
-          className={`text-black ${styles.text} ${styles.fontSize} whitespace-nowrap`}
+          className={`text-black ${styles.text} ${styles.fontSize} whitespace-nowrap select-none`}
         >
           {text}
         </span>

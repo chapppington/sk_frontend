@@ -4,6 +4,7 @@ import "./globals.css";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 import Navbar from "@/components/global_sections/Navbar";
 import Footer from "@/components/global_sections/Footer";
+import BGGradient from "@/components/global_sections/BGGradient";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -23,11 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-          <div className="bg-gradient-to-b from-gray-900 to-gray-800 top-0 left-0 right-0 bottom-0 z-[-1] fixed h-screen w-screen"></div>
-          <BreakpointIndicator />
-          <Navbar />
-          {children}
-          <Footer />
+        <BGGradient />
+        <BreakpointIndicator />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );
