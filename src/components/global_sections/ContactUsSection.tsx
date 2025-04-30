@@ -21,7 +21,7 @@ const ContactUsSection: React.FC = () => {
             </GradientHeading>
 
             {/* Description text */}
-            <div className="mb-8 lg:mb-0">
+            <div className="mt-8 lg:mb-0">
               <p className="text-white/70 max-w-[600px]">
                 Если Вас заинтересовали вакансии нашей компании, заполните форму
                 и мы обязательно с Вами свяжемся

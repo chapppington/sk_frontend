@@ -23,79 +23,79 @@ const products = [
   {
     id: 1,
     title: "2КТПт 25..250 кВА",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "kts",
   },
   {
     id: 2,
     title: "КТП 63..2500 кВА",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "kts",
   },
   {
     id: 3,
     title: "КТПН 25..250 кВА",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "kts",
   },
   {
     id: 4,
     title: "НКУ-0,4 кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "nku",
   },
   {
     id: 5,
     title: "НКУ-0,4 кВ с АВР",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "nku",
   },
   {
     id: 6,
     title: "НКУ-0,4 кВ с ЧРП",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "nku",
   },
   {
     id: 7,
     title: "УКРМ-0,4 кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "quality",
   },
   {
     id: 8,
     title: "УКРМ-6(10) кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "quality",
   },
   {
     id: 9,
     title: "ПКУ-6(10) кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "accounting",
   },
   {
     id: 10,
     title: "ПКУ-35 кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "accounting",
   },
   {
     id: 11,
     title: "ДЭС 10..2000 кВт",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "stations",
   },
   {
     id: 12,
     title: "КРУ-6(10) кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "kru",
   },
   {
     id: 13,
     title: "КРУ-35 кВ",
-    image: "/transformer.png",
+    image: "/transformer.webp",
     category: "kru",
   },
 ];
@@ -382,7 +382,7 @@ const CatalogSection: FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                 >
                   {currentProducts.map((product) => (
                     <motion.div

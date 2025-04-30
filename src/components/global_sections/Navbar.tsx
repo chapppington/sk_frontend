@@ -9,7 +9,7 @@ import CustomContainer from "../ui/CustomContainer";
 const menuItems = [
   { href: "/catalog", label: "Каталог" },
   { href: "/projects", label: "Проекты" },
-  { href: "#", label: "О нас" },
+  { href: "/news", label: "Новости" },
   { href: "/contacts", label: "Контакты" },
 ];
 
@@ -46,7 +46,7 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 right-0 w-full h-screen bg-black z-[101] overflow-y-auto"
+            className="fixed top-0 right-0 w-full h-screen bg-black z-[10100] overflow-y-auto"
           >
             <CustomContainer className="pt-20 pb-6">
               <CustomContainer className="fixed top-0 left-0 right-0 flex justify-between items-center h-[72px] bg-black">

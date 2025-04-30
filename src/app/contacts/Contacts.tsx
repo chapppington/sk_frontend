@@ -50,7 +50,7 @@ const Contacts: React.FC = () => {
                   type="text"
                   id="organization"
                   label="Организация"
-                  className="w-full"
+                  className="w-full mb-6"
                 />
                 <MainButton text="Отправить заявку" />
               </form>
