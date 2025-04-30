@@ -2,11 +2,13 @@ import React from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
+import Input from "@/components/ui/Input";
+import CustomContainer from "../ui/CustomContainer";
 
 const ContactUsSection: React.FC = () => {
   return (
     <section id="contact_us_section" className="bg-transparent py-24">
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
+      <CustomContainer>
         {/* Section Title */}
         <BracketsText className="mb-8">СВЯЗАТЬСЯ С НАМИ</BracketsText>
         {/* Main content with two columns on desktop */}
@@ -30,56 +32,11 @@ const ContactUsSection: React.FC = () => {
           {/* Right column - Contact Form */}
           <div className="lg:w-1/2">
             <form className="space-y-8">
-              {/* Input Group for Name */}
-              <div className="relative">
-                <input
-                  type="text"
-                  id="name"
-                  className="block w-full bg-transparent border border-white/50 text-white p-4 focus:border-white focus:outline-none peer"
-                  placeholder=" "
-                  required
-                />
-                <label
-                  htmlFor="name"
-                  className="absolute text-white/80 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent backdrop-blur-md px-2 peer-focus:px-2 peer-focus:text-black peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
-                  ФИО
-                </label>
-              </div>
+              <Input type="text" id="name" label="ФИО" required />
 
-              {/* Input Group for Email */}
-              <div className="relative">
-                <input
-                  type="email"
-                  id="email"
-                  className="block w-full bg-transparent border border-white/50 text-white p-4 focus:border-white focus:outline-none peer"
-                  placeholder=" "
-                  required
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute text-white/80 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent backdrop-blur-md px-2 peer-focus:px-2 peer-focus:text-black peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
-                  Почта
-                </label>
-              </div>
+              <Input type="email" id="email" label="Почта" required />
 
-              {/* Input Group for Phone */}
-              <div className="relative">
-                <input
-                  type="tel"
-                  id="phone"
-                  className="block w-full bg-transparent border border-white/50 text-white p-4 focus:border-white focus:outline-none peer"
-                  placeholder=" "
-                  required
-                />
-                <label
-                  htmlFor="phone"
-                  className="absolute text-white/80 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent backdrop-blur-md px-2 peer-focus:px-2 peer-focus:text-black peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
-                  Телефон
-                </label>
-              </div>
+              <Input type="tel" id="phone" label="Телефон" required />
 
               {/* File Upload and Consent Section */}
               <div className="flex flex-col gap-6 mt-8">
@@ -121,7 +78,7 @@ const ContactUsSection: React.FC = () => {
             </form>
           </div>
         </div>
-      </div>
+      </CustomContainer>
     </section>
   );
 };

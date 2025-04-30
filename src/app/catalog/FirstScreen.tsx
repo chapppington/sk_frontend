@@ -1,35 +1,41 @@
-import Breadcrumbs from '@/components/ui/Breadcrumbs';
-import MainButton from '@/components/ui/MainButton';
-import React from 'react';
-import CustomContainer from '@/components/ui/CustomContainer';
-import BlackBoxWithStats from '@/components/ui/BlackBoxWithStats';
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import MainButton from "@/components/ui/MainButton";
+import { FC } from "react";
+import CustomContainer from "@/components/ui/CustomContainer";
+import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 
-const FirstScreen: React.FC = () => {
+const FirstScreen: FC = () => {
   return (
-    <header className="relative h-screen">
+    <header className="relative min-h-screen">
       <Breadcrumbs
         items={[
-          { label: 'Главная', href: '/', current: false },
-          { label: 'Каталог', href: '/catalog', current: true }
+          { label: "Главная", href: "/", current: false },
+          { label: "Каталог", href: "/catalog", current: true },
         ]}
       />
 
       {/* Main Content */}
-      <CustomContainer>
-        <h1
-          className="text-xl md:text-5xl xl:text-5xl 2xl:text-7xl font-light text-white max-w-4xl pt-16"
-        >
-          Каталог<br />продукции
+      <CustomContainer className="flex flex-col justify-between" fullHeight>
+        <h1 className="text-5xl sm:text-4xl md:text-5xl xl:text-5xl 2xl:text-7xl font-light text-white max-w-4xl pt-8 sm:pt-12 md:pt-16">
+          Каталог
+          <br />
+          продукции
         </h1>
 
         {/* Bottom Content */}
-        <div className="flex">
+        <div className="flex mt-auto">
           {/* Bottom Left Text with Arrow */}
-          <div className="flex flex-col justify-end max-w-md md:mb-8">
-            <p className="text-base md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-none">
-              Являясь всего лишь частью общей картины, тщательные исследования конкурентов могут быть описаны максимально подробно.
+          <div className="flex flex-col justify-end max-w-full sm:max-w-md mb-[160px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
+            <p className="text-sm sm:text-base md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-none">
+              Являясь всего лишь частью общей картины, тщательные исследования
+              конкурентов могут быть описаны максимально подробно.
             </p>
-            <MainButton text="Связаться с отделом продаж" />
+            <div className="block md:hidden">
+              <MainButton text="Связаться с отделом продаж" size="sm" />
+            </div>
+            <div className="hidden md:block">
+              <MainButton text="Связаться с отделом продаж" size="md" />
+            </div>
           </div>
         </div>
       </CustomContainer>
@@ -37,21 +43,13 @@ const FirstScreen: React.FC = () => {
       <BlackBoxWithStats
         stats={[
           {
-            value: "7776",
-            unit: {
-              text: "м2",
-              isSuperscript: false
-            },
-            description: "Собственных производственных площадей"
+            value: "197",
+            description: "Крупнейших городов России и Казахстана",
           },
           {
-            value: "20+",
-            unit: {
-              text: "лет",
-              isSuperscript: false
-            },
-            description: "Беспрерывной работы на рынке электрооборудования"
-          }
+            value: "197",
+            description: "Крупнейших городов России и Казахстана",
+          },
         ]}
       />
     </header>

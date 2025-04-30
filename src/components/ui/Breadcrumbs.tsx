@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
+import CustomContainer from './CustomContainer';
 
 interface BreadcrumbItem {
   label: string;
@@ -14,7 +15,7 @@ interface BreadcrumbsProps {
 const Breadcrumbs: FC<BreadcrumbsProps> = ({ items }) => {
   return (
     <div className="relative pt-32">
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
+      <CustomContainer>
         <div className="flex items-center space-x-2 text-white/80">
           {items.map((item, index) => (
             <Fragment key={index}>
@@ -30,7 +31,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ items }) => {
             </Fragment>
           ))}
         </div>
-      </div>
+      </CustomContainer>
     </div>
   );
 };

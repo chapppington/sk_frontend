@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
-import Navbar from "@/components/ui/Navbar";
-import Footer from "@/components/ui/Footer";
+import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
+import Navbar from "@/components/global_sections/Navbar";
+import Footer from "@/components/global_sections/Footer";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -23,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
+          <div className="bg-gradient-to-b from-gray-900 to-gray-800 top-0 left-0 right-0 bottom-0 z-[-1] fixed h-screen w-screen"></div>
+          <BreakpointIndicator />
+          <Navbar />
+          {children}
+          <Footer />
       </body>
     </html>
   );
