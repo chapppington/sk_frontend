@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -22,8 +22,12 @@ interface NewsItem {
 
 const ReadMore: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Check if device is touch-enabled
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
     // Generate indicator bars
     const indicatorCount = 60;
     const indicatorsContainer = document.getElementById(
@@ -90,8 +94,7 @@ const ReadMore: FC = () => {
       category: "Оборудование",
       date: "29 Января 2024",
       readTime: "4 минуты",
-      title:
-        "Новая линейка трансформаторов запущена в производство",
+      title: "Новая линейка трансформаторов запущена в производство",
       description:
         "Компания начала производство инновационных трансформаторов с повышенным КПД и улучшенной системой охлаждения для промышленных объектов.",
       image: "/news_bg.webp",
@@ -194,10 +197,14 @@ const ReadMore: FC = () => {
               },
             }}
             loop={true}
-            autoplay={{
-              delay: 3000000,
-              disableOnInteraction: false,
-            }}
+            autoplay={
+              !isTouchDevice
+                ? {
+                    delay: 3000000,
+                    disableOnInteraction: false,
+                  }
+                : false
+            }
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
@@ -210,13 +217,21 @@ const ReadMore: FC = () => {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                        className={`w-full h-full object-cover ${
+                          !isTouchDevice
+                            ? "transition-transform duration-500 ease-in-out group-hover:scale-105"
+                            : ""
+                        }`}
                       />
                       {/* Default overlay */}
                       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60 transition-opacity duration-300 ease-in-out"></div>
 
                       {/* Darker overlay that appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/45 to-black/90 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"></div>
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-b from-transparent via-black/45 to-black/90 ${
+                          !isTouchDevice ? "opacity-100" : "opacity-100"
+                        }`}
+                      ></div>
 
                       {/* Content overlay */}
                       <div className="absolute inset-0 p-6 flex flex-col z-10">
@@ -228,7 +243,13 @@ const ReadMore: FC = () => {
                         </div>
 
                         {/* Bottom content */}
-                        <div className="mt-auto transition-transform duration-300 ease-in-out group-hover:-translate-y-36">
+                        <div
+                          className={`mt-auto ${
+                            !isTouchDevice
+                              ? "transition-transform duration-300 ease-in-out group-hover:-translate-y-36"
+                              : ""
+                          }`}
+                        >
                           <div className="flex items-center space-x-3 text-white/80 text-sm mb-3">
                             <span>{item.date}</span>
                             <span>•</span>
@@ -239,15 +260,27 @@ const ReadMore: FC = () => {
                           </h3>
                         </div>
 
-                        {/* Description and Button that appear on hover */}
-                        <div className="absolute bottom-6 left-6 right-6 transform translate-y-16 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100">
+                        {/* Description and Button that appear on hover (desktop only) */}
+                        <div
+                          className={`absolute bottom-6 left-6 right-6 ${
+                            !isTouchDevice
+                              ? "transform translate-y-16 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100"
+                              : "hidden"
+                          }`}
+                        >
                           <p className="text-white/80 text-sm mb-6">
                             {item.description.length > 80
                               ? `${item.description.slice(0, 80)}...`
                               : item.description}
                           </p>
                           <div className="inline-flex items-center group/news-button">
-                            <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover/news-button:border-white/60 transition-colors duration-300">
+                            <div
+                              className={`w-12 h-12 rounded-full border border-white/30 flex items-center justify-center ${
+                                !isTouchDevice
+                                  ? "group-hover/news-button:border-white/60 transition-colors duration-300"
+                                  : ""
+                              }`}
+                            >
                               <svg
                                 className="w-6 h-6 text-white"
                                 fill="none"
@@ -262,7 +295,41 @@ const ReadMore: FC = () => {
                                 ></path>
                               </svg>
                             </div>
-                            <span className="ml-4 text-white text-lg border-b border-white/30 transition-colors duration-300 group-hover/news-button:border-white">
+                            <span
+                              className={`ml-4 text-white text-lg border-b border-white/30 ${
+                                !isTouchDevice
+                                  ? "transition-colors duration-300 group-hover/news-button:border-white"
+                                  : ""
+                              }`}
+                            >
+                              Читать
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Button for touch devices */}
+                        <div
+                          className={`mt-6 ${
+                            isTouchDevice ? "block" : "hidden"
+                          }`}
+                        >
+                          <div className="inline-flex items-center group/news-button">
+                            <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center">
+                              <svg
+                                className="w-6 h-6 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M7 17L17 7M17 7H7M17 7V17"
+                                ></path>
+                              </svg>
+                            </div>
+                            <span className="ml-4 text-white text-lg border-b border-white/30">
                               Читать
                             </span>
                           </div>
