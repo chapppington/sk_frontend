@@ -4,7 +4,7 @@ import { FC, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Link from "next/link";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 
 // Sample data
@@ -131,13 +131,19 @@ const sampleNews = [
   },
 ];
 
-const categories = ["Все", "Музыка", "События", "Интервью"];
+const categories = [
+  { name: "Все", slug: "all" },
+  { name: "Музыка", slug: "music" },
+  { name: "События", slug: "events" },
+  { name: "Интервью", slug: "interviews" },
+];
 
 const NewsGrid: FC = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
-  const selectedCategory = searchParams.get("category") || "Все";
+  const selectedCategorySlug = searchParams.get("category") || "all";
+  const selectedCategory =
+    categories.find((cat) => cat.slug === selectedCategorySlug)?.name || "Все";
   const sortBy = (searchParams.get("sort") as "new" | "old") || "new";
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 6;
@@ -168,7 +174,8 @@ const NewsGrid: FC = () => {
 
   const filteredNews = sampleNews
     .filter(
-      (news) => selectedCategory === "Все" || news.category === selectedCategory
+      (news) =>
+        selectedCategorySlug === "all" || news.category === selectedCategory
     )
     .sort((a, b) => {
       const dateA = parseRussianDate(a.date);
@@ -259,15 +266,15 @@ const NewsGrid: FC = () => {
             <div className="flex flex-wrap gap-2 lg:gap-3">
               {categories.map((category) => (
                 <button
-                  key={category}
-                  onClick={() => updateUrl({ category })}
+                  key={category.slug}
+                  onClick={() => updateUrl({ category: category.slug })}
                   className={`px-4 py-2 rounded transition-colors ${
-                    selectedCategory === category
+                    selectedCategorySlug === category.slug
                       ? "bg-white/10 text-white"
                       : "bg-transparent text-white/60 hover:bg-white/10"
                   }`}
                 >
-                  {category}
+                  {category.name}
                 </button>
               ))}
             </div>
@@ -304,7 +311,6 @@ const NewsGrid: FC = () => {
             </select>
           </div>
         </div>
-
         {/* News Grid */}
         <motion.div
           variants={container}

@@ -8,7 +8,7 @@ import CustomContainer from "../ui/CustomContainer";
 
 const menuItems = [
   { href: "/catalog", label: "Каталог" },
-  { href: "/about", label: "О компании" },
+  { href: "/production", label: "О производстве" },
   { href: "/news", label: "Новости" },
   { href: "/contacts", label: "Контакты" },
 ];

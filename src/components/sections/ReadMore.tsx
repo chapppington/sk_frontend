@@ -28,13 +28,13 @@ const ReadMore: FC = () => {
     // Check if device is touch-enabled
     setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-    // Generate indicator bars
+    // Generate indicator bars only once
     const indicatorCount = 60;
     const indicatorsContainer = document.getElementById(
       "news-slider-indicators"
     );
 
-    if (indicatorsContainer) {
+    if (indicatorsContainer && indicatorsContainer.children.length === 0) {
       for (let i = 0; i < indicatorCount; i++) {
         const indicator = document.createElement("div");
         indicator.className =
@@ -85,7 +85,15 @@ const ReadMore: FC = () => {
         updateNewsIndicators(swiperRef.current!);
       });
     }
-  }, []);
+
+    // Cleanup function
+    return () => {
+      if (swiperRef.current) {
+        swiperRef.current.off("slideChange");
+        swiperRef.current.off("init");
+      }
+    };
+  }, []); // Empty dependency array ensures this only runs once
 
   // Mock data - replace with actual data from your API
   const newsItems: NewsItem[] = [
