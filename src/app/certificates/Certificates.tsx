@@ -92,7 +92,7 @@ export default function Certificates() {
       />
 
       {/* Page Title */}
-      <CustomContainer className="my-8">
+      <CustomContainer className="mt-8 mb-12">
         <GradientHeading>Сертификаты и документация</GradientHeading>
       </CustomContainer>
 

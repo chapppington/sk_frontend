@@ -12,6 +12,7 @@ const sampleNews = [
     category: "Музыка",
     date: "29 Января 2024",
     readTime: "5 минут",
+    slug: "ochevidcy-soobshchayut-chto-slyshali-gitarnyy-perebor",
     description:
       "Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения.",
   },
@@ -21,6 +22,7 @@ const sampleNews = [
     category: "Музыка",
     date: "28 Января 2024",
     readTime: "3 минуты",
+    slug: "novyy-albom-gruppy-vyhodit-v-svet",
     description:
       "Современные технологии достигли такого уровня, что реализация намеченных плановых заданий способствует подготовке и реализации анализа существующих паттернов поведения.",
   },
@@ -30,6 +32,7 @@ const sampleNews = [
     category: "События",
     date: "27 Января 2024",
     readTime: "4 минуты",
+    slug: "koncert-v-podderzhku-molodyh-ispolniteley",
     description:
       "Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта.",
   },
@@ -39,6 +42,7 @@ const sampleNews = [
     category: "Интервью",
     date: "26 Января 2024",
     readTime: "7 минут",
+    slug: "intervyu-s-izvestnym-muzykantom",
     description:
       "Сложно сказать, почему элементы политического процесса, инициированные исключительно синтетически, разоблачены.",
   },
@@ -48,6 +52,7 @@ const sampleNews = [
     category: "События",
     date: "25 Января 2024",
     readTime: "6 минут",
+    slug: "muzykalnyy-festival-v-etom-godu",
     description:
       "Принимая во внимание показатели успешности, высококачественный прототип будущего проекта способствует повышению качества анализа существующих паттернов поведения.",
   },
@@ -57,6 +62,7 @@ const sampleNews = [
     category: "Музыка",
     date: "24 Января 2024",
     readTime: "4 минуты",
+    slug: "novye-tendencii-v-mire-muzyki",
     description:
       "С другой стороны, реализация намеченных плановых заданий способствует подготовке и реализации анализа существующих паттернов поведения.",
   },
@@ -66,6 +72,7 @@ const sampleNews = [
     category: "Интервью",
     date: "23 Января 2024",
     readTime: "8 минут",
+    slug: "eksklyuzivnoe-intervyu-s-dirizherom",
     description:
       "Значимость этих проблем настолько очевидна, что постоянное информационно-пропагандистское обеспечение нашей деятельности способствует подготовке и реализации позиций.",
   },
@@ -75,6 +82,7 @@ const sampleNews = [
     category: "События",
     date: "22 Января 2024",
     readTime: "5 минут",
+    slug: "muzykalnyy-konkurs-dlya-molodyh-talantov",
     description:
       "Повседневная практика показывает, что сложившаяся структура организации позволяет выполнять важные задания по разработке направлений прогрессивного развития.",
   },
@@ -84,6 +92,7 @@ const sampleNews = [
     category: "Музыка",
     date: "21 Января 2024",
     readTime: "4 минуты",
+    slug: "novyy-muzykalnyy-instrument-v-kollekcii-muzeya",
     description:
       "Разнообразный и богатый опыт говорит нам, что реализация намеченных плановых заданий создаёт предпосылки для новых предложений.",
   },
@@ -93,6 +102,7 @@ const sampleNews = [
     category: "События",
     date: "20 Января 2024",
     readTime: "6 минут",
+    slug: "master-klass-po-igre-na-skripke",
     description:
       "С другой стороны, укрепление и развитие внутренней структуры требует от нас анализа системы массового участия.",
   },
@@ -102,6 +112,7 @@ const sampleNews = [
     category: "Интервью",
     date: "19 Января 2024",
     readTime: "7 минут",
+    slug: "intervyu-s-kompozitorom-sovremennoy-muzyki",
     description:
       "Таким образом, высокое качество позиционных исследований способствует подготовке и реализации дальнейших направлений развития.",
   },
@@ -111,6 +122,7 @@ const sampleNews = [
     category: "События",
     date: "18 Января 2024",
     readTime: "5 минут",
+    slug: "otkrytie-novogo-koncertnogo-zala",
     description:
       "С учётом сложившейся международной обстановки, постоянное информационно-пропагандистское обеспечение нашей деятельности способствует подготовке и реализации новых предложений.",
   },
@@ -288,58 +300,58 @@ const NewsGrid: FC = () => {
                 animate="show"
                 exit="exit"
                 className="group relative overflow-hidden"
+                whileHover={{ y: 8 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="relative aspect-[4/3] overflow-hidden mb-6"
-                >
-                  <motion.img
-                    src="./news_bg.webp"
-                    alt="News"
-                    className="w-full h-full object-cover rounded-lg"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-4 py-2 bg-black/80 backdrop-blur-md text-white text-sm rounded">
-                      {news.category}
-                    </span>
-                  </div>
-                </motion.div>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 text-white/60 text-sm">
-                    <span>{news.date}</span>
-                    <span>•</span>
-                    <span>{news.readTime}</span>
-                  </div>
-                  <h2 className="text-2xl text-white font-light">
-                    {news.title}
-                  </h2>
-                  <p className="text-white/60">{news.description}</p>
-                  <motion.a
-                    href="#"
-                    className="inline-flex items-center group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 17L17 7M17 7H7M17 7V17"
-                        ></path>
-                      </svg>
+                <motion.a href={`/news/${news.slug}`} className="block">
+                  <motion.div className="relative aspect-[4/3] overflow-hidden mb-6">
+                    <motion.img
+                      src="./news_bg.webp"
+                      alt="News"
+                      className="w-full h-full object-cover rounded-lg"
+                      transition={{ duration: 0.3 }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
+                    <div className="absolute top-4 left-4">
+                      <span className="px-4 py-2 bg-black/80 backdrop-blur-md text-white text-sm rounded">
+                        {news.category}
+                      </span>
                     </div>
-                    <span className="ml-4 text-white text-lg">Читать</span>
-                  </motion.a>
-                </div>
+                  </motion.div>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-4 text-white/60 text-sm">
+                      <span>{news.date}</span>
+                      <span>•</span>
+                      <span>{news.readTime}</span>
+                    </div>
+                    <h2 className="text-2xl text-white font-light hover:text-white/80 transition-colors">
+                      {news.title}
+                    </h2>
+                    <p className="text-white/60">{news.description}</p>
+                  </div>
+                </motion.a>
+                <motion.a
+                  href={`/news/${news.slug}`}
+                  className="inline-flex items-center group mt-4"
+                  whileHover={{ x: 5 }}
+                >
+                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7 17L17 7M17 7H7M17 7V17"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span className="ml-4 text-white text-lg">Читать</span>
+                </motion.a>
               </motion.article>
             ))}
           </AnimatePresence>

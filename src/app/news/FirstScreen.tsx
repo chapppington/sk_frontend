@@ -19,6 +19,7 @@ const newsItems = [
     description:
       "Являясь всего лишь частью общей картины, тщательные исследования конкурентов могут быть описаны максимально подробно.",
     image: "/news_bg.webp",
+    slug: "novaya-model-organizatsionnoy-deyatelnosti",
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ const newsItems = [
     description:
       "Значимость этих проблем настолько очевидна, что постоянное информационно-пропагандистское обеспечение нашей деятельности позволяет оценить значение форм развития.",
     image: "/news_bg2.webp",
+    slug: "vnedrenie-sovremennyh-metodov-upravleniya",
   },
   {
     id: 3,
@@ -39,6 +41,7 @@ const newsItems = [
     description:
       "Приятно, граждане, наблюдать, как элементы политического процесса призваны к ответу. В целом, конечно, выбранный нами инновационный путь однозначно определяет каждого участника.",
     image: "/news_bg.webp",
+    slug: "zapusk-novoy-proizvodstvennoy-linii",
   },
   {
     id: 4,
@@ -49,6 +52,7 @@ const newsItems = [
     description:
       "Повседневная практика показывает, что сложившаяся структура организации требует от нас анализа поставленных обществом задач.",
     image: "/news_bg2.webp",
+    slug: "rasshirenie-dilerskoy-seti",
   },
 ];
 
@@ -86,8 +90,9 @@ const FirstScreen: FC = () => {
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover"
+                  className="object-cover cursor-pointer"
                   priority={index === currentIndex}
+                  onClick={() => (window.location.href = `/news/${item.slug}`)}
                 />
               </motion.div>
             )}
@@ -252,7 +257,12 @@ const FirstScreen: FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.07, duration: 0.3 }}
               >
-                <GradientHeading>{currentNews.title}</GradientHeading>
+                <a
+                  href={`/news/${currentNews.slug}`}
+                  className="block hover:opacity-90 transition-opacity"
+                >
+                  <GradientHeading>{currentNews.title}</GradientHeading>
+                </a>
               </motion.div>
 
               {/* Meta Info */}
@@ -287,7 +297,7 @@ const FirstScreen: FC = () => {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="#"
+                  href={`/news/${currentNews.slug}`}
                   className="inline-flex items-center group news-button"
                 >
                   <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">

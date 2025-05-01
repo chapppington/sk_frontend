@@ -4,10 +4,10 @@ import NewsGrid from "./NewsGrid";
 
 export default function News() {
   return (
-    <div>
+    <>
       <FirstScreen />
-      <NewsGrid/>
+      <NewsGrid />
       <ContactUsSection></ContactUsSection>
-    </div>
+    </>
   );
 }
