@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
-import Navbar from "@/components/global_sections/Navbar";
-import Footer from "@/components/global_sections/Footer";
-import BGGradient from "@/components/global_sections/BGGradient";
+import Navbar from "@/components/sections/Navbar";
+import Footer from "@/components/sections/Footer";
+import BGGradient from "@/components/sections/BGGradient";
 
 const inter = Inter({
   subsets: ["cyrillic"],

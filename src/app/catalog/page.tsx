@@ -1,6 +1,6 @@
 import CatalogSection from "./CatalogSection";
 import FirstScreen from "./FirstScreen";
-import ContactUsSection from "@/components/global_sections/ContactUsSection";
+import ContactUsSection from "@/components/sections/ContactUsSection";
 
 export default function CatalogPage() {
   return (

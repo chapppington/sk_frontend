@@ -1,6 +1,6 @@
 import ArticleContentSection from "./ActicleContentSection";
-import ReadMore from "@/components/global_sections/ReadMore";
-import ContactUsSection from "@/components/global_sections/ContactUsSection";
+import ReadMore from "@/components/sections/ReadMore";
+import ContactUsSection from "@/components/sections/ContactUsSection";
 export default async function NewsArticlePage({
   params,
 }: {

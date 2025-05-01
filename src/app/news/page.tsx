@@ -1,4 +1,4 @@
-import ContactUsSection from "@/components/global_sections/ContactUsSection";
+import ContactUsSection from "@/components/sections/ContactUsSection";
 import FirstScreen from "./FirstScreen";
 import NewsGrid from "./NewsGrid";
 
