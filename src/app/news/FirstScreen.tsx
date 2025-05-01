@@ -102,7 +102,7 @@ const FirstScreen: FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-20"></div>
 
       {/* Mobile Navigation - Absolute Positioned */}
-      <div className="md:hidden flex items-center justify-between absolute bottom-6 left-0 right-0 px-8 z-[300]">
+      <div className="md:hidden flex items-center justify-between absolute bottom-6 left-0 right-0 px-8 z-[31]">
         {/* Page Counter */}
         <div className="text-white text-lg news-counter-mobile">
           <span className="text-2xl current-page">
@@ -168,7 +168,7 @@ const FirstScreen: FC = () => {
           disableContainer={true}
         />
         {/* Desktop Navigation - Absolute Positioned */}
-        <div className="hidden md:flex items-center absolute bottom-20 right-4 md:right-10 xl:right-24 z-[300]">
+        <div className="hidden md:flex items-center absolute bottom-20 right-4 md:right-10 xl:right-24 z-[50]">
           {/* Page Counter */}
           <div className="text-white text-xl news-counter">
             <span className="text-4xl current-page">

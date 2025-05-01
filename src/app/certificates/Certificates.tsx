@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import CustomContainer from "@/components/ui/CustomContainer";
 
 interface FAQItem {
   title: string;
@@ -68,7 +69,9 @@ const faqCategories: FAQCategory[] = [
 
 export default function Certificates() {
   const [activeTab, setActiveTab] = useState(0);
-  const [openItems, setOpenItems] = useState<{ [key: number]: number[] }>({});
+  const [openItems, setOpenItems] = useState<{ [key: number]: number[] }>({
+    0: [0],
+  });
 
   const toggleItem = (index: number) => {
     setOpenItems((prev) => ({
@@ -80,21 +83,21 @@ export default function Certificates() {
   };
 
   return (
-    <main className="py-[72px]">
+    <main className="mb-10">
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/" },
-          { label: "Сертификаты и документация", href: "/certificates" },
+          { label: "Сертификаты", href: "/certificates" },
         ]}
       />
 
       {/* Page Title */}
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24 px-4 pb-12 pt-4">
+      <CustomContainer className="my-8">
         <GradientHeading>Сертификаты и документация</GradientHeading>
-      </div>
+      </CustomContainer>
 
       {/* Left Sidebar Navigation */}
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
+      <CustomContainer>
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar Menu */}
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
@@ -120,7 +123,7 @@ export default function Certificates() {
             </ul>
           </div>
 
-          <div className="container mx-auto px-4 relative">
+          <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8 w-full">
                 <AnimatePresence mode="wait">
@@ -230,7 +233,7 @@ export default function Certificates() {
             </div>
           </div>
         </div>
-      </div>
+      </CustomContainer>
     </main>
   );
 }
