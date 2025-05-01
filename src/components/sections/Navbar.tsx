@@ -52,7 +52,22 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
               <CustomContainer className="fixed top-0 left-0 right-0 flex justify-between items-center h-[72px] bg-black">
                 <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
                 <motion.button onClick={onClose} whileTap={{ scale: 0.95 }}>
-                  <img src="/close.svg" alt="Close menu" className="w-6 h-6" />
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-white"
+                  >
+                    <path
+                      d="M18 6L6 18M6 6l12 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </motion.button>
               </CustomContainer>
 
@@ -84,7 +99,22 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                       onClick={onClose}
                     >
                       {item.label}
-                      <img src="/arrow-right.svg" alt="" className="w-6 h-8" />
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 text-white/80"
+                      >
+                        <path
+                          d="M9 18l6-6-6-6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </Link>
                   </motion.div>
                 ))}
@@ -98,7 +128,9 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                 >
                   {contactSections.map((section, index) => (
                     <div key={index} className="space-y-4">
-                      <h3 className="text-white/60 text-sm">• {section.title}</h3>
+                      <h3 className="text-white/60 text-sm">
+                        • {section.title}
+                      </h3>
                       <div className="space-y-2">
                         <a
                           href={`tel:${section.phone.replace(/\D/g, "")}`}

@@ -1,8 +1,11 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
+import Link from "next/link";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 // Sample data
 const sampleNews = [
@@ -131,9 +134,12 @@ const sampleNews = [
 const categories = ["Все", "Музыка", "События", "Интервью"];
 
 const NewsGrid: FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Все");
-  const [sortBy, setSortBy] = useState<"new" | "old">("new");
-  const [currentPage, setCurrentPage] = useState(1);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const selectedCategory = searchParams.get("category") || "Все";
+  const sortBy = (searchParams.get("sort") as "new" | "old") || "new";
+  const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 6;
 
   const parseRussianDate = (dateStr: string) => {
@@ -178,11 +184,6 @@ const NewsGrid: FC = () => {
     currentPage * itemsPerPage
   );
 
-  // Reset page when category or sort changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory, sortBy]);
-
   const container = {
     hidden: { opacity: 0, y: 20 },
     show: {
@@ -207,6 +208,25 @@ const NewsGrid: FC = () => {
       transition: { duration: 0.1 },
     },
   };
+
+  const createQueryString = useCallback(
+    (params: Record<string, string>) => {
+      const newParams = new URLSearchParams(searchParams.toString());
+      Object.entries(params).forEach(([key, value]) => {
+        newParams.set(key, value);
+      });
+      return newParams.toString();
+    },
+    [searchParams]
+  );
+
+  const updateUrl = useCallback(
+    (params: Record<string, string>) => {
+      const newUrl = `${pathname}?${createQueryString(params)}`;
+      window.history.pushState({}, "", newUrl);
+    },
+    [pathname, createQueryString]
+  );
 
   return (
     <section className="py-20 relative">
@@ -238,19 +258,17 @@ const NewsGrid: FC = () => {
             </span>
             <div className="flex flex-wrap gap-2 lg:gap-3">
               {categories.map((category) => (
-                <motion.button
+                <button
                   key={category}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  onClick={() => updateUrl({ category })}
                   className={`px-4 py-2 rounded transition-colors ${
                     selectedCategory === category
                       ? "bg-white/10 text-white"
                       : "bg-transparent text-white/60 hover:bg-white/10"
                   }`}
-                  onClick={() => setSelectedCategory(category)}
                 >
                   {category}
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
@@ -276,7 +294,10 @@ const NewsGrid: FC = () => {
             <select
               className="bg-transparent text-white/60 border-none outline-none cursor-pointer"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as "new" | "old")}
+              onChange={(e) => {
+                const newSort = e.target.value as "new" | "old";
+                updateUrl({ sort: newSort });
+              }}
             >
               <option value="new">Дате публикации (новые)</option>
               <option value="old">Дате публикации (старые)</option>
@@ -303,13 +324,19 @@ const NewsGrid: FC = () => {
                 whileHover={{ y: 8 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.a href={`/news/${news.slug}`} className="block">
+                <Link
+                  href={`/news/${news.slug}`}
+                  prefetch={false}
+                  className="block"
+                >
                   <motion.div className="relative aspect-[4/3] overflow-hidden mb-6">
-                    <motion.img
-                      src="./news_bg.webp"
+                    <Image
+                      src="/news_bg.webp"
                       alt="News"
-                      className="w-full h-full object-cover rounded-lg"
-                      transition={{ duration: 0.3 }}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={false}
                     />
                     <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
                     <div className="absolute top-4 left-4">
@@ -318,22 +345,22 @@ const NewsGrid: FC = () => {
                       </span>
                     </div>
                   </motion.div>
-                  <div className="space-y-4">
+                  <div>
                     <div className="flex items-center space-x-4 text-white/60 text-sm">
                       <span>{news.date}</span>
                       <span>•</span>
                       <span>{news.readTime}</span>
                     </div>
-                    <h2 className="text-2xl text-white font-light hover:text-white/80 transition-colors">
+                    <h2 className="text-2xl text-white font-light hover:text-white/80 transition-colors py-4">
                       {news.title}
                     </h2>
                     <p className="text-white/60">{news.description}</p>
                   </div>
-                </motion.a>
-                <motion.a
+                </Link>
+                <Link
                   href={`/news/${news.slug}`}
+                  prefetch={false}
                   className="inline-flex items-center group mt-4"
-                  whileHover={{ x: 5 }}
                 >
                   <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
                     <svg
@@ -351,7 +378,7 @@ const NewsGrid: FC = () => {
                     </svg>
                   </div>
                   <span className="ml-4 text-white text-lg">Читать</span>
-                </motion.a>
+                </Link>
               </motion.article>
             ))}
           </AnimatePresence>
@@ -361,9 +388,15 @@ const NewsGrid: FC = () => {
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 mt-8">
             <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              onClick={() =>
+                updateUrl({ page: String(Math.max(currentPage - 1, 1)) })
+              }
               disabled={currentPage === 1}
-              className="w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:border-white transition-colors"
+              className={`w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center ${
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:border-white"
+              } transition-colors`}
             >
               <svg
                 className="w-5 h-5 text-white"
@@ -382,7 +415,7 @@ const NewsGrid: FC = () => {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
-                onClick={() => setCurrentPage(page)}
+                onClick={() => updateUrl({ page: String(page) })}
                 className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-colors ${
                   currentPage === page
                     ? "bg-white text-black border-white"
@@ -394,10 +427,16 @@ const NewsGrid: FC = () => {
             ))}
             <button
               onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                updateUrl({
+                  page: String(Math.min(currentPage + 1, totalPages)),
+                })
               }
               disabled={currentPage === totalPages}
-              className="w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:border-white transition-colors"
+              className={`w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center ${
+                currentPage === totalPages
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:border-white"
+              } transition-colors`}
             >
               <svg
                 className="w-5 h-5 text-white"
