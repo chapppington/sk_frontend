@@ -23,14 +23,14 @@ const BGGradient = () => {
       uniforms: {
         uTime: { value: 1.0 },
         uColor1: { value: new THREE.Color("#3ba7cd") }, // Light blue
-        uColor2: { value: new THREE.Color(0.016, 0.000, 0.239) }, // Using static color
+        uColor2: { value: new THREE.Color(0.082, 0.055, 0.341) }, // Using static color
         uColor3: { value: new THREE.Color("#000000") }, // Black for depth
         uTimeScale: { value: 0.19 },
         uScale: { value: 1.08 },
         uScale3: { value: 1.08 },
         uScaleVignette: { value: 0.523 },
         uVignetteBorderFade: { value: 0.216 },
-        uAlpha: { value: 1 },
+        uAlpha: { value: .8 },
       },
       vertexShader: `
         varying vec2 vUv;
