@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -111,10 +112,13 @@ const EquipmentGrid: FC = () => {
                 gridColumn: `span ${item.colSpan} / span ${item.colSpan}`,
               }}
             >
-              <img
-                src={item.image}
+              <Image
+                src={`/${item.image}`}
                 alt={item.title}
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+                priority={index < 2}
               />
               {/* Dark gradient overlay */}
               <div
@@ -142,10 +146,12 @@ const EquipmentGrid: FC = () => {
                 key={index}
                 className="grayscale opacity-50 hover:opacity-100 transition-all"
               >
-                <img
+                <Image
                   src={`/img/partners/${logo}`}
                   alt="Partner logo"
-                  className="w-full h-[50px]"
+                  width={200}
+                  height={50}
+                  className="w-full h-[50px] object-contain"
                 />
               </div>
             ))}
@@ -158,10 +164,12 @@ const EquipmentGrid: FC = () => {
                 key={index}
                 className="grayscale opacity-50 hover:opacity-100 transition-all"
               >
-                <img
+                <Image
                   src={`/img/partners/${logo}`}
                   alt="Partner logo"
-                  className="w-full h-[50px]"
+                  width={200}
+                  height={50}
+                  className="w-full h-[50px] object-contain"
                 />
               </div>
             ))}

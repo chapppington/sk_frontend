@@ -7,10 +7,17 @@ import Image from "next/image";
 
 const FirstScreen: FC = () => {
   return (
-    <header
-      className="relative min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/production_bg.webp')" }}
-    >
+    <header className="relative min-h-screen">
+      {/* Background Image */}
+      <Image
+        src="/production_bg.webp"
+        alt="Production background"
+        fill
+        priority
+        className="object-cover z-[-2]"
+        quality={100}
+      />
+
       {/* Base Overlay */}
       <div className="overlay-base absolute inset-0 bg-black/60"></div>
 
@@ -72,7 +79,6 @@ const FirstScreen: FC = () => {
             value: "197",
             description: "Крупнейших городов России и Казахстана",
           },
-          
         ]}
       />
     </header>
