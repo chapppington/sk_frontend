@@ -35,8 +35,8 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <BGGradient />
         <BreakpointIndicator />
+        <Navbar />
         <LocomotiveScrollProvider>
-          <Navbar />
           {children}
           <Footer />
         </LocomotiveScrollProvider>

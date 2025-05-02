@@ -94,15 +94,17 @@ export default function LocomotiveScrollProvider({
 
   // For non-touch devices, render with Locomotive Scroll
   return (
-    <div
-      data-scroll-container
-      ref={containerRef}
-      style={{
-        minHeight: "100vh",
-        overflow: "hidden",
-      }}
-    >
-      {children}
+    <div style={{ position: "relative" }}>
+      <div
+        data-scroll-container
+        ref={containerRef}
+        style={{
+          minHeight: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }

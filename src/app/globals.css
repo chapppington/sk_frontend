@@ -28,7 +28,7 @@ body {
 .overlay-base {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(9, 1, 48, 0.2);
   z-index: 1;
 }
 

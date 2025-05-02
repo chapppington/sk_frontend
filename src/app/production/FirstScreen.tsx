@@ -19,10 +19,13 @@ const FirstScreen: FC = () => {
       />
 
       {/* Base Overlay */}
-      <div className="overlay-base absolute inset-0 bg-black/60"></div>
+      <div className="overlay-base absolute inset-0 bg-black/20"></div>
 
       {/* Gradient Overlay */}
       <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-[-1]"></div>
+
+      {/* Blue Tint Overlay */}
+      <div className="absolute inset-0 bg-blue-900/30 mix-blend-overlay z-[2]"></div>
 
       <Breadcrumbs
         className="z-10 relative"
