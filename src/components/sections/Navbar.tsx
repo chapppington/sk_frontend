@@ -136,7 +136,7 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                           href={`tel:${section.phone.replace(/\D/g, "")}`}
                           className="text-white flex items-center gap-2"
                         >
-                          <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                          <span className="w-6 h-6  flex items-center justify-center">
                             <svg
                               width="16"
                               height="16"
@@ -159,7 +159,7 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                           href={`mailto:${section.email}`}
                           className="text-white flex items-center gap-2"
                         >
-                          <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                          <span className="w-6 h-6  flex items-center justify-center">
                             <svg
                               width="16"
                               height="16"
@@ -192,7 +192,7 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                   <div className="space-y-4">
                     <h3 className="text-white/60 text-sm">• Адрес</h3>
                     <div className="flex items-center gap-2 text-white">
-                      <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                      <span className="w-6 h-6  flex items-center justify-center">
                         <svg
                           width="16"
                           height="16"

@@ -12,18 +12,20 @@ interface StatItem {
 interface BlackBoxWithStatsProps {
   className?: string;
   stats: StatItem[];
+  transparent?: boolean;
 }
 
 const BlackBoxWithStats: FC<BlackBoxWithStatsProps> = ({
   className,
   stats,
+  transparent = false,
 }) => {
   return (
     <div
       className={`absolute bottom-0 right-0 w-full lg:w-auto xl:min-w-[800px] lg:min-w-[500px] xl:min-w-[550px] 2xl:min-w-[600px] ${className}`}
     >
       <div
-        className={`relative md:bg-black `}
+        className={`relative ${transparent ? '' : 'md:bg-black'}`}
       >
         <div className="grid grid-cols-2 gap-4 md:gap-8 p-8 md:p-16 lg:p-10 xl:p-12 2xl:p-14 relative z-10">
           {stats.map((stat, index) => (

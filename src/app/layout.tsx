@@ -5,6 +5,7 @@ import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import BGGradient from "@/components/sections/BGGradient";
+import LocomotiveScrollProvider from "@/components/providers/LocomotiveScrollProvider";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -34,9 +35,11 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <BGGradient />
         <BreakpointIndicator />
-        <Navbar />
-        {children}
-        <Footer />
+        <LocomotiveScrollProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </LocomotiveScrollProvider>
       </body>
     </html>
   );

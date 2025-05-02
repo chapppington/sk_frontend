@@ -23,7 +23,7 @@ const BGGradient = () => {
       uniforms: {
         uTime: { value: 1.0 },
         uColor1: { value: new THREE.Color("#3ba7cd") }, // Light blue
-        uColor2: { value: new THREE.Color(0.082, 0.055, 0.341) }, // Using static color
+        uColor2: { value: [0.082, 0.055, 0.341] }, // Using static color
         uColor3: { value: new THREE.Color("#000000") }, // Black for depth
         uTimeScale: { value: 0.19 },
         uScale: { value: 1.08 },

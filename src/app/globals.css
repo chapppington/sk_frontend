@@ -2,16 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide default scrollbar */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+html,
 body {
   font-family: "Inter", sans-serif;
   position: relative;
   overflow-x: hidden;
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  overflow: hidden;
 }
 
 .overlay-base {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
 
@@ -25,4 +42,66 @@ body {
     rgba(0, 0, 0, 1) 100%
   );
   z-index: 0;
+}
+
+/* Locomotive Scroll styles */
+html.has-scroll-smooth {
+  overflow: hidden;
+}
+
+html.has-scroll-dragging {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.has-scroll-smooth body {
+  overflow: hidden;
+}
+
+/* Custom scrollbar styles */
+.c-scrollbar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 11px;
+  height: 100%;
+  transform-origin: center right;
+  transition: transform 0.5s, opacity 0.4s;
+  opacity: 0;
+  z-index: 9999;
+}
+
+.c-scrollbar:hover {
+  transform: scaleX(1.45);
+}
+
+.c-scrollbar:hover,
+.has-scroll-scrolling .c-scrollbar,
+.has-scroll-dragging .c-scrollbar {
+  opacity: 1;
+}
+
+.c-scrollbar_thumb {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 7px;
+  border-radius: 10px;
+  margin: 2px;
+  cursor: grab;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.has-scroll-dragging .c-scrollbar_thumb {
+  cursor: grabbing;
+}
+
+/* Ensure scroll container takes full height */
+[data-scroll-container] {
+  perspective: 1px;
+  transform-style: preserve-3d;
+  min-height: 100vh;
 }
