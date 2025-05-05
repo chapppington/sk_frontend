@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["testsk.ru"],
+    domains: ["testsk2.ru"],
   },
   async headers() {
     return [
@@ -9,7 +9,7 @@ const nextConfig = {
         source: "/:path*",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "https://testsk.ru" },
+          { key: "Access-Control-Allow-Origin", value: "https://testsk2.ru" },
           {
             key: "Access-Control-Allow-Methods",
             value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
@@ -27,7 +27,7 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        destination: "http://testsk.ru/:path*",
+        destination: "http://testsk2.ru/:path*",
       },
     ];
   },
@@ -38,6 +38,16 @@ const nextConfig = {
       use: ["raw-loader"],
     });
     return config;
+  },
+  experimental: {
+    turbo: {
+      rules: {
+        "*.{glsl,vs,fs,vert,frag}": {
+          loaders: ["raw-loader"],
+          as: "*.js",
+        },
+      },
+    },
   },
 };
 
