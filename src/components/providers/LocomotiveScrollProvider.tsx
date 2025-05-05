@@ -29,8 +29,8 @@ export default function LocomotiveScrollProvider({
           scrollRef.current = new LocomotiveScroll({
             el: containerRef.current,
             smooth: true,
-            lerp: 0.1,
-            multiplier: 1,
+            lerp: 0.028,
+            multiplier: 0.8,
             direction: "vertical",
           });
 

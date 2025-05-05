@@ -38,7 +38,7 @@ export default function RootLayout({
         <Navbar />
         <LocomotiveScrollProvider>
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </LocomotiveScrollProvider>
       </body>
     </html>
