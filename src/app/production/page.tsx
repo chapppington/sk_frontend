@@ -12,10 +12,10 @@ export default function Production() {
       <FirstScreen />
       <ProductionStages />
       <EquipmentGrid />
-      <RecentUpdatesSection/>
-      <CertificatesSection/>
-      <ReadMore/>
-      <ContactUsSection/>
+      <RecentUpdatesSection />
+      <CertificatesSection />
+      <ReadMore />
+      <ContactUsSection />
     </div>
   );
 }
