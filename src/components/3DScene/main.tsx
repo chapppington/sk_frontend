@@ -4,7 +4,8 @@ import { Canvas, extend } from "@react-three/fiber";
 import * as THREE from "three";
 import Scene from "@/components/3DScene/features/3dScene/Scene";
 import { SMAAPass, SSAOPass } from "three/examples/jsm/Addons.js";
-import { OrbitControls } from "@react-three/drei";
+// import { OrbitControls } from "@react-three/drei";
+import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
 
 function MainScene() {
   extend({ SMAAPass });
@@ -23,16 +24,16 @@ function MainScene() {
           scene={{ background: new THREE.Color("#0f0d1f") }}
           gl={{ antialias: true }}
         >
-          {/* <Effects multisamping={6}>
-            <sMAAPass />
-          </Effects> */}
 
           <Scene />
-          <OrbitControls
+          <Camera3D/>
+
+            
+          {/* <OrbitControls
             enableZoom={true}
             enablePan={true}
             enableRotate={true}
-          />
+          /> */}
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
 

@@ -7,6 +7,7 @@ import Footer from "@/components/sections/Footer";
 import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
 import LocomotiveScrollProvider from "@/components/providers/LocomotiveScrollProvider";
 import MainScene from "@/components/3DScene/main";
+import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -35,14 +36,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
+      <CameraProvider>
         <ConditionalBGGradient />
+        
         <MainScene />
         <BreakpointIndicator />
         <Navbar />
         {/* <LocomotiveScrollProvider> */}
+        
         {children}
         <Footer />
         {/* </LocomotiveScrollProvider> */}
+        </CameraProvider>
       </body>
     </html>
   );
