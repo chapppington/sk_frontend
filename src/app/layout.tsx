@@ -4,8 +4,9 @@ import "./globals.css";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import BGGradient from "@/components/sections/BGGradient";
+import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
 import LocomotiveScrollProvider from "@/components/providers/LocomotiveScrollProvider";
+import MainScene from "@/components/3DScene/main";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -30,16 +31,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <BGGradient />
+        <ConditionalBGGradient />
+        <MainScene />
         <BreakpointIndicator />
         <Navbar />
-        <LocomotiveScrollProvider>
-          {children}
-          {/* <Footer /> */}
-        </LocomotiveScrollProvider>
+        {/* <LocomotiveScrollProvider> */}
+        {children}
+        <Footer />
+        {/* </LocomotiveScrollProvider> */}
       </body>
     </html>
   );

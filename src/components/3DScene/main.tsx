@@ -10,10 +10,15 @@ function MainScene() {
   extend({ SMAAPass });
 
   return (
-    <div className="app-container">
-      <div className="canvas-container">
+    <div className="app-container fixed z-[-10]">
+      <div className="canvas-container pointer-events-auto">
         <Canvas
-          style={{ height: "100vh", width: "100vw", position: "fixed" }}
+          style={{
+            height: "100vh",
+            width: "100vw",
+            position: "absolute",
+            top: 0,
+          }}
           camera={{ position: [0, 0, 10], fov: 70, near: 0.1, far: 10000 }}
           scene={{ background: new THREE.Color("#0f0d1f") }}
           gl={{ antialias: true }}
