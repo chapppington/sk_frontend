@@ -55,19 +55,93 @@ export default function Scene(){
   }, [terrain,customShaderTest]);
   scene.add(gltf.scene);
   scene.add(terrain.scene);
+  
+
+  useEffect(() => {
+    THREE.Cache.clear() // Очищаем кэш загрузчика
+  }, [])
+
+  const particles = {};
+  particles.geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(5000 * 3);
+  for(let i = 0; i < 5000; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 500;      //x
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 150;  //y
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 1000;  //z
+}
+  particles.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  particles.material = new THREE.ShaderMaterial({
+    transparent: true,
+            uniforms:
+            {
+                uColor: { value: new THREE.Color(0xffe600) },
+                uAlpha: { value: 1 },
+                uTime: { value: 0 },
+                uWind: { value:  - 0.0008 } // - 0.0008
+            },
+            vertexShader: `
+    #define M_PI 3.1415926535897932384626433832795
+
+    uniform float uTime;
+    uniform float uWind;
+
+    varying float vAlpha;
+
+    highp float random(vec2 co)
+    {
+        highp float a = 12.9898;
+        highp float b = 78.233;
+        highp float c = 43758.5453;
+        highp float dt = dot(co.xy, vec2(a, b));
+        highp float sn = mod(dt, M_PI);
+
+        return fract(sin(sn) * c);
+    }
+
+    void main()
+    {
+        vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+        float windEffect = uWind * (random(modelPosition.yz) + 0.5);
+        modelPosition.x += uTime * windEffect * 10.0;
+        modelPosition.y += sin(modelPosition.x * 0.1 + uTime) * 0.5;
+        vec4 viewPosition = viewMatrix * modelPosition;
+        float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
+
+        gl_PointSize = 4.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
+        gl_Position = projectionMatrix * viewPosition;
+
+        
+        vAlpha = 1.0 - clamp(distance * 0.5 / 100.0, 0.0, 1.0);
+    }
+`,
+            fragmentShader: `
+                uniform vec3 uColor;
+                uniform float uAlpha;
+
+                varying float vAlpha;
+
+                void main()
+                {
+                    gl_FragColor = vec4(uColor, vAlpha * uAlpha);
+                    // gl_FragColor = vec4(uColor, 1.0);
+                }
+            `
+  })
+  particles.points = new THREE.Points(particles.geometry, particles.material);
+  particles.points.frustumCulled = false;
+  console.log(particles);
+  scene.add(particles.points);
+  
   useFrame(({clock})=>{
     const progress = Math.min(1, clock.getElapsedTime()/5)
     customShader.uniforms.uProgress.value = progress;
     customShader.uniforms.time.value = clock.getElapsedTime();
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime()*1.2;
+    particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
+    particles.geometry.attributes.position.needsUpdate = true;
     
   })
-
-  useEffect(() => {
-    THREE.Cache.clear() // Очищаем кэш загрузчика
-  }, [])
-  
-  
   const { actions, names } = useAnimations(gltf.animations, gltf.scene)
 
   useEffect(() => {
