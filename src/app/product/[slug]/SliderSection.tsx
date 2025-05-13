@@ -19,7 +19,8 @@ const slides = [
   {
     id: 1,
     title: "Строительство объектов энергетики",
-    description: "Крупный проект по энергообеспечению промышленного комплекса",
+    description:
+      "Крупный проект по энергообеспечению промышленного комплекса с применением современных технологий и автоматизированных систем управления. Включает полный цикл от проектирования до ввода в эксплуатацию.",
     year: "2024 год",
     image: "/construction_bg.webp",
     icon: "/item.png",
@@ -27,7 +28,8 @@ const slides = [
   {
     id: 2,
     title: "Трансформаторные подстанции",
-    description: "Модернизация энергосистем в городской среде",
+    description:
+      "Модернизация энергосистем в городской среде с учетом повышенных требований к безопасности и надежности. Разработка и внедрение решений для стабильного электроснабжения с минимальным воздействием на окружающую среду.",
     year: "2023 год",
     image: "/transformer.webp",
     icon: "/item.png",
@@ -35,7 +37,8 @@ const slides = [
   {
     id: 3,
     title: "Производственная база",
-    description: "Масштабирование производственных мощностей",
+    description:
+      "Масштабирование производственных мощностей с интеграцией цифровых решений для оптимизации производственного процесса. Внедрение автоматизированных линий и систем контроля качества продукции.",
     year: "2024 год",
     image: "/production_bg.webp",
     icon: "/item.png",
@@ -43,7 +46,8 @@ const slides = [
   {
     id: 4,
     title: "Разработка новых технологий",
-    description: "Инновационные решения для энергетического сектора",
+    description:
+      "Инновационные решения для энергетического сектора, направленные на повышение энергоэффективности и снижение углеродного следа. Применение современных материалов и передовых инженерных разработок.",
     year: "2023 год",
     image: "/production_bg_new.webp",
     icon: "/item.png",
@@ -51,7 +55,8 @@ const slides = [
   {
     id: 5,
     title: "Модернизация оборудования",
-    description: "Внедрение современных стандартов производства",
+    description:
+      "Внедрение современных стандартов производства с целью увеличения срока службы оборудования и снижения эксплуатационных затрат. Включает комплексную диагностику и замену устаревших компонентов.",
     year: "2022 год",
     image: "/news_bg2.webp",
     icon: "/item.png",
@@ -59,7 +64,8 @@ const slides = [
   {
     id: 6,
     title: "Корпоративные клиенты",
-    description: "Комплексные решения для бизнеса любого масштаба",
+    description:
+      "Комплексные решения для бизнеса любого масштаба с учетом специфики отрасли и индивидуальных потребностей клиента. Разработка и внедрение энергетической инфраструктуры под ключ с последующим сервисным обслуживанием.",
     year: "2022 год",
     image: "/production_bg.webp",
     icon: "/item.png",
@@ -67,7 +73,8 @@ const slides = [
   {
     id: 7,
     title: "Партнерская программа",
-    description: "Сотрудничество с ведущими компаниями отрасли",
+    description:
+      "Сотрудничество с ведущими компаниями отрасли для создания интегрированных решений и обмена опытом. Совместная разработка инновационных продуктов и реализация масштабных проектов в энергетической сфере.",
     year: "2023 год",
     image: "/news_bg2.webp",
     icon: "/item.png",
@@ -199,24 +206,25 @@ const SliderSection: FC = () => {
                       priority
                       className="brightness-[0.7]"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
                     <div className="absolute inset-0 flex flex-col justify-between p-10 z-10">
                       <div className="flex items-center">
-                        <button className="py-2 px-4 border border-white/30 text-white text-sm">
-                          {slide.year}
-                        </button>
-                        <button className="py-2 px-4 ml-2 border border-white/30 text-white text-sm">
+                        <button className="py-2 px-4 bg-white text-dark text-sm rounded-md">
                           Реализованный проект
+                        </button>
+                        <button className="py-2 px-4 ml-2 bg-white text-dark text-sm rounded-md">
+                          {slide.year}
                         </button>
                       </div>
 
-                      <div>
-                        <h3 className="text-4xl text-white font-normal mb-2">
+                      <div className="w-full">
+                        <h3 className="text-4xl text-white font-normal mb-2 w-3/5">
                           {slide.title}
                         </h3>
                         <div className="flex items-center justify-between mt-6">
-                          <p className="text-white/80">{slide.description}</p>
-                          <MainButton text="Подробнее" />
+                          <p className="text-white/80 w-3/5">{slide.description}</p>
+                          <MainButton text="Смотреть кейс" />
                         </div>
                       </div>
                     </div>
@@ -254,6 +262,12 @@ const SliderSection: FC = () => {
                           fill
                           className="object-cover opacity-50 group-hover:opacity-80 transition-opacity"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div className="absolute bottom-3 left-3 right-3">
+                          <h4 className="text-white text-sm font-medium line-clamp-2">
+                            {slide.title}
+                          </h4>
+                        </div>
                       </div>
                     </div>
                   </SwiperSlide>
@@ -325,10 +339,6 @@ const SliderSection: FC = () => {
       <style jsx global>{`
         .thumbsSwiper .swiper-slide {
           transition: all 0.3s ease;
-        }
-
-        .thumbsSwiper .swiper-slide-thumb-active .relative {
-          border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .thumbsSwiper .swiper-slide-thumb-active img {
