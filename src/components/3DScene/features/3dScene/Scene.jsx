@@ -108,7 +108,7 @@ export default function Scene(){
         vec4 viewPosition = viewMatrix * modelPosition;
         float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
 
-        gl_PointSize = 4.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
+        gl_PointSize = 1.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
         gl_Position = projectionMatrix * viewPosition;
 
         

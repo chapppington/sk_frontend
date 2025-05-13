@@ -11,9 +11,6 @@ import { useCameraContext } from "@/components/3DScene/features/CameraContext";
 import { SectionObserver } from "@/components/3DScene/features/SectionObserver";
 
 
-
-
-
 export default function Home() {
   const { setTotalSections } = useCameraContext();
   useEffect(() => {
@@ -29,7 +26,7 @@ export default function Home() {
     return <div>Loading...</div>;
   }
   return (
-    <main className="pointer-events-none">
+    <main>
       <SectionObserver index={0}>
         <FirstScreen />
       </SectionObserver>

@@ -22,81 +22,94 @@ const productCategories = [
 const products = [
   {
     id: 1,
-    title: "2КТПт 25..250 кВА",
+    title: "Пункт автоматического регулирования напряжения (ПАРН)",
     image: "/transformer.webp",
     category: "kts",
+    slug: "2ktpt-25-250-kva",
   },
   {
     id: 2,
     title: "КТП 63..2500 кВА",
     image: "/transformer.webp",
     category: "kts",
+    slug: "ktp-63-2500-kva",
   },
   {
     id: 3,
     title: "КТПН 25..250 кВА",
     image: "/transformer.webp",
     category: "kts",
+    slug: "ktpn-25-250-kva",
   },
   {
     id: 4,
     title: "НКУ-0,4 кВ",
     image: "/transformer.webp",
     category: "nku",
+    slug: "nku-04-kv",
   },
   {
     id: 5,
     title: "НКУ-0,4 кВ с АВР",
     image: "/transformer.webp",
     category: "nku",
+    slug: "nku-04-kv-s-avr",
   },
   {
     id: 6,
     title: "НКУ-0,4 кВ с ЧРП",
     image: "/transformer.webp",
     category: "nku",
+    slug: "nku-04-kv-s-chrp",
   },
   {
     id: 7,
     title: "УКРМ-0,4 кВ",
     image: "/transformer.webp",
     category: "quality",
+    slug: "ukrm-04-kv",
   },
   {
     id: 8,
     title: "УКРМ-6(10) кВ",
     image: "/transformer.webp",
     category: "quality",
+    slug: "ukrm-6-10-kv",
   },
   {
     id: 9,
     title: "ПКУ-6(10) кВ",
     image: "/transformer.webp",
     category: "accounting",
+    slug: "pku-6-10-kv",
   },
   {
     id: 10,
     title: "ПКУ-35 кВ",
     image: "/transformer.webp",
     category: "accounting",
+    slug: "pku-35-kv",
   },
   {
     id: 11,
     title: "ДЭС 10..2000 кВт",
     image: "/transformer.webp",
     category: "stations",
+    slug: "des-10-2000-kvt",
   },
   {
     id: 12,
     title: "КРУ-6(10) кВ",
     image: "/transformer.webp",
     category: "kru",
+    slug: "kru-6-10-kv",
   },
   {
     id: 13,
     title: "КРУ-35 кВ",
     image: "/transformer.webp",
     category: "kru",
+    slug: "kru-35-kv",
   },
 ];
 
@@ -145,18 +158,28 @@ const CatalogSection: FC = () => {
   );
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const itemsPerPage = 6;
 
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const filteredProducts = products.filter(
     (product) =>
       (activeCategory === "all" || product.category === activeCategory) &&
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      product.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
   const filteredServices = services.filter((service) =>
-    service.title.toLowerCase().includes(searchQuery.toLowerCase())
+    service.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -168,7 +191,7 @@ const CatalogSection: FC = () => {
   // Reset page when category or search changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, debouncedSearchQuery]);
 
   return (
     <section id="catalog_section" className="bg-transparent py-24">
@@ -378,56 +401,101 @@ const CatalogSection: FC = () => {
           <div className="flex-1">
             {activeTab === "products" ? (
               <>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-                >
-                  {currentProducts.map((product) => (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.15 }}
-                      className="flex flex-col"
-                    >
-                      <div className="bg-white rounded-xl overflow-hidden mb-4">
-                        <Image
-                          width={300}
-                          height={300}
-                          src={product.image}
-                          alt={product.title}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                      <h3 className="text-white text-lg mb-3">
-                        {product.title}
-                      </h3>
-                      <a href="#" className="inline-flex items-center group">
-                        <div className="w-14 h-14 rounded-full border border-white/30 group-hover:border-white flex items-center justify-center mr-3 transition-colors">
-                          <svg
-                            className="w-5 h-5 text-white"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
-                            />
-                          </svg>
+                {filteredProducts.length > 0 ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                  >
+                    {currentProducts.map((product) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex flex-col"
+                      >
+                        <div className="bg-white rounded-xl overflow-hidden mb-4">
+                          <Image
+                            width={300}
+                            height={300}
+                            src={product.image}
+                            alt={product.title}
+                            className="w-full h-full object-contain"
+                          />
                         </div>
-                        <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
-                          Подробнее
-                        </span>
-                      </a>
-                    </motion.div>
-                  ))}
-                </motion.div>
-                {totalPages > 1 && (
+                        <h3 className="text-white text-lg mb-3">
+                          {product.title}
+                        </h3>
+                        <a
+                          href={`/product/${product.slug}`}
+                          className="inline-flex items-center group"
+                        >
+                          <div className="w-14 h-14 rounded-full border border-white/30 group-hover:border-white flex items-center justify-center mr-3 transition-colors">
+                            <svg
+                              className="w-5 h-5 text-white"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
+                              />
+                            </svg>
+                          </div>
+                          <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
+                            Подробнее
+                          </span>
+                        </a>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="flex flex-col items-center justify-center py-12 text-center"
+                  >
+                    <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                      <svg
+                        className="w-12 h-12 text-white/40"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-white text-xl mb-2">
+                      По вашему запросу ничего не найдено
+                    </h3>
+                    <p className="text-white/60 max-w-md mb-6">
+                      Попробуйте изменить параметры поиска или выбрать другую
+                      категорию продукции
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setDebouncedSearchQuery("");
+                        setActiveCategory("all");
+                      }}
+                      className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
+                    >
+                      Сбросить фильтры
+                    </button>
+                  </motion.div>
+                )}
+                {totalPages > 1 && filteredProducts.length > 0 && (
                   <div className="flex justify-center items-center gap-2 mt-8">
                     <button
                       onClick={() =>
@@ -490,49 +558,92 @@ const CatalogSection: FC = () => {
                 )}
               </>
             ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"
-              >
-                {filteredServices.map((service) => (
+              <>
+                {filteredServices.length > 0 ? (
                   <motion.div
-                    key={service.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.15 }}
-                    className="flex flex-col"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"
                   >
-                    <div className="bg-white/5 rounded-xl p-6 mb-4">
-                      <h3 className="text-white text-lg mb-3">
-                        {service.title}
-                      </h3>
-                      <p className="text-white/60">{service.description}</p>
-                    </div>
-                    <a href="#" className="inline-flex items-center group">
-                      <div className="w-14 h-14 rounded-full border border-white/30 group-hover:border-white flex items-center justify-center mr-3 transition-colors">
-                        <svg
-                          className="w-5 h-5 text-white"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
-                          />
-                        </svg>
-                      </div>
-                      <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
-                        Подробнее
-                      </span>
-                    </a>
+                    {filteredServices.map((service) => (
+                      <motion.div
+                        key={service.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex flex-col"
+                      >
+                        <div className="bg-white/5 rounded-xl p-6 mb-4">
+                          <h3 className="text-white text-lg mb-3">
+                            {service.title}
+                          </h3>
+                          <p className="text-white/60">{service.description}</p>
+                        </div>
+                        <a href="#" className="inline-flex items-center group">
+                          <div className="w-14 h-14 rounded-full border border-white/30 group-hover:border-white flex items-center justify-center mr-3 transition-colors">
+                            <svg
+                              className="w-5 h-5 text-white"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
+                              />
+                            </svg>
+                          </div>
+                          <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
+                            Подробнее
+                          </span>
+                        </a>
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
-              </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="flex flex-col items-center justify-center py-12 text-center"
+                  >
+                    <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                      <svg
+                        className="w-12 h-12 text-white/40"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-white text-xl mb-2">
+                      По вашему запросу услуги не найдены
+                    </h3>
+                    <p className="text-white/60 max-w-md mb-6">
+                      Попробуйте изменить параметры поиска или свяжитесь с нами
+                      для получения дополнительной информации
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setDebouncedSearchQuery("");
+                      }}
+                      className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
+                    >
+                      Сбросить поиск
+                    </button>
+                  </motion.div>
+                )}
+              </>
             )}
           </div>
         </div>
