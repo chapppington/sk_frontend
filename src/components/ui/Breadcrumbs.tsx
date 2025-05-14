@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import CustomContainer from './CustomContainer';
+import Copy from '../textAnimation/Copy';
 
 interface BreadcrumbItem {
   label: string;
@@ -16,6 +17,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, className, disableContainer }) => {
   const content = (
+    <Copy triggerStart="top 100%">
     <div className="flex items-center space-x-2 text-white/80">
       {items.map((item, index) => (
         <Fragment key={index}>
@@ -26,11 +28,12 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, className, disableContainer 
             {item.label}
           </Link>
           {index < items.length - 1 && (
-            <span className="text-white/60">→</span>
+            <span className="text-white/60"> → </span>
           )}
         </Fragment>
       ))}
     </div>
+    </Copy>
   );
 
   return (

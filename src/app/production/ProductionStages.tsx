@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
+import Copy from "@/components/textAnimation/Copy";
 
 interface ProductionStage {
   id: number;
@@ -89,24 +90,40 @@ const ProductionStages: FC = () => {
       <CustomContainer className="h-full flex flex-col relative z-10">
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <div className="text-white/60 md:w-full lg:w-auto">[ ЭТАПЫ ]</div>
-          <GradientHeading>Этапы<br></br>производства</GradientHeading>
-          <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
-            Задача организации, в особенности же экономическая повестка
-            сегодняшнего дня способствует подготовке и реализации анализа
-            существующих паттернов поведения.
-          </p>
+          <Copy triggerStart="top 90%">
+            <div className="text-white/60 md:w-full lg:w-auto">[ ЭТАПЫ ]</div>
+          </Copy>
+          <Copy>
+            <GradientHeading>
+              Этапы<br></br>производства
+            </GradientHeading>
+          </Copy>
+          <Copy>
+            <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
+              Задача организации, в особенности же экономическая повестка
+              сегодняшнего дня способствует подготовке и реализации анализа
+              существующих паттернов поведения.
+            </p>
+          </Copy>
         </div>
 
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
-          <div className="text-white/60 mb-2">[ ЭТАПЫ ]</div>
-          <h2 className="text-3xl text-white font-light mt-3">Этапы<br></br>производства</h2>
-          <p className="text-white/60 max-w-md text-left mt-5">
-            Задача организации, в особенности же экономическая повестка
-            сегодняшнего дня способствует подготовке и реализации анализа
-            существующих паттернов поведения.
-          </p>
+          <Copy>
+            <div className="text-white/60 mb-2">[ ЭТАПЫ ]</div>
+          </Copy>
+          <Copy triggerStart="top 90%">
+            <h2 className="text-3xl text-white font-light mt-3">
+              Этапы<br></br>производства
+            </h2>
+          </Copy>
+          <Copy triggerStart="top 90%">
+            <p className="text-white/60 max-w-md text-left mt-5">
+              Задача организации, в особенности же экономическая повестка
+              сегодняшнего дня способствует подготовке и реализации анализа
+              существующих паттернов поведения.
+            </p>
+          </Copy>
         </div>
 
         {/* Production Stages Slider */}

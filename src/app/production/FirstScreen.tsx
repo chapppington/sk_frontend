@@ -1,9 +1,13 @@
+"use client";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import Image from "next/image";
+import Copy from "@/components/textAnimation/Copy";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 const FirstScreen: FC = () => {
   return (
@@ -37,14 +41,14 @@ const FirstScreen: FC = () => {
 
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <h1 className="text-2xl md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light text-white max-w-4xl pt-16 z-10">
-          Производство
-          <br />
-          электрооборудования
-        </h1>
-
+        <Copy triggerStart="top 100%">
+          <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
+            Производство<br/>электрооборудования
+          </GradientHeading>
+        </Copy>
         {/* Bottom Content */}
         <div className="flex z-10 mb-[150px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
+        <Copy triggerStart="top 100%">
           {/* Bottom Left Text with Arrow */}
           <div className="flex flex-col justify-end max-w-xl">
             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 md:mb-6">
@@ -67,6 +71,7 @@ const FirstScreen: FC = () => {
               конкурентов могут быть описаны максимально подробно.
             </p>
           </div>
+          </Copy>
         </div>
       </CustomContainer>
 

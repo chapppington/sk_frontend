@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "../ui/CustomContainer";
 import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
+import Copy from "../textAnimation/Copy";
 
 interface NewsItem {
   id: number;
@@ -160,7 +161,9 @@ const ReadMore: FC = () => {
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
           <div className="text-white/60 md:w-full lg:w-auto">[ НОВОСТИ ]</div>
+
           <GradientHeading>Читайте также</GradientHeading>
+
           <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
             Задача организации, в особенности же экономическая повестка
             сегодняшнего дня способствует подготовке и реализации анализа

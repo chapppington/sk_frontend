@@ -1,4 +1,7 @@
+import Copy from "@/components/textAnimation/Copy";
+import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import React from "react";
 
 const Mission: React.FC = () => {
@@ -11,38 +14,44 @@ const Mission: React.FC = () => {
 
           {/* Left Column - Content */}
           <div>
-            <div className="text-white/60 mb-4 uppercase tracking-wider text-sm">
-              [ МИССИЯ КОМПАНИИ ]
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-white font-light mb-6">
-              Сибкомплект - современные технологии
-            </h2>
-            <p className="text-white/60 text-lg mb-8 max-w-2xl">
-              Как уже неоднократно упомянуто, действия представителей оппозиции
-              объявлены нарушающими общечеловеческие нормы этики и морали.
-            </p>
-            <button className="inline-flex items-center group cursor-pointer">
-              <div className="flex items-center">
-                <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
-                  <svg
-                    className="w-6 h-6 text-white transform -rotate-270"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                    />
-                  </svg>
+            <BracketsText className="mb-4">МИССИЯ КОМПАНИИ</BracketsText>
+
+            <Copy>
+              <GradientHeading className="z-10 mb-6">
+                Показать новые горизонты, превосходящие ожидания
+              </GradientHeading>
+            </Copy>
+            <Copy>
+              <p className="text-white/60 text-lg mb-8 max-w-2xl">
+                Как уже неоднократно упомянуто, действия представителей
+                оппозиции объявлены нарушающими общечеловеческие нормы этики и
+                морали.
+              </p>
+            </Copy>
+            <Copy>
+              <button className="inline-flex items-center group cursor-pointer">
+                <div className="flex items-center">
+                  <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
+                    <svg
+                      className="w-6 h-6 text-white transform -rotate-270"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M7 17L17 7M17 7H7M17 7V17"
+                      />
+                    </svg>
+                  </div>
+                  <span className="ml-4 text-white/60 group-hover:text-white/80 transition-colors border-b border-white/20 pb-1">
+                    Больше о компании
+                  </span>
                 </div>
-                <span className="ml-4 text-white/60 group-hover:text-white/80 transition-colors border-b border-white/20 pb-1">
-                  Больше о компании
-                </span>
-              </div>
-            </button>
+              </button>
+            </Copy>
           </div>
         </div>
       </CustomContainer>
