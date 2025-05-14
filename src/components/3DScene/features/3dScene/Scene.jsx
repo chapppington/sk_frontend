@@ -1,7 +1,7 @@
 import { useLoader } from '@react-three/fiber'
 import {DRACOLoader, GLTFLoader, OBJLoader } from 'three/examples/jsm/Addons.js'
 import * as THREE from 'three'
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 // import {addBarycentricCoordinates} from "../../tools/geom.js";
 import {useAnimations} from "@react-three/drei";
 import { useFrame } from '@react-three/fiber';
@@ -10,8 +10,12 @@ import { WfFar } from './materials/WfFar.jsx';
 import { WfMid } from './materials/WfMid.jsx';
 import  WfMain  from './materials/mainShader.jsx'
 import { WfMid2 } from './materials/WfMid2.jsx';
+import gsap from 'gsap';
+import { Power1,Power4 } from 'gsap/all';
 
 export default function Scene(){
+
+   const isFirstRender = useRef(true);
 
   const customShader = WfThrough();
   const customShaderTest = WfMid();
@@ -24,7 +28,7 @@ export default function Scene(){
   // const geometry = new THREE.BoxGeometry(1,1,1);
   // const material123 = new THREE.MeshBasicMaterial( { color: 0x00A300 } );
     
-  const [gltf,terrain] = useLoader(GLTFLoader,['/lab12354.glb','/terrain.glb'],(loader)=>{
+  const [terrain,gltf,env,cars,logo,road] = useLoader(GLTFLoader,['/Scene/buildings.glb','/Scene/walls.glb','/Scene/env.glb','/Scene/cars.glb','/Scene/logo.glb','/Scene/road.glb'],(loader)=>{
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderConfig({ type: 'js' });
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
@@ -34,10 +38,12 @@ export default function Scene(){
   console.log(gltf);
   console.log(terrain);
   
+  terrain.scene.position.set(0,-1000,0);
   
   useEffect(() => {
     gltf.scene.traverse((node) => {
       node.material = customShaderTest
+      
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
@@ -45,21 +51,66 @@ export default function Scene(){
     });
   }, [gltf,customShaderTest]);
   useEffect(() => {
+    logo.scene.traverse((node) => {
+      node.material = customShaderTest
+      
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [gltf,customShaderTest]);
+  useEffect(() => {
+    env.scene.traverse((node) => {
+      node.material = customShaderTest
+      
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [env,customShaderTest]);
+  useEffect(() => {
     terrain.scene.traverse((node) => {
       node.material = customShaderTest2
+      
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
   }, [terrain,customShaderTest]);
+  useEffect(() => {
+    road.scene.traverse((node) => {
+      node.material = customShaderTest
+      
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [terrain,customShaderTest]);
+  useEffect(() => {
+    cars.scene.traverse((node) => {
+      node.material = customShaderTest2
+      
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [cars,customShaderTest]);
+
+
   scene.add(gltf.scene);
   scene.add(terrain.scene);
+  scene.add(env.scene);
+  scene.add(cars.scene);
+  scene.add(logo.scene);
+  scene.add(road.scene);
   
 
-  useEffect(() => {
-    THREE.Cache.clear() // Очищаем кэш загрузчика
-  }, [])
+ 
 
   const particles = {};
   particles.geometry = new THREE.BufferGeometry();
@@ -138,11 +189,12 @@ export default function Scene(){
     customShader.uniforms.uProgress.value = progress;
     customShader.uniforms.time.value = clock.getElapsedTime();
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime()*1.2;
+    customShaderTest2.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     particles.geometry.attributes.position.needsUpdate = true;
     
   })
-  const { actions, names } = useAnimations(gltf.animations, gltf.scene)
+  const { actions, names } = useAnimations(cars.animations, cars.scene)
 
   useEffect(() => {
     // Play all animations
@@ -150,6 +202,77 @@ export default function Scene(){
       actions[name].reset().play()
     })
   }, [actions, names])
+
+  useEffect(() => {  
+    if (isFirstRender.current) {
+      const tl = gsap.timeline();
+      tl.to(customShaderTest.uniforms.uRevealDistance, {
+        value: 1,
+        duration: 1.5,
+        delay: 0,
+        ease: Power4.easeOut
+      },0)
+      .to(customShaderTest.uniforms.uFluctuationFrequency, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },2)
+      .to(customShaderTest.uniforms.uFluctuationAmplitude, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },2)
+      .to(customShaderTest.uniforms.uColor.value, {
+        x: 1, y: 1, z: 1,
+        duration: 2,
+        ease: Power1.easeOut
+      },2.0)
+      .to(terrain.scene.position, {
+        y: 0,
+        duration: 5,
+        delay: 0,
+        ease: Power4.easeOut
+      },0.5)
+      .to(customShaderTest2.uniforms.uRevealDistance, {
+        value: 1,
+        duration: 5,
+        delay: 0,
+        ease: Power4.easeOut
+      },0.5)
+      .to(customShaderTest2.uniforms.uFluctuationFrequency, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },6)
+      .to(customShaderTest2.uniforms.uFluctuationAmplitude, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },6)
+
+      // .to(customShaderTest2.uniforms.uColor.value, {
+      //   x: 1, y: 1, z: 1,
+      //   duration: 2,
+      //   ease: Power1.easeOut
+        
+      // },4.0);
+
+      // Отмечаем, что первый рендер прошел
+      isFirstRender.current = false;
+      
+    }
+  }, [customShaderTest]);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      // Создаем timeline
+      const tl = gsap.timeline();
+     
+      
+
+      // Отмечаем, что первый рендер прошел
+      isFirstRender.current = false;
+    }
+  }, [customShaderTest2]);
   
   
 

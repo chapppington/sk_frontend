@@ -14,15 +14,15 @@ export function WfMid() {
             {
                 uTime: { value: 0 },
 
-                uColor: { value: new THREE.Vector3(1, 1, 1) },
+                uColor: { value: new THREE.Vector3(0.827, 0.706, 0.090) },
 
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
-                uRevealDistance: { value: 1.0 },
+                uRevealDistance: { value: 1000.0 },
 
                 uAlpha: { value: 0.15 },
 
-                uFluctuationFrequency: { value: 1.0 },
-                uFluctuationAmplitude: { value: 1.0 }
+                uFluctuationFrequency: { value: 0.0 },
+                uFluctuationAmplitude: { value: 0.0 }
             },
         fragmentShader: fragmentShader,
         vertexShader: vertexSahder,
