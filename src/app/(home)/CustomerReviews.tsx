@@ -28,6 +28,9 @@ const CustomerReviews = () => {
 
   useEffect(() => {
     if (indicatorsRef.current) {
+      // Clear any existing indicators first
+      indicatorsRef.current.innerHTML = "";
+
       // Generate indicator bars
       const indicatorCount = 60;
       for (let i = 0; i < indicatorCount; i++) {

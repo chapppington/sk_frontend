@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
@@ -10,11 +9,11 @@ const FirstScreen: FC = () => {
     <header className="relative min-h-screen">
       {/* Background Image */}
       <Image
-        src="/production_bg.webp"
+        src="/news_bg2.webp"
         alt="Production background"
         fill
         priority
-        className="object-cover z-[-1]"
+        className="object-cover z-[0]"
         quality={100}
       />
 
@@ -22,25 +21,20 @@ const FirstScreen: FC = () => {
       <div className="overlay-base absolute inset-0 bg-black/20"></div>
 
       {/* Gradient Overlay */}
-      <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-[0]"></div>
-
-      {/* Blue Tint Overlay */}
-      <div className="absolute inset-0 bg-blue-900/30 mix-blend-overlay z-[1]"></div>
+      <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-[-1]"></div>
 
       <Breadcrumbs
         className="z-10 relative"
         items={[
           { label: "Главная", href: "/", current: false },
-          { label: "О производстве", href: "/production", current: true },
+          { label: "Вакансии", href: "/vacancies", current: true },
         ]}
       />
 
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
         <h1 className="text-2xl md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light text-white max-w-4xl pt-16 z-10">
-          Производство
-          <br />
-          электрооборудования
+          Показываем новые горизонты, превосходящие ожидания
         </h1>
 
         {/* Bottom Content */}
@@ -62,25 +56,26 @@ const FirstScreen: FC = () => {
                 />
               </svg>
             </div>
-            <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
-              Являясь всего лишь частью общей картины, тщательные исследования
-              конкурентов могут быть описаны максимально подробно.
+            <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
+              Мы приглашаем в свою команду тех, кто уже на подсознательном
+              уровне разделяет ценности нашей компании. Это помогает быстрее
+              адаптировать и взаимодействовать с сотрудником, работать «на одной
+              волне».
             </p>
           </div>
         </div>
       </CustomContainer>
 
       <BlackBoxWithStats
-        transparent={true}
         className="z-[5]"
         stats={[
           {
-            value: "197",
-            description: "Крупнейших городов России и Казахстана",
+            value: "90+",
+            description: "Количество сотрудников в штате",
           },
           {
-            value: "197",
-            description: "Крупнейших городов России и Казахстана",
+            value: "4.7 NPS",
+            description: "Индекс потребительской лояльности",
           },
         ]}
       />

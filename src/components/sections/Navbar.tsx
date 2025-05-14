@@ -263,7 +263,10 @@ const Navbar: FC = () => {
     >
       <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30">
         {/* Logo */}
-        <Link href="/" className="px-0 flex items-center select-none">
+        <Link
+          href="/"
+          className="px-0 flex items-center select-none"
+        >
           <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
         </Link>
 
@@ -273,9 +276,10 @@ const Navbar: FC = () => {
             <Link
               key={item.href}
               href={item.href}
-              className="text-white text-sm hover:text-white/80 select-none"
+              className="text-white text-sm hover:text-white/80 transition-colors relative select-none group"
             >
               {item.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
             </Link>
           ))}
         </div>
@@ -285,19 +289,20 @@ const Navbar: FC = () => {
           <div className="flex items-center h-full divide-x divide-white/30">
             <a
               href="tel:+78006003989"
-              className="text-white text-sm px-8 flex items-center h-full select-none"
+              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors"
             >
               +7 (800) 600-39-89
             </a>
             <a
               href="mailto:info@sibkomplekt.ru"
-              className="text-white text-sm px-8 flex items-center h-full select-none"
+              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors"
             >
               info@sibkomplekt.ru
             </a>
           </div>
-          <button className="h-full px-8 bg-white text-gray-900 text-sm hover:bg-gray-50 transition-colors select-none">
-            Кнопка на оффер
+          <button className="h-full px-8 bg-white text-gray-900 text-sm hover:bg-gray-50 transition-all duration-300 select-none relative overflow-hidden group">
+            <span className="relative z-10">Оставить заявку</span>
+            <span className="absolute inset-0 bg-gray-200 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
           </button>
         </div>
 

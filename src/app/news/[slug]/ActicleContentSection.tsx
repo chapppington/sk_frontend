@@ -5,6 +5,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -55,21 +56,20 @@ export default function ArticleContentSection({
         </motion.div>
 
         {/* Article Title */}
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-4xl md:text-5xl lg:text-5xl font-light text-white max-w-5xl mb-8"
         >
-          {title}
-        </motion.h1>
+          <GradientHeading className="leading-tight">{title}</GradientHeading>
+        </motion.div>
 
         {/* Meta Information */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex items-center space-x-4 text-white/60 text-sm mb-12"
+          className="flex items-center space-x-4 text-white/60 text-sm mb-8"
         >
           <span>{date}</span>
           <span>•</span>
@@ -105,7 +105,7 @@ export default function ArticleContentSection({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              className="text-white/80 text-lg leading-relaxed mb-6"
+              className="text-white/90 text-lg leading-loose mb-6"
             >
               {paragraph}
             </motion.p>
