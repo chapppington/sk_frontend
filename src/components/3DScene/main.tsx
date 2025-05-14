@@ -3,12 +3,12 @@
 import { Canvas, extend } from "@react-three/fiber";
 import * as THREE from "three";
 import Scene from "@/components/3DScene/features/3dScene/Scene";
-import { SMAAPass, SSAOPass } from "three/examples/jsm/Addons.js";
+
 // import { OrbitControls } from "@react-three/drei";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
 
+
 function MainScene() {
-  extend({ SMAAPass });
 
   return (
     <div className="app-container fixed z-[-10]">
@@ -24,7 +24,6 @@ function MainScene() {
           scene={{ background: new THREE.Color("#0f0d1f") }}
           gl={{ antialias: true }}
         >
-
           <Scene />
           <Camera3D/>
 

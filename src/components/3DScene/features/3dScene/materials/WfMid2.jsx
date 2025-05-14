@@ -17,12 +17,12 @@ export function WfMid2() {
                 uColor: { value: new THREE.Vector3(1,1,1) },
 
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
-                uRevealDistance: { value: 1.0 },
+                uRevealDistance: { value: 100.0 },
 
-                uAlpha: { value: 0.04 },
+                uAlpha: { value: 0.02 },
 
-                uFluctuationFrequency: { value: 1.0 },
-                uFluctuationAmplitude: { value: 1.0 }
+                uFluctuationFrequency: { value: 0.0 },
+                uFluctuationAmplitude: { value: 0.0 }
             },
         fragmentShader: fragmentShader,
         vertexShader: vertexSahder,
