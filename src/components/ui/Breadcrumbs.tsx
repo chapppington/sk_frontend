@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, Fragment } from 'react';
 import CustomContainer from './CustomContainer';
 import Copy from '../textAnimation/Copy';

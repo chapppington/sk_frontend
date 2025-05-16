@@ -95,7 +95,9 @@ const MainButton: FC<MainButtonProps> = ({
     <TransitionLink
       href={href}
       onClick={onClick}
-      className={`mt-6 inline-flex bg-white relative w-fit ${className}`}
+      className={`mt-6 inline-flex bg-white relative w-fit${
+        className ? ` ${className}` : ""
+      }`}
       style={{
         clipPath: styles.clipPath,
         borderRadius: styles.borderRadius,

@@ -11,16 +11,12 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 const FirstScreen: FC = () => {
   return (
     <header className="relative">
-      <Parallax
-        bgImage="/production_bg.webp"
-        strength={200}
-        className="min-h-screen"
-      >
+      <Parallax bgImage="/production_bg.webp" strength={200}>
         {/* Base Overlay */}
-        <div className="overlay-base absolute inset-0 bg-black/20"></div>
+        <div className="overlay-base absolute inset-0 bg-black/30"></div>
 
         {/* Gradient Overlay */}
-        <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-[0]"></div>
+        <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent z-[0]"></div>
 
         {/* Blue Tint Overlay */}
         <div className="absolute inset-0 bg-blue-900/30 mix-blend-overlay z-[1]"></div>
@@ -34,7 +30,10 @@ const FirstScreen: FC = () => {
         />
 
         {/* Main Content */}
-        <CustomContainer className="flex flex-col justify-between" fullHeight>
+        <CustomContainer
+          className="flex flex-col justify-between pb-[150px] sm:pb-[260px] md:pb-[280px] lg:pb-8"
+          fullHeight
+        >
           <Copy triggerStart="top 100%">
             <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
               Производство
@@ -43,7 +42,7 @@ const FirstScreen: FC = () => {
             </GradientHeading>
           </Copy>
           {/* Bottom Content */}
-          <div className="flex z-10 mb-[150px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
+          <div className="flex z-10">
             <Copy triggerStart="top 100%">
               {/* Bottom Left Text with Arrow */}
               <div className="flex flex-col justify-end max-w-xl">

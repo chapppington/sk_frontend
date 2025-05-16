@@ -4,9 +4,9 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
+import Copy from "@/components/textAnimation/Copy";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -29,11 +29,7 @@ export default function ArticleContentSection({
     <article className="max-w-[1000px] mx-auto mt-2">
       <CustomContainer className="flex flex-col items-start">
         {/* Breadcrumbs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+        <div>
           <Breadcrumbs
             items={[
               { href: "/", label: "Главная" },
@@ -42,48 +38,37 @@ export default function ArticleContentSection({
             disableContainer={true}
             className="mb-12 w-full"
           />
-        </motion.div>
+        </div>
 
         {/* Category Tag */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-6"
-        >
-          <span className="px-4 py-2 border border-white text-white text-sm rounded font-light">
-            {category}
-          </span>
-        </motion.div>
+        <div className="mb-6 px-4 py-2 border border-white text-white text-sm rounded font-light">
+          <Copy>
+            <span>{category}</span>
+          </Copy>
+        </div>
 
         {/* Article Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <GradientHeading className="leading-tight">{title}</GradientHeading>
-        </motion.div>
+        <div>
+          <Copy>
+            <GradientHeading className="leading-tight">{title}</GradientHeading>
+          </Copy>
+        </div>
 
         {/* Meta Information */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex items-center space-x-4 text-white/60 text-sm mb-8"
-        >
-          <span>{date}</span>
-          <span>•</span>
-          <span>{readTime}</span>
-        </motion.div>
+        <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
+          <Copy>
+            <span>{date}</span>
+          </Copy>
+          <Copy>
+            <span>•</span>
+          </Copy>
+          <Copy>
+            <span>{readTime}</span>
+          </Copy>
+        </div>
 
         {/* Featured Image */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full"
-        >
+        <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
           <Image
             src={imageSrc}
             alt="Featured Image"
@@ -91,34 +76,20 @@ export default function ArticleContentSection({
             className="object-cover rounded-lg"
             priority
           />
-        </motion.div>
+        </div>
 
         {/* Article Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="max-w-6xl mx-auto"
-        >
+        <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <motion.p
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              className="text-white/90 text-lg leading-loose mb-6"
-            >
-              {paragraph}
-            </motion.p>
+            <Copy key={index} triggerStart="top 100%">
+              <p className="text-white/90 text-lg leading-loose mb-6">
+                {paragraph}
+              </p>
+            </Copy>
           ))}
 
           {/* Return to News Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="mt-12"
-          >
+          <div className="mt-12">
             <TransitionLink
               href="/news"
               className="inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group"
@@ -143,8 +114,8 @@ export default function ArticleContentSection({
               </div>
               <span className="text-lg pl-4">Вернуться ко всем новостям</span>
             </TransitionLink>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </CustomContainer>
     </article>
   );
