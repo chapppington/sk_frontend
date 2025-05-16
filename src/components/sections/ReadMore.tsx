@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import CustomContainer from "../ui/CustomContainer";
 import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
 import Copy from "../textAnimation/Copy";
+import TransitionLink from "../ui/TransitionLink";
 
 interface NewsItem {
   id: number;
@@ -222,7 +223,7 @@ const ReadMore: FC = () => {
           >
             {newsItems.map((item) => (
               <SwiperSlide key={item.id}>
-                <a href={item.link} className="block">
+                <TransitionLink href={item.link} className="block">
                   <article className="group relative overflow-hidden">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-lg transition-all duration-300 ease-in-out">
                       <img
@@ -348,7 +349,7 @@ const ReadMore: FC = () => {
                       </div>
                     </div>
                   </article>
-                </a>
+                </TransitionLink>
               </SwiperSlide>
             ))}
           </Swiper>

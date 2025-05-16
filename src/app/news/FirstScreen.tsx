@@ -6,6 +6,7 @@ import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 // Mock news data - replace with your actual data source
 const newsItems = [
@@ -92,8 +93,13 @@ const FirstScreen: FC = () => {
                   fill
                   className="object-cover cursor-pointer"
                   priority={index === currentIndex}
-                  onClick={() => (window.location.href = `/news/${item.slug}`)}
                 />
+                <TransitionLink
+                  href={`/news/${item.slug}`}
+                  className="absolute inset-0"
+                >
+                  {null}
+                </TransitionLink>
               </motion.div>
             )}
           </AnimatePresence>
@@ -257,12 +263,12 @@ const FirstScreen: FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.07, duration: 0.3 }}
               >
-                <a
+                <TransitionLink
                   href={`/news/${currentNews.slug}`}
                   className="block hover:opacity-90 transition-opacity"
                 >
                   <GradientHeading>{currentNews.title}</GradientHeading>
-                </a>
+                </TransitionLink>
               </motion.div>
 
               {/* Meta Info */}

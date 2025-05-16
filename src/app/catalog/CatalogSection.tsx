@@ -4,6 +4,7 @@ import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 // Sample data structure
 const productCategories = [
@@ -428,7 +429,7 @@ const CatalogSection: FC = () => {
                         <h3 className="text-white text-lg mb-3">
                           {product.title}
                         </h3>
-                        <a
+                        <TransitionLink
                           href={`/product/${product.slug}`}
                           className="inline-flex items-center group"
                         >
@@ -450,7 +451,7 @@ const CatalogSection: FC = () => {
                           <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
                             Подробнее
                           </span>
-                        </a>
+                        </TransitionLink>
                       </motion.div>
                     ))}
                   </motion.div>
@@ -580,7 +581,10 @@ const CatalogSection: FC = () => {
                           </h3>
                           <p className="text-white/60">{service.description}</p>
                         </div>
-                        <a href="#" className="inline-flex items-center group">
+                        <TransitionLink
+                          href="#"
+                          className="inline-flex items-center group"
+                        >
                           <div className="w-14 h-14 rounded-full border border-white/30 group-hover:border-white flex items-center justify-center mr-3 transition-colors">
                             <svg
                               className="w-5 h-5 text-white"
@@ -599,7 +603,7 @@ const CatalogSection: FC = () => {
                           <span className="text-white/60 group-hover:text-white border-b border-white/30 group-hover:border-white transition-colors">
                             Подробнее
                           </span>
-                        </a>
+                        </TransitionLink>
                       </motion.div>
                     ))}
                   </motion.div>

@@ -3,7 +3,7 @@
 import { FC, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -330,61 +330,43 @@ const NewsGrid: FC = () => {
                 whileHover={{ y: 8 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <Link
-                  href={`/news/${news.slug}`}
-                  prefetch={false}
-                  className="block"
-                >
-                  <motion.div className="relative aspect-[4/3] overflow-hidden mb-6">
+                <TransitionLink href={`/news/${news.slug}`} className="block">
+                  <div className="relative w-full h-48 mb-4 overflow-hidden rounded-lg">
                     <Image
                       src="/news_bg.webp"
-                      alt="News"
+                      alt={news.title}
                       fill
-                      className="object-cover rounded-lg"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority={false}
+                      className="object-cover transition-transform duration-300 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
-                    <div className="absolute top-4 left-4">
-                      <span className="px-4 py-2 bg-black/80 backdrop-blur-md text-white text-sm rounded">
-                        {news.category}
-                      </span>
-                    </div>
-                  </motion.div>
-                  <div>
-                    <div className="flex items-center space-x-4 text-white/60 text-sm">
-                      <span>{news.date}</span>
-                      <span>•</span>
-                      <span>{news.readTime}</span>
-                    </div>
-                    <h2 className="text-2xl text-white font-light hover:text-white/80 transition-colors py-4">
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-medium text-white line-clamp-2">
                       {news.title}
-                    </h2>
+                    </h3>
                     <p className="text-white/60">{news.description}</p>
                   </div>
-                </Link>
-                <Link
+                </TransitionLink>
+                <TransitionLink
                   href={`/news/${news.slug}`}
-                  prefetch={false}
-                  className="inline-flex items-center group mt-4"
+                  className="inline-flex items-center mt-4 text-white hover:text-white/80 transition-colors"
                 >
-                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                  <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-white"
+                      className="w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
-                      strokeWidth="1.5"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M7 17L17 7M17 7H7M17 7V17"
+                        strokeWidth="1.5"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
                   <span className="ml-4 text-white text-lg">Читать</span>
-                </Link>
+                </TransitionLink>
               </motion.article>
             ))}
           </AnimatePresence>

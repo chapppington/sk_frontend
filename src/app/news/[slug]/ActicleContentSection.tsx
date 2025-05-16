@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -118,7 +119,7 @@ export default function ArticleContentSection({
             transition={{ duration: 0.5, delay: 0.7 }}
             className="mt-12"
           >
-            <Link
+            <TransitionLink
               href="/news"
               className="inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group"
             >
@@ -141,7 +142,7 @@ export default function ArticleContentSection({
                 </svg>
               </div>
               <span className="text-lg pl-4">Вернуться ко всем новостям</span>
-            </Link>
+            </TransitionLink>
           </motion.div>
         </motion.div>
       </CustomContainer>

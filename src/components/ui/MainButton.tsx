@@ -1,11 +1,12 @@
-import Link from "next/link";
 import { FC } from "react";
+import TransitionLink from "./TransitionLink";
 
 interface MainButtonProps {
   text: string;
   onClick?: () => void;
   className?: string;
   size?: "sm" | "md" | "lg" | "xl" | "2xl";
+  href?: string;
 }
 
 const sizeStyles = {
@@ -86,12 +87,13 @@ const MainButton: FC<MainButtonProps> = ({
   onClick,
   className = "",
   size = "md",
+  href = "#",
 }) => {
   const styles = sizeStyles[size];
 
   return (
-    <Link
-      href="#"
+    <TransitionLink
+      href={href}
       onClick={onClick}
       className={`mt-6 inline-flex bg-white relative w-fit ${className}`}
       style={{
@@ -127,7 +129,7 @@ const MainButton: FC<MainButtonProps> = ({
           </svg>
         </div>
       </div>
-    </Link>
+    </TransitionLink>
   );
 };
 

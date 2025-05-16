@@ -9,12 +9,16 @@ interface TransitionLinkProps {
   href: string;
   children: ReactNode;
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+  style?: React.CSSProperties;
 }
 
 const TransitionLink: FC<TransitionLinkProps> = ({
   href,
   children,
   className,
+  onClick,
+  style,
 }) => {
   const router = useTransitionRouter();
   const { animateIn, animateOut, isAnimating } = useTransition();
@@ -22,6 +26,11 @@ const TransitionLink: FC<TransitionLinkProps> = ({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isAnimating) return;
+
+    // Call the provided onClick handler if it exists
+    if (onClick) {
+      onClick(e);
+    }
 
     // Start the slide-in animation
     await animateIn();
@@ -46,6 +55,7 @@ const TransitionLink: FC<TransitionLinkProps> = ({
         isAnimating ? "pointer-events-none cursor-default" : ""
       }`}
       onClick={handleClick}
+      style={style}
     >
       {children}
     </Link>
