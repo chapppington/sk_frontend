@@ -12,7 +12,7 @@ gsap.registerPlugin(SplitText, ScrollTrigger);
 export default function Copy({
   children,
   animateOnScroll = true,
-  delay = 0,
+  delay = 0.3,
   triggerStart = "top 80%",
 }: {
   children: ReactElement<any, any>;

@@ -57,7 +57,7 @@ export default function CertificatesSection() {
           <div className="container mx-auto px-4 relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8">
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   {faqItems.map((item, index) => (
                     <motion.div
                       key={index}
