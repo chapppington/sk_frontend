@@ -104,7 +104,7 @@ const PortfolioSection = () => {
                   fill
                   className="object-cover"
                   priority={idx === activeIndex}
-                  onLoadingComplete={() => {
+                  onLoad={() => {
                     setBgLoaded((prev) => ({ ...prev, [idx]: true }));
                   }}
                 />

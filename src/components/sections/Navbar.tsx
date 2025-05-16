@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "../ui/CustomContainer";
+import { useTransitionRouter } from "next-view-transitions";
 
 const menuItems = [
   { href: "/catalog", label: "Каталог" },
@@ -26,10 +27,12 @@ const contactSections = [
   },
 ];
 
-const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
-  isOpen,
-  onClose,
-}) => {
+const MobileMenu: FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  router: any;
+  pageAnimation: () => void;
+}> = ({ isOpen, onClose, router, pageAnimation }) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -96,7 +99,13 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
                     <Link
                       href={item.href}
                       className="text-white/80 text-lg leading-none flex items-center justify-between py-6 font-light"
-                      onClick={onClose}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push(item.href, {
+                          onTransitionReady: pageAnimation,
+                        });
+                        onClose();
+                      }}
                     >
                       {item.label}
                       <svg
@@ -255,6 +264,65 @@ const MobileMenu: FC<{ isOpen: boolean; onClose: () => void }> = ({
 
 const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useTransitionRouter();
+
+  const pageAnimation = () => {
+    return new Promise<void>((resolve) => {
+      // Create 6 columns for the stair effect
+      const columns: HTMLDivElement[] = [];
+      for (let i = 0; i < 6; i++) {
+        const column = document.createElement("div");
+        column.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: ${(i * 100) / 6}%;
+          width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
+          height: 100vh;
+          background-color: black;
+          z-index: 9999;
+          transform: translateY(-100%);
+        `;
+        document.body.appendChild(column);
+        columns.push(column);
+
+        // Animate columns down with stagger
+        column.animate(
+          [{ transform: "translateY(-100%)" }, { transform: "translateY(0)" }],
+          {
+            duration: 500,
+            delay: i * 100, // Stagger the slide-in animations
+            easing: "cubic-bezier(0.76, 0, 0.24, 1)",
+            fill: "forwards",
+          }
+        );
+      }
+
+      // Wait for all columns to cover the page (accounting for stagger)
+      setTimeout(() => {
+        resolve();
+      }, 500 + 5 * 100); // Base duration + delay for last column
+
+      // After page transition, animate columns up
+      setTimeout(() => {
+        columns.forEach((column, i) => {
+          column.animate(
+            [
+              { transform: "translateY(0)" },
+              { transform: "translateY(-100%)" },
+            ],
+            {
+              duration: 500,
+              delay: i * 100,
+              easing: "cubic-bezier(0.76, 0, 0.24, 1)",
+              fill: "forwards",
+            }
+          ).onfinish = () => {
+            document.body.removeChild(column);
+          };
+        });
+      }, 1000); // Wait for page transition to complete
+    });
+  };
 
   return (
     <nav
@@ -266,6 +334,11 @@ const Navbar: FC = () => {
         <Link
           href="/"
           className="px-0 flex items-center select-none"
+          onClick={async (e) => {
+            e.preventDefault();
+            await pageAnimation();
+            router.push("/");
+          }}
         >
           <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
         </Link>
@@ -277,6 +350,11 @@ const Navbar: FC = () => {
               key={item.href}
               href={item.href}
               className="text-white text-sm hover:text-white/80 transition-colors relative select-none group"
+              onClick={async (e) => {
+                e.preventDefault();
+                await pageAnimation();
+                router.push(item.href);
+              }}
             >
               {item.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
@@ -320,6 +398,8 @@ const Navbar: FC = () => {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
+        router={router}
+        pageAnimation={pageAnimation}
       />
     </nav>
   );

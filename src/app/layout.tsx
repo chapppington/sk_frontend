@@ -5,9 +5,9 @@ import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
-import LocomotiveScrollProvider from "@/components/providers/LocomotiveScrollProvider";
 import MainScene from "@/components/3DScene/main";
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -32,23 +32,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-      <CameraProvider>
-        <ConditionalBGGradient />
-        
-        <MainScene />
-        <BreakpointIndicator />
-        <Navbar />
-        {/* <LocomotiveScrollProvider> */}
-        
-        {children}
-        <Footer />
-        {/* </LocomotiveScrollProvider> */}
-        </CameraProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body className={`${inter.className} antialiased`}>
+          <CameraProvider>
+            <ConditionalBGGradient />
+
+            <MainScene />
+            <BreakpointIndicator />
+            <Navbar />
+
+            {children}
+            <Footer />
+          </CameraProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
