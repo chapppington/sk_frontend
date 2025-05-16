@@ -15,7 +15,7 @@ export const useTransition = () => {
   if (!context) {
     throw new Error("useTransition must be used within a TransitionProvider");
   }
-  return context;
+  return context; 
 };
 
 export const TransitionProvider = ({
