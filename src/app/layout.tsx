@@ -8,6 +8,7 @@ import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
 import MainScene from "@/components/3DScene/main";
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 import { ViewTransitions } from "next-view-transitions";
+import { TransitionProvider } from "@/components/providers/TransitionProvider";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -34,20 +35,22 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang="en">
-        <body className={`${inter.className} antialiased`}>
-          <CameraProvider>
-            <ConditionalBGGradient />
+      <TransitionProvider>
+        <html lang="en">
+          <body className={`${inter.className} antialiased`}>
+            <CameraProvider>
+              <ConditionalBGGradient />
 
-            <MainScene />
-            <BreakpointIndicator />
-            <Navbar />
+              <MainScene />
+              <BreakpointIndicator />
+              <Navbar />
 
-            {children}
-            <Footer />
-          </CameraProvider>
-        </body>
-      </html>
+              {children}
+              <Footer />
+            </CameraProvider>
+          </body>
+        </html>
+      </TransitionProvider>
     </ViewTransitions>
   );
 }
