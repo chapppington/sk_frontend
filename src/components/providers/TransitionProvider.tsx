@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { useLenis } from "lenis/react";
 
 interface TransitionContextType {
   animateIn: () => Promise<void>;
@@ -28,6 +28,7 @@ export const TransitionProvider = ({
   const isAnimatingRef = useRef(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   useEffect(() => {
     // Create columns once on mount
@@ -122,7 +123,7 @@ export const TransitionProvider = ({
           {
             duration: 300,
             delay: i * 50,
-            easing: "cubic-bezier(0.76, 0, 0.24, 1)",
+            easing: "cubic-bezier(0.215, 0.61, 0.355, 1)",
             fill: "forwards",
           }
         );
@@ -165,7 +166,7 @@ export const TransitionProvider = ({
           {
             duration: 300,
             delay: i * 50,
-            easing: "cubic-bezier(0.76, 0, 0.24, 1)",
+            easing: "cubic-bezier(0.215, 0.61, 0.355, 1)",
             fill: "forwards",
           }
         );
@@ -175,6 +176,11 @@ export const TransitionProvider = ({
           if (completedAnimations === totalAnimations) {
             isAnimatingRef.current = false;
             setIsAnimating(false);
+            // Reset Lenis scroll position and update its bounds
+            if (lenis) {
+              lenis.scrollTo(0, { immediate: true });
+              lenis.resize();
+            }
             resolve();
           }
         };
