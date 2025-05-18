@@ -30,14 +30,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <ViewTransitions>
-      <TransitionProvider>
-        <html lang="en">
-          <body className={`${inter.className} antialiased`}>
+    <html lang="en">
+      <body>
+        <ViewTransitions>
+          <TransitionProvider>
             <CameraProvider>
               <ConditionalBGGradient />
 
@@ -48,9 +48,9 @@ export default function RootLayout({
               {children}
               <Footer />
             </CameraProvider>
-          </body>
-        </html>
-      </TransitionProvider>
-    </ViewTransitions>
+          </TransitionProvider>
+        </ViewTransitions>
+      </body>
+    </html>
   );
 }

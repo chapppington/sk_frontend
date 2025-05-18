@@ -27,18 +27,9 @@ export const TransitionProvider = ({
   const columnsRef = useRef<HTMLDivElement[]>([]);
   const isAnimatingRef = useRef(true);
   const [isAnimating, setIsAnimating] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
-
-  // Add initial animation out effect
-  useEffect(() => {
-    const initialAnimation = async () => {
-      // Wait a short moment before starting the animation out
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      await animateOut();
-    };
-    initialAnimation();
-  }, []);
 
   useEffect(() => {
     // Create columns once on mount
@@ -52,8 +43,8 @@ export const TransitionProvider = ({
         width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
         height: 100vh;
         background-color: #080e2c;
-        z-index: 9999;
-        transform: translateY(0); /* Start with columns visible */
+        z-index: 99999; /* Increased z-index to ensure it's above everything */
+        transform: translateY(0);
         will-change: transform;
         pointer-events: auto;
       `;
@@ -68,10 +59,10 @@ export const TransitionProvider = ({
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%); /* Start with logo visible */
-      z-index: 10000;
+      transform: translate(-50%, -50%);
+      z-index: 100000; /* Increased z-index to ensure it's above everything */
       pointer-events: none;
-      opacity: 1; /* Start with logo visible */
+      opacity: 1;
       transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease;
     `;
 
@@ -89,6 +80,11 @@ export const TransitionProvider = ({
     document.body.appendChild(logoContainer);
     logoRef.current = logoContainer;
 
+    // Mark as ready after a short delay to ensure everything is loaded
+    setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+
     // Cleanup on unmount
     return () => {
       columns.forEach((column) => {
@@ -101,6 +97,17 @@ export const TransitionProvider = ({
       }
     };
   }, []);
+
+  // Initial animation out
+  useEffect(() => {
+    if (isReady) {
+      const initialAnimation = async () => {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        await animateOut();
+      };
+      initialAnimation();
+    }
+  }, [isReady]);
 
   const animateIn = () => {
     return new Promise<void>((resolve) => {
@@ -200,7 +207,9 @@ export const TransitionProvider = ({
 
   return (
     <TransitionContext.Provider value={{ animateIn, animateOut, isAnimating }}>
-      {children}
+      <div style={{ visibility: isReady ? "visible" : "hidden" }}>
+        {children}
+      </div>
     </TransitionContext.Provider>
   );
 };
