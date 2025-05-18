@@ -5,11 +5,14 @@ import {DRACOLoader, GLTFLoader, OBJLoader } from 'three/examples/jsm/Addons.js'
 import {useEffect, useRef} from "react";
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import gsap from 'gsap';
+import { Power1,Power4 } from 'gsap/all';
 
 export default function TempScene(){
     const customShader = WfMid2();
     const modelRef = useRef();
     const scene = new THREE.Scene();
+    const isFirstRender = useRef(true);
 
     const gltf22 = useLoader(GLTFLoader,'/Scene/parn.glb' ,(loader)=>{
         const dracoLoader = new DRACOLoader()
@@ -26,21 +29,49 @@ export default function TempScene(){
             gltf22.scene.position.sub(center); // Центрируем модель
             
             gltf22.scene.traverse((node) => {
-                if (node.isMesh) {
-                    node.material = customShader;
-                }
+                node.material = customShader;   
             });
         }
     }, [gltf22, customShader]);
+
   
   console.log(scene);
 
-//   useFrame(({clock})=>{
-//     const progress = Math.min(1, clock.getElapsedTime()/5)
-//     customShader.uniforms.uProgress.value = progress;
-//     customShader.uniforms.time.value = clock.getElapsedTime();
+  useFrame(({clock})=>{
+    // const progress = Math.min(1, clock.getElapsedTime()/5)
+    // customShader.uniforms.uProgress.value = progress;
+    customShader.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     
-//   });
+  });
+  useEffect(() => {  
+    if (isFirstRender.current) {
+      const tl = gsap.timeline();
+      tl.to(customShader.uniforms.uRevealDistance, {
+        value: 1,
+        duration: 1.5,
+        delay: 0,
+        ease: Power4.easeOut
+      },0)
+      .to(customShader.uniforms.uAlpha, {
+        value: 0.09,
+        duration: 1.5,
+        delay: 0,
+        ease: Power4.easeOut
+      },0)
+      .to(customShader.uniforms.uFluctuationFrequency, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },2)
+      .to(customShader.uniforms.uFluctuationAmplitude, {
+        value: 1,
+        duration: 0,
+        delay: 0,
+      },2)
+      isFirstRender.current = false;
+      
+    }
+  }, [customShader]);
   return (
     <>
       <PerspectiveCamera makeDefault position={[5, 25, 5]} />
