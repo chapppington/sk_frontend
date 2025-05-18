@@ -1,8 +1,12 @@
+"use client";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import React from "react";
+import React, { useState } from "react";
 
 const ValuesSection: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<number>(0); // First tab active by default
+
   return (
     <section id="our_values_section" className="bg-transparent py-24">
       <CustomContainer className="relative">
@@ -14,9 +18,9 @@ const ValuesSection: React.FC = () => {
         </div>
 
         {/* Main Content Container */}
-        <div className="flex flex-col lg:flex-row items-stretch relative lg:min-h-[500px]">
+        <div className="flex flex-col lg:flex-row items-stretch relative lg:min-h-[440px]">
           {/* Left Column - Title and main text */}
-          <div className="lg:w-1/2 relative z-10">
+          <div className="lg:w-2/5 relative z-10">
             {/* Main Heading */}
             <GradientHeading>
               Показать новые горизонты, превосходящие ожидания
@@ -39,10 +43,30 @@ const ValuesSection: React.FC = () => {
         {/* Values Tabs - Desktop version (hidden on mobile) */}
         <div className="values-tabs hidden lg:flex absolute top-0 right-0 bottom-0 h-full ">
           {/* Tab 1 - Порядочность */}
-          <div className="h-full group">
-            <div className="h-full w-[110px] group-hover:w-[320px] lg:w-[90px] lg:group-hover:w-[280px] 2xl:w-[110px] 2xl:group-hover:w-[320px] relative border-r border-white/5  backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden">
-              {/* Tab Content Section (hidden until hover) */}
-              <div className="px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150">
+          <div
+            className="h-full group"
+            onMouseEnter={() => setActiveTab(0)}
+            onMouseLeave={() => setActiveTab(0)}
+          >
+            <div
+              className={`h-full w-[110px] ${
+                activeTab === 0 ? "w-[320px]" : ""
+              } group-hover:w-[320px] lg:w-[90px] ${
+                activeTab === 0 ? "lg:w-[280px]" : ""
+              } lg:group-hover:w-[280px] 2xl:w-[110px] ${
+                activeTab === 0 ? "2xl:w-[320px]" : ""
+              } 2xl:group-hover:w-[320px] relative border-r border-white/5 ${
+                activeTab === 0 ? "bg-transparent border border-white/50" : ""
+              } backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden`}
+            >
+              {/* Tab Content Section (shown when active or on hover) */}
+              <div
+                className={`px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                  activeTab === 0
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } transition-opacity duration-300 delay-150`}
+              >
                 {/* Icon */}
                 <div className="w-14 h-14 mb-6 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -79,7 +103,13 @@ const ValuesSection: React.FC = () => {
               </div>
 
               {/* Tab Label (always visible) */}
-              <div className="absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+              <div
+                className={`absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 ${
+                  activeTab === 0
+                    ? "opacity-0"
+                    : "opacity-100 group-hover:opacity-0"
+                } transition-opacity duration-200`}
+              >
                 <div className="rotate-[-90deg] whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="text-white text-5xl lg:text-4xl 2xl:text-5xl mr-2 transition-colors"></span>
@@ -93,10 +123,30 @@ const ValuesSection: React.FC = () => {
           </div>
 
           {/* Tab 2 - Экспертность */}
-          <div className="h-full group">
-            <div className="h-full w-[110px] group-hover:w-[320px] lg:w-[90px] lg:group-hover:w-[280px] 2xl:w-[110px] 2xl:group-hover:w-[320px] relative border-r border-white/5  backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden">
-              {/* Tab Content Section (hidden until hover) */}
-              <div className="px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150">
+          <div
+            className="h-full group"
+            onMouseEnter={() => setActiveTab(1)}
+            onMouseLeave={() => setActiveTab(0)}
+          >
+            <div
+              className={`h-full w-[110px] ${
+                activeTab === 1 ? "w-[320px]" : ""
+              } group-hover:w-[320px] lg:w-[90px] ${
+                activeTab === 1 ? "lg:w-[280px]" : ""
+              } lg:group-hover:w-[280px] 2xl:w-[110px] ${
+                activeTab === 1 ? "2xl:w-[320px]" : ""
+              } 2xl:group-hover:w-[320px] relative border-r border-white/5 ${
+                activeTab === 1 ? "bg-transparent border border-white/50" : ""
+              } backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden`}
+            >
+              {/* Tab Content Section (shown when active or on hover) */}
+              <div
+                className={`px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                  activeTab === 1
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } transition-opacity duration-300 delay-150`}
+              >
                 {/* Icon */}
                 <div className="w-14 h-14 mb-6 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -135,7 +185,13 @@ const ValuesSection: React.FC = () => {
               </div>
 
               {/* Tab Label (always visible) */}
-              <div className="absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+              <div
+                className={`absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 ${
+                  activeTab === 1
+                    ? "opacity-0"
+                    : "opacity-100 group-hover:opacity-0"
+                } transition-opacity duration-200`}
+              >
                 <div className="rotate-[-90deg] whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="text-gray-400 group-hover:text-white text-6xl lg:text-5xl 2xl:text-6xl mr-2 transition-colors"></span>
@@ -149,10 +205,30 @@ const ValuesSection: React.FC = () => {
           </div>
 
           {/* Tab 3 - Проактивность */}
-          <div className="h-full group">
-            <div className="h-full w-[110px] group-hover:w-[320px] lg:w-[90px] lg:group-hover:w-[280px] 2xl:w-[110px] 2xl:group-hover:w-[320px] relative border-r border-white/5  backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden">
-              {/* Tab Content Section (hidden until hover) */}
-              <div className="px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150">
+          <div
+            className="h-full group"
+            onMouseEnter={() => setActiveTab(2)}
+            onMouseLeave={() => setActiveTab(0)}
+          >
+            <div
+              className={`h-full w-[110px] ${
+                activeTab === 2 ? "w-[320px]" : ""
+              } group-hover:w-[320px] lg:w-[90px] ${
+                activeTab === 2 ? "lg:w-[280px]" : ""
+              } lg:group-hover:w-[280px] 2xl:w-[110px] ${
+                activeTab === 2 ? "2xl:w-[320px]" : ""
+              } 2xl:group-hover:w-[320px] relative border-r border-white/5 ${
+                activeTab === 2 ? "bg-transparent border border-white/50" : ""
+              } backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden`}
+            >
+              {/* Tab Content Section (shown when active or on hover) */}
+              <div
+                className={`px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                  activeTab === 2
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } transition-opacity duration-300 delay-150`}
+              >
                 {/* Icon */}
                 <div className="w-14 h-14 mb-6 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -181,7 +257,13 @@ const ValuesSection: React.FC = () => {
               </div>
 
               {/* Tab Label (always visible) */}
-              <div className="absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+              <div
+                className={`absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 ${
+                  activeTab === 2
+                    ? "opacity-0"
+                    : "opacity-100 group-hover:opacity-0"
+                } transition-opacity duration-200`}
+              >
                 <div className="rotate-[-90deg] whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="text-gray-400 group-hover:text-white text-6xl lg:text-5xl 2xl:text-6xl mr-2 transition-colors"></span>
@@ -195,10 +277,30 @@ const ValuesSection: React.FC = () => {
           </div>
 
           {/* Tab 4 - Открытость */}
-          <div className="h-full group">
-            <div className="h-full w-[110px] group-hover:w-[320px] lg:w-[90px] lg:group-hover:w-[280px] 2xl:w-[110px] 2xl:group-hover:w-[320px] relative border-r border-white/5  backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden">
-              {/* Tab Content Section (hidden until hover) */}
-              <div className="px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150">
+          <div
+            className="h-full group"
+            onMouseEnter={() => setActiveTab(3)}
+            onMouseLeave={() => setActiveTab(0)}
+          >
+            <div
+              className={`h-full w-[110px] ${
+                activeTab === 3 ? "w-[320px]" : ""
+              } group-hover:w-[320px] lg:w-[90px] ${
+                activeTab === 3 ? "lg:w-[280px]" : ""
+              } lg:group-hover:w-[280px] 2xl:w-[110px] ${
+                activeTab === 3 ? "2xl:w-[320px]" : ""
+              } 2xl:group-hover:w-[320px] relative border-r border-white/5 ${
+                activeTab === 3 ? "bg-transparent border border-white/50" : ""
+              } backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden`}
+            >
+              {/* Tab Content Section (shown when active or on hover) */}
+              <div
+                className={`px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                  activeTab === 3
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } transition-opacity duration-300 delay-150`}
+              >
                 {/* Icon */}
                 <div className="w-14 h-14 mb-6 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -228,7 +330,13 @@ const ValuesSection: React.FC = () => {
               </div>
 
               {/* Tab Label (always visible) */}
-              <div className="absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+              <div
+                className={`absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 ${
+                  activeTab === 3
+                    ? "opacity-0"
+                    : "opacity-100 group-hover:opacity-0"
+                } transition-opacity duration-200`}
+              >
                 <div className="rotate-[-90deg] whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="text-gray-400 group-hover:text-white text-6xl lg:text-5xl 2xl:text-6xl mr-2 transition-colors"></span>
@@ -242,10 +350,30 @@ const ValuesSection: React.FC = () => {
           </div>
 
           {/* Tab 5 - Ответственность */}
-          <div className="h-full group">
-            <div className="h-full w-[110px] group-hover:w-[320px] lg:w-[90px] lg:group-hover:w-[280px] 2xl:w-[110px] 2xl:group-hover:w-[320px] relative border-r border-white/5  backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden">
-              {/* Tab Content Section (hidden until hover) */}
-              <div className="px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150">
+          <div
+            className="h-full group"
+            onMouseEnter={() => setActiveTab(4)}
+            onMouseLeave={() => setActiveTab(0)}
+          >
+            <div
+              className={`h-full w-[110px] ${
+                activeTab === 4 ? "w-[320px]" : ""
+              } group-hover:w-[320px] lg:w-[90px] ${
+                activeTab === 4 ? "lg:w-[280px]" : ""
+              } lg:group-hover:w-[280px] 2xl:w-[110px] ${
+                activeTab === 4 ? "2xl:w-[320px]" : ""
+              } 2xl:group-hover:w-[320px] relative border-r border-white/5 ${
+                activeTab === 4 ? "bg-transparent border border-white/50" : ""
+              } backdrop-blur-sm group-hover:bg-transparent group-hover:border group-hover:border-white/50 transition-all duration-300 overflow-hidden`}
+            >
+              {/* Tab Content Section (shown when active or on hover) */}
+              <div
+                className={`px-1 py-2 w-[280px] lg:w-[240px] 2xl:w-[280px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                  activeTab === 4
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } transition-opacity duration-300 delay-150`}
+              >
                 {/* Icon */}
                 <div className="w-14 h-14 mb-6 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
@@ -275,7 +403,13 @@ const ValuesSection: React.FC = () => {
               </div>
 
               {/* Tab Label (always visible) */}
-              <div className="absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+              <div
+                className={`absolute right-0 top-0 h-full w-[110px] lg:w-[90px] 2xl:w-[110px] flex items-center justify-center z-10 ${
+                  activeTab === 4
+                    ? "opacity-0"
+                    : "opacity-100 group-hover:opacity-0"
+                } transition-opacity duration-200`}
+              >
                 <div className="rotate-[-90deg] whitespace-nowrap">
                   <div className="flex items-center">
                     <span className="text-gray-400 group-hover:text-white text-4xl lg:text-3xl 2xl:text-4xl mr-2 transition-colors"></span>

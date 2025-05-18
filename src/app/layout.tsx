@@ -5,10 +5,11 @@ import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
-import MainScene from "@/components/3DScene/main";
+import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 import { ViewTransitions } from "next-view-transitions";
 import { TransitionProvider } from "@/components/providers/TransitionProvider";
+import CustomScrollbar from "@/components/CustomScrollbar";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -40,9 +41,9 @@ export default function RootLayout({
           <TransitionProvider>
             <CameraProvider>
               <ConditionalBGGradient />
-
-              <MainScene />
-              <BreakpointIndicator />
+              <CustomScrollbar />
+              <ConditionalMainScene />
+              {/* <BreakpointIndicator /> */}
               <Navbar />
 
               {children}
