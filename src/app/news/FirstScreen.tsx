@@ -300,29 +300,30 @@ const FirstScreen: FC = () => {
                 transition={{ delay: 0.3, duration: 0.3 }}
                 className="mt-6"
               >
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={`/news/${currentNews.slug}`}
-                  className="inline-flex items-center group news-button"
-                >
-                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7 17L17 7M17 7H7M17 7V17"
-                      ></path>
-                    </svg>
-                  </div>
-                  <span className="ml-4 text-white text-lg">Читать</span>
-                </motion.a>
+                <TransitionLink href={`/news/${currentNews.slug}`}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center group news-button"
+                  >
+                    <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M7 17L17 7M17 7H7M17 7V17"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span className="ml-4 text-white text-lg">Читать</span>
+                  </motion.div>
+                </TransitionLink>
               </motion.div>
             </motion.div>
           </AnimatePresence>

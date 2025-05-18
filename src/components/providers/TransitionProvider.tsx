@@ -42,7 +42,7 @@ export const TransitionProvider = ({
         left: ${(i * 100) / 6}%;
         width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
         height: 100vh;
-        background-color:rgb(6, 59, 112);
+        background-color:rgb(3, 28, 53);
         z-index: 99999; /* Increased z-index to ensure it's above everything */
         transform: translateY(0);
         will-change: transform;
@@ -162,12 +162,12 @@ export const TransitionProvider = ({
           lenis.scrollTo(0, { immediate: true });
           lenis.resize();
         }
-      }, 450); // This is halfway through the animation (300ms/2)
+      }, 450); // middle of animation (300 + 150 delay)
 
       // Wait for all columns to cover the page
       setTimeout(() => {
         resolve();
-      }, 300 + 5 * 50);
+      }, 300 + 4 * 50);
     });
   };
 

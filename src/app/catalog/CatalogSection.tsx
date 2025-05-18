@@ -1,8 +1,8 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 
@@ -164,13 +164,27 @@ const CatalogSection: FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const itemsPerPage = 6;
 
+  const activeTabIndicatorRef = useRef<HTMLDivElement>(null);
+  const productsGridRef = useRef<HTMLDivElement>(null);
+  const servicesGridRef = useRef<HTMLDivElement>(null);
+  const noResultsRef = useRef<HTMLDivElement>(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Debounce search query
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
   }, [searchQuery]);
 
   const filteredProducts = products.filter(
@@ -189,17 +203,64 @@ const CatalogSection: FC = () => {
     currentPage * itemsPerPage
   );
 
+  // GSAP animations for tab switching
+  useEffect(() => {
+    if (activeTabIndicatorRef.current) {
+      gsap.to(activeTabIndicatorRef.current, {
+        x: activeTab === "products" ? "0%" : "100%",
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+    }
+  }, [activeTab]);
+
+  // GSAP animations for grid items
+  useEffect(() => {
+    const gridRef =
+      activeTab === "products" ? productsGridRef : servicesGridRef;
+    if (gridRef.current) {
+      const items = gridRef.current.children;
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "power2.out",
+        }
+      );
+    }
+  }, [activeTab, debouncedSearchQuery, activeCategory]);
+
   // Reset page when category or search changes
   useEffect(() => {
     setCurrentPage(1);
   }, [activeCategory, debouncedSearchQuery]);
+
+  // GSAP animations for no results
+  useEffect(() => {
+    if (noResultsRef.current) {
+      gsap.fromTo(
+        noResultsRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        }
+      );
+    }
+  }, [filteredProducts.length, filteredServices.length]);
 
   return (
     <section id="catalog_section" className="bg-transparent py-24">
       <CustomContainer>
         {/* Mobile Navigation */}
         <div className="flex flex-col gap-6 xl:hidden">
-          <div className="flex w-full">
+          <div className="flex w-full relative">
             <button
               onClick={() => setActiveTab("products")}
               className={`flex-1 text-xl pb-4 transition-colors duration-300 relative ${
@@ -207,12 +268,6 @@ const CatalogSection: FC = () => {
               }`}
             >
               Продукция
-              {activeTab === "products" && (
-                <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-white"
-                  layoutId="activeTabMobile"
-                />
-              )}
             </button>
             <button
               onClick={() => setActiveTab("services")}
@@ -221,13 +276,11 @@ const CatalogSection: FC = () => {
               }`}
             >
               Услуги
-              {activeTab === "services" && (
-                <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-white"
-                  layoutId="activeTabMobile"
-                />
-              )}
             </button>
+            <div
+              ref={activeTabIndicatorRef}
+              className="absolute bottom-0 left-0 w-1/2 h-[2px] bg-white"
+            />
           </div>
 
           {/* Mobile Search Bar */}
@@ -317,17 +370,10 @@ const CatalogSection: FC = () => {
               >
                 Продукция
               </button>
-              <motion.div
-                className="w-[240px] h-[2px] bg-white"
-                initial={false}
-                animate={{
-                  scaleX: activeTab === "products" ? 1 : 0.95,
-                  backgroundColor:
-                    activeTab === "products"
-                      ? "rgba(255,255,255,1)"
-                      : "rgba(255,255,255,0.6)",
-                }}
-                transition={{ duration: 0.3 }}
+              <div
+                className={`w-[240px] h-[2px] bg-white transition-transform duration-300 ${
+                  activeTab === "products" ? "scale-x-100" : "scale-x-95"
+                }`}
               />
             </div>
             <div className="relative flex flex-col items-start group">
@@ -339,17 +385,10 @@ const CatalogSection: FC = () => {
               >
                 Услуги
               </button>
-              <motion.div
-                className="w-[240px] h-[2px] bg-white"
-                initial={false}
-                animate={{
-                  scaleX: activeTab === "services" ? 1 : 0.95,
-                  backgroundColor:
-                    activeTab === "services"
-                      ? "rgba(255,255,255,1)"
-                      : "rgba(255,255,255,0.6)",
-                }}
-                transition={{ duration: 0.3 }}
+              <div
+                className={`w-[240px] h-[2px] bg-white transition-transform duration-300 ${
+                  activeTab === "services" ? "scale-x-100" : "scale-x-95"
+                }`}
               />
             </div>
           </div>
@@ -382,18 +421,17 @@ const CatalogSection: FC = () => {
           {activeTab === "products" && (
             <div className="hidden xl:flex xl:w-[400px] flex-col gap-2">
               {productCategories.map((category) => (
-                <motion.button
+                <button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-fit inline-block text-left px-4 py-3 rounded-lg transition-colors border ${
+                  className={`w-fit inline-block text-left px-4 py-3 rounded-lg transition-all duration-200 border ${
                     activeCategory === category.id
-                      ? "text-white bg-white/10 border-white/20"
-                      : "text-white/80 hover:text-white hover:bg-white/5 border-white/10"
+                      ? "text-white bg-white/10 border-white/20 hover:scale-[0.99] active:scale-[0.93]"
+                      : "text-white/80 hover:text-white hover:bg-white/5 border-white/10 hover:scale-[0.99] active:scale-[0.93]"
                   }`}
                 >
                   {category.name}
-                </motion.button>
+                </button>
               ))}
             </div>
           )}
@@ -403,20 +441,12 @@ const CatalogSection: FC = () => {
             {activeTab === "products" ? (
               <>
                 {filteredProducts.length > 0 ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  <div
+                    ref={productsGridRef}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                   >
                     {currentProducts.map((product) => (
-                      <motion.div
-                        key={product.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.15 }}
-                        className="flex flex-col"
-                      >
+                      <div key={product.id} className="flex flex-col">
                         <div className="bg-white rounded-xl overflow-hidden mb-4">
                           <Image
                             width={300}
@@ -452,14 +482,12 @@ const CatalogSection: FC = () => {
                             Подробнее
                           </span>
                         </TransitionLink>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  <div
+                    ref={noResultsRef}
                     className="flex flex-col items-center justify-center py-12 text-center"
                   >
                     <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
@@ -494,7 +522,7 @@ const CatalogSection: FC = () => {
                     >
                       Сбросить фильтры
                     </button>
-                  </motion.div>
+                  </div>
                 )}
                 {totalPages > 1 && filteredProducts.length > 0 && (
                   <div className="flex justify-center items-center gap-2 mt-8">
@@ -561,20 +589,12 @@ const CatalogSection: FC = () => {
             ) : (
               <>
                 {filteredServices.length > 0 ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  <div
+                    ref={servicesGridRef}
                     className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"
                   >
                     {filteredServices.map((service) => (
-                      <motion.div
-                        key={service.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.15 }}
-                        className="flex flex-col"
-                      >
+                      <div key={service.id} className="flex flex-col">
                         <div className="bg-white/5 rounded-xl p-6 mb-4">
                           <h3 className="text-white text-lg mb-3">
                             {service.title}
@@ -604,14 +624,12 @@ const CatalogSection: FC = () => {
                             Подробнее
                           </span>
                         </TransitionLink>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  <div
+                    ref={noResultsRef}
                     className="flex flex-col items-center justify-center py-12 text-center"
                   >
                     <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
@@ -645,7 +663,7 @@ const CatalogSection: FC = () => {
                     >
                       Сбросить поиск
                     </button>
-                  </motion.div>
+                  </div>
                 )}
               </>
             )}
