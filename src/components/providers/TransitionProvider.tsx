@@ -40,8 +40,12 @@ export const TransitionProvider = ({
         position: fixed;
         top: 0;
         left: ${(i * 100) / 6}%;
-        width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
-        height: 100vh;
+        width: ${
+          i === 5 ? 100 / 6 + 0.2 : 100 / 6 + 0.1
+        }%; /* Extra width for last column */
+        height: ${
+          i === 5 ? "101vh" : "100vh"
+        }; /* Extra height for last column */
         background-color:rgb(3, 28, 53);
         z-index: 99999; /* Increased z-index to ensure it's above everything */
         transform: translateY(0);
@@ -219,7 +223,7 @@ export const TransitionProvider = ({
         column.offsetHeight;
 
         const animation = column.animate(
-          [{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }],
+          [{ transform: "translateY(0)" }, { transform: "translateY(-110%)" }],
           {
             duration: 300,
             delay: i * 50,
