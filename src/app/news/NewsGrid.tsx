@@ -149,10 +149,15 @@ const NewsGrid: FC = () => {
   const sortBy = (searchParams.get("sort") as "new" | "old") || "new";
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 6;
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Reference for news grid animations
   const newsGridRef = useRef<HTMLDivElement>(null);
   const noResultsRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const optionsRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<SVGSVGElement>(null);
+  const sortOptionRef = useRef<HTMLDivElement>(null);
 
   const parseRussianDate = (dateStr: string) => {
     const months = {
@@ -274,6 +279,94 @@ const NewsGrid: FC = () => {
     }
   }, [currentNews.length]);
 
+  // Handle dropdown animations
+  useEffect(() => {
+    if (!dropdownRef.current || !optionsRef.current || !arrowRef.current)
+      return;
+
+    if (isDropdownOpen) {
+      // Animate options appearing
+      gsap.fromTo(
+        optionsRef.current,
+        {
+          opacity: 0,
+          y: -10,
+          display: "none",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power3.out",
+          display: "block",
+        }
+      );
+
+      // Rotate arrow
+      gsap.to(arrowRef.current, {
+        rotation: 180,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      // Animate options disappearing
+      gsap.to(optionsRef.current, {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        ease: "power3.in",
+        onComplete: () => {
+          gsap.set(optionsRef.current, { display: "none" });
+        },
+      });
+
+      // Rotate arrow back
+      gsap.to(arrowRef.current, {
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  }, [isDropdownOpen]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Handle option selection with animation
+  const handleSortChange = (newSort: "new" | "old") => {
+    if (sortBy === newSort) return;
+
+    if (sortOptionRef.current) {
+      // Animate the selected option without changing size
+      gsap.fromTo(
+        sortOptionRef.current,
+        { backgroundColor: "rgba(255, 255, 255, 0.2)" },
+        {
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          duration: 0.3,
+          ease: "power2.out",
+        }
+      );
+    }
+
+    updateUrl({ sort: newSort });
+    setIsDropdownOpen(false);
+  };
+
   return (
     <section className="py-20 relative">
       {/* Bottom Gradient */}
@@ -319,7 +412,7 @@ const NewsGrid: FC = () => {
             </div>
           </div>
 
-          {/* Sorting */}
+          {/* Sorting - Custom Dropdown */}
           <div className="flex flex-col space-y-4">
             <span className="text-white/60 text-sm flex items-center">
               <svg
@@ -337,17 +430,72 @@ const NewsGrid: FC = () => {
               </svg>
               Сортировать по:
             </span>
-            <select
-              className="bg-transparent text-white/60 border-none outline-none cursor-pointer"
-              value={sortBy}
-              onChange={(e) => {
-                const newSort = e.target.value as "new" | "old";
-                updateUrl({ sort: newSort });
-              }}
-            >
-              <option value="new">Дате публикации (новые)</option>
-              <option value="old">Дате публикации (старые)</option>
-            </select>
+            <div ref={dropdownRef} className="relative">
+              {/* Custom selected option */}
+              <div
+                ref={sortOptionRef}
+                className="bg-white/10 text-white px-4 py-2 rounded-lg border border-white/20 cursor-pointer flex justify-between items-center w-70 h-10"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }
+                }}
+                onFocus={() => {}}
+                onBlur={() => {}}
+              >
+                <div className="w-full overflow-visible">
+                  <span className="block text-white">
+                    {sortBy === "new"
+                      ? "Дате публикации (новые)"
+                      : "Дате публикации (старые)"}
+                  </span>
+                </div>
+                <svg
+                  ref={arrowRef}
+                  className="w-5 h-5 text-white/60 ml-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+
+              {/* Dropdown options */}
+              <div
+                ref={optionsRef}
+                className="absolute left-0 right-0 top-full bg-zinc-800 rounded-lg overflow-hidden z-20 border border-white/10 shadow-lg w-70"
+                style={{ display: "none" }}
+              >
+                <div
+                  className={`px-4 py-2 cursor-pointer hover:bg-white/10 transition-colors ${
+                    sortBy === "new" ? "bg-white/5" : ""
+                  } whitespace-nowrap h-10 flex items-center`}
+                  onClick={() => handleSortChange("new")}
+                >
+                  <span className="block truncate text-white">
+                    Дате публикации (новые)
+                  </span>
+                </div>
+                <div
+                  className={`px-4 py-2 cursor-pointer hover:bg-white/10 transition-colors ${
+                    sortBy === "old" ? "bg-white/5" : ""
+                  } whitespace-nowrap h-10 flex items-center`}
+                  onClick={() => handleSortChange("old")}
+                >
+                  <span className="block truncate text-white">
+                    Дате публикации (старые)
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

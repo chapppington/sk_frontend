@@ -105,8 +105,9 @@ export const TransitionProvider = ({
         // Wait for columns to be fully visible
         await new Promise((resolve) => setTimeout(resolve, 100));
 
-        // Reset scroll position while columns are covering the page
+        // Stop scrolling while columns are covering the page
         if (lenis) {
+          lenis.stop();
           lenis.scrollTo(0, { immediate: true });
           lenis.resize();
         }
@@ -127,6 +128,11 @@ export const TransitionProvider = ({
       }
       isAnimatingRef.current = true;
       setIsAnimating(true);
+
+      // Stop scrolling at the beginning of animation
+      if (lenis) {
+        lenis.stop();
+      }
 
       const columns = columnsRef.current;
       const logoContainer = logoRef.current;
@@ -157,10 +163,12 @@ export const TransitionProvider = ({
       });
 
       // Reset scroll position when columns are halfway through the animation
+      // and re-enable scrolling immediately after
       setTimeout(() => {
         if (lenis) {
           lenis.scrollTo(0, { immediate: true });
           lenis.resize();
+          lenis.start(); // Allow scrolling right after reset
         }
       }, 450); // middle of animation (300 + 150 delay)
 
@@ -178,6 +186,11 @@ export const TransitionProvider = ({
       let completedAnimations = 0;
       const totalAnimations = columns.length;
 
+      // Stop scrolling at the beginning of animation
+      if (lenis) {
+        lenis.stop();
+      }
+
       // Hide logo immediately when starting to animate out
       if (logoContainer) {
         logoContainer.style.transform = "translate(-50%, -150%)";
@@ -189,6 +202,15 @@ export const TransitionProvider = ({
         resolve();
         return;
       }
+
+      // Reset scroll position and re-enable scrolling early in the animation
+      setTimeout(() => {
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+          lenis.start(); // Allow scrolling right after reset
+        }
+      }, 100); // Earlier in the animation
 
       columns.forEach((column, i) => {
         // Ensure the column is in the correct position
@@ -211,11 +233,7 @@ export const TransitionProvider = ({
           if (completedAnimations === totalAnimations) {
             isAnimatingRef.current = false;
             setIsAnimating(false);
-            // Reset Lenis scroll position and update its bounds
-            if (lenis) {
-              lenis.scrollTo(0, { immediate: true });
-              lenis.resize();
-            }
+            // Don't reset scroll again, we already did it earlier
             resolve();
           }
         };

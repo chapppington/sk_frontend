@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Sample data structure
 const productCategories = [
@@ -153,14 +154,53 @@ const services = [
   },
 ];
 
+// Utility function to sanitize input and prevent XSS
+const sanitizeInput = (input: string | null): string => {
+  if (!input) return "";
+  // Remove any HTML tags and script content
+  return input
+    .replace(/<\/?[^>]+(>|$)/g, "")
+    .replace(/javascript:/gi, "")
+    .replace(/on\w+=/gi, "")
+    .replace(/data:/gi, "");
+};
+
+// Utility function to validate tab parameter
+const validateTabParam = (tab: string | null): "products" | "services" => {
+  return tab === "services" ? "services" : "products";
+};
+
+// Utility function to validate category parameter
+const validateCategoryParam = (category: string | null): string => {
+  // Check if category exists in productCategories
+  if (category && productCategories.some((cat) => cat.id === category)) {
+    return category;
+  }
+  return "all";
+};
+
+// Utility function to validate page parameter
+const validatePageParam = (page: string | null): number => {
+  if (!page) return 1;
+  const parsedPage = parseInt(page, 10);
+  return !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+};
+
 const CatalogSection: FC = () => {
-  const [activeTab, setActiveTab] = useState<"products" | "services">(
-    "products"
-  );
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Get and sanitize URL params
+  const tabParam = validateTabParam(searchParams.get("tab"));
+  const categoryParam = validateCategoryParam(searchParams.get("category"));
+  const searchParam = sanitizeInput(searchParams.get("search"));
+  const pageParam = validatePageParam(searchParams.get("page"));
+
+  const [activeTab, setActiveTab] = useState<"products" | "services">(tabParam);
+  const [activeCategory, setActiveCategory] = useState(categoryParam);
+  const [searchQuery, setSearchQuery] = useState(searchParam);
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchParam);
+  const [currentPage, setCurrentPage] = useState(pageParam);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const itemsPerPage = 6;
 
@@ -169,6 +209,29 @@ const CatalogSection: FC = () => {
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const noResultsRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Update URL params when state changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    params.set("tab", activeTab);
+
+    if (activeCategory !== "all") {
+      params.set("category", activeCategory);
+    }
+
+    if (debouncedSearchQuery) {
+      // Sanitize search query before adding to URL
+      params.set("search", sanitizeInput(debouncedSearchQuery));
+    }
+
+    if (currentPage > 1) {
+      params.set("page", currentPage.toString());
+    }
+
+    const url = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState(null, "", url);
+  }, [activeTab, activeCategory, debouncedSearchQuery, currentPage]);
 
   // Debounce search query
   useEffect(() => {
@@ -288,7 +351,7 @@ const CatalogSection: FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(sanitizeInput(e.target.value))}
               placeholder="Поиск по каталогу"
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/80 focus:outline-none focus:border-white/20"
             />
@@ -343,7 +406,7 @@ const CatalogSection: FC = () => {
                         setActiveCategory(category.id);
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full px-4 py-2 text-left transition-colors ${
+                      className={`w-full px-4 py-2 text-left transition-colors select-none ${
                         activeCategory === category.id
                           ? "text-white bg-white/10"
                           : "text-white/80 hover:text-white hover:bg-white/5"
@@ -396,7 +459,7 @@ const CatalogSection: FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(sanitizeInput(e.target.value))}
               placeholder="Поиск по каталогу"
               className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/80 focus:outline-none focus:border-white/20"
             />
@@ -424,7 +487,7 @@ const CatalogSection: FC = () => {
                 <button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`w-fit inline-block text-left px-4 py-3 rounded-lg transition-all duration-200 border ${
+                  className={`w-fit inline-block text-left px-4 py-3 rounded-lg transition-all duration-200 border select-none ${
                     activeCategory === category.id
                       ? "text-white bg-white/10 border-white/20 hover:scale-[0.99] active:scale-[0.93]"
                       : "text-white/80 hover:text-white hover:bg-white/5 border-white/10 hover:scale-[0.99] active:scale-[0.93]"
