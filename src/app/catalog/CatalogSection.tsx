@@ -187,7 +187,6 @@ const validatePageParam = (page: string | null): number => {
 };
 
 const CatalogSection: FC = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   // Get and sanitize URL params
@@ -636,8 +635,43 @@ const CatalogSection: FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <div ref={noResultsRef} className="text-white/80">
-                    Ничего не найдено
+                  <div
+                    ref={noResultsRef}
+                    className="flex flex-col items-center justify-center py-12 text-center"
+                  >
+                    <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                      <svg
+                        className="w-12 h-12 text-white/40"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-white text-xl mb-2">
+                      По вашему запросу продукция не найдена
+                    </h3>
+                    <p className="text-white/60 max-w-md mb-6">
+                      Попробуйте изменить параметры поиска или категорию
+                    </p>
+                    <button
+                      onClick={() => {
+                        if (searchTimeoutRef.current) {
+                          clearTimeout(searchTimeoutRef.current);
+                        }
+                        setSearchQuery("");
+                        setDebouncedSearchQuery("");
+                      }}
+                      className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
+                    >
+                      Сбросить поиск
+                    </button>
                   </div>
                 )}
               </>
@@ -646,7 +680,7 @@ const CatalogSection: FC = () => {
                 {filteredServices.length > 0 ? (
                   <div
                     ref={servicesGridRef}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16"
                   >
                     {filteredServices.map((service) => (
                       <div key={service.id} className="flex flex-col group">
@@ -687,8 +721,43 @@ const CatalogSection: FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <div ref={noResultsRef} className="text-white/80">
-                    Ничего не найдено
+                  <div
+                    ref={noResultsRef}
+                    className="flex flex-col items-center justify-center py-12 text-center"
+                  >
+                    <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                      <svg
+                        className="w-12 h-12 text-white/40"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-white text-xl mb-2">
+                      По вашему запросу услуги не найдены
+                    </h3>
+                    <p className="text-white/60 max-w-md mb-6">
+                      Попробуйте изменить параметры поиска
+                    </p>
+                    <button
+                      onClick={() => {
+                        if (searchTimeoutRef.current) {
+                          clearTimeout(searchTimeoutRef.current);
+                        }
+                        setSearchQuery("");
+                        setDebouncedSearchQuery("");
+                      }}
+                      className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
+                    >
+                      Сбросить поиск
+                    </button>
                   </div>
                 )}
               </>
