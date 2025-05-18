@@ -592,23 +592,45 @@ const CatalogSection: FC = () => {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                   >
                     {currentProducts.map((product) => (
-                      <div key={product.id} className="flex flex-col">
-                        <div className="bg-white rounded-xl overflow-hidden mb-4">
-                          <Image
-                            width={300}
-                            height={300}
-                            src={product.image}
-                            alt={product.title}
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                        <h3 className="text-white text-lg mb-3">
-                          {product.title}
-                        </h3>
-                        <TransitionLink href={`/product/${product.slug}`}>
-                          <span className="text-white/80 hover:text-white transition-colors">
-                            Подробнее
-                          </span>
+                      <div key={product.id} className="flex flex-col group">
+                        <TransitionLink
+                          href={`/product/${product.slug}`}
+                          className="block"
+                        >
+                          <div className="bg-white rounded-xl overflow-hidden mb-4">
+                            <Image
+                              width={300}
+                              height={300}
+                              src={product.image}
+                              alt={product.title}
+                              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="space-y-4">
+                            <h3 className="text-white text-lg transition-colors duration-300 group-hover:text-white/80">
+                              {product.title}
+                            </h3>
+                            <div className="inline-flex items-center">
+                              <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-all duration-200 group-hover:scale-[0.99] group-active:scale-[0.93]">
+                                <svg
+                                  className="w-6 h-6 text-white"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M7 17L17 7M17 7H7M17 7V17"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <span className="ml-4 text-white text-lg">
+                                Подробнее
+                              </span>
+                            </div>
+                          </div>
                         </TransitionLink>
                       </div>
                     ))}
@@ -627,17 +649,39 @@ const CatalogSection: FC = () => {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                   >
                     {filteredServices.map((service) => (
-                      <div key={service.id} className="flex flex-col">
-                        <h3 className="text-white text-lg mb-3">
-                          {service.title}
-                        </h3>
-                        <p className="text-white/80 mb-3">
-                          {service.description}
-                        </p>
-                        <TransitionLink href={`/service/${service.category}`}>
-                          <span className="text-white/80 hover:text-white transition-colors">
-                            Подробнее
-                          </span>
+                      <div key={service.id} className="flex flex-col group">
+                        <TransitionLink
+                          href={`/service/${service.category}`}
+                          className="block"
+                        >
+                          <div className="space-y-4">
+                            <h3 className="text-white text-lg transition-colors duration-300 group-hover:text-white/80">
+                              {service.title}
+                            </h3>
+                            <p className="text-white/80 transition-colors duration-300 group-hover:text-white/80">
+                              {service.description}
+                            </p>
+                            <div className="inline-flex items-center">
+                              <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-all duration-200 group-hover:scale-[0.99] group-active:scale-[0.93]">
+                                <svg
+                                  className="w-6 h-6 text-white"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M7 17L17 7M17 7H7M17 7V17"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <span className="ml-4 text-white text-lg">
+                                Подробнее
+                              </span>
+                            </div>
+                          </div>
                         </TransitionLink>
                       </div>
                     ))}
