@@ -39,18 +39,7 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
         setTotalSections,
       }}
     >
-      <ReactLenis
-        root
-        options={{
-          lerp: 0.1,
-          duration: 1.2,
-          smoothWheel: true,
-          touchMultiplier: 2,
-          infinite: false,
-          orientation: "vertical",
-          gestureOrientation: "vertical",
-        }}
-      >
+      <ReactLenis root>
         <ScrollManager />
         {children}
       </ReactLenis>

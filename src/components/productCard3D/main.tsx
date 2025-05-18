@@ -2,13 +2,9 @@
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const TempScene = dynamic(
-  () => import("./features/Scene"),
-  { ssr: false }
-);
-
+const TempScene = dynamic(() => import("./features/Scene"), { ssr: false });
 
 function ProductScene() {
   return (
@@ -25,7 +21,6 @@ function ProductScene() {
           near: 0.1,
           far: 1000,
         }}
-        
       >
         <TempScene />
         {/* <mesh position={[0, 0, 0]}>
