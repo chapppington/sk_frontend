@@ -25,10 +25,20 @@ export const TransitionProvider = ({
   children: React.ReactNode;
 }) => {
   const columnsRef = useRef<HTMLDivElement[]>([]);
-  const isAnimatingRef = useRef(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const isAnimatingRef = useRef(true);
+  const [isAnimating, setIsAnimating] = useState(true);
   const logoRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
+
+  // Add initial animation out effect
+  useEffect(() => {
+    const initialAnimation = async () => {
+      // Wait a short moment before starting the animation out
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await animateOut();
+    };
+    initialAnimation();
+  }, []);
 
   useEffect(() => {
     // Create columns once on mount
@@ -41,9 +51,9 @@ export const TransitionProvider = ({
         left: ${(i * 100) / 6}%;
         width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
         height: 100vh;
-        background-color: #0F0D1F;
+        background-color: #080e2c;
         z-index: 9999;
-        transform: translateY(-100%);
+        transform: translateY(0); /* Start with columns visible */
         will-change: transform;
         pointer-events: auto;
       `;
@@ -58,10 +68,10 @@ export const TransitionProvider = ({
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -150%);
+      transform: translate(-50%, -50%); /* Start with logo visible */
       z-index: 10000;
       pointer-events: none;
-      opacity: 0;
+      opacity: 1; /* Start with logo visible */
       transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease;
     `;
 
