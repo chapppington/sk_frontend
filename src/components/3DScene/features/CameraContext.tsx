@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 
@@ -39,7 +39,18 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
         setTotalSections,
       }}
     >
-      <ReactLenis root>
+      <ReactLenis
+        root
+        options={{
+          lerp: 0.1,
+          duration: 1.2,
+          smoothWheel: true,
+          touchMultiplier: 2,
+          infinite: false,
+          orientation: "vertical",
+          gestureOrientation: "vertical",
+        }}
+      >
         <ScrollManager />
         {children}
       </ReactLenis>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useLenis } from "lenis/react";
 
 export default function CustomScrollbar() {
   const [scrollPercentage, setScrollPercentage] = useState(0);
@@ -16,20 +17,21 @@ export default function CustomScrollbar() {
   const startY = useRef(0);
   const startScrollPercentage = useRef(0);
   const pathname = usePathname();
+  const lenis = useLenis();
   const navbarHeight = 72; // Adjust this to match your navbar height in pixels
   const percentageVisibilityThreshold = 2; // Only show percentage after this threshold
 
   // Reset scrollbar state on page transition
   useEffect(() => {
     setScrollPercentage(0);
-    window.scrollTo({
-      top: 0,
-      behavior: "auto",
-    });
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname, lenis]);
 
   useEffect(() => {
-    // Calculate real document height (including content beyond viewport)
+    if (!lenis) return;
+
     const calculateHeights = () => {
       const docHeight = Math.max(
         document.body.scrollHeight,
@@ -45,10 +47,7 @@ export default function CustomScrollbar() {
     };
 
     const handleScroll = () => {
-      const scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
+      const scrollTop = lenis.scroll;
       const maxScroll = contentHeight - viewportHeight;
 
       if (maxScroll <= 0) return;
@@ -97,10 +96,7 @@ export default function CustomScrollbar() {
       // Set scroll position based on percentage
       const newScrollPosition =
         ((contentHeight - viewportHeight) * newPercentage) / 100;
-      window.scrollTo({
-        top: newScrollPosition,
-        behavior: "auto",
-      });
+      lenis.scrollTo(newScrollPosition, { immediate: true });
     };
 
     const handleMouseUp = () => {
@@ -113,7 +109,7 @@ export default function CustomScrollbar() {
     calculateHeights();
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
+    lenis.on("scroll", handleScroll);
     window.addEventListener("resize", calculateHeights);
 
     // Scrollbar drag events
@@ -129,7 +125,7 @@ export default function CustomScrollbar() {
     const intervalId = setInterval(calculateHeights, 1000);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      lenis.off("scroll", handleScroll);
       window.removeEventListener("resize", calculateHeights);
 
       scrollbarRef.current?.removeEventListener("mousedown", handleMouseDown);
@@ -142,16 +138,15 @@ export default function CustomScrollbar() {
 
       clearInterval(intervalId);
     };
-  }, [contentHeight, viewportHeight, scrollPercentage]);
+  }, [contentHeight, viewportHeight, scrollPercentage, lenis]);
 
   const scrollTo = (percentage: number) => {
     const maxScroll = contentHeight - viewportHeight;
     const targetScrollTop = (percentage / 100) * maxScroll;
 
-    window.scrollTo({
-      top: targetScrollTop,
-      behavior: "smooth",
-    });
+    if (lenis) {
+      lenis.scrollTo(targetScrollTop);
+    }
   };
 
   const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
