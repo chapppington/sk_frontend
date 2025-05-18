@@ -259,7 +259,7 @@ export default function Scene(){
       },2.0)
       .to(terrain.scene.position, {
         y: 0,
-        duration: 5,
+        duration: 3,
         delay: 0,
         ease: Power4.easeOut
       },0.5)

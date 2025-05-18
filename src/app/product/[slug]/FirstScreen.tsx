@@ -4,6 +4,12 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
+import dynamic from 'next/dynamic'
+
+const ProductScene = dynamic(
+  () => import("@/components/productCard3D/main"),
+  { ssr: false }
+);
 
 const stats = [
   {
@@ -29,7 +35,10 @@ export default function FirstScreen() {
       {/* Breadcrumbs */}
 
       {/* Main Content */}
-      <CustomContainer className="flex flex-col items-end">
+      <CustomContainer className="flex flex-row items-stretch">
+        <div className="w-1/2 flex items-center">
+          <ProductScene />
+        </div>
         <div className="w-1/2">
           <Breadcrumbs
             className="pb-16"

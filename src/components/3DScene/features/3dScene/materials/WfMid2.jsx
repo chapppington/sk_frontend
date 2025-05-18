@@ -19,7 +19,7 @@ export function WfMid2() {
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
                 uRevealDistance: { value: 100.0 },
 
-                uAlpha: { value: 0.02 },
+                uAlpha: { value: 0.03 },
 
                 uFluctuationFrequency: { value: 0.0 },
                 uFluctuationAmplitude: { value: 0.0 }
