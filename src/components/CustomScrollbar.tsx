@@ -112,16 +112,6 @@ export default function CustomScrollbar() {
     lenis.on("scroll", handleScroll);
     window.addEventListener("resize", calculateHeights);
 
-    // Add ResizeObserver to detect content changes
-    const resizeObserver = new ResizeObserver(() => {
-      calculateHeights();
-      // Force a scroll update after height recalculation
-      handleScroll();
-    });
-
-    // Observe the document body for size changes
-    resizeObserver.observe(document.body);
-
     // Scrollbar drag events
     scrollbarRef.current?.addEventListener("mousedown", handleMouseDown);
     percentageRef.current?.addEventListener(
@@ -131,10 +121,12 @@ export default function CustomScrollbar() {
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 
+    // Update less frequently to reduce performance impact
+    const intervalId = setInterval(calculateHeights, 1000);
+
     return () => {
       lenis.off("scroll", handleScroll);
       window.removeEventListener("resize", calculateHeights);
-      resizeObserver.disconnect();
 
       scrollbarRef.current?.removeEventListener("mousedown", handleMouseDown);
       percentageRef.current?.removeEventListener(
@@ -143,6 +135,8 @@ export default function CustomScrollbar() {
       );
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+
+      clearInterval(intervalId);
     };
   }, [lenis, contentHeight, viewportHeight, scrollPercentage]);
 

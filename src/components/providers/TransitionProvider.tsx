@@ -46,7 +46,7 @@ export const TransitionProvider = ({
         height: ${
           i === 5 ? "101vh" : "100vh"
         }; /* Extra height for last column */
-        background-color:rgb(3, 28, 53);
+        background-color: #0F0D1F;
         z-index: 99999; /* Increased z-index to ensure it's above everything */
         transform: translateY(0);
         will-change: transform;
@@ -193,6 +193,7 @@ export const TransitionProvider = ({
       // Stop scrolling at the beginning of animation
       if (lenis) {
         lenis.stop();
+        lenis.scrollTo(0, { immediate: true });
       }
 
       // Hide logo immediately when starting to animate out
@@ -206,15 +207,6 @@ export const TransitionProvider = ({
         resolve();
         return;
       }
-
-      // Reset scroll position and re-enable scrolling early in the animation
-      setTimeout(() => {
-        if (lenis) {
-          lenis.scrollTo(0, { immediate: true });
-          lenis.resize();
-          lenis.start(); // Allow scrolling right after reset
-        }
-      }, 100); // Earlier in the animation
 
       columns.forEach((column, i) => {
         // Ensure the column is in the correct position
@@ -237,8 +229,31 @@ export const TransitionProvider = ({
           if (completedAnimations === totalAnimations) {
             isAnimatingRef.current = false;
             setIsAnimating(false);
-            // Don't reset scroll again, we already did it earlier
-            resolve();
+
+            // Wait for next frame and DOM to be ready
+            requestAnimationFrame(() => {
+              // Check if document is ready
+              if (document.readyState === "complete") {
+                if (lenis) {
+                  lenis.resize();
+                  lenis.start();
+                }
+                resolve();
+              } else {
+                // If document is not ready, wait for it
+                window.addEventListener(
+                  "load",
+                  () => {
+                    if (lenis) {
+                      lenis.resize();
+                      lenis.start();
+                    }
+                    resolve();
+                  },
+                  { once: true }
+                );
+              }
+            });
           }
         };
       });

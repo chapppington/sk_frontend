@@ -2,11 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { GUI } from "lil-gui";
 
 const BGGradient = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const guiRef = useRef<GUI | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -30,7 +28,7 @@ const BGGradient = () => {
         uScale3: { value: 1.08 },
         uScaleVignette: { value: 0.523 },
         uVignetteBorderFade: { value: 0.216 },
-        uAlpha: { value: .8 },
+        uAlpha: { value: 0.8 },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -134,49 +132,6 @@ const BGGradient = () => {
     scene.add(mesh);
     camera.position.z = 1;
 
-    // Initialize GUI only in development mode
-    let gui: GUI | null = null;
-    if (process.env.NODE_ENV === "development") {
-      gui = new GUI();
-      guiRef.current = gui;
-
-      // Add color controls
-      const colorsFolder = gui.addFolder("Colors");
-      colorsFolder
-        .addColor(gradientMaterial.uniforms.uColor1, "value")
-        .name("Color 1");
-      colorsFolder
-        .addColor(gradientMaterial.uniforms.uColor2, "value")
-        .name("Color 2");
-      colorsFolder
-        .addColor(gradientMaterial.uniforms.uColor3, "value")
-        .name("Color 3");
-
-      // Add animation controls
-      const animationFolder = gui.addFolder("Animation");
-      animationFolder
-        .add(gradientMaterial.uniforms.uTimeScale, "value", 0, 1, 0.01)
-        .name("Time Scale");
-      animationFolder
-        .add(gradientMaterial.uniforms.uScale, "value", 0.5, 2, 0.01)
-        .name("Scale");
-      animationFolder
-        .add(gradientMaterial.uniforms.uScale3, "value", 0.5, 2, 0.01)
-        .name("Scale 3");
-
-      // Add vignette controls
-      const vignetteFolder = gui.addFolder("Vignette");
-      vignetteFolder
-        .add(gradientMaterial.uniforms.uScaleVignette, "value", 0, 1, 0.01)
-        .name("Scale");
-      vignetteFolder
-        .add(gradientMaterial.uniforms.uVignetteBorderFade, "value", 0, 1, 0.01)
-        .name("Border Fade");
-      vignetteFolder
-        .add(gradientMaterial.uniforms.uAlpha, "value", 0, 1, 0.01)
-        .name("Alpha");
-    }
-
     // Animation loop
     function animate(time: number) {
       requestAnimationFrame(animate);
@@ -199,9 +154,6 @@ const BGGradient = () => {
       renderer.dispose();
       geometry.dispose();
       gradientMaterial.dispose();
-      if (gui) {
-        gui.destroy();
-      }
     };
   }, []);
 
