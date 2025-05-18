@@ -42,7 +42,7 @@ export const TransitionProvider = ({
         left: ${(i * 100) / 6}%;
         width: ${100 / 6 + 0.1}%; /* Slightly wider to prevent gaps */
         height: 100vh;
-        background-color: #080e2c;
+        background-color:rgb(6, 59, 112);
         z-index: 99999; /* Increased z-index to ensure it's above everything */
         transform: translateY(0);
         will-change: transform;
@@ -102,6 +102,16 @@ export const TransitionProvider = ({
   useEffect(() => {
     if (isReady) {
       const initialAnimation = async () => {
+        // Wait for columns to be fully visible
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Reset scroll position while columns are covering the page
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+        }
+
+        // Wait a bit more before animating out
         await new Promise((resolve) => setTimeout(resolve, 100));
         await animateOut();
       };
@@ -145,6 +155,14 @@ export const TransitionProvider = ({
           }
         );
       });
+
+      // Reset scroll position when columns are halfway through the animation
+      setTimeout(() => {
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+        }
+      }, 450); // This is halfway through the animation (300ms/2)
 
       // Wait for all columns to cover the page
       setTimeout(() => {
