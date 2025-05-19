@@ -16,7 +16,8 @@ const ContactUsSection: React.FC = () => {
           {/* Left column - Headings and description */}
           <div className="lg:w-1/2">
             {/* Main Heading */}
-            <GradientHeading className="mb-16">
+
+            <GradientHeading className="mb-8">
               Хотите сотрудничать <br />с нами?
             </GradientHeading>
 

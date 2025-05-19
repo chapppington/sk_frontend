@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import { Suspense } from "react";
 import ResortVideo from "@/components/ui/ResortVideo";
+import Copy from "@/components/textAnimation/Copy";
 
 const TasksScreen = () => {
   return (
@@ -21,23 +22,28 @@ const TasksScreen = () => {
         />
 
         {/* Headings and Description */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
+        <div className="flex flex-col md:flex-row md:justify-between gap-8 my-12">
           <div>
-            <GradientHeading className="mb-2">
-              Курортный комплекс «Манжерок»
-            </GradientHeading>
-           
+            <Copy>
+              <GradientHeading className="mb-2 2xl:text-6xl">
+                Курортный комплекс «Манжерок»
+              </GradientHeading>
+            </Copy>
           </div>
-          <div className="max-w-xl text-white/60 text-lg md:text-base">
-            Круглогодичный курортный комплекс «Манжерок» расположен у
-            знаменитого озера Манжерокское у подножия горы Малая Синюха – это
-            центр семейного отдыха Республики Алтай, привлекающий туристов со
-            всей России, Азиатского региона и Европы.
+          <div>
+            <Copy>
+              <div className="max-w-xl text-white/60 text-lg md:text-base">
+                Круглогодичный курортный комплекс «Манжерок» расположен у
+                знаменитого озера Манжерокское у подножия горы Малая Синюха –
+                это центр семейного отдыха Республики Алтай, привлекающий
+                туристов со всей России, Азиатского региона и Европы.
+              </div>
+            </Copy>
           </div>
         </div>
 
         {/* Image/Video Preview */}
-        <div className="relative w-full aspect-[2.4/1] rounded-2xl overflow-hidden shadow-lg">
+        <div className="relative w-full aspect-[2.8/1] rounded-2xl overflow-hidden shadow-lg">
           <Suspense
             fallback={
               <div className="w-full h-full bg-black/20 rounded-2xl animate-pulse" />
@@ -45,7 +51,7 @@ const TasksScreen = () => {
           >
             <ResortVideo
               src="/videos/manzherok.mp4"
-              poster="/images/manzherok-poster.jpg"
+              poster="/production_bg_new.webp"
               captions="/videos/manzherok-ru.vtt"
             />
           </Suspense>

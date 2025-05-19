@@ -23,9 +23,20 @@ export default function CustomScrollbar() {
 
   // Reset scrollbar state on page transition
   useEffect(() => {
-    setScrollPercentage(0);
-    if (lenis) {
-      lenis.scrollTo(0, { immediate: true });
+    const isDev = process.env.NODE_ENV === "development";
+    const resetScroll = () => {
+      setScrollPercentage(0);
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      }
+    };
+
+    if (isDev) {
+      // In development, add a small delay to prevent multiple rapid resets
+      const timeoutId = setTimeout(resetScroll, 100);
+      return () => clearTimeout(timeoutId);
+    } else {
+      resetScroll();
     }
   }, [pathname, lenis]);
 

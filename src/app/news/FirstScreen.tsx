@@ -267,7 +267,7 @@ const FirstScreen: FC = () => {
                   href={`/news/${currentNews.slug}`}
                   className="block hover:opacity-90 transition-opacity"
                 >
-                  <GradientHeading>{currentNews.title}</GradientHeading>
+                  <GradientHeading className="mb-4">{currentNews.title}</GradientHeading>
                 </TransitionLink>
               </motion.div>
 

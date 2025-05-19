@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
+import BracketsText from "@/components/ui/BracketsText";
+import Copy from "@/components/textAnimation/Copy";
 
 interface TaskItem {
   title: string;
@@ -14,12 +16,12 @@ const taskItems: TaskItem[] = [
   {
     title: "Подзадача",
     description:
-      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи.",
+      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи. Это более подробное описание, которое включает в себя все необходимые детали и требования. В этом тексте мы можем описать цели, сроки, необходимые ресурсы и ожидаемые результаты выполнения данной подзадачи.",
   },
   {
     title: "Подзадача",
     description:
-      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи.",
+      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи. Это более подробное описание, которое включает в себя все необходимые детали и требования. В этом тексте мы можем описать цели, сроки, необходимые ресурсы и ожидаемые результаты выполнения данной подзадачи.",
   },
 ];
 
@@ -110,7 +112,7 @@ export default function TasksScreen() {
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar */}
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
-            <div className="text-white/60">[ЗАДАЧА]</div>
+            <BracketsText className="text-white/60 mb-8">РЕШЕНИЕ</BracketsText>
           </div>
 
           {/* Main Content */}
@@ -118,13 +120,17 @@ export default function TasksScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0 md:pl-8">
                 {/* Heading and Description */}
-                <GradientHeading>Заголовок о задаче проекта</GradientHeading>
-                <p className="text-white/60 text-base my-12 ">
-                  Круглогодичный курортный комплекс «Манжерок» расположен у
-                  знаменитого озера Манжерокское у подножия горы Малая Синюха –
-                  это центр семейного отдыха Республики Алтай, привлекающий
-                  туристов со всей России, Азиатского региона и Европы.
-                </p>
+                <Copy>
+                  <GradientHeading>Заголовок о задаче проекта</GradientHeading>
+                </Copy>
+                <Copy>
+                  <p className="text-white/60 text-base my-12 ">
+                    Круглогодичный курортный комплекс «Манжерок» расположен у
+                    знаменитого озера Манжерокское у подножия горы Малая Синюха
+                    – это центр семейного отдыха Республики Алтай, привлекающий
+                    туристов со всей России, Азиатского региона и Европы.
+                  </p>
+                </Copy>
 
                 {/* Tasks List */}
                 {taskItems.map((item, idx) => (

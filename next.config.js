@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // images: {
-  //   domains: ["testsk2.ru"],
-  // },
+  images: {
+    domains: ["testsk2.ru", "randomuser.me"],
+  },
   // async headers() {
   //   return [
   //     {
@@ -47,7 +47,7 @@ const nextConfig = {
         as: "*.js",
       },
     },
-  }
+  },
 };
 
 module.exports = nextConfig;

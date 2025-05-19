@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 const products = [
   {
@@ -128,10 +129,10 @@ export default function ProductsSlider() {
 
         <div className="flex flex-col md:flex-row gap-12">
           <div className="flex-1 flex flex-col justify-end">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-white font-light mb-8">
+            <GradientHeading className="mb-6">
               Низковольтные
               <br /> комплектные устройства
-            </h2>
+            </GradientHeading>
 
             <div className="flex flex-wrap items-center gap-4 mb-8">
               <span className="text-white/60 text-sm">
@@ -151,7 +152,7 @@ export default function ProductsSlider() {
               </div>
             </div>
 
-            <p className="text-white/60 text-lg mb-12 max-w-2xl">
+            <p className="text-white/60 text-lg mb-4 max-w-2xl">
               Как уже неоднократно упомянуто, действия представителей оппозиции
               объявлены нарушающими общечеловеческие нормы этики и морали.
             </p>

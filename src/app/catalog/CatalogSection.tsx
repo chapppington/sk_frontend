@@ -667,10 +667,11 @@ const CatalogSection: FC = () => {
                         }
                         setSearchQuery("");
                         setDebouncedSearchQuery("");
+                        setActiveCategory("all");
                       }}
                       className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
                     >
-                      Сбросить поиск
+                      Сбросить фильтры
                     </button>
                   </div>
                 )}

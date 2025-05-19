@@ -17,7 +17,7 @@ export const GradientHeading = forwardRef<
       ref={ref}
       className={`${
         className || ""
-      } text-2xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl max-w-5xl mb-4`}
+      } text-2xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl max-w-5xl`}
       style={{ overflow: "hidden" }}
     >
       <span className={styles.gradientHeading}>{children}</span>

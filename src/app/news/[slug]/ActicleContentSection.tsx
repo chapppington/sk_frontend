@@ -3,7 +3,6 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
-import Link from "next/link";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import Copy from "@/components/textAnimation/Copy";
@@ -50,7 +49,7 @@ export default function ArticleContentSection({
         {/* Article Title */}
         <div>
           <Copy>
-            <GradientHeading className="leading-tight">{title}</GradientHeading>
+            <GradientHeading className="leading-tight mb-6">{title}</GradientHeading>
           </Copy>
         </div>
 
@@ -81,7 +80,7 @@ export default function ArticleContentSection({
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <Copy key={index} triggerStart="top 100%">
+            <Copy key={index} triggerStart="top 75%" delay={0}>
               <p className="text-white/90 text-lg leading-loose mb-6">
                 {paragraph}
               </p>

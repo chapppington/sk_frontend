@@ -9,6 +9,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import MainButton from "@/components/ui/MainButton";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 // Sample data for portfolio items
 const portfolioItems = [
@@ -138,14 +139,14 @@ const PortfolioSection = () => {
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-5xl text-white font-light mb-8 portfolio-title">
+                  <GradientHeading className="mb-6">
                     {portfolioItems[activeIndex].title}
-                  </h2>
-                  <p className="text-white/60 text-lg mb-12 portfolio-description">
+                  </GradientHeading>
+                  <p className="text-white/60 text-lg mb-4 portfolio-description">
                     {portfolioItems[activeIndex].description}
                   </p>
 
-                  <MainButton text="Узнать подробнее" />
+                  <MainButton text="Узнать подробнее" href="/portfolio/project1" />
                 </motion.div>
               </AnimatePresence>
             </div>

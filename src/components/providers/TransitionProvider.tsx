@@ -99,6 +99,8 @@ export const TransitionProvider = ({
       if (logoContainer.parentNode) {
         logoContainer.parentNode.removeChild(logoContainer);
       }
+      // Clear initialization flag on unmount
+      sessionStorage.removeItem("hasInitialized");
     };
   }, []);
 
@@ -106,12 +108,19 @@ export const TransitionProvider = ({
   useEffect(() => {
     if (isReady) {
       const initialAnimation = async () => {
+        // Force scroll reset immediately when component is ready
+        if (lenis) {
+          lenis.stop();
+          window.scrollTo(0, 0);
+          lenis.scrollTo(0, { immediate: true });
+        }
+
         // Wait for columns to be fully visible
         await new Promise((resolve) => setTimeout(resolve, 100));
 
-        // Stop scrolling while columns are covering the page
+        // Ensure scroll is reset again after a short delay
         if (lenis) {
-          lenis.stop();
+          window.scrollTo(0, 0);
           lenis.scrollTo(0, { immediate: true });
           lenis.resize();
         }
@@ -119,6 +128,14 @@ export const TransitionProvider = ({
         // Wait a bit more before animating out
         await new Promise((resolve) => setTimeout(resolve, 100));
         await animateOut();
+
+        // Final scroll reset after animation
+        if (lenis) {
+          window.scrollTo(0, 0);
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+          lenis.start();
+        }
       };
       initialAnimation();
     }
@@ -133,9 +150,14 @@ export const TransitionProvider = ({
       isAnimatingRef.current = true;
       setIsAnimating(true);
 
-      // Stop scrolling at the beginning of animation
+      // Stop scrolling and reset position at the beginning of animation
       if (lenis) {
         lenis.stop();
+        // Force scroll reset with a small delay to ensure DOM is ready
+        setTimeout(() => {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+        }, 0);
       }
 
       const columns = columnsRef.current;
@@ -190,10 +212,14 @@ export const TransitionProvider = ({
       let completedAnimations = 0;
       const totalAnimations = columns.length;
 
-      // Stop scrolling at the beginning of animation
+      // Stop scrolling and reset position at the beginning of animation
       if (lenis) {
         lenis.stop();
-        lenis.scrollTo(0, { immediate: true });
+        // Force scroll reset with a small delay to ensure DOM is ready
+        setTimeout(() => {
+          lenis.scrollTo(0, { immediate: true });
+          lenis.resize();
+        }, 0);
       }
 
       // Hide logo immediately when starting to animate out
