@@ -173,7 +173,7 @@ const MoreProjectsScreen: FC = () => {
                       </div>
 
                       <div className="w-full">
-                        <h3 className="text-2xl text-white font-normal mb-6">
+                        <h3 className="text-3xl text-white max-w-[66.67%]">
                           {project.title}
                         </h3>
                         <MainButton

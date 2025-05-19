@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { FC } from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
@@ -8,7 +8,7 @@ import Input from "@/components/ui/Input";
 import CustomContainer from "../ui/CustomContainer";
 import Copy from "@/components/ui/textAnimation/Copy";
 
-const ContactUsSection: React.FC = () => {
+const ContactUsSection: FC = () => {
   return (
     <section id="contact_us_section" className="bg-transparent py-24">
       <CustomContainer>

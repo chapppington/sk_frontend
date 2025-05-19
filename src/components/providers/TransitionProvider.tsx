@@ -32,19 +32,34 @@ export const TransitionProvider = ({
   const lenis = useLenis();
 
   useEffect(() => {
+    // Function to determine number of columns based on screen width
+    const getColumnsCount = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        return 3; // Mobile
+      } else if (width < 1024) {
+        return 4; // Tablet
+      } else {
+        return 6; // Desktop
+      }
+    };
+
     // Create columns once on mount
+    const columnCount = getColumnsCount();
     const columns: HTMLDivElement[] = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < columnCount; i++) {
       const column = document.createElement("div");
       column.style.cssText = `
         position: fixed;
         top: 0;
-        left: ${(i * 100) / 6}%;
+        left: ${(i * 100) / columnCount}%;
         width: ${
-          i === 5 ? 100 / 6 + 0.2 : 100 / 6 + 0.1
+          i === columnCount - 1
+            ? 100 / columnCount + 0.2
+            : 100 / columnCount + 0.1
         }%; /* Extra width for last column */
         height: ${
-          i === 5 ? "101vh" : "100vh"
+          i === columnCount - 1 ? "101vh" : "100vh"
         }; /* Extra height for last column */
         background-color: #0F0D1F;
         z-index: 99999; /* Increased z-index to ensure it's above everything */
