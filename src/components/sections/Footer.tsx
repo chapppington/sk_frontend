@@ -1,8 +1,10 @@
 "use client";
 
 import { FC } from "react";
-import CustomContainer from "../ui/CustomContainer";
+import Image from "next/image";
+import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 const Footer: FC = () => {
   return (
@@ -12,9 +14,15 @@ const Footer: FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start mb-12">
           {/* Logo Section */}
           <div className="mb-8 md:mb-0">
-            <a href="#" className="flex items-center">
-              <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
-            </a>
+            <TransitionLink href="/" className="flex items-center">
+              <Image
+                src="/logo.svg"
+                alt="СИБКОМПЛЕКТ"
+                width={150}
+                height={32}
+                className="h-8"
+              />
+            </TransitionLink>
           </div>
 
           {/* Navigation Links */}
@@ -22,19 +30,20 @@ const Footer: FC = () => {
             {/* Mobile Links (full width with arrows) */}
             <div className="md:hidden w-full space-y-4">
               {[
-                "Каталог",
-                "Проекты",
-                "О компании",
-                "О производстве",
-                "Вакансии",
-                "Контакты",
+                { name: "Каталог", link: "/catalog" },
+                { name: "Проекты", link: "/projects" },
+                { name: "О компании", link: "/about" },
+                { name: "О производстве", link: "/production" },
+                { name: "Сертификаты", link: "/certificates" },
+                { name: "Вакансии", link: "/vacancies" },
+                { name: "Контакты", link: "/contacts" },
               ].map((item) => (
-                <div key={item} className="border-b border-white/30 pb-4">
-                  <a
-                    href="#"
+                <div key={item.name} className="border-b border-white/30 pb-4">
+                  <TransitionLink
+                    href={item.link}
                     className="flex justify-between items-center text-white"
                   >
-                    <span>{item}</span>
+                    <span>{item.name}</span>
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -48,25 +57,31 @@ const Footer: FC = () => {
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </a>
+                  </TransitionLink>
                 </div>
               ))}
             </div>
 
             {/* Desktop Links (grid) */}
-            <div className="hidden md:grid grid-cols-4 gap-4">
-              {["Каталог", "Проекты", "О компании", "О производстве"].map(
-                (item) => (
-                  <div key={item} className="col-span-1 text-center">
-                    <a
-                      href="#"
-                      className="text-white hover:text-white/80 text-sm"
+            <div className="hidden md:flex justify-center items-center w-full">
+              <div className="flex space-x-8 mx-auto">
+                {[
+                  { name: "О компании", link: "/about" },
+                  { name: "О производстве", link: "/production" },
+                  { name: "Сертификаты", link: "/certificates" },
+                  { name: "Вакансии", link: "/vacancies" },
+                  { name: "Контакты", link: "/contacts" },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <TransitionLink
+                      href={item.link}
+                      className="text-white hover:text-white/80 text-sm whitespace-nowrap"
                     >
-                      {item}
-                    </a>
+                      {item.name}
+                    </TransitionLink>
                   </div>
-                )
-              )}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -215,18 +230,18 @@ const Footer: FC = () => {
             <p className="text-white/80 text-sm">
               © {new Date().getFullYear()}г. Все права защищены.
             </p>
-            <a
-              href="#"
+            <TransitionLink
+              href="/privacy-policy"
               className="block text-white/80 text-sm hover:text-white/70"
             >
               Политика конфиденциальности
-            </a>
-            <a
-              href="#"
+            </TransitionLink>
+            <TransitionLink
+              href="/personal-data"
               className="block text-white/80 text-sm hover:text-white/70"
             >
               Условия обработки персональных данных
-            </a>
+            </TransitionLink>
           </div>
 
           {/* Desktop version (flex row) */}
@@ -235,12 +250,18 @@ const Footer: FC = () => {
               © {new Date().getFullYear()}г. Все права защищены.
             </p>
             <div className="flex space-x-6">
-              <a href="#" className="text-white/80 text-sm hover:text-white/70">
+              <TransitionLink
+                href="/privacy-policy"
+                className="text-white/80 text-sm hover:text-white/70"
+              >
                 Политика конфиденциальности
-              </a>
-              <a href="#" className="text-white/80 text-sm hover:text-white/70">
+              </TransitionLink>
+              <TransitionLink
+                href="/personal-data"
+                className="text-white/80 text-sm hover:text-white/70"
+              >
                 Условия обработки персональных данных
-              </a>
+              </TransitionLink>
             </div>
           </div>
         </div>

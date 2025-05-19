@@ -1,10 +1,13 @@
+"use client";
+
 import React from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import Input from "@/components/ui/Input";
 import CustomContainer from "../ui/CustomContainer";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
+
 const ContactUsSection: React.FC = () => {
   return (
     <section id="contact_us_section" className="bg-transparent py-24">
@@ -26,8 +29,8 @@ const ContactUsSection: React.FC = () => {
             <div className="mt-8 lg:mb-0">
               <Copy delay={0}>
                 <p className="text-white/70 max-w-[600px]">
-                  Если Вас заинтересовали вакансии нашей компании, заполните форму
-                  и мы обязательно с Вами свяжемся
+                  Если Вас заинтересовали вакансии нашей компании, заполните
+                  форму и мы обязательно с Вами свяжемся
                 </p>
               </Copy>
             </div>

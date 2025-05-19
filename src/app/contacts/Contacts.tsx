@@ -4,7 +4,7 @@ import React from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 import Input from "@/components/ui/Input";
 import CustomContainer from "@/components/ui/CustomContainer";

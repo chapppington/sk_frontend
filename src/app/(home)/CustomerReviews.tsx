@@ -5,19 +5,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 const reviews = [
   {
-    company: "sberbank.png",
+    company: "/sberbank.png",
     title: "Комплектные трансформаторные подстанции",
     text: "Приятно, граждане, наблюдать, как диаграммы связей, инициированные исключительно синтетически, представлены в исключительно положительном свете.",
   },
   // Duplicate the review 6 more times as per the original
   ...Array(6).fill({
-    company: "sberbank.png",
+    company: "/sberbank.png",
     title: "Комплектные трансформаторные подстанции",
     text: "Приятно, граждане, наблюдать, как диаграммы связей, инициированные исключительно синтетически, представлены в исключительно положительном свете.",
   }),
@@ -93,8 +94,9 @@ const CustomerReviews = () => {
             </Copy>
             <Copy delay={0}>
               <p className="text-white/70 mt-6">
-                Как уже неоднократно упомянуто, действия представителей оппозиции
-                объявлены нарушающими общечеловеческие нормы этики и морали.
+                Как уже неоднократно упомянуто, действия представителей
+                оппозиции объявлены нарушающими общечеловеческие нормы этики и
+                морали.
               </p>
             </Copy>
           </div>
@@ -139,10 +141,12 @@ const CustomerReviews = () => {
               <SwiperSlide key={index}>
                 <div className="border border-white/20 p-10 backdrop-blur-sm h-full flex flex-col justify-around">
                   <div className="flex items-center">
-                    <img
+                    <Image
                       src={review.company}
                       alt="SBER BANK"
                       className="h-5 opacity-80"
+                      width={80}
+                      height={20}
                     />
                   </div>
                   <h3 className="text-xl text-white font-normal mt-6">

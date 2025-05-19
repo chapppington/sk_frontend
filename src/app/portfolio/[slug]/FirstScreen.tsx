@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import { Suspense } from "react";
 import ResortVideo from "@/components/ui/ResortVideo";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 const TasksScreen = () => {
   return (

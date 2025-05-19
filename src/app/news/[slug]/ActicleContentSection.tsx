@@ -5,7 +5,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -49,7 +49,9 @@ export default function ArticleContentSection({
         {/* Article Title */}
         <div>
           <Copy>
-            <GradientHeading className="leading-tight mb-6">{title}</GradientHeading>
+            <GradientHeading className="leading-tight mb-6">
+              {title}
+            </GradientHeading>
           </Copy>
         </div>
 

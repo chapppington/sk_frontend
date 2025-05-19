@@ -1,4 +1,6 @@
-import Copy from "@/components/textAnimation/Copy";
+"use client";
+
+import Copy from "@/components/ui/textAnimation/Copy";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";

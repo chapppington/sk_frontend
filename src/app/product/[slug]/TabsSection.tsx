@@ -2,39 +2,78 @@
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import Copy from "@/components/ui/textAnimation/Copy";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TabsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const listItemsRef = useRef<(HTMLLIElement | HTMLDivElement)[]>([]);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
-      },
-    },
+  useGSAP(() => {
+    if (contentRef.current) {
+      const items = listItemsRef.current;
+
+      gsap.fromTo(
+        items,
+        {
+          opacity: 0,
+          x: 10,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+    }
+  }, [activeTab]);
+
+  const handleTabClick = (index: number) => {
+    if (lineRef.current && tabsContainerRef.current) {
+      const tabs = tabsContainerRef.current.children;
+      const targetTab = tabs[index] as HTMLElement;
+      const targetRect = targetTab.getBoundingClientRect();
+      const containerRect = tabsContainerRef.current.getBoundingClientRect();
+
+      gsap.to(lineRef.current, {
+        x: targetRect.left - containerRect.left,
+        width: targetRect.width,
+        duration: 0.1,
+        ease: "power2.inOut",
+      });
+    }
+    setActiveTab(index);
   };
 
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      x: 10,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 150,
-        duration: 0.3,
-      },
-    },
-  };
+  // Initialize line position
+  useEffect(() => {
+    if (lineRef.current && tabsContainerRef.current) {
+      const tabs = tabsContainerRef.current.children;
+      const targetTab = tabs[activeTab] as HTMLElement;
+      const targetRect = targetTab.getBoundingClientRect();
+      const containerRect = tabsContainerRef.current.getBoundingClientRect();
+
+      gsap.set(lineRef.current, {
+        x: targetRect.left - containerRect.left,
+        width: targetRect.width,
+      });
+    }
+  }, []);
 
   const tabData = [
     {
@@ -42,41 +81,44 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <GradientHeading className="mb-6">
-              Пункт автоматического регулирования напряжения (ПАРН)
-            </GradientHeading>
-            <p className="text-white/70 text-lg">
-              — это устройство, предназначенное для обеспечения стабильного и
-              безопасного уровня напряжения в электрических сетях.
-            </p>
-
-            <div className="mt-8">
-              <button className="flex items-center text-white border-b border-white hover:opacity-80">
-                <span>Скачать документацию</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
+            <Copy delay={0}>
+              <GradientHeading className="mb-6">
+                Пункт автоматического регулирования напряжения (ПАРН)
+              </GradientHeading>
+            </Copy>
+            <Copy delay={0}>
+              <p className="text-white/70 text-lg">
+                — это устройство, предназначенное для обеспечения стабильного и
+                безопасного уровня напряжения в электрических сетях.
+              </p>
+            </Copy>
+            <Copy delay={0}>
+              <div className="mt-8">
+                <button className="flex items-center text-white border-b border-white hover:opacity-80">
+                  <span>Скачать документацию</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </Copy>
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div ref={contentRef}>
             <ul className="space-y-8">
-              <motion.li
-                variants={itemVariants}
+              <li
+                ref={(el) => {
+                  if (el) listItemsRef.current[0] = el;
+                }}
                 className="flex items-start gap-4"
               >
                 <span className="text-white/70 text-3xl leading-none">•</span>
@@ -86,9 +128,11 @@ const TabsSection: React.FC = () => {
                   напряжения и поддержания напряжения в пределах номинальных
                   значений.
                 </p>
-              </motion.li>
-              <motion.li
-                variants={itemVariants}
+              </li>
+              <li
+                ref={(el) => {
+                  if (el) listItemsRef.current[1] = el;
+                }}
                 className="flex items-start gap-4"
               >
                 <span className="text-white/70 text-3xl leading-none">•</span>
@@ -98,9 +142,11 @@ const TabsSection: React.FC = () => {
                   распределительных сетей, промышленных предприятий и объектов с
                   критическим потреблением энергии.
                 </p>
-              </motion.li>
-              <motion.li
-                variants={itemVariants}
+              </li>
+              <li
+                ref={(el) => {
+                  if (el) listItemsRef.current[2] = el;
+                }}
                 className="flex items-start gap-4"
               >
                 <span className="text-white/70 text-3xl leading-none">•</span>
@@ -110,9 +156,9 @@ const TabsSection: React.FC = () => {
                   обслуживания. Опционально доступен дистанционный мониторинг
                   для удобства эксплуатации.
                 </p>
-              </motion.li>
+              </li>
             </ul>
-          </motion.div>
+          </div>
         </div>
       ),
     },
@@ -121,81 +167,105 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <GradientHeading className="mb-6">
-              Пункт автоматического регулирования напряжения (ПАРН)
-            </GradientHeading>
-            <p className="text-white/70 text-lg">
-              — это устройство, предназначенное для обеспечения стабильного и
-              безопасного уровня напряжения в электрических сетях.
-            </p>
-
-            <div className="mt-8">
-              <button className="flex items-center text-white border-b border-white hover:opacity-80">
-                <span>Скачать документацию</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
+            <Copy delay={0}>
+              <GradientHeading className="mb-6">
+                Пункт автоматического регулирования напряжения (ПАРН)
+              </GradientHeading>
+            </Copy>
+            <Copy delay={0}>
+              <p className="text-white/70 text-lg">
+                — это устройство, предназначенное для обеспечения стабильного и
+                безопасного уровня напряжения в электрических сетях.
+              </p>
+            </Copy>
+            <Copy delay={0}>
+              <div className="mt-8">
+                <button className="flex items-center text-white border-b border-white hover:opacity-80">
+                  <span>Скачать документацию</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </Copy>
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 gap-8"
-          >
+          <div ref={contentRef} className="grid grid-cols-1 gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[0] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Номинальное напряжение
                 </h3>
                 <ul className="space-y-1 text-white/70">
                   <li>• Диапазон напряжения: 6-35 кВ</li>
                 </ul>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[1] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Стабилизация напряжения
                 </h3>
                 <p className="text-white/70">±5-10% от номинального значения</p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[2] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">Тип регулировки</h3>
                 <p className="text-white/70">
                   Автоматическая (с использованием регуляторов напряжения и
                   трансформаторов)
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[3] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">Автоматизация</h3>
                 <p className="text-white/70">
                   Встроенные системы регулирования
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[4] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Климатические условия эксплуатации
                 </h3>
                 <p className="text-white/70">
                   У, УХЛ, Т (различные климатические исполнения)
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[5] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Особенности применения
                 </h3>
@@ -203,16 +273,24 @@ const TabsSection: React.FC = () => {
                   Подходит для распределительных сетей, промышленных
                   предприятий, объектов с критическим потреблением
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[6] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">Системы защиты</h3>
                 <p className="text-white/70">
                   От коротких замыканий, перегрузок, высоких токов
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[7] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Основные компоненты
                 </h3>
@@ -220,9 +298,13 @@ const TabsSection: React.FC = () => {
                   Трансформатор напряжения, автоматический регулятор напряжения,
                   система управления и мониторинга
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[8] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Коммутационные аппараты
                 </h3>
@@ -230,34 +312,46 @@ const TabsSection: React.FC = () => {
                   Автоматические выключатели, разъединители, предохранители для
                   защиты
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[9] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">
                   Опциональные возможности
                 </h3>
                 <p className="text-white/70">
                   Дистанционный мониторинг и управление
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[10] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">Уровень нагрузки</h3>
                 <p className="text-white/70">
                   Поддержка работы при разных уровнях нагрузки и различной
                   мощности потребителей
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div
+                ref={(el) => {
+                  if (el) listItemsRef.current[11] = el;
+                }}
+              >
                 <h3 className="text-lg font-semibold mb-2">Преимущества</h3>
                 <p className="text-white/70">
                   Надежность, эффективность, снижение потерь энергии,
                   автоматизация процесса
                 </p>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       ),
     },
@@ -266,20 +360,27 @@ const TabsSection: React.FC = () => {
   return (
     <CustomContainer className="py-24">
       <div className="text-white rounded-2xl overflow-hidden">
-        <div className="flex border-b border-gray-700">
+        <div
+          className="flex border-b border-gray-700 relative"
+          ref={tabsContainerRef}
+        >
           {tabData.map((tab, index) => (
             <button
               key={index}
               className={`px-6 py-4 text-lg font-medium ${
                 activeTab === index
-                  ? "text-white border-b-2 border-white"
+                  ? "text-white"
                   : "text-white/90 hover:text-gray-300"
               }`}
-              onClick={() => setActiveTab(index)}
+              onClick={() => handleTabClick(index)}
             >
               {tab.title}
             </button>
           ))}
+          <div
+            ref={lineRef}
+            className="absolute bottom-0 h-0.5 bg-white transition-all duration-200"
+          />
         </div>
         <div className="py-6">
           <div key={activeTab}>{tabData[activeTab].content}</div>

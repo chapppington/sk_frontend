@@ -1,9 +1,11 @@
+"use client";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 const FirstScreen: FC = () => {

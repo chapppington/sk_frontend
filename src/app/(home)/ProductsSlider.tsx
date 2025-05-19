@@ -9,7 +9,7 @@ import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 const products = [
   {
@@ -157,8 +157,9 @@ export default function ProductsSlider() {
 
             <Copy delay={0}>
               <p className="text-white/60 text-lg mb-4 max-w-2xl">
-                Как уже неоднократно упомянуто, действия представителей оппозиции
-                объявлены нарушающими общечеловеческие нормы этики и морали.
+                Как уже неоднократно упомянуто, действия представителей
+                оппозиции объявлены нарушающими общечеловеческие нормы этики и
+                морали.
               </p>
             </Copy>
 

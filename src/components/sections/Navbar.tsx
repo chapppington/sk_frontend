@@ -2,6 +2,7 @@
 
 import { FC, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "../ui/CustomContainer";
 import { useTransitionRouter } from "next-view-transitions";
@@ -52,7 +53,13 @@ const MobileMenu: FC<{
           >
             <CustomContainer className="pt-20 pb-6">
               <CustomContainer className="fixed top-0 left-0 right-0 flex justify-between items-center h-[72px] bg-black">
-                <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
+                <Image
+                  src="/logo.svg"
+                  alt="СИБКОМПЛЕКТ"
+                  width={150}
+                  height={32}
+                  className="h-8"
+                />
                 <motion.button onClick={onClose} whileTap={{ scale: 0.95 }}>
                   <svg
                     width="24"
@@ -266,7 +273,13 @@ const Navbar: FC = () => {
       <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30">
         {/* Logo */}
         <TransitionLink href="/" className="px-0 flex items-center select-none">
-          <img src="/logo.svg" alt="СИБКОМПЛЕКТ" className="h-8" />
+          <Image
+            src="/logo.svg"
+            alt="СИБКОМПЛЕКТ"
+            width={175}
+            height={32}
+            className="h-8"
+          />
         </TransitionLink>
 
         {/* Menu Items */}
@@ -311,7 +324,13 @@ const Navbar: FC = () => {
           onClick={() => setIsMobileMenuOpen(true)}
           whileTap={{ scale: 0.95 }}
         >
-          <img src="/menu.svg" alt="Menu" className="w-6 h-6" />
+          <Image
+            src="/menu.svg"
+            alt="Menu"
+            width={24}
+            height={24}
+            className="w-6 h-6"
+          />
         </motion.button>
       </CustomContainer>
 

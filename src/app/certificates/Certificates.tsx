@@ -5,6 +5,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomContainer from "@/components/ui/CustomContainer";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 interface FAQItem {
   title: string;
@@ -93,7 +94,9 @@ export default function Certificates() {
 
       {/* Page Title */}
       <CustomContainer className="mt-8 mb-12">
-        <GradientHeading>Сертификаты и документация</GradientHeading>
+        <Copy>
+          <GradientHeading>Сертификаты и документация</GradientHeading>
+        </Copy>
       </CustomContainer>
 
       {/* Left Sidebar Navigation */}

@@ -13,6 +13,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 // Mock data - with varied content and different images from public folder
 const slides = [
@@ -153,18 +154,22 @@ const SliderSection: FC = () => {
 
           {/* Column 2 - Main Title */}
           <div className="col-span-12 lg:col-span-5">
-            <GradientHeading>
-              Успешные кейсы применения оборудования
-            </GradientHeading>
+            <Copy delay={0}>
+              <GradientHeading>
+                Успешные кейсы применения оборудования
+              </GradientHeading>
+            </Copy>
           </div>
 
           {/* Column 3 - Description */}
           <div className="col-span-12 lg:col-span-4">
-            <p className="text-white/70">
-              Наша компания успешно реализовала множество проектов разного
-              масштаба, от небольших локальных объектов до крупных промышленных
-              комплексов.
-            </p>
+            <Copy delay={0}>
+              <p className="text-white/70">
+                Наша компания успешно реализовала множество проектов разного
+                масштаба, от небольших локальных объектов до крупных промышленных
+                комплексов.
+              </p>
+            </Copy>
           </div>
         </div>
 

@@ -4,11 +4,12 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "../ui/CustomContainer";
 import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
-import Copy from "../textAnimation/Copy";
+import Copy from "../ui/textAnimation/Copy";
 import TransitionLink from "../ui/TransitionLink";
 
 interface NewsItem {
@@ -226,7 +227,7 @@ const ReadMore: FC = () => {
                 <TransitionLink href={item.link} className="block">
                   <article className="group relative overflow-hidden">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-lg transition-all duration-300 ease-in-out">
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.title}
                         className={`w-full h-full object-cover ${
@@ -234,6 +235,7 @@ const ReadMore: FC = () => {
                             ? "transition-transform duration-500 ease-in-out group-hover:scale-105"
                             : ""
                         }`}
+                        fill
                       />
                       {/* Default overlay */}
                       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60 transition-opacity duration-300 ease-in-out"></div>

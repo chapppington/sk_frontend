@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["testsk2.ru", "randomuser.me"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "testsk2.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "randomuser.me",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
   // async headers() {
   //   return [

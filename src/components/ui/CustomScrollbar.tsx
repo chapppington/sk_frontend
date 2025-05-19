@@ -9,6 +9,7 @@ export default function CustomScrollbar() {
   const [contentHeight, setContentHeight] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const scrollbarRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const percentageRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,24 @@ export default function CustomScrollbar() {
   const lenis = useLenis();
   const navbarHeight = 72; // Adjust this to match your navbar height in pixels
   const percentageVisibilityThreshold = 2; // Only show percentage after this threshold
+  const desktopBreakpoint = 768; // Minimum width for desktop devices
+
+  // Check if the device is a desktop
+  useEffect(() => {
+    const checkIfDesktop = () => {
+      setIsDesktop(window.innerWidth >= desktopBreakpoint);
+    };
+
+    // Initial check
+    checkIfDesktop();
+
+    // Recheck on resize
+    window.addEventListener("resize", checkIfDesktop);
+
+    return () => {
+      window.removeEventListener("resize", checkIfDesktop);
+    };
+  }, []);
 
   // Reset scrollbar state on page transition
   useEffect(() => {
@@ -43,7 +62,7 @@ export default function CustomScrollbar() {
   }, [pathname, lenis]);
 
   useEffect(() => {
-    if (!lenis) return;
+    if (!lenis || !isDesktop) return;
 
     const calculateHeights = () => {
       const docHeight = Math.max(
@@ -90,7 +109,7 @@ export default function CustomScrollbar() {
       window.removeEventListener("resize", calculateHeights);
       clearInterval(intervalId);
     };
-  }, [lenis]);
+  }, [lenis, isDesktop]);
 
   // Update refs when state changes
   useEffect(() => {
@@ -103,7 +122,8 @@ export default function CustomScrollbar() {
 
   // Separate useEffect for drag functionality to avoid circular dependencies
   useEffect(() => {
-    if (!lenis || !scrollbarRef.current || !percentageRef.current) return;
+    if (!lenis || !scrollbarRef.current || !percentageRef.current || !isDesktop)
+      return;
 
     // Mouse events for draggable scrollbar
     const handleMouseDown = (e: MouseEvent) => {
@@ -174,7 +194,10 @@ export default function CustomScrollbar() {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [lenis, scrollPercentage]);
+  }, [lenis, scrollPercentage, isDesktop]);
+
+  // Skip rendering on mobile
+  if (!isDesktop) return null;
 
   const scrollTo = (percentage: number) => {
     const maxScroll = contentHeightRef.current - viewportHeightRef.current;

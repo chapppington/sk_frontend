@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
+import Copy from "@/components/ui/textAnimation/Copy";
 import dynamic from "next/dynamic";
 
 const ProductScene = dynamic(() => import("@/components/productCard3D/main"), {
@@ -52,30 +53,39 @@ export default function FirstScreen() {
               },
             ]}
           />
-          <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
-            Стабилизация напряжения в электрических сетях
-          </span>
-          <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
-            Пункт автоматического регулирования напряжения
-          </GradientHeading>
-          <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6 md:mb-10">
-            Специализированное устройство, предназначенное для обеспечения
-            стабильного и безопасного уровня напряжения в электрических сетях.
-            ПАРН выполняет автоматическую компенсацию колебаний напряжения,
-            поддерживает его в пределах номинальных значений и защищает
-            оборудование от скачков напряжения. Применяется в распределительных
-            сетях, на промышленных предприятиях, энергоснабжающих компаниях и
-            объектах с критическим потреблением энергии.
-          </p>
+          <Copy>
+            <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
+              Стабилизация напряжения в электрических сетях
+            </span>
+          </Copy>
+          <Copy>
+            <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
+              Пункт автоматического регулирования напряжения
+            </GradientHeading>
+          </Copy>
+          <Copy>
+            <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6 md:mb-10">
+              Специализированное устройство, предназначенное для обеспечения
+              стабильного и безопасного уровня напряжения в электрических сетях.
+              ПАРН выполняет автоматическую компенсацию колебаний напряжения,
+              поддерживает его в пределах номинальных значений и защищает
+              оборудование от скачков напряжения. Применяется в
+              распределительных сетях, на промышленных предприятиях,
+              энергоснабжающих компаниях и объектах с критическим потреблением
+              энергии.
+            </p>
+          </Copy>
           <div className="mb-6 flex flex-col gap-4 md:gap-6 w-full max-w-2xl">
             {stats.map((stat, index) => (
-              <div key={index} className="text-white text-base md:text-xl">
-                <span className="flex-1">{stat.description}:</span>
-                <span className="ml-2 md:ml-4 font-light">
+              <Copy key={index} delay={index * 0.1 + 0.6}>
+                <div className="text-white text-base md:text-lg">
+                  <span className="flex-1">{stat.description}:</span>
+                  <span className="ml-2 md:ml-4 font-light">
                   {stat.value}{" "}
                   <span className="font-normal">{stat.unit.text}</span>
-                </span>
-              </div>
+                  </span>
+                </div>
+              </Copy>
             ))}
           </div>
           <MainButton text="Узнать конечную стоимость" />

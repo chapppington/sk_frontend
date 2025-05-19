@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -8,7 +8,8 @@ import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
+import Image from "next/image";
 
 interface ProductionStage {
   id: number;
@@ -91,7 +92,9 @@ const ProductionStages: FC = () => {
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
           <Copy delay={0} triggerStart="top 90%">
-            <div className="text-white/60 md:w-full lg:w-auto">[ ЭТАПЫ ]</div>
+            <BracketsText className="text-white/60 md:w-full lg:w-auto">
+              ЭТАПЫ
+            </BracketsText>
           </Copy>
           <Copy delay={0}>
             <GradientHeading>
@@ -110,7 +113,7 @@ const ProductionStages: FC = () => {
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
           <Copy delay={0}>
-            <div className="text-white/60 mb-2">[ ЭТАПЫ ]</div>
+            <BracketsText className="text-white/60 mb-2">ЭТАПЫ</BracketsText>
           </Copy>
           <Copy delay={0} triggerStart="top 90%">
             <h2 className="text-3xl text-white font-light mt-3">
@@ -168,10 +171,11 @@ const ProductionStages: FC = () => {
                         "polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%)",
                     }}
                   >
-                    <img
+                    <Image
                       src={stage.image}
                       alt={stage.title}
                       className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
+                      fill
                     />
                     {/* Default overlay */}
                     <div

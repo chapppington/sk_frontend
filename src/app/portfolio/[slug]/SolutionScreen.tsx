@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
+import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/textAnimation/Copy";
+import Copy from "@/components/ui/textAnimation/Copy";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"; // Placeholder image
@@ -42,10 +45,12 @@ export default function SolutionScreen() {
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-0 items-stretch mt-12">
           {/* Left image */}
           <div className="flex-[1.3] min-w-0">
-            <img
+            <Image
               src={imageUrl}
               alt="solution left"
               className="w-full h-[400px] object-cover"
+              width={800}
+              height={400}
             />
           </div>
           {/* Center card */}
@@ -64,10 +69,12 @@ export default function SolutionScreen() {
           </div>
           {/* Right image */}
           <div className="flex-[0.7] min-w-0">
-            <img
+            <Image
               src={imageUrl}
               alt="solution right"
               className="w-full h-[400px] object-cover"
+              width={800}
+              height={400}
             />
           </div>
         </div>

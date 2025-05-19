@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Copy from "../textAnimation/Copy";
+import Copy from "./textAnimation/Copy";
 
 interface StatItem {
   value: string;
