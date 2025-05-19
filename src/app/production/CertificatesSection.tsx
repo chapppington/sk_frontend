@@ -35,9 +35,9 @@ const faqItems: FAQItem[] = [
 ];
 
 export default function CertificatesSection() {
-  const [openItems, setOpenItems] = useState<number[]>([]);
+  const [openItems, setOpenItems] = useState<number[]>([0]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const prevOpenItems = useRef<number[]>([]);
+  const prevOpenItems = useRef<number[]>([0]);
 
   useEffect(() => {
     faqItems.forEach((_, idx) => {
@@ -83,8 +83,8 @@ export default function CertificatesSection() {
         gsap.to(el, {
           height: el.scrollHeight,
           opacity: 1,
-          duration: 0.4,
-          ease: "power3.out",
+          duration: 0.3,
+          ease: "power4.inOut",
           onComplete: () => {
             gsap.set(el, { height: "auto" });
           },
@@ -99,7 +99,7 @@ export default function CertificatesSection() {
           height: 0,
           opacity: 0,
           duration: 0.3,
-          ease: "power3.in",
+          ease: "expo.inOut",
           onComplete: () => {
             gsap.set(el, { visibility: "hidden", pointerEvents: "none" });
           },

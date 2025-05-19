@@ -44,7 +44,7 @@ const CountUp = ({
     animRef.current = gsap.to(countRef, {
       current: end,
       duration: duration,
-      ease: "expo.out",
+      ease: "power4.out",
       scrollTrigger: {
         trigger: elementRef.current,
         start: "top bottom-=100",
