@@ -16,6 +16,8 @@ export default function CustomScrollbar() {
   const isDraggingPercentage = useRef(false);
   const startY = useRef(0);
   const startScrollPercentage = useRef(0);
+  const contentHeightRef = useRef(contentHeight);
+  const viewportHeightRef = useRef(viewportHeight);
   const pathname = usePathname();
   const lenis = useLenis();
   const navbarHeight = 72; // Adjust this to match your navbar height in pixels
@@ -54,18 +56,54 @@ export default function CustomScrollbar() {
       );
 
       setContentHeight(docHeight);
+      contentHeightRef.current = docHeight;
+
       setViewportHeight(window.innerHeight);
+      viewportHeightRef.current = window.innerHeight;
     };
 
     const handleScroll = () => {
       const scrollTop = lenis.scroll;
-      const maxScroll = contentHeight - viewportHeight;
+      const maxScroll = contentHeightRef.current - viewportHeightRef.current;
 
       if (maxScroll <= 0) return;
 
       const percentage = (scrollTop / maxScroll) * 100;
       setScrollPercentage(Math.min(percentage, 100));
     };
+
+    // Initialize and add event listeners
+    calculateHeights();
+    handleScroll();
+
+    // Update heights on resize
+    window.addEventListener("resize", calculateHeights);
+
+    // Handle scroll events
+    lenis.on("scroll", handleScroll);
+
+    // Update less frequently to reduce performance impact
+    const intervalId = setInterval(calculateHeights, 1000);
+
+    return () => {
+      lenis.off("scroll", handleScroll);
+      window.removeEventListener("resize", calculateHeights);
+      clearInterval(intervalId);
+    };
+  }, [lenis]);
+
+  // Update refs when state changes
+  useEffect(() => {
+    contentHeightRef.current = contentHeight;
+  }, [contentHeight]);
+
+  useEffect(() => {
+    viewportHeightRef.current = viewportHeight;
+  }, [viewportHeight]);
+
+  // Separate useEffect for drag functionality to avoid circular dependencies
+  useEffect(() => {
+    if (!lenis || !scrollbarRef.current || !percentageRef.current) return;
 
     // Mouse events for draggable scrollbar
     const handleMouseDown = (e: MouseEvent) => {
@@ -106,7 +144,9 @@ export default function CustomScrollbar() {
 
       // Set scroll position based on percentage
       const newScrollPosition =
-        ((contentHeight - viewportHeight) * newPercentage) / 100;
+        ((contentHeightRef.current - viewportHeightRef.current) *
+          newPercentage) /
+        100;
       lenis.scrollTo(newScrollPosition, { immediate: true });
     };
 
@@ -116,29 +156,16 @@ export default function CustomScrollbar() {
       document.body.style.userSelect = "";
     };
 
-    // Initialize and add event listeners
-    calculateHeights();
-    handleScroll();
-
-    lenis.on("scroll", handleScroll);
-    window.addEventListener("resize", calculateHeights);
-
     // Scrollbar drag events
-    scrollbarRef.current?.addEventListener("mousedown", handleMouseDown);
-    percentageRef.current?.addEventListener(
+    scrollbarRef.current.addEventListener("mousedown", handleMouseDown);
+    percentageRef.current.addEventListener(
       "mousedown",
       handlePercentageMouseDown
     );
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 
-    // Update less frequently to reduce performance impact
-    const intervalId = setInterval(calculateHeights, 1000);
-
     return () => {
-      lenis.off("scroll", handleScroll);
-      window.removeEventListener("resize", calculateHeights);
-
       scrollbarRef.current?.removeEventListener("mousedown", handleMouseDown);
       percentageRef.current?.removeEventListener(
         "mousedown",
@@ -146,13 +173,11 @@ export default function CustomScrollbar() {
       );
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
-
-      clearInterval(intervalId);
     };
-  }, [lenis, contentHeight, viewportHeight, scrollPercentage]);
+  }, [lenis, scrollPercentage]);
 
   const scrollTo = (percentage: number) => {
-    const maxScroll = contentHeight - viewportHeight;
+    const maxScroll = contentHeightRef.current - viewportHeightRef.current;
     const targetScrollTop = (percentage / 100) * maxScroll;
 
     if (lenis) {

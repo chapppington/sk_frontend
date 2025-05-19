@@ -9,7 +9,7 @@ import Copy from "@/components/textAnimation/Copy";
 
 const TasksScreen = () => {
   return (
-    <section className="min-h-screen pb-12">
+    <section className="pb-12">
       <CustomContainer>
         {/* Breadcrumbs */}
         <Breadcrumbs

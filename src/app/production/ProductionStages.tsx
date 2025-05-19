@@ -90,15 +90,15 @@ const ProductionStages: FC = () => {
       <CustomContainer className="h-full flex flex-col relative z-10">
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <Copy triggerStart="top 90%">
+          <Copy delay={0} triggerStart="top 90%">
             <div className="text-white/60 md:w-full lg:w-auto">[ ЭТАПЫ ]</div>
           </Copy>
-          <Copy>
+          <Copy delay={0}>
             <GradientHeading>
               Этапы<br></br>производства
             </GradientHeading>
           </Copy>
-          <Copy>
+          <Copy delay={0}>
             <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
               Задача организации, в особенности же экономическая повестка
               сегодняшнего дня способствует подготовке и реализации анализа
@@ -109,15 +109,15 @@ const ProductionStages: FC = () => {
 
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
-          <Copy>
+          <Copy delay={0}>
             <div className="text-white/60 mb-2">[ ЭТАПЫ ]</div>
           </Copy>
-          <Copy triggerStart="top 90%">
+          <Copy delay={0} triggerStart="top 90%">
             <h2 className="text-3xl text-white font-light mt-3">
               Этапы<br></br>производства
             </h2>
           </Copy>
-          <Copy triggerStart="top 90%">
+          <Copy delay={0} triggerStart="top 90%">
             <p className="text-white/60 max-w-md text-left mt-5">
               Задача организации, в особенности же экономическая повестка
               сегодняшнего дня способствует подготовке и реализации анализа

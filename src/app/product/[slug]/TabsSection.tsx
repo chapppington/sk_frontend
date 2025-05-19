@@ -42,7 +42,7 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <GradientHeading>
+            <GradientHeading className="mb-6">
               Пункт автоматического регулирования напряжения (ПАРН)
             </GradientHeading>
             <p className="text-white/70 text-lg">
@@ -121,7 +121,7 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <GradientHeading>
+            <GradientHeading className="mb-6">
               Пункт автоматического регулирования напряжения (ПАРН)
             </GradientHeading>
             <p className="text-white/70 text-lg">

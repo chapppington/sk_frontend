@@ -9,6 +9,7 @@ import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import Copy from "@/components/textAnimation/Copy";
 
 const products = [
   {
@@ -129,10 +130,12 @@ export default function ProductsSlider() {
 
         <div className="flex flex-col md:flex-row gap-12">
           <div className="flex-1 flex flex-col justify-end">
-            <GradientHeading className="mb-6">
-              Низковольтные
-              <br /> комплектные устройства
-            </GradientHeading>
+            <Copy delay={0}>
+              <GradientHeading className="mb-6">
+                Низковольтные
+                <br /> комплектные устройства
+              </GradientHeading>
+            </Copy>
 
             <div className="flex flex-wrap items-center gap-4 mb-8">
               <span className="text-white/60 text-sm">
@@ -152,10 +155,12 @@ export default function ProductsSlider() {
               </div>
             </div>
 
-            <p className="text-white/60 text-lg mb-4 max-w-2xl">
-              Как уже неоднократно упомянуто, действия представителей оппозиции
-              объявлены нарушающими общечеловеческие нормы этики и морали.
-            </p>
+            <Copy delay={0}>
+              <p className="text-white/60 text-lg mb-4 max-w-2xl">
+                Как уже неоднократно упомянуто, действия представителей оппозиции
+                объявлены нарушающими общечеловеческие нормы этики и морали.
+              </p>
+            </Copy>
 
             <MainButton text="Узнать больше" />
 

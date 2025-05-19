@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
+import Copy from "@/components/textAnimation/Copy";
 
 const reviews = [
   {
@@ -87,11 +88,15 @@ const CustomerReviews = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <GradientHeading>Мнение наших клиентов</GradientHeading>
-            <p className="text-white/70 mt-6">
-              Как уже неоднократно упомянуто, действия представителей оппозиции
-              объявлены нарушающими общечеловеческие нормы этики и морали.
-            </p>
+            <Copy delay={0}>
+              <GradientHeading>Мнение наших клиентов</GradientHeading>
+            </Copy>
+            <Copy delay={0}>
+              <p className="text-white/70 mt-6">
+                Как уже неоднократно упомянуто, действия представителей оппозиции
+                объявлены нарушающими общечеловеческие нормы этики и морали.
+              </p>
+            </Copy>
           </div>
         </div>
 

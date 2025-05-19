@@ -84,14 +84,14 @@ const EquipmentGrid: FC = () => {
         <div className="grid grid-cols-12 gap-8 mb-16">
           {/* Column 2 - Main Title */}
           <div className="col-span-5">
-            <Copy>
+            <Copy delay={0}>
               <GradientHeading>Используемое оборудование</GradientHeading>
             </Copy>
           </div>
 
           {/* Column 3 - Description */}
           <div className="col-span-4">
-            <Copy>
+            <Copy delay={0}>
               <p className="text-white/70">
                 Каждый из нас понимает очевидную вещь: начало повседневной
                 работы по формированию позиции способствует повышению качества

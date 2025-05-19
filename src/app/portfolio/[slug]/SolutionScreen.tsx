@@ -8,7 +8,7 @@ const imageUrl =
 
 export default function SolutionScreen() {
   return (
-    <section className="py-24 relative min-h-screen text-white">
+    <section className="py-24 relative text-white">
       <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar */}

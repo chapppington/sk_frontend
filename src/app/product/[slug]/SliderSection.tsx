@@ -224,7 +224,7 @@ const SliderSection: FC = () => {
                         </h3>
                         <div className="flex items-center justify-between mt-6">
                           <p className="text-white/80 w-3/5">{slide.description}</p>
-                          <MainButton text="Смотреть кейс" />
+                          <MainButton text="Смотреть кейс" href={`/portfolio/${slide.id}`} />
                         </div>
                       </div>
                     </div>

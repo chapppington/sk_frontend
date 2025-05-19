@@ -16,19 +16,19 @@ const Mission: React.FC = () => {
           <div>
             <BracketsText className="mb-4">МИССИЯ КОМПАНИИ</BracketsText>
 
-            <Copy>
+            <Copy delay={0}>
               <GradientHeading className="z-10 mb-6">
                 Показать новые горизонты, превосходящие ожидания
               </GradientHeading>
             </Copy>
-            <Copy>
+            <Copy delay={0}>
               <p className="text-white/60 text-lg mb-8 max-w-2xl">
                 Как уже неоднократно упомянуто, действия представителей
                 оппозиции объявлены нарушающими общечеловеческие нормы этики и
                 морали.
               </p>
             </Copy>
-            <Copy>
+            <Copy delay={0}>
               <button className="inline-flex items-center group cursor-pointer">
                 <div className="flex items-center">
                   <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">

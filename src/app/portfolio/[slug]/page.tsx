@@ -2,6 +2,7 @@ import FirstScreen from "./FirstScreen";
 import TasksScreen from "./TasksScreen";
 import SolutionScreen from "./SolutionScreen";
 import ReviewScreen from "./ReviewScreen";
+import MoreProjectsScreen from "./MoreProjectsScreen";
 import ContactUsSection from "@/components/sections/ContactUsSection";
 
 interface PortfolioPageProps {
@@ -20,6 +21,7 @@ const PortfolioPage = async ({ params }: PortfolioPageProps) => {
       <TasksScreen />
       <SolutionScreen />
       <ReviewScreen />
+      <MoreProjectsScreen />
       <ContactUsSection />
     </main>
   );

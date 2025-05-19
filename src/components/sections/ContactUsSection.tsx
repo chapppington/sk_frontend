@@ -4,7 +4,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import MainButton from "@/components/ui/MainButton";
 import Input from "@/components/ui/Input";
 import CustomContainer from "../ui/CustomContainer";
-
+import Copy from "@/components/textAnimation/Copy";
 const ContactUsSection: React.FC = () => {
   return (
     <section id="contact_us_section" className="bg-transparent py-24">
@@ -16,17 +16,20 @@ const ContactUsSection: React.FC = () => {
           {/* Left column - Headings and description */}
           <div className="lg:w-1/2">
             {/* Main Heading */}
-
-            <GradientHeading className="mb-8">
-              Хотите сотрудничать <br />с нами?
-            </GradientHeading>
+            <Copy delay={0}>
+              <GradientHeading className="mb-8">
+                Хотите сотрудничать <br />с нами?
+              </GradientHeading>
+            </Copy>
 
             {/* Description text */}
             <div className="mt-8 lg:mb-0">
-              <p className="text-white/70 max-w-[600px]">
-                Если Вас заинтересовали вакансии нашей компании, заполните форму
-                и мы обязательно с Вами свяжемся
-              </p>
+              <Copy delay={0}>
+                <p className="text-white/70 max-w-[600px]">
+                  Если Вас заинтересовали вакансии нашей компании, заполните форму
+                  и мы обязательно с Вами свяжемся
+                </p>
+              </Copy>
             </div>
           </div>
 
