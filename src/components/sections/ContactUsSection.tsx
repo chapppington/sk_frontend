@@ -19,20 +19,17 @@ const ContactUsSection: FC = () => {
           {/* Left column - Headings and description */}
           <div className="lg:w-1/2">
             {/* Main Heading */}
-            <Copy delay={0}>
-              <GradientHeading className="mb-8">
-                Хотите сотрудничать <br />с нами?
-              </GradientHeading>
-            </Copy>
+
+            <GradientHeading className="mb-8">
+              Хотите сотрудничать <br />с нами?
+            </GradientHeading>
 
             {/* Description text */}
             <div className="mt-8 lg:mb-0">
-              <Copy delay={0}>
-                <p className="text-white/70 max-w-[600px]">
-                  Если Вас заинтересовали вакансии нашей компании, заполните
-                  форму и мы обязательно с Вами свяжемся
-                </p>
-              </Copy>
+              <p className="text-white/70 max-w-[600px]">
+                Если Вас заинтересовали вакансии нашей компании, заполните форму
+                и мы обязательно с Вами свяжемся
+              </p>
             </div>
           </div>
 

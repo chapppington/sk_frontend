@@ -67,7 +67,6 @@ const Footer: FC = () => {
               <div className="flex space-x-8 mx-auto">
                 {[
                   { name: "О компании", link: "/about" },
-                  { name: "О производстве", link: "/production" },
                   { name: "Сертификаты", link: "/certificates" },
                   { name: "Вакансии", link: "/vacancies" },
                   { name: "Контакты", link: "/contacts" },
@@ -231,16 +230,10 @@ const Footer: FC = () => {
               © {new Date().getFullYear()}г. Все права защищены.
             </p>
             <TransitionLink
-              href="/privacy-policy"
+              href="/privacy"
               className="block text-white/80 text-sm hover:text-white/70"
             >
-              Политика конфиденциальности
-            </TransitionLink>
-            <TransitionLink
-              href="/personal-data"
-              className="block text-white/80 text-sm hover:text-white/70"
-            >
-              Условия обработки персональных данных
+              Политика обработки персональных данных
             </TransitionLink>
           </div>
 
@@ -251,16 +244,10 @@ const Footer: FC = () => {
             </p>
             <div className="flex space-x-6">
               <TransitionLink
-                href="/privacy-policy"
+                href="/privacy"
                 className="text-white/80 text-sm hover:text-white/70"
               >
-                Политика конфиденциальности
-              </TransitionLink>
-              <TransitionLink
-                href="/personal-data"
-                className="text-white/80 text-sm hover:text-white/70"
-              >
-                Условия обработки персональных данных
+                Политика обработки персональных данных
               </TransitionLink>
             </div>
           </div>
