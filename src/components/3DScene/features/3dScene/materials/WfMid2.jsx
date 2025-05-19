@@ -9,6 +9,7 @@ export function WfMid2() {
         transparent: true,
         depthTest: true,
         depthWrite: false,
+        side: THREE.FrontSide,
         blending: THREE.AdditiveBlending,
         uniforms:
             {
