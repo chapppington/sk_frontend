@@ -4,7 +4,8 @@ import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Copy from "@/components/ui/textAnimation/Copy";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const features = [
   {
@@ -46,12 +47,84 @@ const features = [
 
 const InfoScreen: FC = () => {
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const [previousFeatureIndex, setPreviousFeatureIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const activeImageRef = useRef<HTMLDivElement>(null);
+  const previousImageRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+
+  const handleFeatureChange = (idx: number) => {
+    if (idx === activeFeatureIndex) return;
+
+    // Kill any ongoing animation
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+
+    setPreviousFeatureIndex(activeFeatureIndex);
+    setActiveFeatureIndex(idx);
+    setIsAnimating(true);
+  };
+
+  useEffect(() => {
+    if (previousFeatureIndex === activeFeatureIndex) return;
+
+    // Create a new timeline
+    const timeline = gsap.timeline({
+      onComplete: () => setIsAnimating(false),
+    });
+
+    // Store the timeline in the ref for possible interruption
+    timelineRef.current = timeline;
+
+    // Set initial opacity of new image to 0
+    if (activeImageRef.current) {
+      gsap.set(activeImageRef.current, { opacity: 0 });
+    }
+
+    // Fade in the new image on top
+    timeline.to(activeImageRef.current, {
+      opacity: 1,
+      duration: 0.4, // Make animation faster
+      ease: "power2.inOut",
+    });
+
+    // Slide out the text
+    timeline.to(
+      textContainerRef.current,
+      {
+        opacity: 0,
+        y: 20,
+        duration: 0.3, // Make animation faster
+        ease: "power2.out",
+      },
+      "<"
+    );
+
+    // Slide in the new text
+    timeline.fromTo(
+      textContainerRef.current,
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, // Make animation faster
+      "<0.15"
+    );
+
+    // Cleanup function to kill the timeline when component unmounts
+    return () => {
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
+    };
+  }, [activeFeatureIndex, previousFeatureIndex]);
 
   return (
     <section className="relative flex flex-col py-24">
       <CustomContainer className="flex flex-col md:flex-row w-full items-stretch">
         {/* Left Section */}
-        <div className="w-full md:w-2/5 z-10 flex flex-col pr-4 relative justify-start">
+        <div className="w-full md:w-2/5 z-30 flex flex-col pr-4 relative justify-start">
           <BracketsText>ПРЕИМУЩЕСТВА</BracketsText>
           {/* Overlapping Heading */}
           <Copy delay={0}>
@@ -59,24 +132,24 @@ const InfoScreen: FC = () => {
               className="
                 text-4xl md:text-5xl mt-8 text-white
                 mb-12
-                z-20
+                z-40
                 md:w-[180%] md:max-w-none
                 md:pr-32
                 md:-mr-[40%]
                 pointer-events-none
                 relative
             "
-          >
-            Эффективное электроснабжение в условиях современных требований к
-            надёжности и безопасности
-          </h1>
+            >
+              Эффективное электроснабжение в условиях современных требований к
+              надёжности и безопасности
+            </h1>
           </Copy>
           <div className="flex flex-col gap-3 mt-2">
             {features.map((feature, idx) => (
               <button
                 key={idx}
-                onClick={() => setActiveFeatureIndex(idx)}
-                className={`flex items-center px-4 py-3 rounded-lg border transition w-auto text-left self-start
+                onClick={() => handleFeatureChange(idx)}
+                className={`flex items-center px-4 py-3 rounded-lg border transition w-auto text-left self-start select-none
                     ${
                       idx === activeFeatureIndex
                         ? "bg-white/10 border-white/20 text-white hover:bg-white/15 hover:scale-[0.99] active:scale-[0.93]"
@@ -91,16 +164,44 @@ const InfoScreen: FC = () => {
         </div>
         {/* Right Section */}
         <div className="w-full md:w-3/5 flex flex-col">
-          <div className="relative w-full h-full flex-1">
-            <Image
-              src={features[activeFeatureIndex].image}
-              alt={features[activeFeatureIndex].label}
-              fill
-              className="object-cover rounded-lg"
-              priority={activeFeatureIndex === 0}
-            />
-            <div className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20">
-              {features[activeFeatureIndex].description}
+          <div
+            ref={imageContainerRef}
+            className="relative w-full h-full flex-1"
+          >
+            {/* Previous Image (behind) */}
+            {previousFeatureIndex !== activeFeatureIndex && (
+              <div
+                ref={previousImageRef}
+                className="w-full h-full absolute inset-0 z-0"
+              >
+                <Image
+                  src={features[previousFeatureIndex].image}
+                  alt={features[previousFeatureIndex].label}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
+            )}
+
+            {/* Active Image (on top) */}
+            <div
+              ref={activeImageRef}
+              className="w-full h-full absolute inset-0 z-10"
+            >
+              <Image
+                src={features[activeFeatureIndex].image}
+                alt={features[activeFeatureIndex].label}
+                fill
+                className="object-cover rounded-lg"
+                priority
+              />
+            </div>
+
+            <div
+              ref={textContainerRef}
+              className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20"
+            >
+              <p>{features[activeFeatureIndex].description}</p>
             </div>
           </div>
         </div>
