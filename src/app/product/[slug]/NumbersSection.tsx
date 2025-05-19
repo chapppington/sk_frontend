@@ -1,8 +1,11 @@
+"use client";
+
 import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import React from "react";
 import styles from "./NumbersSection.module.css";
 import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedStat from "./components/AnimatedStat";
 
 const stats = [
   {
@@ -53,7 +56,9 @@ const NumbersSection = () => {
               key={stat.id}
             >
               <div className="flex flex-col justify-end pt-16 items-center w-full h-full rounded-xl bg-transparent p-0">
-                <div className="text-4xl mb-4">{stat.value}</div>
+                <div className="text-4xl mb-4">
+                  <AnimatedStat value={stat.value} />
+                </div>
                 <div className="text-white/80 text-base whitespace-pre-line text-center">
                   {stat.description}
                 </div>
