@@ -7,12 +7,15 @@ import { useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import gsap from "gsap";
 import { Power4 } from "gsap/all";
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 
 export default function TempScene() {
   const customShader = WfMid2();
   const modelRef = useRef();
   const scene = new THREE.Scene();
   const isFirstRender = useRef(true);
+  const stats = new Stats();
+  document.body.appendChild(stats.dom);
 
   const gltf22 = useLoader(GLTFLoader, "/Scene/parn.glb", (loader) => {
     const dracoLoader = new DRACOLoader();
@@ -40,6 +43,7 @@ export default function TempScene() {
     // const progress = Math.min(1, clock.getElapsedTime()/5)
     // customShader.uniforms.uProgress.value = progress;
     customShader.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    stats.update();
   });
   useEffect(() => {
     if (isFirstRender.current) {

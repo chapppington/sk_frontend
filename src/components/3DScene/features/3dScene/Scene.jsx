@@ -2,6 +2,7 @@ import { useLoader } from '@react-three/fiber'
 import {DRACOLoader, GLTFLoader, OBJLoader } from 'three/examples/jsm/Addons.js'
 import * as THREE from 'three'
 import {useEffect, useRef} from "react";
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 // import {addBarycentricCoordinates} from "../../tools/geom.js";
 import {useAnimations} from "@react-three/drei";
 import { useFrame } from '@react-three/fiber';
@@ -21,6 +22,8 @@ export default function Scene(){
   const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
   const scene = new THREE.Scene();
+  const stats = new Stats();
+  document.body.appendChild(stats.dom);
   // const mainShader = new WfMain({
   //   wireframe: false,
   //   сolor: new THREE.Vector3(0.502, 0.502, 0.502),
@@ -220,6 +223,7 @@ export default function Scene(){
     customShader.uniforms.time.value = clock.getElapsedTime();
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     customShaderTest2.uniforms.uTime.value = clock.getElapsedTime()*1.2;
+    stats.update();
     // particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     // particles.geometry.attributes.position.needsUpdate = true;
     

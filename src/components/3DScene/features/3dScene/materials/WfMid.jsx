@@ -10,6 +10,7 @@ export function WfMid() {
         depthTest: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
+        side: THREE.FrontSide,
         uniforms:
             {
                 uTime: { value: 0 },
