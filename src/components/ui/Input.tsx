@@ -1,16 +1,11 @@
-import React from "react";
+import { FC, InputHTMLAttributes } from "react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
 }
 
-const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  className = "",
-  ...props
-}) => {
+const Input: FC<InputProps> = ({ label, error, className = "", ...props }) => {
   return (
     <div className="relative">
       <input

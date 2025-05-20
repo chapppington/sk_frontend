@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ReactNode } from "react";
 import gsap from "gsap";
 
 interface Document {
@@ -10,9 +10,10 @@ interface Document {
 
 export interface DropdownProps {
   title: string;
-  content: string;
+  content?: string;
   documents?: Document[];
   defaultOpen?: boolean;
+  customContent?: ReactNode;
 }
 
 export default function Dropdown({
@@ -20,6 +21,7 @@ export default function Dropdown({
   content,
   documents,
   defaultOpen = false,
+  customContent,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -117,7 +119,11 @@ export default function Dropdown({
         }}
       >
         <div className="pt-6">
-          <p className="text-white/60 text-base select-none">{content}</p>
+          {customContent ? (
+            customContent
+          ) : (
+            <p className="text-white/60 text-base select-none">{content}</p>
+          )}
 
           {documents && documents.length > 0 && (
             <div className="space-y-4 mt-6">
