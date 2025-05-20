@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "../ui/CustomContainer";
 import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
-import Copy from "../ui/textAnimation/Copy";
+import AnimatedText from "../ui/textAnimation/AnimatedText";
 import TransitionLink from "../ui/TransitionLink";
 
 interface NewsItem {

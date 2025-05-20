@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Dropdown from "@/components/ui/Dropdown";
 
 interface FAQItem {

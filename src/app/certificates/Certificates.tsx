@@ -5,7 +5,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import Dropdown from "@/components/ui/Dropdown";
 import CategoryButton from "@/components/ui/CategoryButton";
 
@@ -98,9 +98,9 @@ export default function Certificates() {
 
       {/* Page Title */}
       <CustomContainer className="mt-8 mb-12">
-        <Copy>
+        <AnimatedText>
           <GradientHeading>Сертификаты и документация</GradientHeading>
-        </Copy>
+        </AnimatedText>
       </CustomContainer>
 
       {/* Left Sidebar Navigation */}

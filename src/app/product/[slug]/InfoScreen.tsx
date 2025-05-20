@@ -2,7 +2,7 @@
 
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import Image from "next/image";
 import { FC, useState, useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -128,7 +128,7 @@ const InfoScreen: FC = () => {
         <div className="w-full md:w-2/5 z-30 flex flex-col pr-4 relative justify-start">
           <BracketsText>ПРЕИМУЩЕСТВА</BracketsText>
           {/* Overlapping Heading */}
-          <Copy delay={0}>
+          <AnimatedText delay={0}>
             <h1
               className="
                 text-4xl md:text-5xl mt-8 text-white
@@ -144,7 +144,7 @@ const InfoScreen: FC = () => {
               Эффективное электроснабжение в условиях современных требований к
               надёжности и безопасности
             </h1>
-          </Copy>
+          </AnimatedText>
           <div className="flex flex-col gap-3 mt-2">
             {features.map((feature, idx) => (
               <CategoryButton

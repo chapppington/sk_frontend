@@ -6,7 +6,6 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import MainButton from "@/components/ui/MainButton";
 import Input from "@/components/ui/Input";
 import CustomContainer from "../ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
 
 const ContactUsSection: FC = () => {
   return (

@@ -5,7 +5,7 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import { Parallax } from "react-parallax";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 const FirstScreen: FC = () => {
@@ -34,16 +34,16 @@ const FirstScreen: FC = () => {
           className="flex flex-col justify-between pb-[150px] sm:pb-[260px] md:pb-[280px] lg:pb-8"
           fullHeight
         >
-          <Copy triggerStart="top 100%">
+          <AnimatedText triggerStart="top 100%">
             <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
               Производство
               <br />
               электрооборудования
             </GradientHeading>
-          </Copy>
+          </AnimatedText>
           {/* Bottom Content */}
           <div className="flex z-10">
-            <Copy triggerStart="top 100%">
+            <AnimatedText triggerStart="top 100%">
               {/* Bottom Left Text with Arrow */}
               <div className="flex flex-col justify-end max-w-xl">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 md:mb-6">
@@ -67,7 +67,7 @@ const FirstScreen: FC = () => {
                   подробно.
                 </p>
               </div>
-            </Copy>
+            </AnimatedText>
           </div>
         </CustomContainer>
 

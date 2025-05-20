@@ -4,7 +4,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import MainButton from "@/components/ui/MainButton";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 export default function NotFound() {
   return (
@@ -15,26 +15,26 @@ export default function NotFound() {
           <div className="flex-1 flex flex-col items-start justify-center">
             <BracketsText className="mb-6">404 ОШИБКА</BracketsText>
 
-            <Copy>
+            <AnimatedText>
               <GradientHeading className="mb-6">
                 Страница не найдена
               </GradientHeading>
-            </Copy>
+            </AnimatedText>
 
             <div className="flex items-center mb-8">
               <div className="h-0.5 w-12 bg-white/20 mr-4"></div>
-              <Copy>
+              <AnimatedText>
                 <span className="text-white/60">
                   Кажется, вы забрели в неизведанную территорию
                 </span>
-              </Copy>
+              </AnimatedText>
             </div>
 
-            <Copy>
+            <AnimatedText>
               <p className="text-white/80 text-lg mb-8 max-w-lg">
                 Страница, которую вы ищете, не существует или была перемещена.
               </p>
-            </Copy>
+            </AnimatedText>
 
             <MainButton text="Вернуться на главную" href="/" className="mt-4" />
           </div>

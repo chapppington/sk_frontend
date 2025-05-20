@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 interface TaskItem {
   title: string;
@@ -120,17 +120,17 @@ export default function TasksScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0 md:pl-8">
                 {/* Heading and Description */}
-                <Copy>
+                <AnimatedText>
                   <GradientHeading>Заголовок о задаче проекта</GradientHeading>
-                </Copy>
-                <Copy>
+                </AnimatedText>
+                <AnimatedText>
                   <p className="text-white/60 text-base my-12 ">
                     Круглогодичный курортный комплекс «Манжерок» расположен у
                     знаменитого озера Манжерокское у подножия горы Малая Синюха
                     – это центр семейного отдыха Республики Алтай, привлекающий
                     туристов со всей России, Азиатского региона и Европы.
                   </p>
-                </Copy>
+                </AnimatedText>
 
                 {/* Tasks List */}
                 {taskItems.map((item, idx) => (

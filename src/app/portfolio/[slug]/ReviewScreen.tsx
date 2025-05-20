@@ -5,7 +5,7 @@ import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -107,7 +107,7 @@ const ReviewScreen = () => {
         <div className="flex flex-col md:flex-row items-end justify-between w-full">
           {/* Left: Gradient Heading */}
           <div className="flex-1">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading className="leading-tight mb-0">
                 Никто не вправе
                 <br />
@@ -115,7 +115,7 @@ const ReviewScreen = () => {
                 <br />
                 поколения
               </GradientHeading>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Right: Testimonial */}
@@ -149,14 +149,14 @@ const ReviewScreen = () => {
               </svg>
             </div>
             {/* Testimonial Text */}
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <blockquote className="text-lg md:text-xl text-gray-300 font-light mb-8 first-line:pl-8">
                 «Значимость этих проблем настолько очевидна, что сложившаяся
                 структура организации в значительной степени обусловливает
                 важность каксамодостаточных, так и внешне зависимых
                 концептуальных решений»
               </blockquote>
-            </Copy>
+            </AnimatedText>
             {/* User Info */}
             <div ref={userInfoRef} className="flex items-center gap-4 mt-6">
               <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-gray-700">
@@ -171,14 +171,14 @@ const ReviewScreen = () => {
                 </div>
               </div>
               <div>
-                <Copy delay={0}>
+                <AnimatedText delay={0}>
                   <div className="text-white font-semibold text-lg">
                     Иванов Иван Павлович
                   </div>
-                </Copy>
-                <Copy delay={0}>
+                </AnimatedText>
+                <AnimatedText delay={0}>
                   <div className="text-gray-400 text-sm">Клиент</div>
-                </Copy>
+                </AnimatedText>
               </div>
             </div>
           </div>

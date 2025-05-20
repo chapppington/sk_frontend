@@ -10,7 +10,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 // Mock data for other projects
 const projects = [
@@ -105,9 +105,9 @@ const MoreProjectsScreen: FC = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start mb-16">
           {/* Main Title (left) */}
           <div className="mb-4 lg:mb-0 lg:max-w-[60%]">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading>Другие проекты</GradientHeading>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Category Label (right) */}

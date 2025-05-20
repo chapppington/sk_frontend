@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,18 +81,18 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading className="mb-6">
                 Пункт автоматического регулирования напряжения (ПАРН)
               </GradientHeading>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <p className="text-white/70 text-lg">
                 — это устройство, предназначенное для обеспечения стабильного и
                 безопасного уровня напряжения в электрических сетях.
               </p>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <div className="mt-8">
                 <button className="flex items-center text-white border-b border-white hover:opacity-80">
                   <span>Скачать документацию</span>
@@ -110,7 +110,7 @@ const TabsSection: React.FC = () => {
                   </svg>
                 </button>
               </div>
-            </Copy>
+            </AnimatedText>
           </div>
 
           <div ref={contentRef}>
@@ -167,18 +167,18 @@ const TabsSection: React.FC = () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
           <div>
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading className="mb-6">
                 Пункт автоматического регулирования напряжения (ПАРН)
               </GradientHeading>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <p className="text-white/70 text-lg">
                 — это устройство, предназначенное для обеспечения стабильного и
                 безопасного уровня напряжения в электрических сетях.
               </p>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <div className="mt-8">
                 <button className="flex items-center text-white border-b border-white hover:opacity-80">
                   <span>Скачать документацию</span>
@@ -196,7 +196,7 @@ const TabsSection: React.FC = () => {
                   </svg>
                 </button>
               </div>
-            </Copy>
+            </AnimatedText>
           </div>
 
           <div ref={contentRef} className="grid grid-cols-1 gap-8">

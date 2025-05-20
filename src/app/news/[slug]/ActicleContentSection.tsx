@@ -5,7 +5,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -41,31 +41,31 @@ export default function ArticleContentSection({
 
         {/* Category Tag */}
         <div className="mb-6 px-4 py-2 border border-white text-white text-sm rounded font-light">
-          <Copy>
+          <AnimatedText>
             <span>{category}</span>
-          </Copy>
+          </AnimatedText>
         </div>
 
         {/* Article Title */}
         <div>
-          <Copy>
+          <AnimatedText>
             <GradientHeading className="leading-tight mb-6">
               {title}
             </GradientHeading>
-          </Copy>
+          </AnimatedText>
         </div>
 
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
-          <Copy>
+          <AnimatedText>
             <span>{date}</span>
-          </Copy>
-          <Copy>
+          </AnimatedText>
+          <AnimatedText>
             <span>•</span>
-          </Copy>
-          <Copy>
+          </AnimatedText>
+          <AnimatedText>
             <span>{readTime}</span>
-          </Copy>
+          </AnimatedText>
         </div>
 
         {/* Featured Image */}
@@ -82,11 +82,11 @@ export default function ArticleContentSection({
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <Copy key={index} triggerStart="top 75%" delay={0}>
+            <AnimatedText key={index} triggerStart="top 75%" delay={0}>
               <p className="text-white/90 text-lg leading-loose mb-6">
                 {paragraph}
               </p>
-            </Copy>
+            </AnimatedText>
           ))}
 
           {/* Return to News Button */}

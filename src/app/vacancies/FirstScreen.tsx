@@ -3,7 +3,7 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import Image from "next/image";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 
 const FirstScreen: FC = () => {
@@ -35,11 +35,11 @@ const FirstScreen: FC = () => {
 
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <Copy triggerStart="top 100%">
+        <AnimatedText triggerStart="top 100%">
           <GradientHeading className="max-w-4xl pt-16 z-10">
             Показываем новые горизонты, превосходящие ожидания
           </GradientHeading>
-        </Copy>
+        </AnimatedText>
 
         {/* Bottom Content */}
         <div className="flex z-10 mb-[150px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
@@ -60,14 +60,14 @@ const FirstScreen: FC = () => {
                 />
               </svg>
             </div>
-            <Copy triggerStart="top 100%">
+            <AnimatedText triggerStart="top 100%">
               <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
                 Мы приглашаем в свою команду тех, кто уже на подсознательном
                 уровне разделяет ценности нашей компании. Это помогает быстрее
                 адаптировать и взаимодействовать с сотрудником, работать «на
                 одной волне».
               </p>
-            </Copy>
+            </AnimatedText>
           </div>
         </div>
       </CustomContainer>

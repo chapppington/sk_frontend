@@ -4,7 +4,7 @@ import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import React from "react";
 import styles from "./NumbersSection.module.css";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import AnimatedStat from "./components/AnimatedStat";
 
 const stats = [
@@ -39,13 +39,13 @@ const NumbersSection = () => {
     <section className="w-full text-white py-24 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <BracketsText>ПОЧЕМУ МЫ</BracketsText>
-        <Copy delay={0}>
+        <AnimatedText delay={0}>
           <GradientHeading className="mt-6">
             Нас выбирают потому, что
             <br />
             <span className="font-medium">Сибкомплект – это</span>
           </GradientHeading>
-        </Copy>
+        </AnimatedText>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-16">
           {stats.map((stat) => (
             <div

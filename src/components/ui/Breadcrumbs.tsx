@@ -2,7 +2,7 @@
 
 import { FC, Fragment } from "react";
 import CustomContainer from "./CustomContainer";
-import Copy from "./textAnimation/Copy";
+import AnimatedText from "./textAnimation/AnimatedText";
 import TransitionLink from "./TransitionLink";
 
 interface BreadcrumbItem {
@@ -23,7 +23,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
   disableContainer,
 }) => {
   const content = (
-    <Copy triggerStart="top 100%">
+    <AnimatedText triggerStart="top 100%">
       <div className="flex items-center space-x-2 text-white/80">
         {items.map((item, index) => (
           <Fragment key={index}>
@@ -39,7 +39,7 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({
           </Fragment>
         ))}
       </div>
-    </Copy>
+    </AnimatedText>
   );
 
   return (

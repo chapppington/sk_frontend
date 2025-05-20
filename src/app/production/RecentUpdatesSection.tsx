@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 interface NewsItem {
   id: number;
@@ -157,28 +157,28 @@ export const RecentUpdatesSection: FC = () => {
           <div className="space-y-6 md:space-y-8 lg:space-y-6">
             <BracketsText>ЭТАПЫ</BracketsText>
             <div className="md:block lg:hidden">
-              <Copy delay={0}>
+              <AnimatedText delay={0}>
                 <GradientHeading>Этапы производства</GradientHeading>
-              </Copy>
+              </AnimatedText>
             </div>
           </div>
 
           {/* Middle column with title - desktop only */}
           <div className="hidden lg:block md:mt-4 xl:mt-0">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading>Последние нововведения</GradientHeading>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Right column with description */}
           <div>
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <p className="text-white/70">
                 Мы постоянно совершенствуем наши производственные процессы,
                 внедряя инновационные технологии и оптимизируя каждый этап
                 работы.
               </p>
-            </Copy>
+            </AnimatedText>
           </div>
         </div>
 

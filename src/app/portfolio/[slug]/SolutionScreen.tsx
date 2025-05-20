@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"; // Placeholder image
@@ -24,19 +24,19 @@ export default function SolutionScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0 md:pl-8">
                 {/* Heading and Description */}
-                <Copy delay={0}>
+                <AnimatedText delay={0}>
                   <GradientHeading>
                     Заголовок о решениях в проекте
                   </GradientHeading>
-                </Copy>
-                <Copy delay={0}>
+                </AnimatedText>
+                <AnimatedText delay={0}>
                   <p className="text-white/60 text-base my-12 ">
                     Круглогодичный курортный комплекс «Манжерок» расположен у
                     знаменитого озера Манжерокское у подножия горы Малая Синюха
                     – это центр семейного отдыха Республики Алтай, привлекающий
                     туристов со всей России, Азиатского региона и Европы.
                   </p>
-                </Copy>
+                </AnimatedText>
               </div>
             </div>
           </div>
@@ -55,17 +55,17 @@ export default function SolutionScreen() {
           </div>
           {/* Center card */}
           <div className="flex-1 min-w-0 flex flex-col justify-center p-8">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <h2 className="text-white text-3xl font-light mb-6">Решение</h2>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <div className="text-white/80 text-base leading-relaxed">
                 Круглогодичный курортный комплекс «Манжерок» расположен у
                 знаменитого озера Манжерокское у подножия горы Малая Синюха –
                 это центр семейного отдыха Республики Алтай, привлекающий
                 туристов со всей России, Азиатского региона и Европы.
               </div>
-            </Copy>
+            </AnimatedText>
           </div>
           {/* Right image */}
           <div className="flex-[0.7] min-w-0">

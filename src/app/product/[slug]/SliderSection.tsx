@@ -13,7 +13,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 // Mock data - with varied content and different images from public folder
 const slides = [
@@ -154,22 +154,22 @@ const SliderSection: FC = () => {
 
           {/* Column 2 - Main Title */}
           <div className="col-span-12 lg:col-span-5">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading>
                 Успешные кейсы применения оборудования
               </GradientHeading>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Column 3 - Description */}
           <div className="col-span-12 lg:col-span-4">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <p className="text-white/70">
                 Наша компания успешно реализовала множество проектов разного
-                масштаба, от небольших локальных объектов до крупных промышленных
-                комплексов.
+                масштаба, от небольших локальных объектов до крупных
+                промышленных комплексов.
               </p>
-            </Copy>
+            </AnimatedText>
           </div>
         </div>
 
@@ -228,8 +228,13 @@ const SliderSection: FC = () => {
                           {slide.title}
                         </h3>
                         <div className="flex items-center justify-between mt-6">
-                          <p className="text-white/80 w-3/5">{slide.description}</p>
-                          <MainButton text="Смотреть кейс" href={`/portfolio/${slide.id}`} />
+                          <p className="text-white/80 w-3/5">
+                            {slide.description}
+                          </p>
+                          <MainButton
+                            text="Смотреть кейс"
+                            href={`/portfolio/${slide.id}`}
+                          />
                         </div>
                       </div>
                     </div>

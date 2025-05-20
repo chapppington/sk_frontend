@@ -5,7 +5,7 @@ import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 interface GridItem {
   title: string;
@@ -84,20 +84,20 @@ const EquipmentGrid: FC = () => {
         <div className="grid grid-cols-12 gap-8 mb-16">
           {/* Column 2 - Main Title */}
           <div className="col-span-5">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading>Используемое оборудование</GradientHeading>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Column 3 - Description */}
           <div className="col-span-4">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <p className="text-white/70">
                 Каждый из нас понимает очевидную вещь: начало повседневной
                 работы по формированию позиции способствует повышению качества
                 направлений прогрессивного развития.
               </p>
-            </Copy>
+            </AnimatedText>
           </div>
 
           {/* Column 4 - Category Label */}

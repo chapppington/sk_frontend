@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 const reviews = [
   {
@@ -89,16 +89,16 @@ const CustomerReviews = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <Copy delay={0}>
+            <AnimatedText delay={0}>
               <GradientHeading>Мнение наших клиентов</GradientHeading>
-            </Copy>
-            <Copy delay={0}>
+            </AnimatedText>
+            <AnimatedText delay={0}>
               <p className="text-white/70 mt-6">
                 Как уже неоднократно упомянуто, действия представителей
                 оппозиции объявлены нарушающими общечеловеческие нормы этики и
                 морали.
               </p>
-            </Copy>
+            </AnimatedText>
           </div>
         </div>
 

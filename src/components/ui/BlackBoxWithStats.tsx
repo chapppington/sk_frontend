@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Copy from "./textAnimation/Copy";
+import AnimatedText from "./textAnimation/AnimatedText";
 
 interface StatItem {
   value: string;
@@ -30,7 +30,7 @@ const BlackBoxWithStats: FC<BlackBoxWithStatsProps> = ({
           {stats.map((stat, index) => (
             <div key={index}>
               <div className="text-4xl sm:text-4xl md:text-6xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light text-white mb-2 md:mb-4">
-                <Copy triggerStart="top 100%">
+                <AnimatedText triggerStart="top 100%">
                   <span>
                     {stat.value}{" "}
                     {stat.unit && (
@@ -47,12 +47,12 @@ const BlackBoxWithStats: FC<BlackBoxWithStatsProps> = ({
                       </span>
                     )}
                   </span>
-                </Copy>
+                </AnimatedText>
               </div>
               <div className="text-sm sm:text-base md:text-lg lg:text-sm xl:text-base 2xl:text-lg font-light text-white max-w-[250px] lg:max-w-[160px] xl:max-w-[180px] 2xl:max-w-[200px]">
-                <Copy triggerStart="top 100%">
+                <AnimatedText triggerStart="top 100%">
                   <span>{stat.description}</span>
-                </Copy>
+                </AnimatedText>
               </div>
             </div>
           ))}

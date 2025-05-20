@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Copy from "./textAnimation/Copy";
+import AnimatedText from "./textAnimation/AnimatedText";
 
 interface BracketsTextProps {
   children: React.ReactNode;
@@ -9,11 +9,11 @@ interface BracketsTextProps {
 const BracketsText: FC<BracketsTextProps> = ({ children, className = "" }) => {
   return (
     <div className={`${className}`}>
-      <Copy>
+      <AnimatedText>
         <span className={`text-white/40 text-sm tracking-wider`}>
           [ {children} ]
         </span>
-      </Copy>
+      </AnimatedText>
     </div>
   );
 };

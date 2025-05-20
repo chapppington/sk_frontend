@@ -4,7 +4,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import Image from "next/image";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 interface LogoGridProps {
   partners?: string[];
@@ -29,11 +29,11 @@ export default function LogoGrid({ partners = samplePartners }: LogoGridProps) {
   return (
     <CustomContainer className="py-24">
       <div className="flex flex-col md:flex-row justify-between items-center">
-        <Copy delay={0}>
+        <AnimatedText delay={0}>
           <GradientHeading className="text-center md:text-right">
             Нас уже выбрали
           </GradientHeading>
-        </Copy>
+        </AnimatedText>
         <BracketsText className="md:mb-0 mb-2">ПАРТНЕРЫ</BracketsText>
       </div>
       <div className="mt-16">

@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import Copy from "@/components/ui/textAnimation/Copy";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import Image from "next/image";
 
 interface ProductionStage {
@@ -91,42 +91,42 @@ const ProductionStages: FC = () => {
       <CustomContainer className="h-full flex flex-col relative z-10">
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <Copy delay={0} triggerStart="top 90%">
+          <AnimatedText delay={0} triggerStart="top 90%">
             <BracketsText className="text-white/60 md:w-full lg:w-auto">
               ЭТАПЫ
             </BracketsText>
-          </Copy>
-          <Copy delay={0}>
+          </AnimatedText>
+          <AnimatedText delay={0}>
             <GradientHeading>
               Этапы<br></br>производства
             </GradientHeading>
-          </Copy>
-          <Copy delay={0}>
+          </AnimatedText>
+          <AnimatedText delay={0}>
             <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
               Задача организации, в особенности же экономическая повестка
               сегодняшнего дня способствует подготовке и реализации анализа
               существующих паттернов поведения.
             </p>
-          </Copy>
+          </AnimatedText>
         </div>
 
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
-          <Copy delay={0}>
+          <AnimatedText delay={0}>
             <BracketsText className="text-white/60 mb-2">ЭТАПЫ</BracketsText>
-          </Copy>
-          <Copy delay={0} triggerStart="top 90%">
+          </AnimatedText>
+          <AnimatedText delay={0} triggerStart="top 90%">
             <h2 className="text-3xl text-white font-light mt-3">
               Этапы<br></br>производства
             </h2>
-          </Copy>
-          <Copy delay={0} triggerStart="top 90%">
+          </AnimatedText>
+          <AnimatedText delay={0} triggerStart="top 90%">
             <p className="text-white/60 max-w-md text-left mt-5">
               Задача организации, в особенности же экономическая повестка
               сегодняшнего дня способствует подготовке и реализации анализа
               существующих паттернов поведения.
             </p>
-          </Copy>
+          </AnimatedText>
         </div>
 
         {/* Production Stages Slider */}
