@@ -301,15 +301,21 @@ const Navbar: FC = () => {
           <div className="flex items-center h-full divide-x divide-white/30">
             <a
               href="tel:+78006003989"
-              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors"
+              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors group"
             >
-              +7 (800) 600-39-89
+              <span className="relative">
+                +7 (800) 600-39-89
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+              </span>
             </a>
             <a
               href="mailto:info@sibkomplekt.ru"
-              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors"
+              className="text-white text-sm px-8 flex items-center h-full select-none hover:text-white/80 transition-colors group"
             >
-              info@sibkomplekt.ru
+              <span className="relative">
+                info@sibkomplekt.ru
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+              </span>
             </a>
           </div>
           <button className="h-full px-8 bg-white text-gray-900 text-sm hover:bg-gray-50 transition-all duration-300 select-none relative overflow-hidden group">

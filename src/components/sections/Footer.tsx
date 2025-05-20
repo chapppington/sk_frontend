@@ -74,9 +74,10 @@ const Footer: FC = () => {
                   <div key={item.name}>
                     <TransitionLink
                       href={item.link}
-                      className="text-white hover:text-white/80 text-sm whitespace-nowrap"
+                      className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors"
                     >
                       {item.name}
+                      <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
                     </TransitionLink>
                   </div>
                 ))}
@@ -236,7 +237,6 @@ const Footer: FC = () => {
               Политика обработки персональных данных
             </TransitionLink>
           </div>
-
           {/* Desktop version (flex row) */}
           <div className="hidden md:flex md:flex-row justify-between items-center">
             <p className="text-white/80 text-sm">
@@ -245,9 +245,10 @@ const Footer: FC = () => {
             <div className="flex space-x-6">
               <TransitionLink
                 href="/privacy"
-                className="text-white/80 text-sm hover:text-white/70"
+                className="text-white/80 text-sm hover:text-white/70 relative select-none group transition-colors"
               >
                 Политика обработки персональных данных
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
               </TransitionLink>
             </div>
           </div>

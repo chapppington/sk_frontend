@@ -5,7 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
-import { useRouter, useSearchParams } from "next/navigation";
+import CategoryButton from "@/components/ui/CategoryButton";
+import { useSearchParams } from "next/navigation";
 
 // Sample data structure
 const productCategories = [
@@ -416,20 +417,17 @@ const CatalogSection: FC = () => {
               {isDropdownOpen && (
                 <div className="absolute z-10 w-full mt-2 bg-[#1a1a1a] border border-white/10 rounded-lg py-2">
                   {productCategories.map((category) => (
-                    <button
+                    <CategoryButton
                       key={category.id}
+                      isActive={activeCategory === category.id}
                       onClick={() => {
                         setActiveCategory(category.id);
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full px-4 py-2 text-left transition-colors select-none ${
-                        activeCategory === category.id
-                          ? "text-white bg-white/10"
-                          : "text-white/80 hover:text-white hover:bg-white/5"
-                      }`}
+                      className="w-full rounded-none"
                     >
                       {category.name}
-                    </button>
+                    </CategoryButton>
                   ))}
                 </div>
               )}
@@ -500,17 +498,13 @@ const CatalogSection: FC = () => {
           {activeTab === "products" && (
             <div className="hidden xl:flex xl:w-[400px] flex-col gap-2">
               {productCategories.map((category) => (
-                <button
+                <CategoryButton
                   key={category.id}
+                  isActive={activeCategory === category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`w-fit inline-block text-left px-4 py-3 rounded-lg transition-all duration-200 border select-none ${
-                    activeCategory === category.id
-                      ? "text-white bg-white/10 border-white/20 hover:scale-[0.99] active:scale-[0.93]"
-                      : "text-white/80 hover:text-white hover:bg-white/5 border-white/10 hover:scale-[0.99] active:scale-[0.93]"
-                  }`}
                 >
                   {category.name}
-                </button>
+                </CategoryButton>
               ))}
             </div>
           )}

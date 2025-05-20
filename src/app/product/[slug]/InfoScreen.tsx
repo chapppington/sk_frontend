@@ -6,6 +6,7 @@ import Copy from "@/components/ui/textAnimation/Copy";
 import Image from "next/image";
 import { FC, useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import CategoryButton from "@/components/ui/CategoryButton";
 
 const features = [
   {
@@ -146,19 +147,15 @@ const InfoScreen: FC = () => {
           </Copy>
           <div className="flex flex-col gap-3 mt-2">
             {features.map((feature, idx) => (
-              <button
+              <CategoryButton
                 key={idx}
                 onClick={() => handleFeatureChange(idx)}
-                className={`flex items-center px-4 py-3 rounded-lg border transition w-auto text-left self-start select-none
-                    ${
-                      idx === activeFeatureIndex
-                        ? "bg-white/10 border-white/20 text-white hover:bg-white/15 hover:scale-[0.99] active:scale-[0.93]"
-                        : "bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/5 hover:scale-[0.99] active:scale-[0.93]"
-                    }`}
+                isActive={idx === activeFeatureIndex}
+                className="flex items-center w-auto self-start"
               >
                 <Image src={`/${feature.icon}`} alt="" width={24} height={24} />
                 <span className="text-base ml-4">{feature.label}</span>
-              </button>
+              </CategoryButton>
             ))}
           </div>
         </div>

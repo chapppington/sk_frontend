@@ -1,24 +1,12 @@
 "use client";
 
 import React from "react";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import Copy from "@/components/ui/textAnimation/Copy";
 
 const PrivacyPolicy: React.FC = () => {
-  const breadcrumbItems = [
-    { label: "Главная", href: "/" },
-    {
-      label: "Политика конфиденциальности",
-      href: "/privacy-policy",
-      current: true,
-    },
-  ];
-
   return (
     <main className="max-w-[1000px] mx-auto">
-
       <section className="py-16 mt-24">
         <CustomContainer>
           <GradientHeading className="mb-8">
@@ -335,8 +323,11 @@ const PrivacyPolicy: React.FC = () => {
 
             <p>5.1. Фамилия, имя, отчество.</p>
             <p>5.2. Год, месяц, дата и место рождения.</p>
-            <p>5.3. Электронный адрес. Паспортные данные. Номер телефона. Должность. Сведения о работе. Фото. Контактные данные.</p>
-            
+            <p>
+              5.3. Электронный адрес. Паспортные данные. Номер телефона.
+              Должность. Сведения о работе. Фото. Контактные данные.
+            </p>
+
             <p>
               5.4. Иные персональные данные, предоставляемые Пользователями
               (клиентами и контрагентами (физическими лицами)), необходимые для

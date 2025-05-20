@@ -1,7 +1,5 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 import dynamic from "next/dynamic";
 
 const TempScene = dynamic(() => import("./features/Scene"), { ssr: false });
@@ -23,10 +21,6 @@ function ProductScene() {
         }}
       >
         <TempScene />
-        {/* <mesh position={[0, 0, 0]}>
-          <boxGeometry />
-          <meshStandardMaterial color="red" />
-        </mesh> */}
       </Canvas>
     </div>
   );
