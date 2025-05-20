@@ -132,10 +132,13 @@ export default function Certificates() {
                     <Dropdown
                       key={index}
                       title={item.title}
-                      content={item.content}
                       documents={item.documents}
                       defaultOpen={index === 0 && activeTab === 0}
-                    />
+                    >
+                      <p className="text-white/60 text-base select-none">
+                        {item.content}
+                      </p>
+                    </Dropdown>
                   ))}
                 </div>
               </div>

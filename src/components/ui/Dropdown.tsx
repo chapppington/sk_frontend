@@ -10,18 +10,16 @@ interface Document {
 
 export interface DropdownProps {
   title: string;
-  content?: string;
   documents?: Document[];
   defaultOpen?: boolean;
-  customContent?: ReactNode;
+  children: ReactNode;
 }
 
 export default function Dropdown({
   title,
-  content,
   documents,
   defaultOpen = false,
-  customContent,
+  children,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -119,11 +117,7 @@ export default function Dropdown({
         }}
       >
         <div className="pt-6">
-          {customContent ? (
-            customContent
-          ) : (
-            <p className="text-white/60 text-base select-none">{content}</p>
-          )}
+          {children}
 
           {documents && documents.length > 0 && (
             <div className="space-y-4 mt-6">

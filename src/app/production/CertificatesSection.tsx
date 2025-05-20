@@ -53,10 +53,13 @@ export default function CertificatesSection() {
                   <Dropdown
                     key={idx}
                     title={item.title}
-                    content={item.content}
                     documents={item.documents}
                     defaultOpen={idx === 0}
-                  />
+                  >
+                    <p className="text-white/60 text-base select-none">
+                      {item.content}
+                    </p>
+                  </Dropdown>
                 ))}
               </div>
             </div>

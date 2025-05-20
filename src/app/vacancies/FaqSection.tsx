@@ -83,23 +83,19 @@ const FaqSection = () => {
               <Dropdown
                 key={index}
                 title={item.title}
-                content=""
                 defaultOpen={index === 0}
-                customContent={
-                  <>
-                    <p className="text-white/60 text-base select-none">
-                      {item.content}
-                    </p>
-                    {item.list && item.list.length > 0 && (
-                      <ul className="text-white/80 text-base list-disc pl-5 mt-4">
-                        {item.list.map((listItem, i) => (
-                          <li key={i}>{listItem}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                }
-              />
+              >
+                <p className="text-white/60 text-base select-none">
+                  {item.content}
+                </p>
+                {item.list && item.list.length > 0 && (
+                  <ul className="text-white/80 text-base list-disc pl-5 mt-4">
+                    {item.list.map((listItem, i) => (
+                      <li key={i}>{listItem}</li>
+                    ))}
+                  </ul>
+                )}
+              </Dropdown>
             ))}
           </div>
 
@@ -109,21 +105,18 @@ const FaqSection = () => {
                 key={index + 2}
                 title={item.title}
                 defaultOpen={index === 0}
-                customContent={
-                  <>
-                    <p className="text-white/60 text-base select-none">
-                      {item.content}
-                    </p>
-                    {item.list && item.list.length > 0 && (
-                      <ul className="text-white/80 text-base list-disc pl-5 mt-4">
-                        {item.list.map((listItem, i) => (
-                          <li key={i}>{listItem}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                }
-              />
+              >
+                <p className="text-white/60 text-base select-none">
+                  {item.content}
+                </p>
+                {item.list && item.list.length > 0 && (
+                  <ul className="text-white/80 text-base list-disc pl-5 mt-4">
+                    {item.list.map((listItem, i) => (
+                      <li key={i}>{listItem}</li>
+                    ))}
+                  </ul>
+                )}
+              </Dropdown>
             ))}
           </div>
         </div>
