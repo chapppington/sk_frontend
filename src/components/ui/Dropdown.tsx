@@ -40,7 +40,7 @@ export default function Dropdown({
       // Animate plus icon
       gsap.to(plusIconRef.current, {
         rotation: isOpen ? 45 : 0,
-        duration: 0.2,
+        duration: 0.07,
         ease: "power1.inOut",
       });
     }
