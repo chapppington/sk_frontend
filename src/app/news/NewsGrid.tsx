@@ -6,6 +6,7 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import gsap from "gsap";
+import { useLenis } from "lenis/react";
 
 // Sample data
 const sampleNews = [
@@ -139,6 +140,7 @@ const categories = [
 ];
 
 const NewsGrid: FC = () => {
+  const lenis = useLenis();
   // Track if this is the initial render
   const [initialRender, setInitialRender] = useState(true);
   const searchParams = useSearchParams();
@@ -245,10 +247,16 @@ const NewsGrid: FC = () => {
           stagger: 0.05,
           ease: "power2.out",
           delay: 0.1, // Explicitly set delay to 0
+          onComplete: () => {
+            // Notify Lenis about the content height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         });
       });
     }
-  }, [selectedCategorySlug, sortBy, currentPage]);
+  }, [selectedCategorySlug, sortBy, currentPage, lenis]);
 
   // Ensure content is visible on initial load
   useEffect(() => {
@@ -257,11 +265,15 @@ const NewsGrid: FC = () => {
       if (newsGridRef.current) {
         // Force all items to be visible in case animation didn't run
         gsap.set(newsGridRef.current.children, { opacity: 1, y: 0 });
+        // Notify Lenis about the content height change
+        if (lenis) {
+          lenis.resize();
+        }
       }
     }, 500); // Safety timeout
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [lenis]);
 
   // GSAP animations for no results - exactly like in CatalogSection
   useEffect(() => {
@@ -274,10 +286,16 @@ const NewsGrid: FC = () => {
           y: 0,
           duration: 0.3,
           ease: "power2.out",
+          onComplete: () => {
+            // Notify Lenis about the content height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
     }
-  }, [currentNews.length]);
+  }, [currentNews.length, lenis]);
 
   // Handle dropdown animations
   useEffect(() => {
@@ -299,6 +317,12 @@ const NewsGrid: FC = () => {
           duration: 0.3,
           ease: "power3.out",
           display: "block",
+          onComplete: () => {
+            // Ensure Lenis knows about the height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
 
@@ -317,6 +341,10 @@ const NewsGrid: FC = () => {
         ease: "power3.in",
         onComplete: () => {
           gsap.set(optionsRef.current, { display: "none" });
+          // Ensure Lenis knows about the height change
+          if (lenis) {
+            lenis.resize();
+          }
         },
       });
 
@@ -327,7 +355,7 @@ const NewsGrid: FC = () => {
         ease: "power2.out",
       });
     }
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, lenis]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -366,6 +394,31 @@ const NewsGrid: FC = () => {
     updateUrl({ sort: newSort });
     setIsDropdownOpen(false);
   };
+
+  // Add resize listener for content changes
+  useEffect(() => {
+    // Update Lenis on page visibility change (when switching tabs)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && lenis) {
+        setTimeout(() => {
+          lenis.resize();
+        }, 100);
+      }
+    };
+
+    // Update on window resize
+    const handleResize = () => {
+      if (lenis) lenis.resize();
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [lenis]);
 
   return (
     <section className="py-20 relative">

@@ -23,6 +23,30 @@ function ScrollManager() {
     }
   }, [pathname, lenis]);
 
+  // Add window resize handler instead of expensive MutationObserver
+  useEffect(() => {
+    if (!lenis) return;
+
+    // Initial resize
+    lenis.resize();
+
+    // Handle window resize events with debounce
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        lenis.resize();
+      }, 100);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
+  }, [lenis]);
+
   return null;
 }
 
@@ -39,7 +63,18 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
         setTotalSections,
       }}
     >
-      <ReactLenis root>
+      <ReactLenis
+        root
+        options={{
+          lerp: 0.05,
+          wheelMultiplier: 0.85,
+          smoothWheel: true,
+          orientation: "vertical",
+          gestureOrientation: "vertical",
+          infinite: false,
+          syncTouch: true,
+        }}
+      >
         <ScrollManager />
         {children}
       </ReactLenis>

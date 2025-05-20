@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, ReactNode } from "react";
 import gsap from "gsap";
+import { useLenis } from "lenis/react";
 
 export interface DropdownProps {
   title: string;
@@ -17,6 +18,7 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLButtonElement>(null);
+  const lenis = useLenis();
 
   // Toggle animation
   useEffect(() => {
@@ -27,6 +29,12 @@ export default function Dropdown({
         opacity: isOpen ? 1 : 0,
         duration: 0.3,
         ease: "power2.inOut",
+        onComplete: () => {
+          // Update Lenis after animation completes
+          if (lenis) {
+            lenis.resize();
+          }
+        },
       });
 
       // Animate plus icon
@@ -36,7 +44,7 @@ export default function Dropdown({
         ease: "power1.inOut",
       });
     }
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   return (
     <div className="dropdown border-t border-white/10 py-8 relative">
