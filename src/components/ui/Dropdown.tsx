@@ -39,7 +39,7 @@ export default function Dropdown({
   }, [isOpen]);
 
   return (
-    <div className="dropdown border-t border-white/10 py-8">
+    <div className="dropdown border-t border-white/10 py-8 relative">
       <div
         className="flex justify-between items-center cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}

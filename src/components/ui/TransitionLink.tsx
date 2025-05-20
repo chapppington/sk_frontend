@@ -46,6 +46,11 @@ const TransitionLink: FC<TransitionLinkProps> = ({
         animateOut()
       ),
     ]);
+
+    // Dispatch the layout change event after transition completes
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("layoutchange"));
+    }, 200);
   };
 
   return (

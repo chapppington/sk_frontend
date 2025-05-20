@@ -81,11 +81,31 @@ export default function CustomScrollbar() {
       viewportHeightRef.current = window.innerHeight;
     };
 
+    // Keep track of the last scroll direction
+    let lastScrollTop = 0;
+    let lastScrollDirection = 0; // 0 = none, 1 = down, -1 = up
+
     const handleScroll = () => {
+      // Don't recalculate on every scroll - use the most recent values
       const scrollTop = lenis.scroll;
       const maxScroll = contentHeightRef.current - viewportHeightRef.current;
 
       if (maxScroll <= 0) return;
+
+      // Determine scroll direction
+      const currentDirection =
+        scrollTop > lastScrollTop ? 1 : scrollTop < lastScrollTop ? -1 : 0;
+      lastScrollTop = scrollTop;
+
+      // If direction changed or we're near the boundaries, update heights
+      const nearTop = scrollTop < 100;
+      const nearBottom = maxScroll - scrollTop < 100;
+
+      if (currentDirection !== lastScrollDirection || nearTop || nearBottom) {
+        lastScrollDirection = currentDirection;
+        // Recalculate heights when direction changes or at boundaries
+        calculateHeights();
+      }
 
       const percentage = (scrollTop / maxScroll) * 100;
       setScrollPercentage(Math.min(percentage, 100));
@@ -95,19 +115,49 @@ export default function CustomScrollbar() {
     calculateHeights();
     handleScroll();
 
-    // Update heights on resize
-    window.addEventListener("resize", calculateHeights);
+    // Update heights on resize with throttling
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(calculateHeights, 100);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Listen for the custom layoutchange event from TransitionProvider
+    window.addEventListener("layoutchange", calculateHeights);
+
+    // Create a mutation observer to detect DOM changes
+    // Use a debounce mechanism to avoid excessive calculations
+    let mutationTimeout: NodeJS.Timeout;
+    const handleMutation = () => {
+      clearTimeout(mutationTimeout);
+      mutationTimeout = setTimeout(calculateHeights, 50);
+    };
+
+    const mutationObserver = new MutationObserver(handleMutation);
+
+    // Observe the entire document for content changes
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
 
     // Handle scroll events
     lenis.on("scroll", handleScroll);
 
-    // Update less frequently to reduce performance impact
-    const intervalId = setInterval(calculateHeights, 1000);
+    // Periodic check at a reasonable interval (every 2 seconds)
+    const intervalId = setInterval(calculateHeights, 2000);
 
     return () => {
       lenis.off("scroll", handleScroll);
-      window.removeEventListener("resize", calculateHeights);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("layoutchange", calculateHeights);
+      mutationObserver.disconnect();
       clearInterval(intervalId);
+      clearTimeout(resizeTimeout);
+      clearTimeout(mutationTimeout);
     };
   }, [lenis, isDesktop]);
 

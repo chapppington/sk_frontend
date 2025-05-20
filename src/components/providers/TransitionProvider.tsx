@@ -278,6 +278,9 @@ export const TransitionProvider = ({
                 if (lenis) {
                   lenis.resize();
                   lenis.start();
+
+                  // Dispatch a custom event that the scrollbar can listen for
+                  window.dispatchEvent(new CustomEvent("layoutchange"));
                 }
                 resolve();
               } else {
@@ -288,6 +291,9 @@ export const TransitionProvider = ({
                     if (lenis) {
                       lenis.resize();
                       lenis.start();
+
+                      // Dispatch a custom event that the scrollbar can listen for
+                      window.dispatchEvent(new CustomEvent("layoutchange"));
                     }
                     resolve();
                   },
