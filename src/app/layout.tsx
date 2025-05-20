@@ -9,6 +9,7 @@ import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 import { ViewTransitions } from "next-view-transitions";
 import { TransitionProvider } from "@/components/providers/TransitionProvider";
+import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -40,6 +41,7 @@ export default function RootLayout({
           <TransitionProvider>
             <CameraProvider>
               <ConditionalBGGradient />
+              <CustomScrollbar />
               <ConditionalMainScene />
               <BreakpointIndicator />
               <Navbar />

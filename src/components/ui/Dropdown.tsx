@@ -27,15 +27,6 @@ export default function Dropdown({
         opacity: isOpen ? 1 : 0,
         duration: 0.3,
         ease: "power2.inOut",
-        onComplete: () => {
-          // Dispatch the layoutchange event when animation completes
-          window.dispatchEvent(new CustomEvent("layoutchange"));
-
-          // Additional dispatch after a small delay to catch any post-animation layout changes
-          setTimeout(() => {
-            window.dispatchEvent(new CustomEvent("layoutchange"));
-          }, 100);
-        },
       });
 
       // Animate plus icon
@@ -44,9 +35,6 @@ export default function Dropdown({
         duration: 0.07,
         ease: "power1.inOut",
       });
-
-      // Also dispatch the event immediately when dropdown state changes
-      window.dispatchEvent(new CustomEvent("layoutchange"));
     }
   }, [isOpen]);
 
