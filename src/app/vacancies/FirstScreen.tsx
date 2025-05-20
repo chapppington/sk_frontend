@@ -37,7 +37,7 @@ const FirstScreen: FC = () => {
       <CustomContainer className="flex flex-col justify-between" fullHeight>
         <Copy triggerStart="top 100%">
           <GradientHeading className="max-w-4xl pt-16 z-10">
-            Показываем новые горизонты, превосходящие ожидани
+            Показываем новые горизонты, превосходящие ожидания
           </GradientHeading>
         </Copy>
 
