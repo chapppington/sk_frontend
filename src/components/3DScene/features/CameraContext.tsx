@@ -66,8 +66,8 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
       <ReactLenis
         root
         options={{
-          lerp: 0.05,
-          wheelMultiplier: 0.85,
+          lerp: 0.07,
+          wheelMultiplier: 1.2,
           smoothWheel: true,
           orientation: "vertical",
           gestureOrientation: "vertical",
