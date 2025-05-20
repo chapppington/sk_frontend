@@ -12,9 +12,7 @@ export default function CustomScrollbar() {
   const [isDesktop, setIsDesktop] = useState(false);
   const scrollbarRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-  const percentageRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const isDraggingPercentage = useRef(false);
   const startY = useRef(0);
   const startScrollPercentage = useRef(0);
   const contentHeightRef = useRef(contentHeight);
@@ -22,8 +20,8 @@ export default function CustomScrollbar() {
   const pathname = usePathname();
   const lenis = useLenis();
   const navbarHeight = 72; // Adjust this to match your navbar height in pixels
-  const percentageVisibilityThreshold = 2; // Only show percentage after this threshold
   const desktopBreakpoint = 768; // Minimum width for desktop devices
+  const thumbHeight = 100; // Fixed thumb height in pixels
 
   // Check if the device is a desktop
   useEffect(() => {
@@ -172,8 +170,7 @@ export default function CustomScrollbar() {
 
   // Separate useEffect for drag functionality to avoid circular dependencies
   useEffect(() => {
-    if (!lenis || !scrollbarRef.current || !percentageRef.current || !isDesktop)
-      return;
+    if (!lenis || !scrollbarRef.current || !isDesktop) return;
 
     // Mouse events for draggable scrollbar
     const handleMouseDown = (e: MouseEvent) => {
@@ -186,24 +183,8 @@ export default function CustomScrollbar() {
       document.body.style.userSelect = "none";
     };
 
-    // Mouse events for draggable percentage indicator
-    const handlePercentageMouseDown = (e: MouseEvent) => {
-      if (!percentageRef.current) return;
-
-      e.stopPropagation(); // Prevent event from bubbling to scrollbar
-      isDraggingPercentage.current = true;
-      startY.current = e.clientY;
-      startScrollPercentage.current = scrollPercentage;
-
-      document.body.style.userSelect = "none";
-    };
-
     const handleMouseMove = (e: MouseEvent) => {
-      if (
-        (!isDragging.current && !isDraggingPercentage.current) ||
-        !scrollbarRef.current
-      )
-        return;
+      if (!isDragging.current || !scrollbarRef.current) return;
 
       const scrollbarHeight = scrollbarRef.current.clientHeight;
       const delta = e.clientY - startY.current;
@@ -222,25 +203,16 @@ export default function CustomScrollbar() {
 
     const handleMouseUp = () => {
       isDragging.current = false;
-      isDraggingPercentage.current = false;
       document.body.style.userSelect = "";
     };
 
     // Scrollbar drag events
     scrollbarRef.current.addEventListener("mousedown", handleMouseDown);
-    percentageRef.current.addEventListener(
-      "mousedown",
-      handlePercentageMouseDown
-    );
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       scrollbarRef.current?.removeEventListener("mousedown", handleMouseDown);
-      percentageRef.current?.removeEventListener(
-        "mousedown",
-        handlePercentageMouseDown
-      );
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
@@ -268,37 +240,28 @@ export default function CustomScrollbar() {
     scrollTo(percentage);
   };
 
-  // Calculate position for percentage indicator with bottom offset
-  const getIndicatorPosition = () => {
-    // Apply bottom offset when approaching 100%
-    if (scrollPercentage > 95) {
-      // Gradually increase the offset as we approach 100%
-      const offset = (scrollPercentage - 95) * 5; // Increases from 0 to 25px as percentage goes from 95% to 100%
-      return `calc(${scrollPercentage}% - ${10 + offset}px)`;
-    }
-
-    return `calc(${scrollPercentage}% - 10px)`;
-  };
-
-  // Calculate the actual thumb height with a minimum value so it's always visible
+  // Calculate thumb position based on scroll percentage
   const getThumbStyle = () => {
-    // When scrolling is minimal, maintain a small but visible thumb
-    const heightPercentage = Math.max(scrollPercentage, 0.1);
+    // Calculate the available travel distance for the thumb
+    const availableTravel = scrollbarRef.current
+      ? scrollbarRef.current.clientHeight - thumbHeight
+      : 0;
+
+    // Position the thumb based on scroll percentage
+    const topPosition = (scrollPercentage / 100) * availableTravel;
 
     return {
-      height: `${heightPercentage}%`,
-      opacity:
-        scrollPercentage <= percentageVisibilityThreshold
-          ? scrollPercentage / percentageVisibilityThreshold // Fade out gradually when below threshold
-          : 1,
+      height: `${thumbHeight}px`,
       width: "100%",
+      position: "absolute" as const,
+      top: `${topPosition}px`,
       transition: "none",
       borderRadius: "999px",
     };
   };
 
   // Check if the scrollbar should be in its wide state
-  const isScrollbarWide = isHovered || isDraggingPercentage.current;
+  const isScrollbarWide = isHovered || isDragging.current;
 
   return (
     <div
@@ -314,7 +277,7 @@ export default function CustomScrollbar() {
         {/* Scrollbar */}
         <div
           ref={scrollbarRef}
-          className={`h-full cursor-pointer transition-all duration-200 rounded-full overflow-hidden`}
+          className={`h-full cursor-pointer transition-all duration-200 rounded-full overflow-hidden relative`}
           style={{ width: isScrollbarWide ? "8px" : "5px" }}
           onClick={handleTrackClick}
         >
@@ -323,21 +286,6 @@ export default function CustomScrollbar() {
             className="bg-white cursor-grab active:cursor-grabbing rounded-full"
             style={getThumbStyle()}
           />
-        </div>
-
-        {/* Percentage indicator that follows the thumb */}
-        <div
-          ref={percentageRef}
-          className={`absolute -left-12 flex items-center justify-center text-white text-sm font-light rounded px-1.5 py-0.5 whitespace-nowrap cursor-grab active:cursor-grabbing ${
-            isScrollbarWide ? "opacity-100" : ""
-          }`}
-          style={{
-            top: getIndicatorPosition(),
-            transition: "opacity 0.2s ease-in-out", // Only keep opacity transition, no position transition
-            opacity: scrollPercentage > percentageVisibilityThreshold ? 1 : 0,
-          }}
-        >
-          {Math.round(scrollPercentage)}%
         </div>
       </div>
     </div>
