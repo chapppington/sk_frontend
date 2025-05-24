@@ -7,11 +7,15 @@ import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
-import CustomContainer from "../ui/CustomContainer";
-import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
-import AnimatedText from "../ui/textAnimation/AnimatedText";
-import TransitionLink from "../ui/TransitionLink";
-import BracketsText from "../ui/BracketsText";
+import CustomContainer from "@/components/ui/CustomContainer";
+import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import TransitionLink from "@/components/ui/TransitionLink";
+import BracketsText from "@/components/ui/BracketsText";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface NewsItem {
   id: number;
@@ -27,6 +31,33 @@ interface NewsItem {
 const ReadMore: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Add ScrollTrigger refresh effect
+  useEffect(() => {
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Refresh on load
+    window.addEventListener("load", refreshScrollTrigger);
+
+    // Refresh on resize with debounce
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(refreshScrollTrigger, 100);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Initial refresh
+    refreshScrollTrigger();
+
+    return () => {
+      window.removeEventListener("load", refreshScrollTrigger);
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
+  }, []);
 
   useEffect(() => {
     // Check if device is touch-enabled
@@ -165,13 +196,13 @@ const ReadMore: FC = () => {
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
           <BracketsText className="md:w-full lg:w-auto">НОВОСТИ</BracketsText>
 
-          <AnimatedText>
+          <AnimatedText delay={0} debug>
             <GradientHeading className="leading-tight mb-6">
               Читайте также
             </GradientHeading>
           </AnimatedText>
 
-          <AnimatedText>
+          <AnimatedText delay={0}>
             <p className="text-white/60 max-w-md text-left mt-5">
               Задача организации, в особенности же экономическая повестка
               сегодняшнего дня способствует подготовке и реализации анализа
@@ -183,7 +214,7 @@ const ReadMore: FC = () => {
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
           <BracketsText className="mb-2">НОВОСТИ</BracketsText>
-          <AnimatedText>
+          <AnimatedText delay={0}>
             <GradientHeading className="leading-tight my-6">
               Читайте также
             </GradientHeading>

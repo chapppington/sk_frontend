@@ -14,6 +14,7 @@ interface AnimatedTextProps {
   animateOnScroll?: boolean;
   delay?: number;
   triggerStart?: string;
+  debug?: boolean;
 }
 
 export default function AnimatedText({
@@ -21,6 +22,7 @@ export default function AnimatedText({
   animateOnScroll = true,
   delay = 0.45,
   triggerStart = "top 80%",
+  debug = false,
 }: AnimatedTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLElement[]>([]);
@@ -86,6 +88,7 @@ export default function AnimatedText({
             trigger: containerRef.current,
             start: triggerStart,
             once: true,
+            markers: debug,
           },
         });
       } else {
@@ -102,7 +105,7 @@ export default function AnimatedText({
     },
     {
       scope: containerRef,
-      dependencies: [animateOnScroll, delay, triggerStart],
+      dependencies: [animateOnScroll, delay, triggerStart, debug],
     }
   );
 
