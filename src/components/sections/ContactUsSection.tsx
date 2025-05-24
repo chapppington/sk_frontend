@@ -1,12 +1,44 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import CustomContainer from "../ui/CustomContainer";
 import ContactForm from "@/components/sections/ContactForm";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ContactUsSection: FC = () => {
+  // Add ScrollTrigger refresh effect
+  useEffect(() => {
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Refresh on load
+    window.addEventListener("load", refreshScrollTrigger);
+
+    // Refresh on resize with debounce
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(refreshScrollTrigger, 100);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Initial refresh
+    refreshScrollTrigger();
+
+    return () => {
+      window.removeEventListener("load", refreshScrollTrigger);
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
+  }, []);
+
   return (
     <section id="contact_us_section" className="bg-transparent py-24">
       <CustomContainer>
@@ -17,17 +49,20 @@ const ContactUsSection: FC = () => {
           {/* Left column - Headings and description */}
           <div className="lg:w-1/2">
             {/* Main Heading */}
-
-            <GradientHeading className="mb-8">
-              Хотите сотрудничать <br />с нами?
-            </GradientHeading>
+            <AnimatedText delay={0}>
+              <GradientHeading className="mb-8">
+                Хотите сотрудничать <br />с нами?
+              </GradientHeading>
+            </AnimatedText>
 
             {/* Description text */}
             <div className="mt-8 lg:mb-0">
-              <p className="text-white/70 max-w-[600px]">
-                Если Вас заинтересовали вакансии нашей компании, заполните форму
-                и мы обязательно с Вами свяжемся
-              </p>
+              <AnimatedText delay={0}>
+                <p className="text-white/70 max-w-[600px]">
+                  Если Вас заинтересовали вакансии нашей компании, заполните
+                  форму и мы обязательно с Вами свяжемся
+                </p>
+              </AnimatedText>
             </div>
           </div>
 

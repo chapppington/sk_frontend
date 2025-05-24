@@ -196,7 +196,7 @@ const ReadMore: FC = () => {
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
           <BracketsText className="md:w-full lg:w-auto">НОВОСТИ</BracketsText>
 
-          <AnimatedText delay={0} debug>
+          <AnimatedText delay={0}>
             <GradientHeading className="leading-tight mb-6">
               Читайте также
             </GradientHeading>
