@@ -63,7 +63,7 @@ const FirstScreen: FC = () => {
   }, [currentSlide, totalSlides]);
 
   return (
-    <header className="relative min-h-screen">
+    <header className="relative max-h-[100svh]">
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/", current: false },

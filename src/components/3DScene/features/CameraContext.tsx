@@ -53,6 +53,12 @@ function ScrollManager() {
 export function CameraProvider({ children }: { children: React.ReactNode }) {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [totalSections, setTotalSections] = useState(0);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Check if device is touch-enabled
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   return (
     <CameraContext.Provider
@@ -63,21 +69,25 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
         setTotalSections,
       }}
     >
-      <ReactLenis
-        root
-        options={{
-          lerp: 0.07,
-          wheelMultiplier: 1.2,
-          smoothWheel: true,
-          orientation: "vertical",
-          gestureOrientation: "vertical",
-          infinite: false,
-          syncTouch: true,
-        }}
-      >
-        <ScrollManager />
-        {children}
-      </ReactLenis>
+      {isTouchDevice ? (
+        children
+      ) : (
+        <ReactLenis
+          root
+          options={{
+            lerp: 0.07,
+            wheelMultiplier: 1.2,
+            smoothWheel: true,
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            infinite: false,
+            syncTouch: true,
+          }}
+        >
+          <ScrollManager />
+          {children}
+        </ReactLenis>
+      )}
     </CameraContext.Provider>
   );
 }

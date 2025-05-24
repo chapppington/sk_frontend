@@ -11,6 +11,7 @@ import CustomContainer from "../ui/CustomContainer";
 import { GradientHeading } from "../ui/GradientHeading/GradientHeading";
 import AnimatedText from "../ui/textAnimation/AnimatedText";
 import TransitionLink from "../ui/TransitionLink";
+import BracketsText from "../ui/BracketsText";
 
 interface NewsItem {
   id: number;
@@ -162,26 +163,38 @@ const ReadMore: FC = () => {
       <CustomContainer>
         {/* Desktop Header */}
         <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <div className="text-white/60 md:w-full lg:w-auto">[ НОВОСТИ ]</div>
+          <BracketsText className="md:w-full lg:w-auto">НОВОСТИ</BracketsText>
 
-          <GradientHeading>Читайте также</GradientHeading>
+          <AnimatedText>
+            <GradientHeading className="leading-tight mb-6">
+              Читайте также
+            </GradientHeading>
+          </AnimatedText>
 
-          <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
-            Задача организации, в особенности же экономическая повестка
-            сегодняшнего дня способствует подготовке и реализации анализа
-            существующих паттернов поведения.
-          </p>
+          <AnimatedText>
+            <p className="text-white/60 max-w-md text-left mt-5">
+              Задача организации, в особенности же экономическая повестка
+              сегодняшнего дня способствует подготовке и реализации анализа
+              существующих паттернов поведения.
+            </p>
+          </AnimatedText>
         </div>
 
         {/* Mobile Header */}
         <div className="md:hidden mb-8">
-          <div className="text-white/60 mb-2">[ НОВОСТИ ]</div>
-          <h2 className="text-3xl text-white font-light mt-3">Читайте также</h2>
-          <p className="text-white/60 max-w-md text-left mt-5">
-            Задача организации, в особенности же экономическая повестка
-            сегодняшнего дня способствует подготовке и реализации анализа
-            существующих паттернов поведения.
-          </p>
+          <BracketsText className="mb-2">НОВОСТИ</BracketsText>
+          <AnimatedText>
+            <GradientHeading className="leading-tight my-6">
+              Читайте также
+            </GradientHeading>
+          </AnimatedText>
+          <AnimatedText>
+            <p className="text-white/60 max-w-md text-left mt-5">
+              Задача организации, в особенности же экономическая повестка
+              сегодняшнего дня способствует подготовке и реализации анализа
+              существующих паттернов поведения.
+            </p>
+          </AnimatedText>
         </div>
 
         {/* Slider Container */}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import RevealAnimation from "@/components/ui/RevealAnimation/RevealAnimation";
 
 interface ArticleContentSectionProps {
   category: string;
@@ -57,19 +58,22 @@ export default function ArticleContentSection({
 
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
-          <AnimatedText>
+          <AnimatedText delay={0.6}>
             <span>{date}</span>
           </AnimatedText>
-          <AnimatedText>
+          <AnimatedText delay={0.6}>
             <span>•</span>
           </AnimatedText>
-          <AnimatedText>
+          <AnimatedText delay={0.6}>
             <span>{readTime}</span>
           </AnimatedText>
         </div>
 
         {/* Featured Image */}
-        <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
+        <RevealAnimation
+          className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full"
+          useScrollTrigger={false}
+        >
           <Image
             src={imageSrc}
             alt="Featured Image"
@@ -77,12 +81,12 @@ export default function ArticleContentSection({
             className="object-cover rounded-lg"
             priority
           />
-        </div>
+        </RevealAnimation>
 
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <AnimatedText key={index} triggerStart="top 75%" delay={0}>
+            <AnimatedText key={index} triggerStart="top 90%" delay={0}>
               <p className="text-white/90 text-lg leading-loose mb-6">
                 {paragraph}
               </p>

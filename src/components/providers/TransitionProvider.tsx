@@ -36,9 +36,9 @@ export const TransitionProvider = ({
     const getColumnsCount = () => {
       const width = window.innerWidth;
       if (width < 768) {
-        return 3; // Mobile
+        return 1; // Mobile
       } else if (width < 1024) {
-        return 4; // Tablet
+        return 3; // Tablet
       } else {
         return 6; // Desktop
       }

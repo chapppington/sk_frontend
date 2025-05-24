@@ -71,7 +71,7 @@ const FirstScreen: FC = () => {
   const currentNews = newsItems[currentIndex];
 
   return (
-    <header className="relative h-screen overflow-hidden">
+    <header className="relative h-[100svh] overflow-hidden">
       {/* Background Images with Stacked Animation */}
       <div className="absolute inset-0 w-full h-full">
         {newsItems.map((item, index) => (
@@ -170,7 +170,7 @@ const FirstScreen: FC = () => {
       </div>
 
       {/* Main Content Container */}
-      <CustomContainer className="h-screen flex flex-col justify-end relative z-30">
+      <CustomContainer className="h-[100svh] flex flex-col justify-end relative z-30">
         <Breadcrumbs
           items={[
             { label: "Главная", href: "/" },
@@ -267,7 +267,9 @@ const FirstScreen: FC = () => {
                   href={`/news/${currentNews.slug}`}
                   className="block hover:opacity-90 transition-opacity"
                 >
-                  <GradientHeading className="mb-4">{currentNews.title}</GradientHeading>
+                  <GradientHeading className="mb-4">
+                    {currentNews.title}
+                  </GradientHeading>
                 </TransitionLink>
               </motion.div>
 

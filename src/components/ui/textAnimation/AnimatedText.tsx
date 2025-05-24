@@ -9,17 +9,19 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
+interface AnimatedTextProps {
+  children: ReactElement<any, any>;
+  animateOnScroll?: boolean;
+  delay?: number;
+  triggerStart?: string;
+}
+
 export default function AnimatedText({
   children,
   animateOnScroll = true,
   delay = 0.45,
   triggerStart = "top 80%",
-}: {
-  children: ReactElement<any, any>;
-  animateOnScroll?: boolean;
-  delay?: number;
-  triggerStart?: string;
-}) {
+}: AnimatedTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLElement[]>([]);
   const splitRef = useRef<SplitText[]>([]);
