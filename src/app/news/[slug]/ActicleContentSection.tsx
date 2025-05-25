@@ -86,7 +86,7 @@ export default function ArticleContentSection({
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <AnimatedText key={index} triggerStart="top 90%" delay={0}>
+            <AnimatedText key={index} delay={0}>
               <p className="text-white/90 text-lg leading-loose mb-6">
                 {paragraph}
               </p>

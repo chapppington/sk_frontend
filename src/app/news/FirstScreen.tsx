@@ -1,12 +1,14 @@
 "use client";
 
-import { FC, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { FC, useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
+import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import ParallaxImage from "@/components/ui/ParallaxImage";
 
 // Mock news data - replace with your actual data source
 const newsItems = [
@@ -59,58 +61,190 @@ const newsItems = [
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [prevIndex, setPrevIndex] = useState(0);
+  const [key, setKey] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const categoryRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const metaRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Reset all elements to initial state with smaller y offset
+    gsap.set(
+      [
+        contentRef.current,
+        categoryRef.current,
+        titleRef.current,
+        metaRef.current,
+        descriptionRef.current,
+        buttonRef.current,
+      ],
+      {
+        opacity: 0,
+        y: 10,
+      }
+    );
+
+    // Create the animation sequence with smoother easing
+    const tl = gsap.timeline({
+      defaults: {
+        ease: "expo.out",
+        duration: 0.3,
+      },
+    });
+
+    // Animate elements one after another with no overlap
+    tl.to(contentRef.current, {
+      opacity: 1,
+      y: 0,
+    })
+      .to(categoryRef.current, {
+        opacity: 1,
+        y: 0,
+      })
+      .to(
+        titleRef.current,
+        {
+          opacity: 1,
+          y: 0,
+        },
+        "-=0.3"
+      )
+      .to(
+        metaRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+        },
+        "-=0.3"
+      )
+      .to(
+        descriptionRef.current,
+        {
+          opacity: 1,
+          y: 0,
+        },
+        "-=0.5"
+      )
+      .to(
+        buttonRef.current,
+        {
+          opacity: 1,
+          y: 0,
+        },
+        "-=0.35"
+      );
+
+    return () => {
+      tl.kill();
+    };
+  }, [currentIndex]);
+
+  useEffect(() => {
+    // Animate image transition
+    if (imageRefs.current[currentIndex] && imageRefs.current[prevIndex]) {
+      const currentImage = imageRefs.current[currentIndex];
+      const prevImage = imageRefs.current[prevIndex];
+
+      // Set initial states
+      gsap.set(currentImage, { opacity: 0, zIndex: 2 });
+      gsap.set(prevImage, { opacity: 1, zIndex: 1 });
+
+      // Create a timeline for image transitions
+      const imageTl = gsap.timeline({
+        defaults: {
+          ease: "back.in",
+          duration: 0.01,
+        },
+      });
+
+      imageTl
+        .to(currentImage, {
+          opacity: 1,
+        })
+        .to(
+          prevImage,
+          {
+            opacity: 0,
+          },
+          "-=0.15"
+        );
+
+      return () => {
+        imageTl.kill();
+      };
+    }
+  }, [currentIndex, prevIndex]);
 
   const handlePrev = () => {
+    setPrevIndex(currentIndex);
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : newsItems.length - 1));
+    setKey((prev) => prev + 1);
   };
 
   const handleNext = () => {
+    setPrevIndex(currentIndex);
     setCurrentIndex((prev) => (prev < newsItems.length - 1 ? prev + 1 : 0));
+    setKey((prev) => prev + 1);
   };
 
   const currentNews = newsItems[currentIndex];
 
-  return (
-    <header className="relative h-[100svh] overflow-hidden">
-      {/* Background Images with Stacked Animation */}
-      <div className="absolute inset-0 w-full h-full">
-        {newsItems.map((item, index) => (
-          <AnimatePresence key={item.id}>
-            {(index === currentIndex ||
-              index ===
-                (currentIndex - 1 + newsItems.length) % newsItems.length) && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: index === currentIndex ? 1 : 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0 w-full h-full"
-                style={{ zIndex: index === currentIndex ? 1 : 0 }}
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover cursor-pointer"
-                  priority={index === currentIndex}
-                />
-                <TransitionLink
-                  href={`/news/${item.slug}`}
-                  className="absolute inset-0"
-                >
-                  {null}
-                </TransitionLink>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        ))}
-      </div>
-
+  const content = (
+    <>
       {/* Base Overlay */}
       <div className="absolute inset-0 bg-black/30 z-10"></div>
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-20"></div>
+
+      {/* Image Stack with Parallax */}
+      <div className="absolute inset-0 overflow-hidden">
+        {newsItems.map((news, index) => (
+          <div
+            key={news.id}
+            className="absolute inset-0"
+            style={{
+              opacity: index === currentIndex ? 1 : 0,
+              zIndex: index === currentIndex ? 2 : 1,
+              transition: "opacity 0.8s ease-in-out",
+            }}
+          >
+            <ParallaxImage
+              src={news.image}
+              alt={news.title}
+              priority={index === 0}
+              isMobile={isMobile}
+            />
+          </div>
+        ))}
+      </div>
 
       {/* Mobile Navigation - Absolute Positioned */}
       <div className="md:hidden flex items-center justify-between absolute bottom-6 left-0 right-0 px-8 z-[31]">
@@ -126,9 +260,7 @@ const FirstScreen: FC = () => {
 
         {/* Navigation Arrows */}
         <div className="flex space-x-4">
-          <motion.button
-            whileHover={{ scale: 1 }}
-            whileTap={{ scale: 0.9 }}
+          <button
             onClick={handlePrev}
             className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors prev-btn"
           >
@@ -145,10 +277,8 @@ const FirstScreen: FC = () => {
                 d="M15 19l-7-7 7-7"
               ></path>
             </svg>
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1 }}
-            whileTap={{ scale: 0.9 }}
+          </button>
+          <button
             onClick={handleNext}
             className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors next-btn"
           >
@@ -165,7 +295,7 @@ const FirstScreen: FC = () => {
                 d="M9 5l7 7-7 7"
               ></path>
             </svg>
-          </motion.button>
+          </button>
         </div>
       </div>
 
@@ -192,9 +322,7 @@ const FirstScreen: FC = () => {
 
           {/* Navigation Arrows */}
           <div className="flex ml-5">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={handlePrev}
               className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors prev-btn mr-4"
             >
@@ -211,10 +339,8 @@ const FirstScreen: FC = () => {
                   d="M15 19l-7-7 7-7"
                 ></path>
               </svg>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            </button>
+            <button
               onClick={handleNext}
               className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors next-btn"
             >
@@ -231,106 +357,99 @@ const FirstScreen: FC = () => {
                   d="M9 5l7 7-7 7"
                 ></path>
               </svg>
-            </motion.button>
+            </button>
           </div>
         </div>
         {/* Content Area */}
         <div className="flex-1 flex flex-col justify-end align-start z-30 mb-24 md:mb-6 lg:mb-18">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.5 }}
-              className="md:mb-14 news-content"
-            >
-              {/* Category */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.3 }}
-                className="mb-8 lg:mb-10 news-category"
-              >
-                <span className="px-4 py-2 border border-white text-white text-sm rounded font-light">
-                  {currentNews.category}
-                </span>
-              </motion.div>
+          <div ref={contentRef} className="md:mb-14 news-content">
+            {/* Category */}
+            <div ref={categoryRef} className="mb-8 lg:mb-10 news-category">
+              <span className="px-4 py-2 border border-white text-white text-sm rounded font-light">
+                {currentNews.category}
+              </span>
+            </div>
 
-              {/* Title */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.07, duration: 0.3 }}
+            {/* Title */}
+            <div ref={titleRef}>
+              <TransitionLink
+                href={`/news/${currentNews.slug}`}
+                className="block hover:opacity-90 transition-opacity"
               >
-                <TransitionLink
-                  href={`/news/${currentNews.slug}`}
-                  className="block hover:opacity-90 transition-opacity"
+                <AnimatedText
+                  key={`title-${key}`}
+                  animateOnScroll={false}
+                  delay={0.1}
                 >
                   <GradientHeading className="mb-4">
                     {currentNews.title}
                   </GradientHeading>
-                </TransitionLink>
-              </motion.div>
+                </AnimatedText>
+              </TransitionLink>
+            </div>
 
-              {/* Meta Info */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
+            {/* Meta Info */}
+            <AnimatedText
+              key={`meta-${key}`}
+              animateOnScroll={false}
+              delay={0.2}
+            >
+              <div
+                ref={metaRef}
                 className="flex items-center space-x-4 text-white/60 text-sm md:text-base lg:text-base news-meta"
               >
                 <span>{currentNews.date}</span>
-                <span>•</span>
+                <span className="px-2"> • </span>
                 <span>{currentNews.readTime}</span>
-              </motion.div>
+              </div>
+            </AnimatedText>
 
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.25, duration: 0.3 }}
+            {/* Description */}
+            <AnimatedText
+              key={`desc-${key}`}
+              animateOnScroll={false}
+              delay={0.4}
+            >
+              <p
+                ref={descriptionRef}
                 className="text-sm md:text-base lg:text-lg text-white/80 max-w-3xl mt-4 news-description"
               >
                 {currentNews.description}
-              </motion.p>
+              </p>
+            </AnimatedText>
 
-              {/* Read More Button */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.3 }}
-                className="mt-6"
-              >
-                <TransitionLink href={`/news/${currentNews.slug}`}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center group news-button"
-                  >
-                    <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 17L17 7M17 7H7M17 7V17"
-                        ></path>
-                      </svg>
-                    </div>
-                    <span className="ml-4 text-white text-lg">Читать</span>
-                  </motion.div>
-                </TransitionLink>
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
+            {/* Read More Button */}
+            <div ref={buttonRef} className="mt-6">
+              <TransitionLink href={`/news/${currentNews.slug}`}>
+                <div className="inline-flex items-center group news-button">
+                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7 17L17 7M17 7H7M17 7V17"
+                      ></path>
+                    </svg>
+                  </div>
+                  <span className="ml-4 text-white text-lg">Читать</span>
+                </div>
+              </TransitionLink>
+            </div>
+          </div>
         </div>
       </CustomContainer>
+    </>
+  );
+
+  return (
+    <header className="relative h-[100svh] overflow-hidden">
+      <div className="relative h-full">{content}</div>
     </header>
   );
 };

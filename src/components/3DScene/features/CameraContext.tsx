@@ -54,10 +54,20 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [totalSections, setTotalSections] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isAppleDevice, setIsAppleDevice] = useState(false);
 
   useEffect(() => {
     // Check if device is touch-enabled
     setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
+    // Check if device is Apple (iOS or macOS)
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    setIsAppleDevice(
+      Boolean(
+        /iphone|ipad|ipod|macintosh/.test(userAgent) ||
+          (navigator.platform && /Mac/.test(navigator.platform))
+      )
+    );
   }, []);
 
   return (
@@ -69,7 +79,7 @@ export function CameraProvider({ children }: { children: React.ReactNode }) {
         setTotalSections,
       }}
     >
-      {isTouchDevice ? (
+      {isTouchDevice || isAppleDevice ? (
         children
       ) : (
         <ReactLenis

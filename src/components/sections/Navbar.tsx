@@ -59,6 +59,7 @@ const MobileMenu: FC<{
                   width={150}
                   height={32}
                   className="h-8"
+                  priority
                 />
                 <motion.button onClick={onClose} whileTap={{ scale: 0.95 }}>
                   <svg
@@ -279,6 +280,7 @@ const Navbar: FC = () => {
             width={175}
             height={32}
             className="h-8"
+            priority
           />
         </TransitionLink>
 
