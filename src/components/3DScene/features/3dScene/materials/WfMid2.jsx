@@ -18,7 +18,7 @@ export function WfMid2() {
                 uColor: { value: new THREE.Vector3(1,1,1) },
 
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
-                uRevealDistance: { value: 100.0 },
+                uRevealDistance: { value: 1000.0 },
 
                 uAlpha: { value: 0.03 },
 
