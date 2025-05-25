@@ -1,12 +1,12 @@
 "use client";
 
-import { FC, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { FC, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "../ui/CustomContainer";
 import { useTransitionRouter } from "next-view-transitions";
 import TransitionLink from "../ui/TransitionLink";
+import gsap from "gsap";
 
 const menuItems = [
   { href: "/catalog", label: "Каталог" },
@@ -33,22 +33,77 @@ const MobileMenu: FC<{
   onClose: () => void;
   router: any;
 }> = ({ isOpen, onClose, router }) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuItemsRef = useRef<HTMLDivElement[]>([]);
+  const contactSectionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Animate overlay
+      gsap.fromTo(
+        overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3 }
+      );
+
+      // Animate menu
+      gsap.fromTo(
+        menuRef.current,
+        { x: "100%" },
+        { x: 0, duration: 0.3, ease: "power2.inOut" }
+      );
+
+      // Animate menu items
+      gsap.fromTo(
+        menuItemsRef.current,
+        { x: 50, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.3,
+          stagger: 0.1,
+          ease: "power2.out",
+          delay: 0.2,
+        }
+      );
+
+      // Animate contact sections
+      gsap.fromTo(
+        contactSectionsRef.current,
+        { x: 50, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+          delay: 0.5,
+        }
+      );
+    } else {
+      // Animate overlay
+      gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
+
+      // Animate menu
+      gsap.to(menuRef.current, {
+        x: "100%",
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+    }
+  }, [isOpen]);
+
   return (
-    <AnimatePresence>
+    <>
       {isOpen && (
         <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
+            ref={overlayRef}
             className="fixed inset-0 bg-black/50 z-[100]"
             onClick={onClose}
           />
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
+          <div
+            ref={menuRef}
             className="fixed top-0 right-0 w-full h-screen bg-black z-[10100] overflow-y-auto"
           >
             <CustomContainer className="pt-20 pb-6">
@@ -61,7 +116,7 @@ const MobileMenu: FC<{
                   className="h-8"
                   priority
                 />
-                <motion.button onClick={onClose} whileTap={{ scale: 0.95 }}>
+                <button onClick={onClose}>
                   <svg
                     width="24"
                     height="24"
@@ -78,28 +133,15 @@ const MobileMenu: FC<{
                       strokeLinejoin="round"
                     />
                   </svg>
-                </motion.button>
+                </button>
               </CustomContainer>
 
-              <motion.div
-                className="flex flex-col"
-                initial="closed"
-                animate="open"
-                variants={{
-                  open: {
-                    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-                  },
-                  closed: {
-                    transition: { staggerChildren: 0.05, staggerDirection: -1 },
-                  },
-                }}
-              >
-                {menuItems.map((item) => (
-                  <motion.div
+              <div className="flex flex-col">
+                {menuItems.map((item, index) => (
+                  <div
                     key={item.href}
-                    variants={{
-                      open: { x: 0, opacity: 1 },
-                      closed: { x: 50, opacity: 0 },
+                    ref={(el) => {
+                      if (el) menuItemsRef.current[index] = el;
                     }}
                     className="border-b border-white/30"
                   >
@@ -125,16 +167,10 @@ const MobileMenu: FC<{
                         />
                       </svg>
                     </TransitionLink>
-                  </motion.div>
+                  </div>
                 ))}
 
-                <motion.div
-                  variants={{
-                    open: { x: 0, opacity: 1 },
-                    closed: { x: 50, opacity: 0 },
-                  }}
-                  className="mt-12 space-y-8"
-                >
+                <div ref={contactSectionsRef} className="mt-12 space-y-8">
                   {contactSections.map((section, index) => (
                     <div key={index} className="space-y-4">
                       <h3 className="text-white/60 text-sm">
@@ -232,7 +268,7 @@ const MobileMenu: FC<{
                   </div>
 
                   <MainButton text="Отправить заявку" />
-                </motion.div>
+                </div>
 
                 <div className="mt-auto pt-12 space-y-4">
                   <p className="text-white/50 text-sm">
@@ -253,18 +289,31 @@ const MobileMenu: FC<{
                     </TransitionLink>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </CustomContainer>
-          </motion.div>
+          </div>
         </>
       )}
-    </AnimatePresence>
+    </>
   );
 };
 
 const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useTransitionRouter();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleMenuButtonClick = () => {
+    if (menuButtonRef.current) {
+      gsap.to(menuButtonRef.current, {
+        scale: 0.95,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1,
+      });
+    }
+    setIsMobileMenuOpen(true);
+  };
 
   return (
     <nav
@@ -327,10 +376,10 @@ const Navbar: FC = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <motion.button
+        <button
+          ref={menuButtonRef}
           className="2xl:hidden px-0"
-          onClick={() => setIsMobileMenuOpen(true)}
-          whileTap={{ scale: 0.95 }}
+          onClick={handleMenuButtonClick}
         >
           <Image
             src="/menu.svg"
@@ -339,7 +388,7 @@ const Navbar: FC = () => {
             height={24}
             className="w-6 h-6"
           />
-        </motion.button>
+        </button>
       </CustomContainer>
 
       {/* Mobile Menu */}

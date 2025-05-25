@@ -61,7 +61,7 @@ export const TransitionProvider = ({
         height: ${
           i === columnCount - 1 ? "101vh" : "100vh"
         }; /* Extra height for last column */
-        background-color: #0F0D1F;
+        background-color: black;
         z-index: 99999; /* Increased z-index to ensure it's above everything */
         transform: translateY(0);
         will-change: transform;
