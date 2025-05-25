@@ -46,6 +46,11 @@ export default function Dropdown({
     }
   }, [isOpen, lenis]);
 
+  // Update isOpen state when defaultOpen prop changes
+  useEffect(() => {
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
   return (
     <div className="dropdown border-t border-white/10 py-8 relative">
       <div
