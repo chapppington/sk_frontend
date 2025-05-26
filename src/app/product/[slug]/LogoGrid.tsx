@@ -5,6 +5,10 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import Image from "next/image";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 
 interface LogoGridProps {
   partners?: string[];
@@ -26,6 +30,34 @@ const samplePartners = [
 ];
 
 export default function LogoGrid({ partners = samplePartners }: LogoGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    gsap.fromTo(
+      grid,
+      {
+        opacity: 0,
+        y: 100,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: grid,
+          start: "top bottom-=100",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }, []);
+
   return (
     <CustomContainer className="py-24">
       <div className="flex flex-col md:flex-row justify-between items-center">
@@ -36,7 +68,7 @@ export default function LogoGrid({ partners = samplePartners }: LogoGridProps) {
         </AnimatedText>
         <BracketsText className="md:mb-0 mb-2">ПАРТНЕРЫ</BracketsText>
       </div>
-      <div className="mt-16">
+      <div className="mt-16" ref={gridRef}>
         {/* Row 1 */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-16 items-center">
           {partners.slice(0, 6).map((logo, index) => (

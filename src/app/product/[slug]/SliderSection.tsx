@@ -156,7 +156,7 @@ const SliderSection: FC = () => {
           <div className="col-span-12 lg:col-span-5">
             <AnimatedText delay={0}>
               <GradientHeading>
-                Успешные кейсы применения оборудования
+                Кейсы применения оборудования
               </GradientHeading>
             </AnimatedText>
           </div>

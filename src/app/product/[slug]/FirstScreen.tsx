@@ -6,6 +6,7 @@ import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading
 import MainButton from "@/components/ui/MainButton";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import dynamic from "next/dynamic";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 const ProductScene = dynamic(() => import("@/components/productCard3D/main"), {
   ssr: false,
@@ -32,8 +33,6 @@ const stats = [
 export default function FirstScreen() {
   return (
     <header className="flex flex-col justify-between pb-12 md:pb-24">
-      {/* Breadcrumbs */}
-
       {/* Main Content */}
       <CustomContainer className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
         <div className="w-full lg:w-1/2 flex items-center justify-center">
@@ -88,7 +87,25 @@ export default function FirstScreen() {
               </AnimatedText>
             ))}
           </div>
-          <MainButton text="Узнать конечную стоимость" />
+          <div className="flex items-center mt-4">
+            <MainButton text="Узнать конечную стоимость" />
+            <TransitionLink
+              href="/catalog"
+              className="flex items-center text-white/60 text-lg font-light hover:text-white transition-colors ml-8 mt-5"
+            >
+              <span>Назад в каталог</span>
+              <svg
+                className="ml-2 w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                viewBox="0 0 32 32"
+              >
+                <path d="M8 8 L24 24" />
+                <path d="M24 8 L24 24 L8 24" />
+              </svg>
+            </TransitionLink>
+          </div>
         </div>
       </CustomContainer>
     </header>

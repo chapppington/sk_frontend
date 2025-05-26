@@ -49,8 +49,7 @@ const FirstScreen: FC = () => {
         <AnimatedText triggerStart="top 100%">
           <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
             О компании
-            <br />
-            и нашей команде
+            <br />и нашей команде
           </GradientHeading>
         </AnimatedText>
         {/* Bottom Content */}
@@ -103,7 +102,7 @@ const FirstScreen: FC = () => {
     <header className="relative">
       {isMobile ? (
         <div
-          className="relative h-full"
+          className="relative h-full select-none pointer-events-none"
           style={{
             backgroundImage: 'url("/production_bg.webp")',
             backgroundSize: "cover",
@@ -113,7 +112,11 @@ const FirstScreen: FC = () => {
           {content}
         </div>
       ) : (
-        <Parallax bgImage="/production_bg.webp" strength={200}>
+        <Parallax
+          bgImage="/production_bg.webp"
+          strength={200}
+          className="select-none pointer-events-none"
+        >
           {content}
         </Parallax>
       )}

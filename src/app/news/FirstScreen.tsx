@@ -225,7 +225,7 @@ const FirstScreen: FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-20"></div>
 
       {/* Image Stack with Parallax */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
         {newsItems.map((news, index) => (
           <div
             key={news.id}

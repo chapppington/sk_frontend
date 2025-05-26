@@ -4,6 +4,7 @@ import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import TransitionLink from "@/components/ui/TransitionLink";
 import React from "react";
 
 const Mission: React.FC = () => {
@@ -31,7 +32,10 @@ const Mission: React.FC = () => {
               </p>
             </AnimatedText>
             <AnimatedText delay={0}>
-              <button className="inline-flex items-center group cursor-pointer">
+              <TransitionLink
+                href="/about"
+                className="inline-flex items-center group cursor-pointer"
+              >
                 <div className="flex items-center">
                   <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
                     <svg
@@ -52,7 +56,7 @@ const Mission: React.FC = () => {
                     Больше о компании
                   </span>
                 </div>
-              </button>
+              </TransitionLink>
             </AnimatedText>
           </div>
         </div>

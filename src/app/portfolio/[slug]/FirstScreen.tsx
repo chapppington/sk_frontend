@@ -3,11 +3,14 @@
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import ResortVideo from "@/components/ui/ResortVideo";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import VideoPopup from "@/components/ui/VideoPopup";
 
 const TasksScreen = () => {
+  const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
+
   return (
     <section className="pb-12">
       <CustomContainer>
@@ -52,36 +55,50 @@ const TasksScreen = () => {
             <ResortVideo
               src="/videos/manzherok.mp4"
               poster="/production_bg_new.webp"
-              captions="/videos/manzherok-ru.vtt"
             />
           </Suspense>
           {/* Play Button Overlay */}
           <button
-            className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors group"
+            className="absolute inset-0 flex items-center justify-center bg-black/80 opacity-0 hover:opacity-100 transition-opacity group"
             aria-label="Play video"
+            onClick={() => setIsVideoPopupOpen(true)}
           >
-            <span className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center group-hover:bg-white/40 transition-all">
-              <svg
-                className="w-12 h-12 text-white drop-shadow-lg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 48 48"
-              >
-                <circle
-                  cx="24"
-                  cy="24"
-                  r="22"
-                  stroke="white"
-                  strokeWidth="2"
+            <div className="flex flex-col items-center gap-4">
+              <span className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center group-hover:bg-white/40 transition-all">
+                <svg
+                  className="w-12 h-12 text-white drop-shadow-lg"
                   fill="none"
-                />
-                <polygon points="20,16 34,24 20,32" fill="white" />
-              </svg>
-            </span>
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 48 48"
+                >
+                  <circle
+                    cx="24"
+                    cy="24"
+                    r="22"
+                    stroke="white"
+                    strokeWidth="2"
+                    fill="none"
+                  />
+                  <polygon points="20,16 34,24 20,32" fill="white" />
+                </svg>
+              </span>
+              <span className="text-white text-lg font-medium">
+                Смотреть полностью
+              </span>
+            </div>
           </button>
         </div>
       </CustomContainer>
+
+      {/* Video Popup */}
+      <VideoPopup
+        isOpen={isVideoPopupOpen}
+        onClose={() => setIsVideoPopupOpen(false)}
+        videoSrc="/videos/manzherok.mp4"
+        posterSrc="/production_bg_new.webp"
+        captionsSrc="/videos/manzherok-ru.vtt"
+      />
     </section>
   );
 };

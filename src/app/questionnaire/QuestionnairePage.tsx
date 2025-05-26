@@ -639,42 +639,6 @@ export default function QuestionnairePage() {
                       ))}
                     </div>
                   </Dropdown>
-
-                  {/* Accordion 9: Назначение ячейки */}
-                  <Dropdown
-                    title="09 · Назначение ячейки:"
-                    defaultOpen={activeStage === 9}
-                  >
-                    <div className="space-y-4">
-                      {/* Updated options for section 9 */}
-                      {[
-                        "Вводная (В)",
-                        "Отходная линия (ОЛ)",
-                        "Трансформатор (Г)",
-                        "Секционная (С)",
-                      ].map((purpose, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <div className="relative flex items-center">
-                            <input
-                              type="radio"
-                              id={`cellPurpose${index}`}
-                              name="cellPurpose"
-                              checked={selectedCellPurpose === purpose}
-                              onChange={() => setSelectedCellPurpose(purpose)}
-                              className="peer appearance-none w-5 h-5 rounded-full border border-white/60 checked:border-white/60 outline-none"
-                            />
-                            <div className="absolute w-2.5 h-2.5 rounded-full bg-white/100 opacity-0 peer-checked:opacity-100 pointer-events-none left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-                          </div>
-                          <label
-                            htmlFor={`cellPurpose${index}`}
-                            className="text-white/80 cursor-pointer"
-                          >
-                            {purpose}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </Dropdown>
                 </>
               )}
 
@@ -1267,66 +1231,98 @@ export default function QuestionnairePage() {
                 </>
               )}
 
-              {/* Render sections for Stage 6 if activeStage is 6 or greater */}
-              {activeStage >= 6 && (
+              {/* Render contact form for Stage 6 */}
+              {activeStage >= 26 && activeStage <= 29 && (
                 <div className="space-y-6">
                   {/* Name Input */}
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-white/60 text-sm">
-                      Имя
-                    </label>
+                  <div className="relative">
                     <input
                       type="text"
                       id="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors"
-                      placeholder="Имя"
+                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors peer"
+                      placeholder=" "
                     />
+                    <label
+                      htmlFor="name"
+                      className="absolute left-4 top-4 text-white/60 text-sm transition-all duration-200
+                        peer-placeholder-shown:text-base peer-placeholder-shown:top-4
+                        peer-focus:-top-2 peer-focus:text-sm peer-focus:text-black
+                        peer-focus:bg-white peer-focus:px-1
+                        peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:text-sm
+                        peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-black peer-[&:not(:placeholder-shown)]:px-1"
+                    >
+                      Имя
+                    </label>
                   </div>
 
                   {/* Phone Input */}
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="text-white/60 text-sm">
-                      Телефон
-                    </label>
+                  <div className="relative">
                     <input
                       type="tel"
                       id="phone"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors"
-                      placeholder="+7 (999) 999-99-99"
+                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors peer"
+                      placeholder=" "
                     />
+                    <label
+                      htmlFor="phone"
+                      className="absolute left-4 top-4 text-white/60 text-sm transition-all duration-200
+                        peer-placeholder-shown:text-base peer-placeholder-shown:top-4
+                        peer-focus:-top-2 peer-focus:text-sm peer-focus:text-black
+                        peer-focus:bg-white peer-focus:px-1
+                        peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:text-sm
+                        peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-black peer-[&:not(:placeholder-shown)]:px-1"
+                    >
+                      Телефон
+                    </label>
                   </div>
 
                   {/* Email Input */}
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-white/60 text-sm">
-                      Электронная почта
-                    </label>
+                  <div className="relative">
                     <input
                       type="email"
                       id="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors"
-                      placeholder="test@mail.ru"
+                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors peer"
+                      placeholder=" "
                     />
+                    <label
+                      htmlFor="email"
+                      className="absolute left-4 top-4 text-white/60 text-sm transition-all duration-200
+                        peer-placeholder-shown:text-base peer-placeholder-shown:top-4
+                        peer-focus:-top-2 peer-focus:text-sm peer-focus:text-black
+                        peer-focus:bg-white peer-focus:px-1
+                        peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:text-sm
+                        peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-black peer-[&:not(:placeholder-shown)]:px-1"
+                    >
+                      Электронная почта
+                    </label>
                   </div>
 
                   {/* Comments Textarea */}
-                  <div className="space-y-2">
-                    <label htmlFor="comments" className="text-white/60 text-sm">
-                      Комментарии или дополнительные пожелания
-                    </label>
+                  <div className="relative">
                     <textarea
                       id="comments"
                       value={comments}
                       onChange={(e) => setComments(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors min-h-[100px]"
-                      placeholder="Введите ваши комментарии..."
+                      className="w-full bg-white/5 border border-white/10 rounded-md p-4 text-white outline-none focus:border-white/30 transition-colors min-h-[100px] peer"
+                      placeholder=" "
                     ></textarea>
+                    <label
+                      htmlFor="comments"
+                      className="absolute left-4 top-4 text-white/60 text-sm transition-all duration-200
+                        peer-placeholder-shown:text-base peer-placeholder-shown:top-4
+                        peer-focus:-top-2 peer-focus:text-sm peer-focus:text-black
+                        peer-focus:bg-white peer-focus:px-1
+                        peer-[&:not(:placeholder-shown)]:-top-2 peer-[&:not(:placeholder-shown)]:text-sm
+                        peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:text-black peer-[&:not(:placeholder-shown)]:px-1"
+                    >
+                      Комментарии или дополнительные пожелания
+                    </label>
                   </div>
 
                   {/* Agreement Checkbox */}
@@ -1343,7 +1339,7 @@ export default function QuestionnairePage() {
                     </div>
                     <label
                       htmlFor="agreeTerms"
-                      className="text-white/80 cursor-pointer text-sm"
+                      className="text-white cursor-pointer text-sm"
                     >
                       Я согласен с условиями обработки персональных данных
                     </label>

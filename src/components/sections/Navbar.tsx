@@ -317,10 +317,10 @@ const Navbar: FC = () => {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 border-b border-white/30"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-white/30 pointer-events-none"
       style={{ backdropFilter: "blur(20px)" }}
     >
-      <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30">
+      <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto">
         {/* Logo */}
         <TransitionLink href="/" className="px-0 flex items-center select-none">
           <Image

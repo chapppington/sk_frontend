@@ -24,7 +24,7 @@ const FirstScreen: FC = () => {
 
   return (
     <header className="relative min-h-screen overflow-y-hidden">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
           src="/production_bg.webp"
           alt="Production background"
