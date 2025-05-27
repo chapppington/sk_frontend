@@ -1,66 +1,35 @@
-"use client";
-
-import { FC, useState, useRef, useEffect } from "react";
+import { FC, useRef, useEffect } from "react";
 import Image from "next/image";
-import MainButton from "@/components/ui/MainButton";
-import CustomContainer from "../ui/CustomContainer";
-import { useTransitionRouter } from "next-view-transitions";
-import TransitionLink from "../ui/TransitionLink";
 import gsap from "gsap";
+import MainButton from "@/components/ui/MainButton";
+import CustomContainer from "@/components/ui/CustomContainer";
+import TransitionLink from "@/components/ui/TransitionLink";
+import { IMobileMenuProps } from "../types";
+import { menuItems, contactSections } from "../constants";
 
-const menuItems = [
-  { href: "/catalog", label: "Каталог" },
-  { href: "/production", label: "О производстве" },
-  { href: "/news", label: "Новости" },
-  { href: "/contacts", label: "Контакты" },
-];
-
-const contactSections = [
-  {
-    title: "Отдел продаж",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
-  },
-  {
-    title: "Конструкторский отдел",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
-  },
-];
-
-const MobileMenu: FC<{
-  isOpen: boolean;
-  onClose: () => void;
-  router: any;
-}> = ({ isOpen, onClose, router }) => {
+const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuItemsRef = useRef<HTMLDivElement[]>([]);
   const contactSectionsRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Reset menu position when component mounts
   useEffect(() => {
-    console.log("MobileMenu mounted, isOpen:", isOpen);
     if (menuRef.current) {
       gsap.set(menuRef.current, { x: "100%" });
     }
   }, []);
 
-  // Handle opening animation
   useEffect(() => {
-    console.log("isOpen changed:", isOpen);
     if (!isOpen) return;
 
     const ctx = gsap.context(() => {
-      // Overlay fade in
       gsap.to(overlayRef.current, {
         opacity: 1,
         duration: 0.3,
         ease: "power2.out",
       });
 
-      // Menu slide in
       gsap.to(menuRef.current, {
         x: 0,
         backgroundColor: "rgba(0, 0, 0, 1)",
@@ -68,7 +37,6 @@ const MobileMenu: FC<{
         ease: "power2.out",
       });
 
-      // Menu items fade in
       gsap.to(menuItemsRef.current, {
         opacity: 1,
         x: 0,
@@ -78,7 +46,6 @@ const MobileMenu: FC<{
         delay: 0.2,
       });
 
-      // Contact sections fade in
       gsap.to(contactSectionsRef.current, {
         opacity: 1,
         x: 0,
@@ -87,7 +54,6 @@ const MobileMenu: FC<{
         delay: 0.3,
       });
 
-      // Close button animation
       gsap.fromTo(
         closeButtonRef.current,
         { scale: 0.8, opacity: 0 },
@@ -105,17 +71,13 @@ const MobileMenu: FC<{
   }, [isOpen]);
 
   const handleClose = () => {
-    console.log("handleClose called - closing menu");
-
     const ctx = gsap.context(() => {
-      // Overlay fade out
       gsap.to(overlayRef.current, {
         opacity: 0,
         duration: 0.3,
         ease: "power2.in",
       });
 
-      // Close button animation
       gsap.to(closeButtonRef.current, {
         scale: 0.8,
         opacity: 0,
@@ -123,7 +85,6 @@ const MobileMenu: FC<{
         ease: "power2.in",
       });
 
-      // Menu slide out with background fade
       gsap.to(menuRef.current, {
         x: "100%",
         backgroundColor: "rgba(0, 0, 0, 0)",
@@ -151,7 +112,6 @@ const MobileMenu: FC<{
         ref={menuRef}
         className="fixed top-0 right-0 w-full h-screen bg-transparent overflow-y-auto"
       >
-        {/* Фиксированная шапка без кнопки закрытия */}
         <div className="sticky top-0 left-0 right-0 h-[72px] bg-black z-[1001] border-b border-white/20">
           <CustomContainer className="h-full flex justify-start items-center">
             <Image
@@ -216,7 +176,7 @@ const MobileMenu: FC<{
                       href={`tel:${section.phone.replace(/\D/g, "")}`}
                       className="text-white flex items-center gap-2"
                     >
-                      <span className="w-6 h-6  flex items-center justify-center">
+                      <span className="w-6 h-6 flex items-center justify-center">
                         <svg
                           width="16"
                           height="16"
@@ -239,7 +199,7 @@ const MobileMenu: FC<{
                       href={`mailto:${section.email}`}
                       className="text-white flex items-center gap-2"
                     >
-                      <span className="w-6 h-6  flex items-center justify-center">
+                      <span className="w-6 h-6 flex items-center justify-center">
                         <svg
                           width="16"
                           height="16"
@@ -272,7 +232,7 @@ const MobileMenu: FC<{
               <div className="space-y-4">
                 <h3 className="text-white/60 text-sm">• Адрес</h3>
                 <div className="flex items-center gap-2 text-white">
-                  <span className="w-6 h-6  flex items-center justify-center">
+                  <span className="w-6 h-6 flex items-center justify-center">
                     <svg
                       width="16"
                       height="16"
@@ -339,125 +299,4 @@ const MobileMenu: FC<{
   );
 };
 
-const Navbar: FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useTransitionRouter();
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
-  const handleMenuButtonClick = () => {
-    console.log("Menu button clicked, current state:", isMobileMenuOpen);
-    if (isMobileMenuOpen) {
-      console.log("Menu is open, closing it");
-      setIsMobileMenuOpen(false);
-    } else {
-      console.log("Menu is closed, opening it");
-      setIsMobileMenuOpen(true);
-    }
-  };
-
-  const handleCloseMenu = () => {
-    console.log("handleCloseMenu called");
-    setIsMobileMenuOpen(false);
-  };
-
-  return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 border-b border-white/30 pointer-events-none"
-      style={{ backdropFilter: "blur(20px)" }}
-    >
-      <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto">
-        {/* Logo */}
-        <TransitionLink href="/" className="px-0 flex items-center select-none">
-          <Image
-            src="/logo.svg"
-            alt="СИБКОМПЛЕКТ"
-            width={175}
-            height={32}
-            className="h-8"
-            priority
-          />
-        </TransitionLink>
-
-        {/* Menu Items */}
-        <div className="hidden 2xl:flex items-center space-x-12 px-12 h-full">
-          {menuItems.map((item) => (
-            <TransitionLink
-              key={item.href}
-              href={item.href}
-              className="text-white text-sm hover:text-white/80 transition-colors relative select-none group"
-            >
-              {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
-            </TransitionLink>
-          ))}
-        </div>
-
-        {/* Contact Info and Offer Button */}
-        <div className="hidden 2xl:flex items-center h-full divide-x divide-white/30">
-          <div className="flex items-center h-full divide-x divide-white/30">
-            <a
-              href="tel:+78006003989"
-              className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
-            >
-              <span className="relative z-10 group-hover:text-gray-900 transition-colors">
-                +7 (800) 600-39-89
-              </span>
-              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
-            </a>
-            <a
-              href="mailto:info@sibkomplekt.ru"
-              className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
-            >
-              <span className="relative z-10 group-hover:text-gray-900 transition-colors">
-                info@sibkomplekt.ru
-              </span>
-              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
-            </a>
-          </div>
-          <button className="h-full px-8 bg-white text-gray-900 text-sm hover:bg-gray-50 transition-all duration-300 select-none relative overflow-hidden group">
-            <span className="relative z-10">Оставить заявку</span>
-            <span className="absolute inset-0 bg-gray-200 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          ref={menuButtonRef}
-          className="2xl:hidden px-0 z-[1003] relative w-6 h-6"
-          onClick={handleMenuButtonClick}
-        >
-          <div
-            className={`absolute inset-0 transition-all duration-300 ${
-              isMobileMenuOpen ? "rotate-45" : ""
-            }`}
-          >
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 rounded-full ${
-                isMobileMenuOpen ? "top-3" : "top-1"
-              }`}
-            ></span>
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 rounded-full ${
-                isMobileMenuOpen ? "opacity-0" : "opacity-100"
-              } top-3`}
-            ></span>
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 rounded-full ${
-                isMobileMenuOpen ? "top-3 -rotate-90" : "top-5"
-              }`}
-            ></span>
-          </div>
-        </button>
-      </CustomContainer>
-
-      {/* Mobile Menu */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={handleCloseMenu}
-        router={router}
-      />
-    </nav>
-  );
-};
-
-export default Navbar;
+export default MobileMenu;

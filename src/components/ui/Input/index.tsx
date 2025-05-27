@@ -1,13 +1,9 @@
 "use client";
 
-import { FC, InputHTMLAttributes } from "react";
+import { FC } from "react";
+import { IInputProps } from "@/components/ui/Input/types";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-}
-
-const Input: FC<InputProps> = ({ label, error, className = "", ...props }) => {
+const Input: FC<IInputProps> = ({ label, error, className = "", ...props }) => {
   return (
     <div className="relative">
       <input

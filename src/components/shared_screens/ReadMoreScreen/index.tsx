@@ -1,32 +1,26 @@
 "use client";
 
 import { FC, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+
+import "swiper/css";
+import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
-import Image from "next/image";
-import "swiper/css";
-import "swiper/css/navigation";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";
 import TransitionLink from "@/components/ui/TransitionLink";
 import BracketsText from "@/components/ui/BracketsText";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import { newsItems } from "./constants";
 
 gsap.registerPlugin(ScrollTrigger);
-
-interface NewsItem {
-  id: number;
-  category: string;
-  date: string;
-  readTime: string;
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-}
 
 const ReadMore: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -129,65 +123,6 @@ const ReadMore: FC = () => {
       }
     };
   }, []); // Empty dependency array ensures this only runs once
-
-  // Mock data - replace with actual data from your API
-  const newsItems: NewsItem[] = [
-    {
-      id: 1,
-      category: "Оборудование",
-      date: "29 Января 2024",
-      readTime: "4 минуты",
-      title: "Новая линейка трансформаторов запущена в производство",
-      description:
-        "Компания начала производство инновационных трансформаторов с повышенным КПД и улучшенной системой охлаждения для промышленных объектов.",
-      image: "/news_bg.webp",
-      link: "/news/new-industrial-transformers",
-    },
-    {
-      id: 2,
-      category: "Технологии",
-      date: "28 Января 2024",
-      readTime: "3 минуты",
-      title: "Умные системы распределения электроэнергии: будущее уже здесь",
-      description:
-        "Внедрение интеллектуальных систем управления электроснабжением позволяет сократить потери и оптимизировать потребление энергии.",
-      image: "/news_bg.webp",
-      link: "/news/smart-power-distribution",
-    },
-    {
-      id: 3,
-      category: "Разработки",
-      date: "27 Января 2024",
-      readTime: "6 минут",
-      title: "Революция в автоматизации: новые промышленные контроллеры",
-      description:
-        "Представлена новая серия промышленных контроллеров с расширенными возможностями программирования и повышенной отказоустойчивостью.",
-      image: "/news_bg.webp",
-      link: "/news/new-industrial-controllers",
-    },
-    {
-      id: 4,
-      category: "Инновации",
-      date: "26 Января 2024",
-      readTime: "5 минут",
-      title: "Энергоэффективные решения для производственных линий",
-      description:
-        "Разработана новая система энергосбережения, позволяющая снизить потребление электроэнергии на производстве до 30%.",
-      image: "/news_bg.webp",
-      link: "/news/energy-efficient-solutions",
-    },
-    {
-      id: 5,
-      category: "Безопасность",
-      date: "25 Января 2024",
-      readTime: "4 минуты",
-      title: "Современные системы защиты электрооборудования",
-      description:
-        "Новые разработки в области защиты электрооборудования от перегрузок и коротких замыканий с применением цифровых технологий.",
-      image: "/news_bg.webp",
-      link: "/news/electrical-protection-systems",
-    },
-  ];
 
   return (
     <section className="py-20">

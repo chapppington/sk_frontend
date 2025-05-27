@@ -5,10 +5,10 @@ import "./globals.css";
 import { ViewTransitions } from "next-view-transitions";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
 
-import Navbar from "@/components/sections/Navbar";
-import Footer from "@/components/sections/Footer";
+import Navbar from "@/components/shared_screens/Navbar";
+import Footer from "@/components/shared_screens/Footer";
 
-import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
+import ConditionalBGGradient from "@/components/ui/BackgroundGradient/ConditionalBackgroundGradient";
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";

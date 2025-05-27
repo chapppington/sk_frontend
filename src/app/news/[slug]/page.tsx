@@ -1,6 +1,6 @@
 import ArticleContentSection from "./ActicleContentSection";
-import ReadMore from "@/components/sections/ReadMore";
-import ContactUsSection from "@/components/sections/ContactUsSection";
+import ReadMore from "@/components/shared_screens/ReadMoreScreen";
+import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 export default async function NewsArticlePage({
   params,
 }: {
@@ -23,7 +23,7 @@ export default async function NewsArticlePage({
         ]}
       />
       <ReadMore />
-      <ContactUsSection />
+      <ContactUsScreen />
     </>
   );
 }

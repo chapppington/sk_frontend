@@ -6,10 +6,9 @@ import ProductsSlider from "./ProductsSlider";
 import ScrollingTextSection from "./ScrollingTextSection";
 import PortfolioSection from "./PortfolioSection";
 import CustomerReviews from "./CustomerReviews";
-import ContactUsSection from "@/components/sections/ContactUsSection";
+import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import { useCameraContext } from "@/components/3DScene/features/CameraContext";
 import { SectionObserver } from "@/components/3DScene/features/SectionObserver";
-
 
 export default function Home() {
   const { setTotalSections } = useCameraContext();
@@ -46,7 +45,7 @@ export default function Home() {
         <CustomerReviews />
       </SectionObserver>
       <SectionObserver index={6}>
-        <ContactUsSection />
+        <ContactUsScreen />
       </SectionObserver>
     </main>
   );

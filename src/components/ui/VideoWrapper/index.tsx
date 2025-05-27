@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, FC } from "react";
 
-interface ResortVideoProps {
+interface IVideoWrapperProps {
   src: string;
   poster?: string;
 }
 
-const ResortVideo = ({ src, poster }: ResortVideoProps) => {
+const VideoWrapper: FC<IVideoWrapperProps> = ({ src, poster }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
@@ -27,4 +27,4 @@ const ResortVideo = ({ src, poster }: ResortVideoProps) => {
   );
 };
 
-export default ResortVideo;
+export default VideoWrapper;

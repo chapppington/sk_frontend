@@ -3,15 +3,15 @@
 import { FC, useEffect } from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
-import CustomContainer from "../ui/CustomContainer";
-import ContactForm from "@/components/sections/ContactForm";
+import CustomContainer from "../../ui/CustomContainer";
+import ContactForm from "@/components/shared_screens/ContactForm";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedText from "@/components/ui/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ContactUsSection: FC = () => {
+const ContactUsScreen: FC = () => {
   // Add ScrollTrigger refresh effect
   useEffect(() => {
     const refreshScrollTrigger = () => {
@@ -76,4 +76,4 @@ const ContactUsSection: FC = () => {
   );
 };
 
-export default ContactUsSection;
+export default ContactUsScreen;

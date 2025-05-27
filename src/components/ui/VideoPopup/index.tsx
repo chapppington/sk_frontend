@@ -1,23 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import ResortVideo from "./ResortVideo";
+import { useEffect, useRef, FC } from "react";
 
-interface VideoPopupProps {
-  isOpen: boolean;
-  onClose: () => void;
-  videoSrc: string;
-  posterSrc: string;
-  captionsSrc?: string;
-}
+import VideoWrapper from "@/components/ui/VideoWrapper";
+import { IVideoPopupProps } from "@/components/ui/VideoPopup/types";
 
-const VideoPopup = ({
+const VideoPopup: FC<IVideoPopupProps> = ({
   isOpen,
   onClose,
   videoSrc,
   posterSrc,
-  captionsSrc,
-}: VideoPopupProps) => {
+}) => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,7 +64,7 @@ const VideoPopup = ({
             ></path>
           </svg>
         </button>
-        <ResortVideo src={videoSrc} poster={posterSrc} />
+        <VideoWrapper src={videoSrc} poster={posterSrc} />
       </div>
     </div>
   );

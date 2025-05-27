@@ -4,18 +4,18 @@ import ValuesScreen from "@/app/vacancies/ValuesScreen";
 import AdvantagesScreen from "@/app/vacancies/AdvantagesScreen";
 import ReviewsScreen from "@/app/vacancies/ReviewsScreen";
 import FaqScreen from "@/app/vacancies/FaqScreen";
-import ContactUsSection from "@/components/sections/ContactUsSection";
+import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
 export default function Vacancies() {
   return (
-    <div>
+    <main>
       <FirstScreen />
       <VacanciesScreen />
       <ValuesScreen />
       <AdvantagesScreen />
       <ReviewsScreen />
       <FaqScreen />
-      <ContactUsSection />
-    </div>
+      <ContactUsScreen />
+    </main>
   );
 }

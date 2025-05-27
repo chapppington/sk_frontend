@@ -5,6 +5,49 @@ import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
+import type { ContactBlock, NavigationItem } from "./types";
+
+const navigationItems: NavigationItem[] = [
+  { name: "Каталог", link: "/catalog" },
+  { name: "Проекты", link: "/projects" },
+  { name: "О компании", link: "/about" },
+  { name: "О производстве", link: "/production" },
+  { name: "Сертификаты", link: "/certificates" },
+  { name: "Вакансии", link: "/vacancies" },
+  { name: "Контакты", link: "/contacts" },
+];
+
+const desktopNavigationItems: NavigationItem[] = [
+  { name: "О компании", link: "/about" },
+  { name: "Сертификаты", link: "/certificates" },
+  { name: "Вакансии", link: "/vacancies" },
+  { name: "Контакты", link: "/contacts" },
+];
+
+const contactBlocks: ContactBlock[] = [
+  {
+    title: "Отдел продаж",
+    phone: "8 (880) 990-00-00",
+    email: "test@mail.ru",
+  },
+  {
+    title: "Офис компании",
+    phone: "8 (880) 990-00-00",
+    email: "test@mail.ru",
+  },
+  {
+    title: "Конструкторский отдел",
+    phone: "8 (880) 990-00-00",
+    email: "test@mail.ru",
+  },
+  {
+    title: "Сервисная служба",
+    phone: "8 (880) 990-00-00",
+    email: "test@mail.ru",
+  },
+];
+
+const companyAddress = "ул. Арбат, 26, Москва";
 
 const Footer: FC = () => {
   return (
@@ -29,15 +72,7 @@ const Footer: FC = () => {
           <div className="w-full md:w-auto">
             {/* Mobile Links (full width with arrows) */}
             <div className="md:hidden w-full space-y-4">
-              {[
-                { name: "Каталог", link: "/catalog" },
-                { name: "Проекты", link: "/projects" },
-                { name: "О компании", link: "/about" },
-                { name: "О производстве", link: "/production" },
-                { name: "Сертификаты", link: "/certificates" },
-                { name: "Вакансии", link: "/vacancies" },
-                { name: "Контакты", link: "/contacts" },
-              ].map((item) => (
+              {navigationItems.map((item) => (
                 <div key={item.name} className="border-b border-white/30 pb-4">
                   <TransitionLink
                     href={item.link}
@@ -65,12 +100,7 @@ const Footer: FC = () => {
             {/* Desktop Links (grid) */}
             <div className="hidden md:flex justify-center items-center w-full">
               <div className="flex space-x-8 mx-auto">
-                {[
-                  { name: "О компании", link: "/about" },
-                  { name: "Сертификаты", link: "/certificates" },
-                  { name: "Вакансии", link: "/vacancies" },
-                  { name: "Контакты", link: "/contacts" },
-                ].map((item) => (
+                {desktopNavigationItems.map((item) => (
                   <div key={item.name}>
                     <TransitionLink
                       href={item.link}
@@ -91,18 +121,7 @@ const Footer: FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1 with 2 contact blocks */}
             <div className="space-y-8 md:flex md:flex-col md:justify-between">
-              {[
-                {
-                  title: "Отдел продаж",
-                  phone: "8 (880) 990-00-00",
-                  email: "test@mail.ru",
-                },
-                {
-                  title: "Офис компании",
-                  phone: "8 (880) 990-00-00",
-                  email: "test@mail.ru",
-                },
-              ].map((block, index) => (
+              {contactBlocks.slice(0, 2).map((block, index) => (
                 <div key={index}>
                   <p className="text-white/80 mb-4">• {block.title}</p>
                   <div className="flex items-center mb-3">
@@ -143,18 +162,7 @@ const Footer: FC = () => {
 
             {/* Column 2 with 2 contact blocks */}
             <div className="space-y-8 md:flex md:flex-col md:justify-between">
-              {[
-                {
-                  title: "Конструкторский отдел",
-                  phone: "8 (880) 990-00-00",
-                  email: "test@mail.ru",
-                },
-                {
-                  title: "Сервисная служба",
-                  phone: "8 (880) 990-00-00",
-                  email: "test@mail.ru",
-                },
-              ].map((block, index) => (
+              {contactBlocks.slice(2, 4).map((block, index) => (
                 <div key={index}>
                   <p className="text-white/80 mb-4">• {block.title}</p>
                   <div className="flex items-center mb-3">
@@ -216,7 +224,7 @@ const Footer: FC = () => {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span className="text-white">ул. Арбат, 26, Москва</span>
+                <span className="text-white">{companyAddress}</span>
               </div>
               <YandexMapContainer />
             </div>

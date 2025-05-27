@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next";
 import FirstScreen from "./FirstScreen";
 import InfoScreen from "./InfoScreen";
-import ContactUsSection from "@/components/sections/ContactUsSection";
+import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import LogoGrid from "./LogoGrid";
 import NumbersSection from "./NumbersSection";
 import SliderSection from "./SliderSection";
@@ -36,7 +36,7 @@ export default async function ProductPage({
       <SliderSection />
       <NumbersSection />
       <LogoGrid />
-      <ContactUsSection />
+      <ContactUsScreen />
     </main>
   );
 } /* Come for a coffee, w */

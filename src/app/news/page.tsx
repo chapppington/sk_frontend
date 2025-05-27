@@ -1,4 +1,4 @@
-import ContactUsSection from "@/components/sections/ContactUsSection";
+import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import FirstScreen from "./FirstScreen";
 import NewsGrid from "./NewsGrid";
 
@@ -9,7 +9,7 @@ export default function News() {
     <>
       <FirstScreen />
       <NewsGrid />
-      <ContactUsSection></ContactUsSection>
+      <ContactUsScreen></ContactUsScreen>
     </>
   );
 }
