@@ -1,4 +1,4 @@
-export interface IBreadcrumbItem {
+type IBreadcrumbItem = {
   label: string;
   href: string;
   current?: boolean;

@@ -1,143 +1,17 @@
 "use client";
 
 import { FC, useCallback, useRef, useEffect, useState } from "react";
-import CustomContainer from "@/components/ui/CustomContainer";
-import TransitionLink from "@/components/ui/TransitionLink";
+import { useLenis } from "lenis/react";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import gsap from "gsap";
-import { useLenis } from "lenis/react";
 
-// Sample data
-const sampleNews = [
-  {
-    id: 1,
-    title: "Очевидцы сообщают, что слышали гитарный перебор",
-    category: "Музыка",
-    date: "29 Января 2024",
-    readTime: "5 минут",
-    slug: "ochevidcy-soobshchayut-chto-slyshali-gitarnyy-perebor",
-    description:
-      "Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения.",
-  },
-  {
-    id: 2,
-    title: "Новый альбом группы выходит в свет",
-    category: "Музыка",
-    date: "28 Января 2024",
-    readTime: "3 минуты",
-    slug: "novyy-albom-gruppy-vyhodit-v-svet",
-    description:
-      "Современные технологии достигли такого уровня, что реализация намеченных плановых заданий способствует подготовке и реализации анализа существующих паттернов поведения.",
-  },
-  {
-    id: 3,
-    title: "Концерт в поддержку молодых исполнителей",
-    category: "События",
-    date: "27 Января 2024",
-    readTime: "4 минуты",
-    slug: "koncert-v-podderzhku-molodyh-ispolniteley",
-    description:
-      "Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта.",
-  },
-  {
-    id: 4,
-    title: "Интервью с известным музыкантом",
-    category: "Интервью",
-    date: "26 Января 2024",
-    readTime: "7 минут",
-    slug: "intervyu-s-izvestnym-muzykantom",
-    description:
-      "Сложно сказать, почему элементы политического процесса, инициированные исключительно синтетически, разоблачены.",
-  },
-  {
-    id: 5,
-    title: "Музыкальный фестиваль в этом году",
-    category: "События",
-    date: "25 Января 2024",
-    readTime: "6 минут",
-    slug: "muzykalnyy-festival-v-etom-godu",
-    description:
-      "Принимая во внимание показатели успешности, высококачественный прототип будущего проекта способствует повышению качества анализа существующих паттернов поведения.",
-  },
-  {
-    id: 6,
-    title: "Новые тенденции в мире музыки",
-    category: "Музыка",
-    date: "24 Января 2024",
-    readTime: "4 минуты",
-    slug: "novye-tendencii-v-mire-muzyki",
-    description:
-      "С другой стороны, реализация намеченных плановых заданий способствует подготовке и реализации анализа существующих паттернов поведения.",
-  },
-  {
-    id: 7,
-    title: "Эксклюзивное интервью с дирижером",
-    category: "Интервью",
-    date: "23 Января 2024",
-    readTime: "8 минут",
-    slug: "eksklyuzivnoe-intervyu-s-dirizherom",
-    description:
-      "Значимость этих проблем настолько очевидна, что постоянное информационно-пропагандистское обеспечение нашей деятельности способствует подготовке и реализации позиций.",
-  },
-  {
-    id: 8,
-    title: "Музыкальный конкурс для молодых талантов",
-    category: "События",
-    date: "22 Января 2024",
-    readTime: "5 минут",
-    slug: "muzykalnyy-konkurs-dlya-molodyh-talantov",
-    description:
-      "Повседневная практика показывает, что сложившаяся структура организации позволяет выполнять важные задания по разработке направлений прогрессивного развития.",
-  },
-  {
-    id: 9,
-    title: "Новый музыкальный инструмент в коллекции музея",
-    category: "Музыка",
-    date: "21 Января 2024",
-    readTime: "4 минуты",
-    slug: "novyy-muzykalnyy-instrument-v-kollekcii-muzeya",
-    description:
-      "Разнообразный и богатый опыт говорит нам, что реализация намеченных плановых заданий создаёт предпосылки для новых предложений.",
-  },
-  {
-    id: 10,
-    title: "Мастер-класс по игре на скрипке",
-    category: "События",
-    date: "20 Января 2024",
-    readTime: "6 минут",
-    slug: "master-klass-po-igre-na-skripke",
-    description:
-      "С другой стороны, укрепление и развитие внутренней структуры требует от нас анализа системы массового участия.",
-  },
-  {
-    id: 11,
-    title: "Интервью с композитором современной музыки",
-    category: "Интервью",
-    date: "19 Января 2024",
-    readTime: "7 минут",
-    slug: "intervyu-s-kompozitorom-sovremennoy-muzyki",
-    description:
-      "Таким образом, высокое качество позиционных исследований способствует подготовке и реализации дальнейших направлений развития.",
-  },
-  {
-    id: 12,
-    title: "Открытие нового концертного зала",
-    category: "События",
-    date: "18 Января 2024",
-    readTime: "5 минут",
-    slug: "otkrytie-novogo-koncertnogo-zala",
-    description:
-      "С учётом сложившейся международной обстановки, постоянное информационно-пропагандистское обеспечение нашей деятельности способствует подготовке и реализации новых предложений.",
-  },
-];
+import CustomContainer from "@/components/ui/CustomContainer";
+import TransitionLink from "@/components/ui/TransitionLink";
+import CategoryButton from "@/components/ui/CategoryButton";
 
-const categories = [
-  { name: "Все", slug: "all" },
-  { name: "Музыка", slug: "music" },
-  { name: "События", slug: "events" },
-  { name: "Интервью", slug: "interviews" },
-];
+import type { SortOption, MonthMap, QueryParams } from "./types";
+import { sampleNews, categories } from "./mock_data";
 
 const NewsGrid: FC = () => {
   const lenis = useLenis();
@@ -148,7 +22,7 @@ const NewsGrid: FC = () => {
   const selectedCategorySlug = searchParams.get("category") || "all";
   const selectedCategory =
     categories.find((cat) => cat.slug === selectedCategorySlug)?.name || "Все";
-  const sortBy = (searchParams.get("sort") as "new" | "old") || "new";
+  const sortBy = (searchParams.get("sort") as SortOption) || "new";
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 6;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -162,7 +36,7 @@ const NewsGrid: FC = () => {
   const sortOptionRef = useRef<HTMLDivElement>(null);
 
   const parseRussianDate = (dateStr: string) => {
-    const months = {
+    const months: MonthMap = {
       Января: 0,
       Февраля: 1,
       Марта: 2,
@@ -205,10 +79,10 @@ const NewsGrid: FC = () => {
   );
 
   const createQueryString = useCallback(
-    (params: Record<string, string>) => {
+    (params: QueryParams) => {
       const newParams = new URLSearchParams(searchParams.toString());
       Object.entries(params).forEach(([key, value]) => {
-        newParams.set(key, value);
+        if (value) newParams.set(key, value);
       });
       return newParams.toString();
     },
@@ -216,7 +90,7 @@ const NewsGrid: FC = () => {
   );
 
   const updateUrl = useCallback(
-    (params: Record<string, string>) => {
+    (params: QueryParams) => {
       const newUrl = `${pathname}?${createQueryString(params)}`;
       window.history.pushState({}, "", newUrl);
     },
@@ -375,7 +249,7 @@ const NewsGrid: FC = () => {
   }, []);
 
   // Handle option selection with animation
-  const handleSortChange = (newSort: "new" | "old") => {
+  const handleSortChange = (newSort: SortOption) => {
     if (sortBy === newSort) return;
 
     if (sortOptionRef.current) {
@@ -450,17 +324,13 @@ const NewsGrid: FC = () => {
             </span>
             <div className="flex flex-wrap gap-2 lg:gap-3">
               {categories.map((category) => (
-                <button
+                <CategoryButton
                   key={category.slug}
                   onClick={() => updateUrl({ category: category.slug })}
-                  className={`px-4 py-2 rounded transition-colors ${
-                    selectedCategorySlug === category.slug
-                      ? "bg-white/10 text-white"
-                      : "bg-transparent text-white/60 hover:bg-white/10"
-                  }`}
+                  isActive={selectedCategorySlug === category.slug}
                 >
                   {category.name}
-                </button>
+                </CategoryButton>
               ))}
             </div>
           </div>
