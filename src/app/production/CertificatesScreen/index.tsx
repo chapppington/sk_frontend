@@ -3,6 +3,8 @@
 import { FC } from "react";
 import Dropdown from "@/components/ui/Dropdown";
 import { faqItems } from "./mock_data";
+import BracketsText from "@/components/ui/BracketsText";
+import CustomContainer from "@/components/ui/CustomContainer";
 
 const CertificatesScreen: FC = () => {
   return (
@@ -10,13 +12,13 @@ const CertificatesScreen: FC = () => {
       id="certificates_section"
       className="bg-transparent py-24 relative"
     >
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
+      <CustomContainer>
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
-            <div className="text-white/60">[ ДОКУМЕНТАЦИЯ ]</div>
+            <BracketsText>НОВОВВЕДЕНИЯ</BracketsText>
           </div>
 
-          <div className="container mx-auto px-4 relative">
+          <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8">
                 {faqItems.map((item, idx) => (
@@ -65,7 +67,7 @@ const CertificatesScreen: FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </CustomContainer>
     </section>
   );
 };

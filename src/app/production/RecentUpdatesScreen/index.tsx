@@ -9,11 +9,9 @@ import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
-import GradientHeading from "@/components/ui/GradientHeading";
-import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
-
 import newsItems from "./mock_data";
+import SectionTopPart from "@/components/ui/SectionTopPart";
+import CustomContainer from "@/components/ui/CustomContainer";
 
 const RecentUpdatesScreen: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -116,37 +114,26 @@ const RecentUpdatesScreen: FC = () => {
       id="production_stages_section2"
       className="bg-transparent py-24 relative"
     >
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24 h-full flex flex-col relative z-10">
-        {/* Top Section with 3 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 lg:justify-between">
-          {/* Left column */}
-          <div className="space-y-6 md:space-y-8 lg:space-y-6">
-            <BracketsText>ЭТАПЫ</BracketsText>
-            <div className="md:block lg:hidden">
-              <AnimatedText delay={0}>
-                <GradientHeading>Этапы производства</GradientHeading>
-              </AnimatedText>
-            </div>
-          </div>
-
-          {/* Middle column with title - desktop only */}
-          <div className="hidden lg:block md:mt-4 xl:mt-0">
-            <AnimatedText delay={0}>
-              <GradientHeading>Последние нововведения</GradientHeading>
-            </AnimatedText>
-          </div>
-
-          {/* Right column with description */}
-          <div>
-            <AnimatedText delay={0}>
-              <p className="text-white/70">
-                Мы постоянно совершенствуем наши производственные процессы,
-                внедряя инновационные технологии и оптимизируя каждый этап
-                работы.
-              </p>
-            </AnimatedText>
-          </div>
-        </div>
+      <CustomContainer>
+        <SectionTopPart
+          bracketsText="ЧТО НОВОГО"
+          heading={
+            <>
+              Последние
+              <br />
+              нововведения
+            </>
+          }
+          description="Мы постоянно совершенствуем наши
+производственные процессы, внедряя
+инновационные технологии и оптимизируя каждый
+этап работы."
+          desktopOrder={{
+            bracketsText: 1,
+            heading: 2,
+            description: 3,
+          }}
+        />
 
         {/* Production Stages Slider */}
         <div className="relative pb-2">
@@ -250,7 +237,7 @@ const RecentUpdatesScreen: FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </CustomContainer>
     </section>
   );
 };

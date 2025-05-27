@@ -3,10 +3,8 @@
 import { FC } from "react";
 import Image from "next/image";
 
-import GradientHeading from "@/components/ui/GradientHeading";
-import BracketsText from "@/components/ui/BracketsText";
+import SectionTopPart from "@/components/ui/SectionTopPart";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/AnimatedText";
 import LogoGrid from "@/components/ui/LogoGrid";
 
 import { gridItems, partners } from "./mock_data";
@@ -18,31 +16,25 @@ const EquipmentGridScreen: FC = () => {
       className="bg-transparent py-24 relative"
     >
       <CustomContainer className="h-full flex flex-col relative z-10">
-        {/* Header Section */}
-        <div className="grid grid-cols-12 gap-8 mb-16">
-          {/* Column 2 - Main Title */}
-          <div className="col-span-5">
-            <AnimatedText delay={0}>
-              <GradientHeading>Используемое оборудование</GradientHeading>
-            </AnimatedText>
-          </div>
-
-          {/* Column 3 - Description */}
-          <div className="col-span-4">
-            <AnimatedText delay={0}>
-              <p className="text-white/70">
-                Каждый из нас понимает очевидную вещь: начало повседневной
-                работы по формированию позиции способствует повышению качества
-                направлений прогрессивного развития.
-              </p>
-            </AnimatedText>
-          </div>
-
-          {/* Column 4 - Category Label */}
-          <div className="col-span-3 text-right">
-            <BracketsText>ОБОРУДОВАНИЕ</BracketsText>
-          </div>
-        </div>
+        <SectionTopPart
+          bracketsText="Оборудование"
+          heading={
+            <>
+              Используемое
+              <br />
+              оборудование
+            </>
+          }
+          description="Каждый из нас понимает очевидную вещь: начало
+повседневной работы по формированию позиции
+способствует повышению качества направлений
+прогрессивного развития."
+          desktopOrder={{
+            bracketsText: 3,
+            heading: 1,
+            description: 2,
+          }}
+        />
 
         {/* Grid Content */}
         <div className="grid grid-cols-5 grid-rows-2 gap-6">

@@ -13,12 +13,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import GradientHeading from "@/components/ui/GradientHeading";
-import AnimatedText from "@/components/ui/AnimatedText";
 import TransitionLink from "@/components/ui/TransitionLink";
-import BracketsText from "@/components/ui/BracketsText";
 
 import { newsItems } from "./constants";
+import SectionTopPart from "@/components/ui/SectionTopPart";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,41 +125,16 @@ const ReadMore: FC = () => {
   return (
     <section className="py-20">
       <CustomContainer>
-        {/* Desktop Header */}
-        <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <BracketsText className="md:w-full lg:w-auto">НОВОСТИ</BracketsText>
-
-          <AnimatedText delay={0}>
-            <GradientHeading className="leading-tight mb-6">
-              Читайте также
-            </GradientHeading>
-          </AnimatedText>
-
-          <AnimatedText delay={0}>
-            <p className="text-white/60 max-w-md text-left mt-5">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
-
-        {/* Mobile Header */}
-        <div className="md:hidden mb-8">
-          <BracketsText className="mb-2">НОВОСТИ</BracketsText>
-          <AnimatedText delay={0}>
-            <GradientHeading className="leading-tight my-6">
-              Читайте также
-            </GradientHeading>
-          </AnimatedText>
-          <AnimatedText>
-            <p className="text-white/60 max-w-md text-left mt-5">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
+        <SectionTopPart
+          bracketsText="НОВОСТИ"
+          heading={<>Читайте также</>}
+          description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
+          desktopOrder={{
+            bracketsText: 1,
+            heading: 2,
+            description: 3,
+          }}
+        />
 
         {/* Slider Container */}
         <div className="relative">

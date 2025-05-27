@@ -9,11 +9,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import GradientHeading from "@/components/ui/GradientHeading";
-import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
+import SectionTopPart from "@/components/ui/SectionTopPart";
 import { productionStages } from "./mock_data";
-
 
 const ProductionStagesScreen: FC = () => {
   const [activeIndicator, setActiveIndicator] = useState(0);
@@ -35,52 +32,29 @@ const ProductionStagesScreen: FC = () => {
       id="production_stages_section"
       className="bg-transparent py-24 relative"
     >
-      {/* Bottom Gradient */}
+      {/* Top Gradient */}
       <div
         className="absolute inset-x-0 top-0 h-[500px] bg-gradient-to-b from-black to-transparent"
         style={{ zIndex: -1 }}
       ></div>
 
       <CustomContainer className="h-full flex flex-col relative z-10">
-        {/* Desktop Header */}
-        <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <BracketsText className="text-white/60 md:w-full lg:w-auto">
-              ЭТАПЫ
-            </BracketsText>
-          </AnimatedText>
-          <AnimatedText delay={0}>
-            <GradientHeading>
-              Этапы<br></br>производства
-            </GradientHeading>
-          </AnimatedText>
-          <AnimatedText delay={0}>
-            <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
-
-        {/* Mobile Header */}
-        <div className="md:hidden mb-8">
-          <AnimatedText delay={0}>
-            <BracketsText className="text-white/60 mb-2">ЭТАПЫ</BracketsText>
-          </AnimatedText>
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <h2 className="text-3xl text-white font-light mt-3">
-              Этапы<br></br>производства
-            </h2>
-          </AnimatedText>
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <p className="text-white/60 max-w-md text-left mt-5">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
+        <SectionTopPart
+          bracketsText="ЭТАПЫ"
+          heading={
+            <>
+              Этапы
+              <br />
+              производства
+            </>
+          }
+          description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
+          desktopOrder={{
+            bracketsText: 1,
+            heading: 2,
+            description: 3,
+          }}
+        />
 
         {/* Production Stages Slider */}
         <div className="relative pb-2">
