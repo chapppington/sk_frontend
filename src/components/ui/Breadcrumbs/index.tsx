@@ -1,5 +1,3 @@
-"use client";
-
 import { FC, Fragment } from "react";
 
 import CustomContainer from "../CustomContainer";

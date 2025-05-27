@@ -1,4 +1,6 @@
-import { FC, useEffect, useRef } from "react";
+"use client";
+
+import { FC, useRef } from "react";
 import TransitionLink from "./TransitionLink";
 
 interface MainButtonProps {
