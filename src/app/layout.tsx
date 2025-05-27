@@ -1,13 +1,17 @@
+import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ViewTransitions } from "next-view-transitions";
 import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
+
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+
 import ConditionalBGGradient from "@/components/ui/ConditionalBGGradient";
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
+
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
-import { ViewTransitions } from "next-view-transitions";
 import { TransitionProvider } from "@/components/providers/TransitionProvider";
 import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
@@ -29,11 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
       <body>

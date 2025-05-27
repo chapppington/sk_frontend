@@ -8,7 +8,6 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
 import { useSearchParams } from "next/navigation";
 import { useLenis } from "lenis/react";
-import sanitizeInput from "@/utils/sanitizeInput";
 
 // Sample data structure
 const productCategories = [
@@ -185,7 +184,7 @@ const CatalogSection: FC = () => {
   // Get and sanitize URL params
   const tabParam = validateTabParam(searchParams.get("tab"));
   const categoryParam = validateCategoryParam(searchParams.get("category"));
-  const searchParam = sanitizeInput(searchParams.get("search"));
+  const searchParam = searchParams.get("search") || "";
   const pageParam = validatePageParam(searchParams.get("page"));
 
   const [activeTab, setActiveTab] = useState<"products" | "services">(tabParam);
@@ -214,8 +213,7 @@ const CatalogSection: FC = () => {
     }
 
     if (debouncedSearchQuery) {
-      // Sanitize search query before adding to URL
-      params.set("search", sanitizeInput(debouncedSearchQuery));
+      params.set("search", debouncedSearchQuery);
     }
 
     if (currentPage > 1) {
@@ -421,7 +419,7 @@ const CatalogSection: FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(sanitizeInput(e.target.value))}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Поиск по каталогу"
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/80 focus:outline-none focus:border-white/20"
             />
@@ -526,7 +524,7 @@ const CatalogSection: FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(sanitizeInput(e.target.value))}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Поиск по каталогу"
               className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/80 focus:outline-none focus:border-white/20"
             />

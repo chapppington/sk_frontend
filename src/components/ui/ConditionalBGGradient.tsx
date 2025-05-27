@@ -1,13 +1,16 @@
 "use client";
-
+import { FC } from "react";
 import { usePathname } from "next/navigation";
-import BGGradient from "./BackgroundGradient";
 
-export default function ConditionalBGGradient() {
+import BackgroundGradient from "@/components/ui/BackgroundGradient";
+
+const ConditionalBackgroundGradient: FC = () => {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
   if (isHomePage) return null;
 
-  return <BGGradient />;
-}
+  return <BackgroundGradient />;
+};
+
+export default ConditionalBackgroundGradient;

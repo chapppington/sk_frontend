@@ -2,14 +2,9 @@
 
 import { FC, useState } from "react";
 import { YMaps, Map, Placemark } from "react-yandex-maps";
+import { IYandexMapContainerProps } from "@/components/ui/YandexMapContainer/interfaces";
 
-interface YandexMapContainerProps {
-  initialCoordinates?: [number, number];
-  onCoordinatesChange?: (coordinates: [number, number]) => void;
-  height?: string | number;
-}
-
-const YandexMapContainer: FC<YandexMapContainerProps> = ({
+const YandexMapContainer: FC<IYandexMapContainerProps> = ({
   initialCoordinates = [55.751574, 37.573856], // Default to Moscow coordinates
   onCoordinatesChange,
   height = "250px",

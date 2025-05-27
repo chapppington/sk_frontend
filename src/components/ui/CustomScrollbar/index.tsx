@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
 
-export default function CustomScrollbar() {
+const CustomScrollbar: FC = () => {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [contentHeight, setContentHeight] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
@@ -290,4 +290,6 @@ export default function CustomScrollbar() {
       </div>
     </div>
   );
-}
+};
+
+export default CustomScrollbar;

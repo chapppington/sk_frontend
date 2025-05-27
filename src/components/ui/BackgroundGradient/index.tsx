@@ -3,7 +3,7 @@
 import { useEffect, useRef, FC } from "react";
 import * as THREE from "three";
 
-const BGGradient: FC = () => {
+const BackgroundGradient: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -173,4 +173,4 @@ const BGGradient: FC = () => {
   );
 };
 
-export default BGGradient;
+export default BackgroundGradient;
