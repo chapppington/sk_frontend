@@ -1,15 +1,8 @@
 "use client";
 
 import { FC, useRef } from "react";
-import TransitionLink from "./TransitionLink";
-
-interface MainButtonProps {
-  text: string;
-  onClick?: () => void;
-  className?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "2xl";
-  href?: string;
-}
+import TransitionLink from "../TransitionLink";
+import { IMainButtonProps, EButtonSize } from "./types";
 
 const sizeStyles = {
   sm: {
@@ -84,11 +77,11 @@ const sizeStyles = {
   },
 };
 
-const MainButton: FC<MainButtonProps> = ({
+const MainButton: FC<IMainButtonProps> = ({
   text,
   onClick,
   className = "",
-  size = "md",
+  size = EButtonSize.MD,
   href = "#",
 }) => {
   const styles = sizeStyles[size];

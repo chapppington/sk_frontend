@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import AnimatedText from "@/components/ui/AnimatedText";
-import { IBracketsTextProps } from "@/components/ui/BracketsText/interfaces";
+import { IBracketsTextProps } from "@/components/ui/BracketsText/types";
 
 const BracketsText: FC<IBracketsTextProps> = ({ children, className = "" }) => {
   return (

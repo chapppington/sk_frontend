@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { IAnimatedTextProps } from "@/components/ui/AnimatedText/interfaces";
+import { IAnimatedTextProps } from "@/components/ui/AnimatedText/types";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 

@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import { FC } from "react";
-import { ICategoryButtonProps } from "@/components/ui/CategoryButton/interfaces";
+import { ICategoryButtonProps } from "@/components/ui/CategoryButton/types";
 
 const CategoryButton: FC<ICategoryButtonProps> = ({
   isActive = false,

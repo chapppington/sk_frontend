@@ -1,13 +1,7 @@
 import { FC } from "react";
+import { ICustomContainerProps } from "@/components/ui/CustomContainer/types";
 
-interface CustomContainerProps {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-  fullHeight?: boolean;
-}
-
-const CustomContainer: FC<CustomContainerProps> = ({
+const CustomContainer: FC<ICustomContainerProps> = ({
   children,
   className,
   style,

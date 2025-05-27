@@ -1,9 +1,9 @@
 import { FC, Fragment } from "react";
 
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import TransitionLink from "@/components/ui/TransitionLink";
-import { IBreadcrumbsProps } from "@/components/ui/Breadcrumbs/interfaces";
+import { IBreadcrumbsProps } from "@/components/ui/Breadcrumbs/types";
 
 const Breadcrumbs: FC<IBreadcrumbsProps> = ({
   items,

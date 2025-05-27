@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { useState, useRef, useEffect, FC } from "react";
 import { useLenis } from "lenis/react";
 
-import { IDropdownProps } from "@/components/ui/Dropdown/interfaces";
+import { IDropdownProps } from "@/components/ui/Dropdown/types";
 
 const Dropdown: FC<IDropdownProps> = ({
   title,
