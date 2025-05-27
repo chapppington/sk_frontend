@@ -8,6 +8,7 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
 import { useSearchParams } from "next/navigation";
 import { useLenis } from "lenis/react";
+import sanitizeInput from "@/utils/sanitizeInput";
 
 // Sample data structure
 const productCategories = [
@@ -156,16 +157,7 @@ const services = [
   },
 ];
 
-// Utility function to sanitize input and prevent XSS
-const sanitizeInput = (input: string | null): string => {
-  if (!input) return "";
-  // Remove any HTML tags and script content
-  return input
-    .replace(/<\/?[^>]+(>|$)/g, "")
-    .replace(/javascript:/gi, "")
-    .replace(/on\w+=/gi, "")
-    .replace(/data:/gi, "");
-};
+
 
 // Utility function to validate tab parameter
 const validateTabParam = (tab: string | null): "products" | "services" => {

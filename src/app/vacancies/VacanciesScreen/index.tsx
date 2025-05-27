@@ -1,9 +1,10 @@
 "use client";
 
+import gsap from "gsap";
+import { useState, useMemo, useEffect, useRef, FC } from "react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
-import { useState, useMemo, useEffect, useRef, FC } from "react";
-import gsap from "gsap";
 import { IJobItem } from "@/app/vacancies/VacanciesScreen/interfaces";
 
 const VacanciesScreen: FC = () => {
