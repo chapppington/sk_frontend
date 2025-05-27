@@ -4,3 +4,7 @@ export interface IRecentUpdateItem {
   description: string;
   image: string;
 }
+
+export interface IRecentUpdateSliderItemProps {
+  item: IRecentUpdateItem;
+}

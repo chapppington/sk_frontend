@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import SectionTopPart from "@/components/ui/SectionTopPart";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { productionStages } from "./mock_data";
 
 const ProductionStagesScreen: FC = () => {
@@ -39,7 +39,7 @@ const ProductionStagesScreen: FC = () => {
       ></div>
 
       <CustomContainer className="h-full flex flex-col relative z-10">
-        <SectionTopPart
+        <SectionHeader
           bracketsText="ЭТАПЫ"
           heading={
             <>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface ProductionHeaderProps {
+export interface ISectionHeaderProps {
   bracketsText: string;
   heading: ReactNode;
   description: string;

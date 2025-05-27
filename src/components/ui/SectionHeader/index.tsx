@@ -2,9 +2,9 @@ import { FC } from "react";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
-import { ProductionHeaderProps } from "./types";
+import { ISectionHeaderProps } from "@/components/ui/SectionHeader/types";
 
-const SectionTopPart: FC<ProductionHeaderProps> = ({
+const SectionHeader: FC<ISectionHeaderProps> = ({
   bracketsText,
   heading,
   description,
@@ -76,4 +76,4 @@ const SectionTopPart: FC<ProductionHeaderProps> = ({
   );
 };
 
-export default SectionTopPart;
+export default SectionHeader;

@@ -15,7 +15,7 @@ const CertificatesScreen: FC = () => {
       <CustomContainer>
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
-            <BracketsText>НОВОВВЕДЕНИЯ</BracketsText>
+            <BracketsText>СЕРТИФИКАЦИЯ</BracketsText>
           </div>
 
           <div className="container mx-auto relative">

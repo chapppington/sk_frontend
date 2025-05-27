@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Image from "next/image";
 
-import SectionTopPart from "@/components/ui/SectionTopPart";
+import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 import LogoGrid from "@/components/ui/LogoGrid";
 
@@ -16,7 +16,7 @@ const EquipmentGridScreen: FC = () => {
       className="bg-transparent py-24 relative"
     >
       <CustomContainer className="h-full flex flex-col relative z-10">
-        <SectionTopPart
+        <SectionHeader
           bracketsText="Оборудование"
           heading={
             <>

@@ -14,6 +14,7 @@ import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
 import AnimatedText from "@/components/ui/AnimatedText";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 // Mock data - with varied content and different images from public folder
 const slides = [
@@ -145,31 +146,21 @@ const SliderSection: FC = () => {
   return (
     <section className="bg-transparent py-24 relative">
       <CustomContainer className="h-full flex flex-col relative z-10">
-        {/* Header Section */}
-        <div className="grid grid-cols-12 gap-8 mb-16">
-          {/* Column 1 - Category Label */}
-          <div className="col-span-12 lg:col-span-3">
-            <BracketsText>ГДЕ ПРИМЕНЯЛОСЬ</BracketsText>
-          </div>
-
-          {/* Column 2 - Main Title */}
-          <div className="col-span-12 lg:col-span-5">
-            <AnimatedText delay={0}>
-              <GradientHeading>Кейсы применения оборудования</GradientHeading>
-            </AnimatedText>
-          </div>
-
-          {/* Column 3 - Description */}
-          <div className="col-span-12 lg:col-span-4">
-            <AnimatedText delay={0}>
-              <p className="text-white/70">
-                Наша компания успешно реализовала множество проектов разного
-                масштаба, от небольших локальных объектов до крупных
-                промышленных комплексов.
-              </p>
-            </AnimatedText>
-          </div>
-        </div>
+        <SectionHeader
+          bracketsText="ГДЕ ПРИМЕНЯЛОСЬ"
+          heading={
+            <>
+              Кейсы применения <br />
+              оборудования
+            </>
+          }
+          description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
+          desktopOrder={{
+            bracketsText: 1,
+            heading: 2,
+            description: 3,
+          }}
+        />
 
         {/* Slider Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">

@@ -16,7 +16,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 
 import { newsItems } from "./constants";
-import SectionTopPart from "@/components/ui/SectionTopPart";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -125,7 +125,7 @@ const ReadMore: FC = () => {
   return (
     <section className="py-20">
       <CustomContainer>
-        <SectionTopPart
+        <SectionHeader
           bracketsText="НОВОСТИ"
           heading={<>Читайте также</>}
           description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."

@@ -4,11 +4,10 @@ import "swiper/css/navigation";
 import { FC, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import GradientHeading from "@/components/ui/GradientHeading";
-import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
+
 import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 interface HistoryEvent {
   id: number;
@@ -85,44 +84,16 @@ const History: FC = () => {
       ></div>
 
       <CustomContainer className="h-full flex flex-col relative z-10">
-        {/* Desktop Header */}
-        <div className="hidden md:flex justify-between items-start mb-12 flex-wrap gap-y-6">
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <BracketsText className="text-white/60 md:w-full lg:w-auto">
-              ЭТАПЫ
-            </BracketsText>
-          </AnimatedText>
-          <AnimatedText delay={0}>
-            <GradientHeading>История</GradientHeading>
-          </AnimatedText>
-          <AnimatedText delay={0}>
-            <p className="text-white/60 max-w-md text-left md:w-full lg:w-auto lg:max-w-md">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
-
-        {/* Mobile Header */}
-        <div className="md:hidden mb-8">
-          <AnimatedText delay={0}>
-            <BracketsText className="text-white/60 mb-2">ЭТАПЫ</BracketsText>
-          </AnimatedText>
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <h2 className="text-3xl text-white font-light mt-3">
-              Этапы<br></br>производства
-            </h2>
-          </AnimatedText>
-          <AnimatedText delay={0} triggerStart="top 90%">
-            <p className="text-white/60 max-w-md text-left mt-5">
-              Задача организации, в особенности же экономическая повестка
-              сегодняшнего дня способствует подготовке и реализации анализа
-              существующих паттернов поведения.
-            </p>
-          </AnimatedText>
-        </div>
-
+        <SectionHeader
+          bracketsText="Развитие"
+          heading={<>История</>}
+          description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
+          desktopOrder={{
+            bracketsText: 1,
+            heading: 2,
+            description: 3,
+          }}
+        />
         {/* Production Stages Slider */}
         <div className="relative pb-2">
           <Swiper
