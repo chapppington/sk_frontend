@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 
-const PrivacyPolicy: React.FC = () => {
+const PrivacyPolicy: FC = () => {
   return (
     <main className="max-w-[1000px] mx-auto">
       <section className="py-16 mt-24">

@@ -9,7 +9,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import MainButton from "@/components/ui/MainButton";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 
 // Sample data for portfolio items
 const portfolioItems = [

@@ -1,5 +1,6 @@
 "use client";
 
+import { FC } from "react";
 import Dropdown from "@/components/ui/Dropdown";
 
 interface FAQItem {
@@ -33,7 +34,7 @@ const faqItems: FAQItem[] = [
   },
 ];
 
-export default function CertificatesSection() {
+const CertificatesScreen: FC = () => {
   return (
     <section
       id="certificates_section"
@@ -97,4 +98,6 @@ export default function CertificatesSection() {
       </div>
     </section>
   );
-}
+};
+
+export default CertificatesScreen;

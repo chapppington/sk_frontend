@@ -1,6 +1,6 @@
 "use client";
 
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";

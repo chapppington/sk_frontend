@@ -6,7 +6,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import Image from "next/image";
 import type { Swiper as SwiperType } from "swiper";
 import { IReviewItem } from "@/app/vacancies/ReviewsScreen/interfaces";

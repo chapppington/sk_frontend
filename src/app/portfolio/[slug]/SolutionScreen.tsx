@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 

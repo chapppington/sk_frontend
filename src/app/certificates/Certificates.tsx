@@ -1,7 +1,7 @@
 "use client";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";

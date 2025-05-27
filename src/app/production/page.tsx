@@ -1,8 +1,8 @@
 import FirstScreen from "@/app/production/FirstScreen";
-import ProductionStages from "@/app/production/ProductionStages";
+import ProductionStages from "@/app/production/ProductionStagesScreen/ProductionStages";
 import EquipmentGrid from "@/app/production/EquipmentGrid";
 import { RecentUpdatesSection } from "./RecentUpdatesSection";
-import CertificatesSection from "./CertificatesSection";
+import CertificatesScreen from "@/app/production/CertificatesScreen";
 import ReadMore from "@/components/sections/ReadMore";
 import ContactUsSection from "@/components/sections/ContactUsSection";
 
@@ -13,7 +13,7 @@ export default function Production() {
       <ProductionStages />
       <EquipmentGrid />
       <RecentUpdatesSection />
-      <CertificatesSection />
+      <CertificatesScreen />
       <ReadMore />
       <ContactUsSection />
     </div>

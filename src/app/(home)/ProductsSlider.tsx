@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 const products = [

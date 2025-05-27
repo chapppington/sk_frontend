@@ -1,17 +1,12 @@
-import { FC, forwardRef } from "react";
+import { FC } from "react";
 import styles from "./GradientHeading.module.css";
+import IGradientHeadingProps from "@/components/ui/GradientHeading/interfaces";
 
-interface GradientHeadingProps {
-  children: React.ReactNode;
-  className?: string;
-  animateOnScroll?: boolean;
-  delay?: number;
-}
-
-export const GradientHeading = forwardRef<
-  HTMLHeadingElement,
-  GradientHeadingProps
->(({ children, className, animateOnScroll, delay }, ref) => {
+const GradientHeading: FC<IGradientHeadingProps> = ({
+  children,
+  className,
+  ref,
+}: IGradientHeadingProps) => {
   return (
     <h2
       ref={ref}
@@ -23,6 +18,6 @@ export const GradientHeading = forwardRef<
       <span className={styles.gradientHeading}>{children}</span>
     </h2>
   );
-});
+};
 
-GradientHeading.displayName = "GradientHeading";
+export default GradientHeading;

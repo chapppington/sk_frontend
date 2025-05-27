@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";

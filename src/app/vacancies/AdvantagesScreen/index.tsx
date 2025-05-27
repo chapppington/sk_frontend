@@ -1,5 +1,5 @@
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import { FC } from "react";
 
 const AdvantagesScreen: FC = () => {

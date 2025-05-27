@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { GradientHeading } from "@/components/ui/GradientHeading";
+import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Dropdown from "@/components/ui/Dropdown";
 import QuestionnaireStage from "@/app/questionnaire/QuestionnaireStage";
