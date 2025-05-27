@@ -1,16 +1,11 @@
 "use client";
 
+import { IFaqItem } from "@/app/vacancies/FaqScreen/interfaces";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
 import Dropdown from "@/components/ui/Dropdown";
 
-interface FaqItem {
-  title: string;
-  content: string;
-  list?: string[];
-}
-
-const faqItems: FaqItem[] = [
+const faqItems: IFaqItem[] = [
   {
     title: "Официальное трудоустройство по ТК?",
     content: "Основные условия официального трудоустройства:",
@@ -55,7 +50,7 @@ const faqItems: FaqItem[] = [
   },
 ];
 
-const FaqSection = () => {
+const FaqScreen = () => {
   return (
     <section id="faq_section" className="bg-transparent py-24">
       <CustomContainer className="relative">
@@ -125,4 +120,4 @@ const FaqSection = () => {
   );
 };
 
-export default FaqSection;
+export default FaqScreen;

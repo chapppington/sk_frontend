@@ -30,7 +30,7 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
     return activeStage >= stageStart && activeStage <= stageEnd;
   })();
 
-  const handleStageClick = () => {
+  const handleStageClick = (): void => {
     // For stage 6 (contact form), use section number 26
     if (stage.number === 6) {
       changeStage(26);

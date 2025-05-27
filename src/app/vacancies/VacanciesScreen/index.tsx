@@ -2,26 +2,18 @@
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, FC } from "react";
 import gsap from "gsap";
+import { IJobItem } from "@/app/vacancies/VacanciesScreen/interfaces";
 
-interface JobItem {
-  title: string;
-  requirements: string[];
-  experience: string[];
-  salary: number;
-  link: string;
-  category: string;
-}
-
-const VacanciesList: React.FC = () => {
+const VacanciesScreen: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("Все вакансии");
   const itemsPerPage = 3;
   const containerRef = useRef<HTMLDivElement>(null);
   const jobItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  const jobs: JobItem[] = [
+  const jobs: IJobItem[] = [
     {
       title: "Инженер-конструктор",
       requirements: [
@@ -342,4 +334,4 @@ const VacanciesList: React.FC = () => {
   );
 };
 
-export default VacanciesList;
+export default VacanciesScreen;

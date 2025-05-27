@@ -2,7 +2,7 @@
 
 import React from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 
 const PrivacyPolicy: React.FC = () => {
   return (

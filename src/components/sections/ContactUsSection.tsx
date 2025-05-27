@@ -2,7 +2,7 @@
 
 import { FC, useEffect } from "react";
 import BracketsText from "@/components/ui/BracketsText";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import CustomContainer from "../ui/CustomContainer";
 import ContactForm from "@/components/sections/ContactForm";
 import gsap from "gsap";

@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useEffect, useRef, useCallback } from "react";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";

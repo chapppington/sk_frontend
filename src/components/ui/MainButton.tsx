@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import TransitionLink from "./TransitionLink";
 
 interface MainButtonProps {
@@ -90,9 +90,11 @@ const MainButton: FC<MainButtonProps> = ({
   href = "#",
 }) => {
   const styles = sizeStyles[size];
+  const buttonRef = useRef<HTMLAnchorElement | null>(null);
 
   return (
     <TransitionLink
+      ref={buttonRef} // Attach ref to the element
       href={href}
       onClick={onClick}
       className={`mt-6 inline-flex bg-white relative w-fit${

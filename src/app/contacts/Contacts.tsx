@@ -3,7 +3,7 @@
 import React from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
 
 import Input from "@/components/ui/Input";

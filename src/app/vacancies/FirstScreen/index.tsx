@@ -4,7 +4,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import Image from "next/image";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 
 const FirstScreen: FC = () => {
   return (

@@ -7,7 +7,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 
 const teamMembers = [

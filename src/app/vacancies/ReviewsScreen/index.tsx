@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import Image from "next/image";
+import type { Swiper as SwiperType } from "swiper";
+import { IReviewItem } from "@/app/vacancies/ReviewsScreen/interfaces";
 
-const reviews = [
+const reviews: IReviewItem[] = [
   {
     name: "Савлукова Лариса Алексеевна",
     position: "Заведующая складским хозяйством",
@@ -44,12 +46,12 @@ const reviews = [
   },
 ];
 
-const ReviewsSection = () => {
-  const swiperRef = useRef<any>(null);
+const ReviewsScreen: FC = () => {
+  const swiperRef = useRef<SwiperType | null>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
-  const indicatorsCreated = useRef(false);
+  const indicatorsCreated = useRef<boolean>(false);
   const [activeReview, setActiveReview] = useState<number | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   useEffect(() => {
     // Only create indicators if they haven't been created yet
@@ -105,7 +107,7 @@ const ReviewsSection = () => {
     };
   }, [activeReview]);
 
-  const updateIndicators = (swiper: any) => {
+  const updateIndicators = (swiper: SwiperType) => {
     if (!indicatorsRef.current) return;
 
     const slideCount = swiper.slides.filter(
@@ -362,4 +364,4 @@ const ReviewsSection = () => {
   );
 };
 
-export default ReviewsSection;
+export default ReviewsScreen;

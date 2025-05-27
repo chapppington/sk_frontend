@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { GradientHeading } from "@/components/ui/GradientHeading/GradientHeading";
+import { GradientHeading } from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
@@ -155,9 +155,7 @@ const SliderSection: FC = () => {
           {/* Column 2 - Main Title */}
           <div className="col-span-12 lg:col-span-5">
             <AnimatedText delay={0}>
-              <GradientHeading>
-                Кейсы применения оборудования
-              </GradientHeading>
+              <GradientHeading>Кейсы применения оборудования</GradientHeading>
             </AnimatedText>
           </div>
 

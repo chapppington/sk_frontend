@@ -1,20 +1,20 @@
+import FirstScreen from "@/app/vacancies/FirstScreen";
+import VacanciesScreen from "@/app/vacancies/VacanciesScreen";
+import ValuesScreen from "@/app/vacancies/ValuesScreen";
+import AdvantagesScreen from "@/app/vacancies/AdvantagesScreen";
+import ReviewsScreen from "@/app/vacancies/ReviewsScreen";
+import FaqScreen from "@/app/vacancies/FaqScreen";
 import ContactUsSection from "@/components/sections/ContactUsSection";
-import AdvantagesSection from "./AdvantagesSection";
-import FaqSection from "./FaqSection";
-import FirstScreen from "./FirstScreen";
-import ReviewsSection from "./ReviewsSection";
-import VacanciesList from "./VacanciesList";
-import ValuesSection from "./ValuesSection";
 
 export default function Vacancies() {
   return (
     <div>
       <FirstScreen />
-      <VacanciesList />
-      <ValuesSection />
-      <AdvantagesSection />
-      <ReviewsSection />
-      <FaqSection />
+      <VacanciesScreen />
+      <ValuesScreen />
+      <AdvantagesScreen />
+      <ReviewsScreen />
+      <FaqScreen />
       <ContactUsSection />
     </div>
   );
