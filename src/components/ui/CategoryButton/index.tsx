@@ -1,3 +1,5 @@
+"use client"
+
 import { FC } from "react";
 import { ICategoryButtonProps } from "@/components/ui/CategoryButton/interfaces";
 

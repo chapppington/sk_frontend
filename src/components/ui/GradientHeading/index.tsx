@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 
 import { IGradientHeadingProps } from "@/components/ui/GradientHeading/interfaces";

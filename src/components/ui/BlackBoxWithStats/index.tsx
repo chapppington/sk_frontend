@@ -1,3 +1,5 @@
+"use client"
+
 import { FC } from "react";
 import AnimatedText from "../AnimatedText";
 import { IBlackBoxWithStatsProps } from "@/components/ui/BlackBoxWithStats/interfaces";
