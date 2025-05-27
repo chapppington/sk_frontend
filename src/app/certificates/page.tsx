@@ -1,11 +1,11 @@
+import CertificatesScreen from "@/app/certificates/modules/CertificatesScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import Certificates from "./Certificates";
 
 export default function CertificatesPage() {
   return (
-    <>
-      <Certificates />
+    <main>
+      <CertificatesScreen />
       <ContactUsScreen />
-    </>
+    </main>
   );
 }

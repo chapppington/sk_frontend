@@ -3,8 +3,8 @@
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { FC, useState } from "react";
-import ValueCard from "@/app/vacancies/ValuesScreen/ValueCard";
-import { IValueData } from "@/app/vacancies/ValuesScreen/ValueCard/types";
+import ValueCard from "@/app/vacancies/modules/ValuesScreen/ValueCard";
+import { IValueData } from "@/app/vacancies/modules/ValuesScreen/ValueCard/types";
 
 const valuesData: IValueData[] = [
   {

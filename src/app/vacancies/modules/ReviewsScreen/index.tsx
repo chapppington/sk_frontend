@@ -9,7 +9,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import Image from "next/image";
 import type { Swiper as SwiperType } from "swiper";
-import { IReviewItem } from "@/app/vacancies/ReviewsScreen/types";
+import { IReviewItem } from "@/app/vacancies/modules/ReviewsScreen/types";
 
 const reviews: IReviewItem[] = [
   {

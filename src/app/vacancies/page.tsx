@@ -1,9 +1,10 @@
-import FirstScreen from "@/app/vacancies/FirstScreen";
-import VacanciesScreen from "@/app/vacancies/VacanciesScreen";
-import ValuesScreen from "@/app/vacancies/ValuesScreen";
-import AdvantagesScreen from "@/app/vacancies/AdvantagesScreen";
-import ReviewsScreen from "@/app/vacancies/ReviewsScreen";
-import FaqScreen from "@/app/vacancies/FaqScreen";
+import FirstScreen from "@/app/vacancies/modules/FirstScreen";
+import VacanciesScreen from "@/app/vacancies/modules/VacanciesScreen";
+import ValuesScreen from "@/app/vacancies/modules/ValuesScreen";
+import AdvantagesScreen from "@/app/vacancies/modules/AdvantagesScreen";
+import ReviewsScreen from "@/app/vacancies/modules/ReviewsScreen";
+import FaqScreen from "@/app/vacancies/modules/FaqScreen";
+
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
 export default function VacanciesPage() {

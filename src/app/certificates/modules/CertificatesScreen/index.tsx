@@ -1,76 +1,18 @@
 "use client";
 
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import GradientHeading from "@/components/ui/GradientHeading";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
-import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/AnimatedText";
+
 import Dropdown from "@/components/ui/Dropdown";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import AnimatedText from "@/components/ui/AnimatedText";
+import GradientHeading from "@/components/ui/GradientHeading";
+import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
 
-interface FAQItem {
-  title: string;
-  content: string;
-  documents?: {
-    title: string;
-    link: string;
-  }[];
-}
+import { faqCategories } from "./mock_data";
 
-interface FAQCategory {
-  name: string;
-  items: FAQItem[];
-}
-
-const faqCategories: FAQCategory[] = [
-  {
-    name: "Бухгалтерская документация",
-    items: [
-      {
-        title: "Бухгалтерская документация",
-        content:
-          "Каждый из нас понимает очевидную вещь: выбранный нами инновационный путь не даёт нам иного выбора, кроме определения распределения внутренних резервов и ресурсов.",
-        documents: [
-          { title: "Отчет от 05.0.2024 о каких-либо параметрах", link: "#" },
-          { title: "Отчет от 05.0.2024 о каких-либо параметрах", link: "#" },
-        ],
-      },
-      {
-        title: "Вопрос",
-        content:
-          "Каждый из нас понимает очевидную вещь: выбранный нами инновационный путь не даёт нам иного выбора, кроме определения распределения внутренних резервов и ресурсов.",
-      },
-    ],
-  },
-  {
-    name: "Документация",
-    items: [
-      {
-        title: "Вопрос",
-        content:
-          "Каждый из нас понимает очевидную вещь: выбранный нами инновационный путь не даёт нам иного выбора, кроме определения распределения внутренних резервов и ресурсов.",
-      },
-      {
-        title: "Вопрос",
-        content:
-          "Каждый из нас понимает очевидную вещь: выбранный нами инновационный путь не даёт нам иного выбора, кроме определения распределения внутренних резервов и ресурсов.",
-      },
-    ],
-  },
-  {
-    name: "Еще Документация",
-    items: [
-      {
-        title: "Вопрос",
-        content:
-          "Каждый из нас понимает очевидную вещь: выбранный нами инновационный путь не даёт нам иного выбора, кроме определения распределения внутренних резервов и ресурсов.",
-      },
-    ],
-  },
-];
-
-export default function Certificates() {
+export default function CertificatesScreen() {
   const [activeTab, setActiveTab] = useState(0);
 
   // Main content container ref
@@ -88,7 +30,7 @@ export default function Certificates() {
   }, [activeTab]);
 
   return (
-    <main className="mb-10">
+    <div className="mb-10">
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/" },
@@ -176,6 +118,6 @@ export default function Certificates() {
           </div>
         </div>
       </CustomContainer>
-    </main>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import ArticleContentSection from "./ActicleContentSection";
-import ReadMore from "@/components/shared_screens/ReadMoreScreen";
+import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 export default async function NewsArticlePage({
   params,
@@ -7,7 +7,7 @@ export default async function NewsArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  console.log(slug);
+  
   return (
     <>
       <ArticleContentSection
@@ -22,7 +22,7 @@ export default async function NewsArticlePage({
           "В своём стремлении повысить качество жизни, они забывают, что понимание сути ресурсосберегающих технологий предполагает независимые способы реализации модели развития. И нет сомнений, что базовые сценарии поведения пользователей неоднозначны и будут заблокированы в рамках своих собственных рациональных ограничений. В своём стремлении повысить качество жизни, они забывают, что глубокий уровень погружения способствует подготовке и реализации экспериментов, поражающих по своей масштабности и грандиозности. Также как социально-экономическое развитие требует от нас анализа вывода текущих активов. Современные технологии достигли такого уровня, что высокое качество позиционных исследований выявляет срочную потребность модели развития.",
         ]}
       />
-      <ReadMore />
+      <ReadMoreScreen />
       <ContactUsScreen />
     </>
   );
