@@ -1,9 +1,3 @@
-/* .gradientBorder {
-  border-width: 1px;
-  border-style: solid;
-  border-image: linear-gradient(to bottom, #bbbbbb, transparent) 1;
-} */
-
 .gradientBorder {
   background: linear-gradient(rgba(88, 85, 85, 0.219), transparent) padding-box,
     linear-gradient(to bottom, rgba(199, 198, 198, 0.45), transparent) border-box;

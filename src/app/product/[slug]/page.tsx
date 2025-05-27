@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import FirstScreen from "./FirstScreen";
 import InfoScreen from "./InfoScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import LogoGrid from "./LogoGrid";
+import LogoGrid from "./LogoGridScreen";
 import NumbersSection from "./NumbersSection";
 import SliderSection from "./SliderSection";
 import TabsSection from "./TabsSection";

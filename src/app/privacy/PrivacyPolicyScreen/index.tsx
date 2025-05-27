@@ -4,7 +4,7 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 
-const PrivacyPolicy: FC = () => {
+const PrivacyPolicyScreen: FC = () => {
   return (
     <main className="max-w-[1000px] mx-auto">
       <section className="py-16 mt-24">
@@ -710,4 +710,4 @@ const PrivacyPolicy: FC = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default PrivacyPolicyScreen;

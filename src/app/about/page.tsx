@@ -2,11 +2,11 @@ import React from "react";
 import FirstScreen from "./FirstScreen";
 import History from "./History";
 import ReadMore from "@/components/shared_screens/ReadMoreScreen";
-import LogoGrid from "@/app/about/LogoGrid";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import OwnerComment from "@/app/about/OwnerComment";
 import ReviewScreen from "@/app/about/ReviewScreen";
 import TeamScreen from "@/app/about/TeamScreen";
+import LogoGridScreen from "@/app/about/LogoGridScreen";
 
 const AboutPage: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const AboutPage: React.FC = () => {
       <OwnerComment />
       <TeamScreen />
       <ReviewScreen />
-      <LogoGrid />
+      <LogoGridScreen />
       <ReadMore />
       <ContactUsScreen />
     </main>

@@ -5,8 +5,8 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import AnimatedText from "@/components/ui/AnimatedText";
+import SecondaryButton from "@/components/ui/SecondaryButton";
 import dynamic from "next/dynamic";
-import TransitionLink from "@/components/ui/TransitionLink";
 
 const ProductScene = dynamic(() => import("@/components/productCard3D/main"), {
   ssr: false,
@@ -89,22 +89,11 @@ export default function FirstScreen() {
           </div>
           <div className="flex items-center mt-4">
             <MainButton text="Узнать конечную стоимость" />
-            <TransitionLink
+            <SecondaryButton
               href="/catalog"
-              className="flex items-center text-white/60 text-lg font-light hover:text-white transition-colors ml-8 mt-5"
-            >
-              <span>Назад в каталог</span>
-              <svg
-                className="ml-2 w-7 h-7"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                viewBox="0 0 32 32"
-              >
-                <path d="M8 8 L24 24" />
-                <path d="M24 8 L24 24 L8 24" />
-              </svg>
-            </TransitionLink>
+              text="Назад в каталог"
+              className="ml-8 mt-5"
+            />
           </div>
         </div>
       </CustomContainer>

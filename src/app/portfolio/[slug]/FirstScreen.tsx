@@ -9,7 +9,7 @@ import ResortVideo from "@/components/ui/VideoWrapper";
 import AnimatedText from "@/components/ui/AnimatedText";
 import VideoPopup from "@/components/ui/VideoPopup";
 
-const TasksScreen = () => {
+const FirstScreen = () => {
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
 
   return (
@@ -103,4 +103,4 @@ const TasksScreen = () => {
   );
 };
 
-export default TasksScreen;
+export default FirstScreen;

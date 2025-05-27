@@ -1,8 +1,8 @@
-import FirstScreen from "./FirstScreen";
-import TasksScreen from "./TasksScreen";
-import SolutionScreen from "./SolutionScreen";
-import ReviewScreen from "./ReviewScreen";
-import MoreProjectsScreen from "./MoreProjectsScreen";
+import FirstScreen from "@/app/portfolio/[slug]/FirstScreen";
+import TasksScreen from "@/app/portfolio/[slug]/TasksScreen";
+import SolutionScreen from "@/app/portfolio/[slug]/SolutionScreen";
+import ReviewScreen from "@/app/portfolio/[slug]/ReviewScreen";
+import MoreProjectsScreen from "@/app/portfolio/[slug]/MoreProjectsScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
 interface PortfolioPageProps {
