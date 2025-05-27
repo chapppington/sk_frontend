@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"; // Placeholder image

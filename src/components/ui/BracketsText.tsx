@@ -1,5 +1,5 @@
 import { FC } from "react";
-import AnimatedText from "./textAnimation/AnimatedText";
+import AnimatedText from "./AnimatedText";
 
 interface BracketsTextProps {
   children: React.ReactNode;

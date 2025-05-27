@@ -1,22 +1,8 @@
 import { FC } from "react";
-import AnimatedText from "./textAnimation/AnimatedText";
+import AnimatedText from "../AnimatedText";
+import { IBlackBoxWithStatsProps } from "@/components/ui/BlackBoxWithStats/interfaces";
 
-interface StatItem {
-  value: string;
-  unit?: {
-    text: string;
-    isSuperscript?: boolean;
-  };
-  description: string;
-}
-
-interface BlackBoxWithStatsProps {
-  className?: string;
-  stats: StatItem[];
-  transparent?: boolean;
-}
-
-const BlackBoxWithStats: FC<BlackBoxWithStatsProps> = ({
+const BlackBoxWithStats: FC<IBlackBoxWithStatsProps> = ({
   className,
   stats,
   transparent = false,

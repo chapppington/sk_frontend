@@ -1,29 +1,21 @@
 "use client";
 
-import { useRef, ReactNode } from "react";
+import { useRef, FC } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import IRevealAnimationProps from "@/components/ui/RevealAnimation/interfaces";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface RevealAnimationProps {
-  children: ReactNode;
-  delay?: number;
-  duration?: number;
-  triggerStart?: string;
-  className?: string;
-  useScrollTrigger?: boolean;
-}
-
-export default function RevealAnimation({
+const RevealAnimation: FC<IRevealAnimationProps> = ({
   children,
   delay = 0,
   duration = 1.2,
   triggerStart = "top 100%",
   className = "",
   useScrollTrigger = true,
-}: RevealAnimationProps) {
+}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -72,4 +64,6 @@ export default function RevealAnimation({
       </div>
     </div>
   );
-}
+};
+
+export default RevealAnimation;

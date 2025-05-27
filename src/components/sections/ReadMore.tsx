@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import TransitionLink from "@/components/ui/TransitionLink";
 import BracketsText from "@/components/ui/BracketsText";
 import gsap from "gsap";

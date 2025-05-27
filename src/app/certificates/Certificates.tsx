@@ -5,7 +5,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import Dropdown from "@/components/ui/Dropdown";
 import CategoryButton from "@/components/ui/CategoryButton";
 

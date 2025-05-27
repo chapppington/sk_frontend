@@ -3,9 +3,9 @@ import { FC, useEffect, useState } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
-import ParallaxImage from "@/components/ui/ParallaxImage/ParallaxImage";
+import ParallaxImage from "@/components/ui/ParallaxImage";
 
 const FirstScreen: FC = () => {
   const [isMobile, setIsMobile] = useState(false);

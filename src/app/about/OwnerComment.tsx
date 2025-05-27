@@ -1,15 +1,15 @@
 import React from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
-import RevealAnimation from "@/components/ui/RevealAnimation/RevealAnimation";
+import AnimatedText from "@/components/ui/AnimatedText";
+import RevealAnimation from "@/components/ui/RevealAnimation";
 
 export default function OwnerComment() {
   return (
     <CustomContainer className="py-24">
       <div className="grid grid-cols-1 md:[grid-template-columns:1fr_auto_2fr] gap-2 w-full mx-auto items-stretch">
         {/* Left Column: Squared Photo with Skewed Corner */}
-        <RevealAnimation duration={.8}>
+        <RevealAnimation duration={0.8}>
           <div
             className="border border-white/10 rounded-md overflow-hidden flex items-center justify-center bg-black/20 relative w-full aspect-square"
             style={{

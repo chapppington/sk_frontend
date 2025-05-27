@@ -7,7 +7,7 @@ import CustomContainer from "../ui/CustomContainer";
 import ContactForm from "@/components/sections/ContactForm";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 

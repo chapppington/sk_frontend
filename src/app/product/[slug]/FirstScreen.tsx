@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import dynamic from "next/dynamic";
 import TransitionLink from "@/components/ui/TransitionLink";
 

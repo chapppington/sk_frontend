@@ -5,7 +5,7 @@ import gsap from "gsap";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 interface TaskItem {
   title: string;

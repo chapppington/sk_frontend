@@ -1,17 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
+import IParallaxImageProps from "@/components/ui/ParallaxImage/interfaces";
 
-interface ParallaxImageProps {
-  src: string;
-  alt: string;
-  priority?: boolean;
-  quality?: number;
-  className?: string;
-  parallaxFactor?: number;
-  isMobile?: boolean;
-}
-
-const ParallaxImage: FC<ParallaxImageProps> = ({
+const ParallaxImage: FC<IParallaxImageProps> = ({
   src,
   alt,
   priority = false,

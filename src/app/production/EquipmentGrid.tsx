@@ -5,7 +5,7 @@ import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 interface GridItem {
   title: string;

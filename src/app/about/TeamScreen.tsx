@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 

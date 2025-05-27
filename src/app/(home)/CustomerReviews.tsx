@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 const reviews = [
   {

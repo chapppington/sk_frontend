@@ -2,7 +2,7 @@
 
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import Image from "next/image";
 import { FC, useState, useEffect, useRef } from "react";
 import gsap from "gsap";

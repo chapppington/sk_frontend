@@ -4,7 +4,7 @@ import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import React from "react";
 import styles from "./NumbersSection.module.css";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 const stats = [
   {

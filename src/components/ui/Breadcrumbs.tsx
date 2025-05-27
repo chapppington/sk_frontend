@@ -2,7 +2,7 @@
 
 import { FC, Fragment } from "react";
 import CustomContainer from "./CustomContainer";
-import AnimatedText from "./textAnimation/AnimatedText";
+import AnimatedText from "./AnimatedText";
 import TransitionLink from "./TransitionLink";
 
 interface BreadcrumbItem {

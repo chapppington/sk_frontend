@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 interface NewsItem {
   id: number;

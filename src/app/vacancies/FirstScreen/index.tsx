@@ -1,9 +1,10 @@
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { FC } from "react";
+import Image from "next/image";
+
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import Image from "next/image";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 
 const FirstScreen: FC = () => {

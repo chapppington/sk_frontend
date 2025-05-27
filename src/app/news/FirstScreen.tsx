@@ -7,7 +7,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 
 // Mock news data - replace with your actual data source

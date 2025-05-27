@@ -5,8 +5,8 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
-import RevealAnimation from "@/components/ui/RevealAnimation/RevealAnimation";
+import AnimatedText from "@/components/ui/AnimatedText";
+import RevealAnimation from "@/components/ui/RevealAnimation";
 
 interface ArticleContentSectionProps {
   category: string;

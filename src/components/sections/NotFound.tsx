@@ -4,7 +4,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 export default function NotFound() {
   return (

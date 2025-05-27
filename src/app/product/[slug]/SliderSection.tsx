@@ -13,7 +13,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 // Mock data - with varied content and different images from public folder
 const slides = [

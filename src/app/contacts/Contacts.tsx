@@ -4,7 +4,7 @@ import { FC } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
-import AnimatedText from "@/components/ui/textAnimation/AnimatedText";
+import AnimatedText from "@/components/ui/AnimatedText";
 import Input from "@/components/ui/Input";
 import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
