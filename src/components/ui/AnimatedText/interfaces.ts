@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-export default interface IAnimatedTextProps {
+export interface IAnimatedTextProps {
   children: ReactElement<any, any>;
   animateOnScroll?: boolean;
   delay?: number;

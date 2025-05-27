@@ -1,6 +1,7 @@
 import { FC } from "react";
+
+import { IGradientHeadingProps } from "@/components/ui/GradientHeading/interfaces";
 import styles from "./GradientHeading.module.css";
-import IGradientHeadingProps from "@/components/ui/GradientHeading/interfaces";
 
 const GradientHeading: FC<IGradientHeadingProps> = ({
   children,

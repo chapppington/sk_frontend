@@ -4,7 +4,7 @@ import { useRef, FC } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import IRevealAnimationProps from "@/components/ui/RevealAnimation/interfaces";
+import { IRevealAnimationProps } from "@/components/ui/RevealAnimation/interfaces";
 
 gsap.registerPlugin(ScrollTrigger);
 

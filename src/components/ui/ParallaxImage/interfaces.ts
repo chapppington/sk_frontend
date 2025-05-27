@@ -1,4 +1,4 @@
-export default interface IParallaxImageProps {
+export interface IParallaxImageProps {
   src: string;
   alt: string;
   priority?: boolean;

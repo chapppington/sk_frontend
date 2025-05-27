@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default interface IRevealAnimationProps {
+export interface IRevealAnimationProps {
   children: ReactNode;
   delay?: number;
   duration?: number;
