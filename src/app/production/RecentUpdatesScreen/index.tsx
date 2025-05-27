@@ -1,55 +1,21 @@
 "use client";
 
 import { FC, useEffect, useRef, useCallback } from "react";
-import GradientHeading from "@/components/ui/GradientHeading";
+import Image from "next/image";
+
+import "swiper/css";
+import "swiper/css/navigation";
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import Image from "next/image";
+
+import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-interface NewsItem {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
+import newsItems from "./mock_data";
 
-const newsItems: NewsItem[] = [
-  {
-    id: 1,
-    title: "Новая модель организационной",
-    description:
-      "Каждый из нас понимает очевидную вещь: начало повседневной работы по формированию позиции способствует повышению качества направлений прогрессивного развития.",
-    image: "/news_bg.webp",
-  },
-  {
-    id: 2,
-    title: "Новая модель организационной",
-    description:
-      "Каждый из нас понимает очевидную вещь: начало повседневной работы по формированию позиции способствует повышению качества направлений прогрессивного развития.",
-    image: "/news_bg.webp",
-  },
-  {
-    id: 3,
-    title: "Новая модель организационной",
-    description:
-      "Каждый из нас понимает очевидную вещь: начало повседневной работы по формированию позиции способствует повышению качества направлений прогрессивного развития.",
-    image: "/news_bg.webp",
-  },
-  {
-    id: 4,
-    title: "Новая модель организационной",
-    description:
-      "Каждый из нас понимает очевидную вещь: начало повседневной работы по формированию позиции способствует повышению качества направлений прогрессивного развития.",
-    image: "/news_bg.webp",
-  },
-];
-
-export const RecentUpdatesSection: FC = () => {
+const RecentUpdatesScreen: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
@@ -288,3 +254,5 @@ export const RecentUpdatesSection: FC = () => {
     </section>
   );
 };
+
+export default RecentUpdatesScreen;

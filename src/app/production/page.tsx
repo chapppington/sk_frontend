@@ -1,21 +1,22 @@
 import FirstScreen from "@/app/production/FirstScreen";
-import ProductionStages from "@/app/production/ProductionStagesScreen/ProductionStages";
-import EquipmentGrid from "@/app/production/EquipmentGrid";
-import { RecentUpdatesSection } from "./RecentUpdatesSection";
+import ProductionStagesScreen from "@/app/production/ProductionStagesScreen";
+import EquipmentGridScreen from "@/app/production/EquipmentGridScreen";
+import RecentUpdatesScreen from "@/app/production/RecentUpdatesScreen";
 import CertificatesScreen from "@/app/production/CertificatesScreen";
-import ReadMore from "@/components/shared_screens/ReadMoreScreen";
+
+import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
-export default function Production() {
+export default function ProductionPage() {
   return (
-    <div>
+    <main>
       <FirstScreen />
-      <ProductionStages />
-      <EquipmentGrid />
-      <RecentUpdatesSection />
+      <ProductionStagesScreen />
+      <EquipmentGridScreen />
+      <RecentUpdatesScreen />
       <CertificatesScreen />
-      <ReadMore />
+      <ReadMoreScreen />
       <ContactUsScreen />
-    </div>
+    </main>
   );
 }

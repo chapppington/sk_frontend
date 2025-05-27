@@ -6,7 +6,7 @@ import ReviewsScreen from "@/app/vacancies/ReviewsScreen";
 import FaqScreen from "@/app/vacancies/FaqScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
-export default function Vacancies() {
+export default function VacanciesPage() {
   return (
     <main>
       <FirstScreen />
