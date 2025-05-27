@@ -1,20 +1,16 @@
 "use client";
 
-import { useState, useRef, useEffect, ReactNode } from "react";
 import gsap from "gsap";
+import { useState, useRef, useEffect, FC } from "react";
 import { useLenis } from "lenis/react";
 
-export interface DropdownProps {
-  title: string;
-  defaultOpen?: boolean;
-  children: ReactNode;
-}
+import { IDropdownProps } from "@/components/ui/Dropdown/interfaces";
 
-export default function Dropdown({
+const Dropdown: FC<IDropdownProps> = ({
   title,
   defaultOpen = false,
   children,
-}: DropdownProps) {
+}) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLButtonElement>(null);
@@ -90,4 +86,6 @@ export default function Dropdown({
       </div>
     </div>
   );
-}
+};
+
+export default Dropdown;

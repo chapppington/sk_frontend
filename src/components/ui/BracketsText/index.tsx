@@ -1,12 +1,9 @@
 import { FC } from "react";
-import AnimatedText from "./AnimatedText";
 
-interface BracketsTextProps {
-  children: React.ReactNode;
-  className?: string;
-}
+import AnimatedText from "@/components/ui/AnimatedText";
+import { IBracketsTextProps } from "@/components/ui/BracketsText/interfaces";
 
-const BracketsText: FC<BracketsTextProps> = ({ children, className = "" }) => {
+const BracketsText: FC<IBracketsTextProps> = ({ children, className = "" }) => {
   return (
     <div className={`${className}`}>
       <AnimatedText>

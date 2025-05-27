@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, FC } from "react";
 import * as THREE from "three";
 
-const BGGradient = () => {
+const BGGradient: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

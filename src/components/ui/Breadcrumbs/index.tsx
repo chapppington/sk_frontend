@@ -1,23 +1,13 @@
 "use client";
 
 import { FC, Fragment } from "react";
-import CustomContainer from "./CustomContainer";
-import AnimatedText from "./AnimatedText";
-import TransitionLink from "./TransitionLink";
 
-interface BreadcrumbItem {
-  label: string;
-  href: string;
-  current?: boolean;
-}
+import CustomContainer from "../CustomContainer";
+import AnimatedText from "@/components/ui/AnimatedText";
+import TransitionLink from "@/components/ui/TransitionLink";
+import { IBreadcrumbsProps } from "@/components/ui/Breadcrumbs/interfaces";
 
-interface BreadcrumbsProps {
-  items: BreadcrumbItem[];
-  className?: string;
-  disableContainer?: boolean;
-}
-
-const Breadcrumbs: FC<BreadcrumbsProps> = ({
+const Breadcrumbs: FC<IBreadcrumbsProps> = ({
   items,
   className,
   disableContainer,

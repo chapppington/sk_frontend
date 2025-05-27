@@ -1,6 +1,5 @@
 "use client";
 
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";

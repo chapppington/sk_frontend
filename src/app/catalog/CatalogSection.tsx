@@ -157,8 +157,6 @@ const services = [
   },
 ];
 
-
-
 // Utility function to validate tab parameter
 const validateTabParam = (tab: string | null): "products" | "services" => {
   return tab === "services" ? "services" : "products";

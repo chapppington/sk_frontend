@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import BGGradient from "./BGGradient";
+import BGGradient from "./BackgroundGradient";
 
 export default function ConditionalBGGradient() {
   const pathname = usePathname();
