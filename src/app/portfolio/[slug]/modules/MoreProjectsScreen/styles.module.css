@@ -1,0 +1,19 @@
+.projectsSlider :global(.swiper-slide) {
+  height: 420px;
+}
+
+.sliderIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sliderIndicatorBar {
+  height: 4px;
+  background-color: white;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 1px;
+  width: 1px;
+}

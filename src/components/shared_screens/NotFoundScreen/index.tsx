@@ -5,7 +5,7 @@ import MainButton from "@/components/ui/MainButton";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
-import styles from "./NotFound.module.css";
+import styles from "./styles.module.css";
 
 export default function NotFoundScreen() {
   return (

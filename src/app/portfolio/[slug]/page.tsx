@@ -1,8 +1,8 @@
-import FirstScreen from "@/app/portfolio/[slug]/FirstScreen";
-import TasksScreen from "@/app/portfolio/[slug]/TasksScreen";
-import SolutionScreen from "@/app/portfolio/[slug]/SolutionScreen";
-import ReviewScreen from "@/app/portfolio/[slug]/ReviewScreen";
-import MoreProjectsScreen from "@/app/portfolio/[slug]/MoreProjectsScreen";
+import FirstScreen from "@/app/portfolio/[slug]/modules/FirstScreen";
+import TasksScreen from "@/app/portfolio/[slug]/modules/TasksScreen/TasksScreen";
+import SolutionScreen from "@/app/portfolio/[slug]/modules/SolutionScreen/SolutionScreen";
+import ReviewScreen from "@/app/portfolio/[slug]/modules/ReviewScreen/ReviewScreen";
+import MoreProjectsScreen from "@/app/portfolio/[slug]/modules/MoreProjectsScreen";
 
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 

@@ -1,44 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import { FC, useState, useRef, useMemo } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 import "swiper/css/navigation";
-import Image from "next/image";
+import type SwiperType from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import type SwiperType from "swiper";
 import MainButton from "@/components/ui/MainButton";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-// Mock data for other projects
-const projects = [
-  {
-    id: 1,
-    title: "Павловский деревообрабатывающий комбинат",
-    year: "2024 год",
-    image: "/construction_bg.webp",
-  },
-  {
-    id: 2,
-    title: "Барнаульская ТЭЦ-3",
-    year: "2023 год",
-    image: "/transformer.webp",
-  },
-  {
-    id: 3,
-    title: "Бийская ТЭЦ",
-    year: "2024 год",
-    image: "/production_bg.webp",
-  },
-  {
-    id: 4,
-    title: "Новосибирская ГЭС",
-    year: "2023 год",
-    image: "/production_bg_new.webp",
-  },
-];
+import { projects } from "./mock_data";
+import styles from "./styles.module.css";
 
 const MoreProjectsScreen: FC = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -238,37 +215,12 @@ const MoreProjectsScreen: FC = () => {
 
           {/* Slider Indicators */}
           <div className="flex-1 relative hidden md:block">
-            <div
-              id="slider-indicators"
-              className="flex items-center justify-between w-full"
-            >
+            <div id="slider-indicators" className={styles.sliderIndicators}>
               {indicatorBars}
             </div>
           </div>
         </div>
       </CustomContainer>
-
-      <style jsx global>{`
-        .projectsSlider .swiper-slide {
-          height: 420px;
-        }
-
-        #slider-indicators {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-        }
-
-        .slider-indicator-bar {
-          height: 4px;
-          background-color: white;
-          transition: all 0.3s ease;
-          flex: 1;
-          max-width: 1px;
-          width: 1px;
-        }
-      `}</style>
     </section>
   );
 };

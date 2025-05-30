@@ -15,7 +15,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 
 import { slides } from "./mock_data";
-import styles from "./SliderScreen.module.css";
+import styles from "./styles.module.css";
 
 const SliderSection: FC = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);

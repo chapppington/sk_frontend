@@ -6,7 +6,7 @@ import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-import styles from "./NumbersSection.module.css";
+import styles from "./styles.module.css";
 import { stats } from "./mock_data";
 
 const NumbersSection = () => {
