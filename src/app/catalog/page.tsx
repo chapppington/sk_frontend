@@ -1,5 +1,5 @@
-import CatalogSection from "./CatalogSection";
-import FirstScreen from "./FirstScreen";
+import CatalogSection from "./modules/CatalogScreen";
+import FirstScreen from "./modules/FirstScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import { Suspense } from "react";
 
