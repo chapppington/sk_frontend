@@ -20,7 +20,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ReadMore: FC = () => {
+const ReadMoreScreen: FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
@@ -360,4 +360,4 @@ const ReadMore: FC = () => {
   );
 };
 
-export default ReadMore;
+export default ReadMoreScreen;

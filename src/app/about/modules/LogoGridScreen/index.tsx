@@ -1,26 +1,14 @@
 "use client";
 
 import { FC } from "react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
 import LogoGrid from "@/components/ui/LogoGrid";
 
-const samplePartners = [
-  "logo1.svg",
-  "logo2.svg",
-  "logo3.svg",
-  "logo4.svg",
-  "logo5.svg",
-  "logo6.svg",
-  "logo7.svg",
-  "logo8.svg",
-  "logo9.svg",
-  "logo10.svg",
-  "logo11.svg",
-  "logo12.svg",
-];
+import { samplePartners } from "./mock_data";
 
 const LogoGridScreen: FC = () => {
   return (

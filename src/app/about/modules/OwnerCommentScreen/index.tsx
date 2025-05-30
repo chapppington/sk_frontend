@@ -1,10 +1,11 @@
 import React from "react";
-import CustomContainer from "@/components/ui/CustomContainer";
 import Image from "next/image";
+
+import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
 
-export default function OwnerComment() {
+export const OwnerCommentScreen = () => {
   return (
     <CustomContainer className="py-24">
       <div className="grid grid-cols-1 md:[grid-template-columns:1fr_auto_2fr] gap-2 w-full mx-auto items-stretch">
@@ -48,4 +49,4 @@ export default function OwnerComment() {
       </div>
     </CustomContainer>
   );
-}
+};

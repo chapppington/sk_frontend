@@ -60,7 +60,7 @@ const historyEvents: HistoryEvent[] = [
   },
 ];
 
-const History: FC = () => {
+const HistoryScreen: FC = () => {
   const [activeIndicator, setActiveIndicator] = useState(0);
   const swiperRef = useRef<any>(null);
 
@@ -272,4 +272,4 @@ const History: FC = () => {
   );
 };
 
-export default History;
+export default HistoryScreen;

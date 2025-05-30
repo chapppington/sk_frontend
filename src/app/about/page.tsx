@@ -1,23 +1,23 @@
-import React from "react";
-import FirstScreen from "./FirstScreen";
-import History from "./History";
-import ReadMore from "@/components/shared_screens/ReadMoreScreen";
+import { FC } from "react";
+import FirstScreen from "@/app/about/modules/FirstScreen";
+import HistoryScreen from "@/app/about/modules/HistoryScreen";
+import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import OwnerComment from "@/app/about/OwnerComment";
-import ReviewScreen from "@/app/about/ReviewScreen";
-import TeamScreen from "@/app/about/TeamScreen";
-import LogoGridScreen from "@/app/about/LogoGridScreen";
+import { OwnerCommentScreen } from "@/app/about/modules/OwnerCommentScreen"; // TODO MAKE ALL IMPORTS NOT EXPORT DEFAULT
+import ReviewScreen from "@/app/about/modules/ReviewsScreen";
+import TeamScreen from "@/app/about/modules/TeamScreen";
+import LogoGridScreen from "@/app/about/modules/LogoGridScreen";
 
-const AboutPage: React.FC = () => {
+const AboutPage: FC = () => {
   return (
     <main>
       <FirstScreen />
-      <History />
-      <OwnerComment />
+      <HistoryScreen />
+      <OwnerCommentScreen />
       <TeamScreen />
       <ReviewScreen />
       <LogoGridScreen />
-      <ReadMore />
+      <ReadMoreScreen />
       <ContactUsScreen />
     </main>
   );
