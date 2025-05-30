@@ -1,80 +1,18 @@
 "use client";
+
 import "swiper/css";
 import "swiper/css/navigation";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 
-const teamMembers = [
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-  {
-    name: "Иван Федоров",
-    position: "Должность",
-    image: "/man.png",
-  },
-];
-
-const TeamMemberCard = ({
-  name,
-  position,
-  image,
-}: {
-  name: string;
-  position: string;
-  image: string;
-}) => (
-  <div className="flex flex-col items-start w-full">
-    <div
-      className="relative w-full aspect-square mb-4"
-      style={{
-        clipPath:
-          "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
-      }}
-    >
-      <Image src={image} alt={name} fill className="object-cover" />
-    </div>
-    <div className="text-white text-2xl md:text-2xl font-normal mt-2 mb-1">
-      {name}
-    </div>
-    <div className="text-white/40 text-lg md:text-xl font-light">
-      {position}
-    </div>
-  </div>
-);
+import { teamMembers } from "./mock_data";
+import { TeamMemberCard } from "@/app/about/modules/TeamScreen/components/TeamMemberCard";
 
 export default function TeamScreen() {
   return (

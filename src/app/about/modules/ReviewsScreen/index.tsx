@@ -1,45 +1,20 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+
+import { reviews } from "./mock_data";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Mock reviews data
-const reviews = [
-  {
-    id: 1,
-    quote:
-      "Значимость этих проблем настолько очевидна, что сложившаяся структура организации в значительной степени обусловливает важность каксамодостаточных, так и внешне зависимых концептуальных решений",
-    name: "Иванов Иван Павлович",
-    role: "Клиент",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-  {
-    id: 2,
-    quote:
-      "Повседневная практика показывает, что сложившаяся структура организации требует от нас анализа поставленных обществом задач. Приятно, граждане, наблюдать, как элементы политического процесса призваны к ответу.",
-    name: "Петрова Анна Сергеевна",
-    role: "Партнер",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-  },
-  {
-    id: 3,
-    quote:
-      "Ясность нашей позиции очевидна: постоянный количественный рост и сфера нашей активности требует анализа новых предложений. Банальные, но неопровержимые выводы.",
-    name: "Сидоров Алексей Николаевич",
-    role: "Инвестор",
-    image: "https://randomuser.me/api/portraits/men/67.jpg",
-  },
-];
 
 const ReviewScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
