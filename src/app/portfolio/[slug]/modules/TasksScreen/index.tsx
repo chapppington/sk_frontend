@@ -1,29 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
+import { useState, useRef, useEffect } from "react";
+
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-interface TaskItem {
-  title: string;
-  description: string;
-}
-
-const taskItems: TaskItem[] = [
-  {
-    title: "Подзадача",
-    description:
-      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи. Это более подробное описание, которое включает в себя все необходимые детали и требования. В этом тексте мы можем описать цели, сроки, необходимые ресурсы и ожидаемые результаты выполнения данной подзадачи.",
-  },
-  {
-    title: "Подзадача",
-    description:
-      "Описание подзадачи или дополнительная информация о ней. Здесь может быть текст, раскрывающий детали задачи. Это более подробное описание, которое включает в себя все необходимые детали и требования. В этом тексте мы можем описать цели, сроки, необходимые ресурсы и ожидаемые результаты выполнения данной подзадачи.",
-  },
-];
+import { taskItems } from "./mock_data";
 
 export default function TasksScreen() {
   const [openItems, setOpenItems] = useState<number[]>([]);
