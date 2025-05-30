@@ -7,3 +7,5 @@ export interface IAnimatedTextProps {
   triggerStart?: string;
   debug?: boolean;
 }
+
+export type UseTextAnimationProps = Omit<IAnimatedTextProps, "children">;

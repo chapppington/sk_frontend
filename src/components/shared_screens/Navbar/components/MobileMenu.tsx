@@ -4,8 +4,11 @@ import gsap from "gsap";
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
-import { IMobileMenuProps } from "../types";
-import { menuItems, contactSections } from "../constants";
+import { IMobileMenuProps } from "@/components/shared_screens/Navbar/types";
+import {
+  menuItems,
+  contactSections,
+} from "@/components/shared_screens/Navbar/constants";
 
 const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement>(null);

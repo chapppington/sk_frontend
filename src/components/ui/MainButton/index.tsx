@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useRef } from "react";
-import TransitionLink from "../TransitionLink";
+import TransitionLink from "@/components/ui/TransitionLink";
 import { IMainButtonProps, EButtonSize } from "./types";
 
 const sizeStyles = {

@@ -12,6 +12,7 @@ import { SectionObserver } from "@/components/3DScene/features/SectionObserver";
 
 export default function Home() {
   const { setTotalSections } = useCameraContext();
+  
   useEffect(() => {
     try {
       console.log("Setting total sections to 7");
@@ -20,10 +21,12 @@ export default function Home() {
       console.error("Error setting total sections:", error);
     }
   }, [setTotalSections]);
+
   if (!setTotalSections) {
     console.error("CameraContext not properly initialized");
     return <div>Loading...</div>;
   }
+
   return (
     <main>
       <SectionObserver index={0}>
