@@ -1,37 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Архитектура проекта
 
-## Getting Started
+### Иерархия зависимостей
 
-First, run the development server:
+Слои организованы в строгую иерархию зависимостей:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Страницы могут использовать модули
+- Модули могут использовать компоненты
+- Компоненты могут использовать только UI элементы
+- UI слой является независимым и не может использовать другие слои
 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Проект разделен на следующие слои:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Слой страниц (Pages)**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   - Расположен в папке `app`
+   - Каждая страница находится в отдельной папке
+   - В папке страницы содержатся:
+     - `page.tsx` - основной файл, который собирает все экраны в страницу
+     - папка `modules` - содержит экраны, используемые на странице
+   - Отвечает за маршрутизацию
+   - Определяет структуру страниц приложения
 
-## Learn More
+2. **Слой модулей (Modules)**
 
-To learn more about Next.js, take a look at the following resources:
+   - Содержит бизнес-логику приложения
+   - Организует взаимодействие между компонентами
+   - Управляет состоянием модуля
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Слой компонентов (Components)**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   - Содержит переиспользуемые компоненты
+   - Реализует конкретную функциональность
+   - Может быть использован в разных модулях
+   - Может использовать только компоненты из слоя UI
 
-## Deploy on Vercel
+4. **Слой UI (UI)**
+   - Содержит базовые UI элементы
+   - Обеспечивает единый стиль приложения
+   - Включает общие элементы интерфейса (кнопки, поля ввода и т.д.)
+   - Является самым нижним уровнем иерархии
+   - Не зависит от других слоев
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
