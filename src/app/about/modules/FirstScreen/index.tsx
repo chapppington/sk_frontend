@@ -1,10 +1,11 @@
 "use client";
 
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import { Parallax } from "react-parallax";
 import { FC, useEffect, useState } from "react";
+
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import { Parallax } from "react-parallax";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 
