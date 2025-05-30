@@ -1,6 +1,7 @@
 import ArticleContentSection from "@/app/news/[slug]/modules/ArticleContentScreen";
 import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
+
 export default async function NewsArticlePage({
   params,
 }: {

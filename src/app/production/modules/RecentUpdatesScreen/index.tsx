@@ -10,7 +10,7 @@ import type { Swiper as SwiperType } from "swiper";
 
 import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
-import RecentUpdateSliderItem from "./RecentUpdateSliderItem";
+import RecentUpdateSliderItem from "./components/RecentUpdateSliderItem";
 
 import newsItems from "./mock_data";
 

@@ -1,21 +1,17 @@
 "use client";
 
+import Image from "next/image";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
 
-interface ArticleContentSectionProps {
-  category: string;
-  title: string;
-  date: string;
-  readTime: string;
-  imageSrc: string;
-  content: string[];
-}
+import { IArticleContentSectionProps } from "./types";
+
+// TODO make nice button for back to catalog
 
 export default function ArticleContentSection({
   category,
@@ -24,7 +20,7 @@ export default function ArticleContentSection({
   readTime,
   imageSrc,
   content,
-}: ArticleContentSectionProps) {
+}: IArticleContentSectionProps) {
   return (
     <article className="max-w-[1000px] mx-auto mt-2">
       <CustomContainer className="flex flex-col items-start">

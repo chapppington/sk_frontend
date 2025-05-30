@@ -1,4 +1,4 @@
-import { IRecentUpdateItem } from "@/app/production/modules/RecentUpdatesScreen/RecentUpdateSliderItem/types";
+import { IRecentUpdateItem } from "@/app/production/modules/RecentUpdatesScreen/components/RecentUpdateSliderItem/types";
 
 const newsItems: IRecentUpdateItem[] = [
   {
