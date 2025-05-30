@@ -1,15 +1,12 @@
 import CatalogSection from "./modules/CatalogScreen";
 import FirstScreen from "./modules/FirstScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import { Suspense } from "react";
 
 export default function CatalogPage() {
   return (
     <main>
       <FirstScreen />
-      <Suspense fallback={<div>Loading...</div>}>
-        <CatalogSection />
-      </Suspense>
+      <CatalogSection />
       <ContactUsScreen />
     </main>
   );
