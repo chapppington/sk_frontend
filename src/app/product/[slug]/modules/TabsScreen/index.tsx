@@ -1,16 +1,18 @@
 "use client";
 
+import { useState, useRef, useEffect, FC } from "react";
+
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import AnimatedText from "@/components/ui/AnimatedText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import AnimatedText from "@/components/ui/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TabsSection: React.FC = () => {
+const TabsSection: FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const listItemsRef = useRef<(HTMLLIElement | HTMLDivElement)[]>([]);

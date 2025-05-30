@@ -1,50 +1,16 @@
 "use client";
 
+import { FC, useState, useEffect, useRef } from "react";
+import Image from "next/image";
+
+import gsap from "gsap";
+
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
-import Image from "next/image";
-import { FC, useState, useEffect, useRef } from "react";
-import gsap from "gsap";
 import CategoryButton from "@/components/ui/CategoryButton";
 
-const features = [
-  {
-    label: "Полная заводская готовность",
-    icon: "img/icons/icon1.svg",
-    image: "/production_bg.webp",
-    description:
-      "Поставляемого в сборе, а также блоков и узлов нетранспортабельного в сборе оборудования должна, как правило, исключать необходимость разборки и ревизии его в процессе монтажа.",
-  },
-  {
-    label: "Сроки поставки от 14 дней",
-    icon: "img/icons/icon2.svg",
-    image: "/construction_bg.webp",
-    description:
-      "Каждый из нас понимает очевидную вещь: начало повседневной работы по формированию позиции способствует повышению качества направлений прогрессивного развития.",
-  },
-  {
-    label: "Высокая надежность конструктива",
-    icon: "img/icons/icon3.svg",
-    image: "/news_bg2.webp",
-    description:
-      "Высокий уровень надежности конструктивных элементов обеспечивает долговечность и бесперебойную работу оборудования даже в экстремальных условиях эксплуатации.",
-  },
-  {
-    label: "Понятное прозрачное ценообразование",
-    icon: "img/icons/icon4.svg",
-    image: "/production_bg_new.webp",
-    description:
-      "Наша политика ценообразования построена на принципах прозрачности и честности, что позволяет клиентам получать максимальную выгоду при оптимальном соотношении цены и качества.",
-  },
-  {
-    label: "Проектная экспертиза от типовых проектов до индивидуальных решений",
-    icon: "img/icons/icon5.svg",
-    image: "/news_bg.webp",
-    description:
-      "Наши специалисты обладают богатым опытом в разработке как типовых, так и уникальных проектных решений, что позволяет удовлетворить самые специфические требования заказчика.",
-  },
-];
+import { features } from "./mock_data";
 
 const InfoScreen: FC = () => {
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);

@@ -1,0 +1,28 @@
+.thumbsSwiper :global(.swiper-slide) {
+  transition: all 0.3s ease;
+}
+
+.thumbsSwiper :global(.swiper-slide-thumb-active) img {
+  opacity: 1;
+}
+
+.productSlider :global(.swiper-slide) {
+  width: 100%;
+  height: 600px;
+}
+
+.sliderIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sliderIndicatorBar {
+  height: 4px;
+  background-color: white;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 1px;
+  width: 1px;
+}

@@ -1,87 +1,21 @@
 "use client";
-
+import Image from "next/image";
 import { FC, useState, useRef, useMemo } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Thumbs } from "swiper/modules";
+
 import "swiper/css";
+import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
-import "swiper/css/thumbs";
-import Image from "next/image";
-import CustomContainer from "@/components/ui/CustomContainer";
-import GradientHeading from "@/components/ui/GradientHeading";
-import BracketsText from "@/components/ui/BracketsText";
 import type SwiperType from "swiper";
-import MainButton from "@/components/ui/MainButton";
-import AnimatedText from "@/components/ui/AnimatedText";
-import SectionHeader from "@/components/ui/SectionHeader";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Thumbs } from "swiper/modules";
 
-// Mock data - with varied content and different images from public folder
-const slides = [
-  {
-    id: 1,
-    title: "Строительство объектов энергетики",
-    description:
-      "Крупный проект по энергообеспечению промышленного комплекса с применением современных технологий и автоматизированных систем управления. Включает полный цикл от проектирования до ввода в эксплуатацию.",
-    year: "2024 год",
-    image: "/construction_bg.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 2,
-    title: "Трансформаторные подстанции",
-    description:
-      "Модернизация энергосистем в городской среде с учетом повышенных требований к безопасности и надежности. Разработка и внедрение решений для стабильного электроснабжения с минимальным воздействием на окружающую среду.",
-    year: "2023 год",
-    image: "/transformer.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 3,
-    title: "Производственная база",
-    description:
-      "Масштабирование производственных мощностей с интеграцией цифровых решений для оптимизации производственного процесса. Внедрение автоматизированных линий и систем контроля качества продукции.",
-    year: "2024 год",
-    image: "/production_bg.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 4,
-    title: "Разработка новых технологий",
-    description:
-      "Инновационные решения для энергетического сектора, направленные на повышение энергоэффективности и снижение углеродного следа. Применение современных материалов и передовых инженерных разработок.",
-    year: "2023 год",
-    image: "/production_bg_new.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 5,
-    title: "Модернизация оборудования",
-    description:
-      "Внедрение современных стандартов производства с целью увеличения срока службы оборудования и снижения эксплуатационных затрат. Включает комплексную диагностику и замену устаревших компонентов.",
-    year: "2022 год",
-    image: "/news_bg2.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 6,
-    title: "Корпоративные клиенты",
-    description:
-      "Комплексные решения для бизнеса любого масштаба с учетом специфики отрасли и индивидуальных потребностей клиента. Разработка и внедрение энергетической инфраструктуры под ключ с последующим сервисным обслуживанием.",
-    year: "2022 год",
-    image: "/production_bg.webp",
-    icon: "/item.png",
-  },
-  {
-    id: 7,
-    title: "Партнерская программа",
-    description:
-      "Сотрудничество с ведущими компаниями отрасли для создания интегрированных решений и обмена опытом. Совместная разработка инновационных продуктов и реализация масштабных проектов в энергетической сфере.",
-    year: "2023 год",
-    image: "/news_bg2.webp",
-    icon: "/item.png",
-  },
-];
+import MainButton from "@/components/ui/MainButton";
+import SectionHeader from "@/components/ui/SectionHeader";
+import CustomContainer from "@/components/ui/CustomContainer";
+
+import { slides } from "./mock_data";
+import styles from "./SliderScreen.module.css";
 
 const SliderSection: FC = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
@@ -325,46 +259,12 @@ const SliderSection: FC = () => {
 
           {/* Original Slider Indicators */}
           <div className="flex-1 relative hidden md:block">
-            <div
-              id="slider-indicators"
-              className="flex items-center justify-between w-full"
-            >
+            <div id="slider-indicators" className={styles.sliderIndicators}>
               {indicatorBars}
             </div>
           </div>
         </div>
       </CustomContainer>
-
-      <style jsx global>{`
-        .thumbsSwiper .swiper-slide {
-          transition: all 0.3s ease;
-        }
-
-        .thumbsSwiper .swiper-slide-thumb-active img {
-          opacity: 1;
-        }
-
-        .productSlider .swiper-slide {
-          width: 100%;
-          height: 600px;
-        }
-
-        #slider-indicators {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-        }
-
-        .slider-indicator-bar {
-          height: 4px;
-          background-color: white;
-          transition: all 0.3s ease;
-          flex: 1;
-          max-width: 1px;
-          width: 1px;
-        }
-      `}</style>
     </section>
   );
 };

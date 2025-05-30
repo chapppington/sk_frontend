@@ -1,37 +1,13 @@
 "use client";
 
+import React from "react";
+
 import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
-import React from "react";
-import styles from "./NumbersSection.module.css";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-const stats = [
-  {
-    id: 1,
-    value: "24/7",
-    description: "техническая\nподдержка",
-    height: "128px",
-  },
-  {
-    id: 2,
-    value: "500+",
-    description: "выполненных\nпроектов",
-    height: "50px",
-  },
-  {
-    id: 3,
-    value: "34093",
-    description: "реализованных единиц оборудования",
-    height: "16px",
-  },
-  {
-    id: 4,
-    value: "до 7 лет",
-    description: "гарантии на\nоборудование",
-    height: "70px",
-  },
-];
+import styles from "./NumbersSection.module.css";
+import { stats } from "./mock_data";
 
 const NumbersSection = () => {
   return (

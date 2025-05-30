@@ -1,11 +1,12 @@
 import { Metadata, ResolvingMetadata } from "next";
-import FirstScreen from "./FirstScreen";
-import InfoScreen from "./InfoScreen";
+
+import FirstScreen from "@/app/product/[slug]/modules/FirstScreen";
+import InfoScreen from "@/app/product/[slug]/modules/InfoScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import LogoGrid from "./LogoGridScreen";
-import NumbersSection from "./NumbersSection";
-import SliderSection from "./SliderSection";
-import TabsSection from "./TabsSection";
+import LogoGrid from "@/app/product/[slug]/modules/LogoGridScreen";
+import NumbersSection from "@/app/product/[slug]/modules/NumbersScreen";
+import SliderSection from "@/app/product/[slug]/modules/SliderScreen";
+import TabsSection from "@/app/product/[slug]/modules/TabsScreen";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -39,4 +40,4 @@ export default async function ProductPage({
       <ContactUsScreen />
     </main>
   );
-} /* Come for a coffee, w */
+} 
