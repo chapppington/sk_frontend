@@ -1,4 +1,4 @@
-import ArticleContentSection from "./ActicleContentSection";
+import ArticleContentSection from "@/app/news/[slug]/modules/ArticleContentScreen";
 import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 export default async function NewsArticlePage({
@@ -7,7 +7,7 @@ export default async function NewsArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  
+
   return (
     <>
       <ArticleContentSection
