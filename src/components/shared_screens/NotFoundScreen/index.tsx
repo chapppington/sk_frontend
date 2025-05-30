@@ -7,7 +7,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import styles from "./NotFound.module.css";
 
-export default function NotFound() {
+export default function NotFoundScreen() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center py-24 relative overflow-hidden">
       <CustomContainer>

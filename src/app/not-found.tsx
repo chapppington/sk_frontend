@@ -1,5 +1,5 @@
-import NotFound from "@/components/shared_screens/NotFound";
+import NotFoundScreen from "@/components/shared_screens/NotFoundScreen";
 
-export default function NotFoundContent() {
-  return <NotFound />;
+export default function NotFoundPage() {
+  return <NotFoundScreen />;
 }
