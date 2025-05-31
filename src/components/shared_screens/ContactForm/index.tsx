@@ -6,8 +6,10 @@ import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import MainButton from "@/components/ui/MainButton";
 
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+
 import { IContactFormData } from "./types";
-import { formatPhoneNumber, sanitizeFileName } from "./utils";
+import { sanitizeFileName } from "./utils";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = [".pdf", ".doc", ".docx"];
