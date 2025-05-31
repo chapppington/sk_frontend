@@ -1,6 +1,6 @@
 import { FC } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
-import { menuItems } from "../constants";
+import { menuItems } from "../mock_data";
 
 const DesktopMenu: FC = () => (
   <div className="hidden 2xl:flex items-center space-x-12 px-12 h-full">

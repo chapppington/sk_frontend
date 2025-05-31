@@ -1,14 +1,16 @@
 import { FC, useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
+
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { IMobileMenuProps } from "@/components/shared_screens/Navbar/types";
+
 import {
   menuItems,
   contactSections,
-} from "@/components/shared_screens/Navbar/constants";
+} from "@/components/shared_screens/Navbar/mock_data";
 
 const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement>(null);

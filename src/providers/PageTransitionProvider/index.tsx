@@ -25,7 +25,11 @@ export const usePageTransition = () => {
   return context;
 };
 
-export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
+export const PageTransitionProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [isReady, setIsReady] = useState(false);
   const lenis = useLenis();
 

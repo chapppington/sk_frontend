@@ -8,3 +8,4 @@ export const CONTACT_INFO = {
     display: "info@sibkomplekt.ru",
   },
 } as const;
+
