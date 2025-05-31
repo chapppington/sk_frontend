@@ -1,13 +1,14 @@
 "use client";
 
+import { FC } from "react";
+
 import AnimatedText from "@/components/ui/AnimatedText";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
-import React from "react";
 
-const Mission: React.FC = () => {
+const MissionScreen: FC = () => {
   return (
     <section id="mission_section" className="bg-transparent py-20">
       <CustomContainer>
@@ -65,4 +66,4 @@ const Mission: React.FC = () => {
   );
 };
 
-export default Mission;
+export default MissionScreen;

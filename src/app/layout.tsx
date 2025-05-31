@@ -12,7 +12,7 @@ import ConditionalBGGradient from "@/components/ui/BackgroundGradient/Conditiona
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
-import { TransitionProvider } from "@/components/providers/TransitionProvider";
+import { TransitionProvider } from "@/providers/TransitionProvider";
 import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const inter = Inter({

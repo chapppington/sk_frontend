@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Link from "next/link";
 import { useTransitionRouter } from "next-view-transitions";
-import { useTransition } from "@/components/providers/TransitionProvider";
+import { useTransition } from "@/providers/TransitionProvider";
 import { TransitionLinkProps } from "@/components/ui/TransitionLink/types";
 
 const TransitionLink: FC<TransitionLinkProps> = ({
