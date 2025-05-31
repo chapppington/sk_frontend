@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { CONTACT_INFO } from "./mock_data.ts";
+import { CONTACT_INFO } from "./mock_data";
 
 const ContactInfo: FC = () => (
   <div className="flex items-center h-full divide-x divide-white/30">

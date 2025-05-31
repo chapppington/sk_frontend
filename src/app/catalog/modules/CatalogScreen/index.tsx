@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef, Suspense } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -8,176 +8,14 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
 import { useSearchParams } from "next/navigation";
 import { useLenis } from "lenis/react";
+import { productCategories, products, services } from "./mock_data";
+import {
+  validateCategoryParam,
+  validatePageParam,
+  validateTabParam,
+} from "./utils";
 
-// Sample data structure
-const productCategories = [
-  { id: "all", name: "Вся продукция" },
-  { id: "kts", name: "Комплектные трансформаторные подстанции" },
-  { id: "nku", name: "Низковольтные комплектные устройства" },
-  { id: "quality", name: "Улучшение качества электроэнергии" },
-  {
-    id: "accounting",
-    name: "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
-  },
-  { id: "stations", name: "Электростанции и установки" },
-  { id: "kru", name: "Комплектные распределительные устройства" },
-];
-
-const products = [
-  {
-    id: 1,
-    title: "Пункт автоматического регулирования напряжения (ПАРН)",
-    image: "/transformer.webp",
-    category: "kts",
-    slug: "2ktpt-25-250-kva",
-  },
-  {
-    id: 2,
-    title: "КТП 63..2500 кВА",
-    image: "/transformer.webp",
-    category: "kts",
-    slug: "ktp-63-2500-kva",
-  },
-  {
-    id: 3,
-    title: "КТПН 25..250 кВА",
-    image: "/transformer.webp",
-    category: "kts",
-    slug: "ktpn-25-250-kva",
-  },
-  {
-    id: 4,
-    title: "НКУ-0,4 кВ",
-    image: "/transformer.webp",
-    category: "nku",
-    slug: "nku-04-kv",
-  },
-  {
-    id: 5,
-    title: "НКУ-0,4 кВ с АВР",
-    image: "/transformer.webp",
-    category: "nku",
-    slug: "nku-04-kv-s-avr",
-  },
-  {
-    id: 6,
-    title: "НКУ-0,4 кВ с ЧРП",
-    image: "/transformer.webp",
-    category: "nku",
-    slug: "nku-04-kv-s-chrp",
-  },
-  {
-    id: 7,
-    title: "УКРМ-0,4 кВ",
-    image: "/transformer.webp",
-    category: "quality",
-    slug: "ukrm-04-kv",
-  },
-  {
-    id: 8,
-    title: "УКРМ-6(10) кВ",
-    image: "/transformer.webp",
-    category: "quality",
-    slug: "ukrm-6-10-kv",
-  },
-  {
-    id: 9,
-    title: "ПКУ-6(10) кВ",
-    image: "/transformer.webp",
-    category: "accounting",
-    slug: "pku-6-10-kv",
-  },
-  {
-    id: 10,
-    title: "ПКУ-35 кВ",
-    image: "/transformer.webp",
-    category: "accounting",
-    slug: "pku-35-kv",
-  },
-  {
-    id: 11,
-    title: "ДЭС 10..2000 кВт",
-    image: "/transformer.webp",
-    category: "stations",
-    slug: "des-10-2000-kvt",
-  },
-  {
-    id: 12,
-    title: "КРУ-6(10) кВ",
-    image: "/transformer.webp",
-    category: "kru",
-    slug: "kru-6-10-kv",
-  },
-  {
-    id: 13,
-    title: "КРУ-35 кВ",
-    image: "/transformer.webp",
-    category: "kru",
-    slug: "kru-35-kv",
-  },
-];
-
-const services = [
-  {
-    id: 1,
-    title: "Монтаж и пусконаладка",
-    description: "Профессиональный монтаж и настройка оборудования",
-    category: "installation",
-  },
-  {
-    id: 2,
-    title: "Проектирование",
-    description: "Разработка проектной документации и технических решений",
-    category: "design",
-  },
-  {
-    id: 3,
-    title: "Техническое обслуживание",
-    description: "Плановое и аварийное обслуживание оборудования",
-    category: "maintenance",
-  },
-  {
-    id: 4,
-    title: "Ремонт и модернизация",
-    description: "Восстановление и улучшение характеристик оборудования",
-    category: "repair",
-  },
-  {
-    id: 5,
-    title: "Консультации и обучение",
-    description: "Технические консультации и обучение персонала",
-    category: "consulting",
-  },
-  {
-    id: 6,
-    title: "Аудит энергосистем",
-    description: "Комплексный анализ и оптимизация энергосистем",
-    category: "audit",
-  },
-];
-
-// Utility function to validate tab parameter
-const validateTabParam = (tab: string | null): "products" | "services" => {
-  return tab === "services" ? "services" : "products";
-};
-
-// Utility function to validate category parameter
-const validateCategoryParam = (category: string | null): string => {
-  // Check if category exists in productCategories
-  if (category && productCategories.some((cat) => cat.id === category)) {
-    return category;
-  }
-  return "all";
-};
-
-// Utility function to validate page parameter
-const validatePageParam = (page: string | null): number => {
-  if (!page) return 1;
-  const parsedPage = parseInt(page, 10);
-  return !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : 1;
-};
-
-const CatalogSection: FC = () => {
+const CatalogSectionContent: FC = () => {
   const lenis = useLenis();
   const searchParams = useSearchParams();
 
@@ -812,6 +650,14 @@ const CatalogSection: FC = () => {
         </div>
       </CustomContainer>
     </section>
+  );
+};
+
+const CatalogSection: FC = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-transparent" />}>
+      <CatalogSectionContent />
+    </Suspense>
   );
 };
 

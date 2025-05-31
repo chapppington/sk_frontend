@@ -9,6 +9,7 @@ import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
+import SelectDropdown from "@/components/ui/SelectDropdown";
 
 import type { SortOption, MonthMap, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
@@ -294,6 +295,27 @@ const NewsGrid: FC = () => {
     };
   }, [lenis]);
 
+  const sortOptions = [
+    { value: "new", label: "Дате публикации (новые)" },
+    { value: "old", label: "Дате публикации (старые)" },
+  ];
+
+  const sortIcon = (
+    <svg
+      className="w-5 h-5 mr-2"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+      ></path>
+    </svg>
+  );
+
   return (
     <section className="py-20 relative">
       {/* Bottom Gradient */}
@@ -335,91 +357,14 @@ const NewsGrid: FC = () => {
             </div>
           </div>
 
-          {/* Sorting - Custom Dropdown */}
-          <div className="flex flex-col space-y-4">
-            <span className="text-white/60 text-sm flex items-center">
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                ></path>
-              </svg>
-              Сортировать по:
-            </span>
-            <div ref={dropdownRef} className="relative">
-              {/* Custom selected option */}
-              <div
-                ref={sortOptionRef}
-                className="bg-white/10 text-white px-4 py-2 rounded-lg border border-white/20 cursor-pointer flex justify-between items-center w-70 h-10"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    setIsDropdownOpen(!isDropdownOpen);
-                  }
-                }}
-                onFocus={() => {}}
-                onBlur={() => {}}
-              >
-                <div className="w-full overflow-visible">
-                  <span className="block text-white">
-                    {sortBy === "new"
-                      ? "Дате публикации (новые)"
-                      : "Дате публикации (старые)"}
-                  </span>
-                </div>
-                <svg
-                  ref={arrowRef}
-                  className="w-5 h-5 text-white/60 ml-2 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </div>
-
-              {/* Dropdown options */}
-              <div
-                ref={optionsRef}
-                className="absolute left-0 right-0 top-full bg-zinc-800 rounded-lg overflow-hidden z-20 border border-white/10 shadow-lg w-70"
-                style={{ display: "none" }}
-              >
-                <div
-                  className={`px-4 py-2 cursor-pointer hover:bg-white/10 transition-colors ${
-                    sortBy === "new" ? "bg-white/5" : ""
-                  } whitespace-nowrap h-10 flex items-center`}
-                  onClick={() => handleSortChange("new")}
-                >
-                  <span className="block truncate text-white">
-                    Дате публикации (новые)
-                  </span>
-                </div>
-                <div
-                  className={`px-4 py-2 cursor-pointer hover:bg-white/10 transition-colors ${
-                    sortBy === "old" ? "bg-white/5" : ""
-                  } whitespace-nowrap h-10 flex items-center`}
-                  onClick={() => handleSortChange("old")}
-                >
-                  <span className="block truncate text-white">
-                    Дате публикации (старые)
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Sorting - Using SelectDropdown */}
+          <SelectDropdown
+            options={sortOptions}
+            value={sortBy}
+            onChange={(value) => updateUrl({ sort: value as SortOption })}
+            label="Сортировать по:"
+            icon={sortIcon}
+          />
         </div>
 
         {/* News Grid - using the same pattern as CatalogSection */}
