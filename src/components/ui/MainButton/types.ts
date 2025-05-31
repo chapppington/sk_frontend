@@ -12,4 +12,5 @@ export interface IMainButtonProps {
   className?: string;
   size?: EButtonSize;
   href?: string;
+  disableRedirect?: boolean;
 }

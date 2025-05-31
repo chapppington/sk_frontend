@@ -83,51 +83,61 @@ const MainButton: FC<IMainButtonProps> = ({
   className = "",
   size = EButtonSize.MD,
   href = "#",
+  disableRedirect = false,
 }) => {
   const styles = sizeStyles[size];
-  const buttonRef = useRef<HTMLAnchorElement | null>(null);
+  const anchorRef = useRef<HTMLAnchorElement | null>(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
 
-  return (
-    <TransitionLink
-      ref={buttonRef} // Attach ref to the element
-      href={href}
-      onClick={onClick}
-      className={`mt-6 inline-flex bg-white relative w-fit${
-        className ? ` ${className}` : ""
-      }`}
-      style={{
-        clipPath: styles.clipPath,
-        borderRadius: styles.borderRadius,
-      }}
-    >
-      <div className={`flex items-center ${styles.padding}`}>
-        <span
-          className={`text-black ${styles.text} ${styles.fontSize} whitespace-nowrap select-none`}
+  const buttonContent = (
+    <div className={`flex items-center ${styles.padding}`}>
+      <span
+        className={`text-black ${styles.text} ${styles.fontSize} whitespace-nowrap select-none`}
+      >
+        {text}
+      </span>
+      <div
+        className={`${styles.iconContainer} bg-black flex items-center justify-center`}
+        style={{
+          clipPath: styles.iconClipPath,
+          borderRadius: styles.iconBorderRadius,
+        }}
+      >
+        <svg
+          className={`${styles.icon} text-white`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
         >
-          {text}
-        </span>
-        <div
-          className={`${styles.iconContainer} bg-black flex items-center justify-center`}
-          style={{
-            clipPath: styles.iconClipPath,
-            borderRadius: styles.iconBorderRadius,
-          }}
-        >
-          <svg
-            className={`${styles.icon} text-white`}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
-            />
-          </svg>
-        </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
+          />
+        </svg>
       </div>
+    </div>
+  );
+
+  const commonProps = {
+    onClick,
+    className: `mt-6 inline-flex bg-white relative w-fit${
+      className ? ` ${className}` : ""
+    }`,
+    style: {
+      clipPath: styles.clipPath,
+      borderRadius: styles.borderRadius,
+    },
+  };
+
+  return disableRedirect ? (
+    <div ref={divRef} {...commonProps}>
+      {buttonContent}
+    </div>
+  ) : (
+    <TransitionLink ref={anchorRef} href={href} {...commonProps}>
+      {buttonContent}
     </TransitionLink>
   );
 };
