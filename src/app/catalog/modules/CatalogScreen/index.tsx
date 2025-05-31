@@ -1,13 +1,15 @@
 "use client";
 
-import { FC, useState, useEffect, useRef, Suspense } from "react";
-import Image from "next/image";
 import gsap from "gsap";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useLenis } from "lenis/react";
+import { FC, useState, useEffect, useRef, Suspense } from "react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
-import { useSearchParams } from "next/navigation";
-import { useLenis } from "lenis/react";
+
 import { productCategories, products, services } from "./mock_data";
 import {
   validateCategoryParam,
@@ -70,6 +72,9 @@ const CatalogSectionContent: FC = () => {
 
     searchTimeoutRef.current = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
+      if (searchQuery) {
+        setActiveCategory("all");
+      }
     }, 300);
 
     return () => {
@@ -81,7 +86,9 @@ const CatalogSectionContent: FC = () => {
 
   const filteredProducts = products.filter(
     (product) =>
-      (activeCategory === "all" || product.category === activeCategory) &&
+      (debouncedSearchQuery
+        ? true
+        : activeCategory === "all" || product.category === activeCategory) &&
       product.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
@@ -312,6 +319,8 @@ const CatalogSectionContent: FC = () => {
                       onClick={() => {
                         setActiveCategory(category.id);
                         setIsDropdownOpen(false);
+                        setSearchQuery("");
+                        setDebouncedSearchQuery("");
                       }}
                       className="w-full rounded-none"
                     >
@@ -390,7 +399,12 @@ const CatalogSectionContent: FC = () => {
                 <CategoryButton
                   key={category.id}
                   isActive={activeCategory === category.id}
-                  onClick={() => setActiveCategory(category.id)}
+                  onClick={() => {
+                    setActiveCategory(category.id);
+                    setIsDropdownOpen(false);
+                    setSearchQuery("");
+                    setDebouncedSearchQuery("");
+                  }}
                 >
                   {category.name}
                 </CategoryButton>
@@ -637,6 +651,7 @@ const CatalogSectionContent: FC = () => {
                         }
                         setSearchQuery("");
                         setDebouncedSearchQuery("");
+                        setActiveCategory("all");
                       }}
                       className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
                     >
