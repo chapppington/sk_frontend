@@ -3,7 +3,7 @@
 // TODO create form component with react hook form
 
 import { FC } from "react";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";

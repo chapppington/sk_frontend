@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 
 import Dropdown from "@/components/ui/Dropdown";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";

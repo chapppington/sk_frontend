@@ -3,7 +3,7 @@
 import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import BlackBoxWithStats from "@/components/BlackBoxWithStats";
+import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { EButtonSize } from "@/components/ui/MainButton/types";

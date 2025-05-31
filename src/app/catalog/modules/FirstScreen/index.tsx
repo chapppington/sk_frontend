@@ -1,6 +1,6 @@
 "use client";
 
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC, useState, useMemo } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";

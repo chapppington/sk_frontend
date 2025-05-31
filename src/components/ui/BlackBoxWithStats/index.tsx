@@ -1,6 +1,6 @@
 import { FC } from "react";
 import AnimatedText from "@/components/ui/AnimatedText";
-import { IBlackBoxWithStatsProps } from "@/components/BlackBoxWithStats/types";
+import { IBlackBoxWithStatsProps } from "@/components/ui/BlackBoxWithStats/types";
 
 const BlackBoxWithStats: FC<IBlackBoxWithStatsProps> = ({
   className,

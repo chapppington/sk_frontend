@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import ResortVideo from "@/app/portfolio/[slug]/modules/FirstScreen/components/VideoWrapper";
 import AnimatedText from "@/components/ui/AnimatedText";
