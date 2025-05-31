@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode, MouseEvent, Ref } from "react";
 
-export interface TransitionLinkProps {
+export interface ITransitionLinkProps {
   href: string;
   children: ReactNode;
   className?: string;

@@ -1,17 +1,23 @@
 "use client";
 
 import { useLenis } from "lenis/react";
-import { ReactNode, useEffect, useState, createContext, useContext } from "react";
+import {
+  ReactNode,
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+} from "react";
 
-import { useColumns } from "@/providers/TransitionProvider/hooks/useColumns";
-import { useLogo } from "@/providers/TransitionProvider/hooks/useLogo";
-import { useAnimations } from "@/providers/TransitionProvider/hooks/useAnimations";
+import { useColumns } from "@/providers/PageTransitionProvider/hooks/useColumns";
+import { useLogo } from "@/providers/PageTransitionProvider/hooks/useLogo";
+import { useAnimations } from "@/providers/PageTransitionProvider/hooks/useAnimations";
 
 import { ITransitionContextType } from "./types";
 
 const TransitionContext = createContext<ITransitionContextType | null>(null);
 
-export const useTransition = () => {
+export const usePageTransition = () => {
   const context = useContext(TransitionContext);
   if (!context) {
     throw new Error("useTransition must be used within a TransitionProvider");
@@ -19,7 +25,7 @@ export const useTransition = () => {
   return context;
 };
 
-export const TransitionProvider = ({ children }: { children: ReactNode }) => {
+export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
   const lenis = useLenis();
 

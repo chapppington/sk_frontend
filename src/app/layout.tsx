@@ -12,7 +12,7 @@ import ConditionalBGGradient from "@/components/ui/BackgroundGradient/Conditiona
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
-import { TransitionProvider } from "@/providers/TransitionProvider";
+import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const inter = Inter({
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={inter.className}>
       <body>
         <ViewTransitions>
-          <TransitionProvider>
+          <PageTransitionProvider>
             <CameraProvider>
               <ConditionalBGGradient />
               <CustomScrollbar />
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               {children}
               <Footer />
             </CameraProvider>
-          </TransitionProvider>
+          </PageTransitionProvider>
         </ViewTransitions>
       </body>
     </html>

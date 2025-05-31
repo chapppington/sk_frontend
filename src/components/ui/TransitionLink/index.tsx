@@ -3,10 +3,11 @@
 import { FC } from "react";
 import Link from "next/link";
 import { useTransitionRouter } from "next-view-transitions";
-import { useTransition } from "@/providers/TransitionProvider";
-import { TransitionLinkProps } from "@/components/ui/TransitionLink/types";
 
-const TransitionLink: FC<TransitionLinkProps> = ({
+import { usePageTransition } from "@/providers/PageTransitionProvider";
+import { ITransitionLinkProps } from "@/components/ui/TransitionLink/types";
+
+const TransitionLink: FC<ITransitionLinkProps> = ({
   href,
   children,
   className,
@@ -14,8 +15,9 @@ const TransitionLink: FC<TransitionLinkProps> = ({
   style,
   ref,
 }) => {
+
   const router = useTransitionRouter();
-  const { animateIn, animateOut, isAnimating } = useTransition();
+  const { animateIn, animateOut, isAnimating } = usePageTransition();
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();

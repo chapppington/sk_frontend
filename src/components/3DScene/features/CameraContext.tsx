@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 
@@ -50,7 +50,7 @@ function ScrollManager() {
   return null;
 }
 
-export function CameraProvider({ children }: { children: React.ReactNode }) {
+export function CameraProvider({ children }: { children: ReactNode }) {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [totalSections, setTotalSections] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
