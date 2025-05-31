@@ -1,6 +1,10 @@
-import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import FirstScreen from "@/app/news/modules/FirstScreen";
-import NewsGrid from "@/app/news/modules/NewsGridScreen";
+import dynamic from "next/dynamic";
+
+const NewsGrid = dynamic(() => import("@/app/news/modules/NewsGridScreen"));
+const ContactUsScreen = dynamic(
+  () => import("@/components/shared_screens/ContactUsScreen")
+);
 
 export default function News() {
   return (

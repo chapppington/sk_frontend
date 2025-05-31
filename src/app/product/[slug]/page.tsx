@@ -1,12 +1,26 @@
 import { Metadata, ResolvingMetadata } from "next";
+import dynamic from "next/dynamic";
 
 import FirstScreen from "@/app/product/[slug]/modules/FirstScreen";
-import InfoScreen from "@/app/product/[slug]/modules/InfoScreen";
-import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
-import LogoGrid from "@/app/product/[slug]/modules/LogoGridScreen";
-import NumbersSection from "@/app/product/[slug]/modules/NumbersScreen";
-import SliderSection from "@/app/product/[slug]/modules/SliderScreen";
-import TabsSection from "@/app/product/[slug]/modules/TabsScreen";
+
+const InfoScreen = dynamic(
+  () => import("@/app/product/[slug]/modules/InfoScreen")
+);
+const LogoGrid = dynamic(
+  () => import("@/app/product/[slug]/modules/LogoGridScreen")
+);
+const NumbersSection = dynamic(
+  () => import("@/app/product/[slug]/modules/NumbersScreen")
+);
+const SliderSection = dynamic(
+  () => import("@/app/product/[slug]/modules/SliderScreen")
+);
+const TabsSection = dynamic(
+  () => import("@/app/product/[slug]/modules/TabsScreen")
+);
+const ContactUsScreen = dynamic(
+  () => import("@/components/shared_screens/ContactUsScreen")
+);
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -40,4 +54,4 @@ export default async function ProductPage({
       <ContactUsScreen />
     </main>
   );
-} 
+}

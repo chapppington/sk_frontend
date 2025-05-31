@@ -1,11 +1,24 @@
 import FirstScreen from "@/app/production/modules/FirstScreen";
-import ProductionStagesScreen from "@/app/production/modules/ProductionStagesScreen";
-import EquipmentGridScreen from "@/app/production/modules/EquipmentGridScreen";
-import RecentUpdatesScreen from "@/app/production/modules/RecentUpdatesScreen";
-import CertificatesScreen from "@/app/production/modules/CertificatesScreen";
+import dynamic from "next/dynamic";
 
-import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
-import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
+const ProductionStagesScreen = dynamic(
+  () => import("@/app/production/modules/ProductionStagesScreen")
+);
+const EquipmentGridScreen = dynamic(
+  () => import("@/app/production/modules/EquipmentGridScreen")
+);
+const RecentUpdatesScreen = dynamic(
+  () => import("@/app/production/modules/RecentUpdatesScreen")
+);
+const CertificatesScreen = dynamic(
+  () => import("@/app/production/modules/CertificatesScreen")
+);
+const ReadMoreScreen = dynamic(
+  () => import("@/components/shared_screens/ReadMoreScreen")
+);
+const ContactUsScreen = dynamic(
+  () => import("@/components/shared_screens/ContactUsScreen")
+);
 
 export default function ProductionPage() {
   return (
