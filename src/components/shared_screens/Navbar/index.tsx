@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config"
+
 import { FC, useState } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/ui/TransitionLink";
@@ -27,7 +29,7 @@ const Navbar: FC = () => {
       style={{ backdropFilter: "blur(20px)" }}
     >
       <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto">
-        <TransitionLink href="/" className="px-0 flex items-center select-none">
+        <TransitionLink href={PagesConfig.home} className="px-0 flex items-center select-none">
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"

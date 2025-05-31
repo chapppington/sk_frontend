@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import { FC } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
 
@@ -12,7 +14,7 @@ const FooterBottom: FC = () => {
           © {new Date().getFullYear()}г. Все права защищены.
         </p>
         <TransitionLink
-          href="/privacy"
+          href={PagesConfig.privacy}
           className="block text-white/80 text-sm hover:text-white/70"
         >
           Политика обработки персональных данных
@@ -25,7 +27,7 @@ const FooterBottom: FC = () => {
         </p>
         <div className="flex space-x-6">
           <TransitionLink
-            href="/privacy"
+            href={PagesConfig.privacy}
             className="text-white/80 text-sm hover:text-white/70 relative select-none group transition-colors"
           >
             Политика обработки персональных данных

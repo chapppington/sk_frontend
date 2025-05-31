@@ -14,6 +14,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 
 import { portfolioItems } from "./mock_data";
+import { PagesConfig } from "@/config/pages.config";
 
 const indicatorCount = 40;
 
@@ -116,7 +117,7 @@ const PortfolioSection = () => {
 
                   <MainButton
                     text="Узнать подробнее"
-                    href="/portfolio/project1"
+                    href={`${PagesConfig.portfolio}/project1`}
                   />
                 </motion.div>
               </AnimatePresence>

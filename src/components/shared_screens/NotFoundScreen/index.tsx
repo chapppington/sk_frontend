@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import BracketsText from "@/components/ui/BracketsText";
@@ -37,7 +39,7 @@ export default function NotFoundScreen() {
               </p>
             </AnimatedText>
 
-            <MainButton text="Вернуться на главную" href="/" className="mt-4" />
+            <MainButton text="Вернуться на главную" href={PagesConfig.home} className="mt-4" />
           </div>
 
           {/* Right side - 404 Display */}

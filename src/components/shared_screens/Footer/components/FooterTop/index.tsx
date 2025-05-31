@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config"  
+
 import { FC } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/ui/TransitionLink";
@@ -10,7 +12,7 @@ const FooterTop: FC = () => {
     <div className="flex flex-col md:flex-row justify-between items-start mb-12">
       {/* Logo Section */}
       <div className="mb-8 md:mb-0">
-        <TransitionLink href="/" className="flex items-center">
+        <TransitionLink href={PagesConfig.home} className="flex items-center">
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"

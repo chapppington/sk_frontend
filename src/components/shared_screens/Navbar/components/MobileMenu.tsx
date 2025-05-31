@@ -1,3 +1,6 @@
+import { PagesConfig } from "@/config/pages.config"
+
+
 import { FC, useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
@@ -276,7 +279,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
               </p>
               <div className="space-y-2">
                 <TransitionLink
-                  href="/privacy"
+                  href={PagesConfig.privacy}
                   className="text-white/50 text-sm hover:text-white block"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -284,16 +287,6 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
                   }}
                 >
                   Политика конфиденциальности
-                </TransitionLink>
-                <TransitionLink
-                  href="/terms"
-                  className="text-white/50 text-sm hover:text-white block"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleClose();
-                  }}
-                >
-                  Условия обработки персональных данных
                 </TransitionLink>
               </div>
             </div>
