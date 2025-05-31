@@ -348,7 +348,9 @@ const NewsGrid: FC = () => {
               {categories.map((category) => (
                 <CategoryButton
                   key={category.slug}
-                  onClick={() => updateUrl({ category: category.slug })}
+                  onClick={() =>
+                    updateUrl({ category: category.slug, page: "1" })
+                  }
                   isActive={selectedCategorySlug === category.slug}
                 >
                   {category.name}
@@ -361,7 +363,9 @@ const NewsGrid: FC = () => {
           <SelectDropdown
             options={sortOptions}
             value={sortBy}
-            onChange={(value) => updateUrl({ sort: value as SortOption })}
+            onChange={(value) =>
+              updateUrl({ sort: value as SortOption, page: "1" })
+            }
             label="Сортировать по:"
             icon={sortIcon}
           />
