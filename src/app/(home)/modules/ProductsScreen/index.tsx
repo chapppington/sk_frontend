@@ -1,51 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
-import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";
 
-const products = [
-  {
-    title:
-      "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
-    image: "/item.png",
-  },
-  {
-    title: "Комплектные трансформаторные подстанции",
-    image: "/item.png",
-  },
-  {
-    title: "Комплектные распределительные устройства",
-    image: "/item.png",
-  },
-  {
-    title: "Низковольтные комплектные устройства",
-    image: "/item.png",
-  },
-  {
-    title: "Электростанции и установки",
-    image: "/item.png",
-  },
-  {
-    title: "Электростанции и установки",
-    image: "/item.png",
-  },
-];
-
-const brands = [
-  { name: "Sber Bank", image: "/sberbank.png" },
-  { name: "Sber Bank", image: "/sberbank.png" },
-  { name: "Sber Bank", image: "/sberbank.png" },
-  { name: "Sber Bank", image: "/sberbank.png" },
-  { name: "Sber Bank", image: "/sberbank.png" },
-];
+import { brands, products } from "./mock_data";
 
 export default function ProductsSlider() {
   const swiperRef = useRef<any>(null);

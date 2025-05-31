@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -90,7 +92,7 @@ export default function FirstScreen() {
           <div className="flex items-center mt-4">
             <MainButton text="Узнать конечную стоимость" />
             <SecondaryButton
-              href="/catalog"
+              href={PagesConfig.catalog}
               text="Назад в каталог"
               className="ml-8 mt-5"
             />

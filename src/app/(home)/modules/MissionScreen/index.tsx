@@ -2,6 +2,8 @@
 
 import { FC } from "react";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import AnimatedText from "@/components/ui/AnimatedText";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -34,7 +36,7 @@ const MissionScreen: FC = () => {
             </AnimatedText>
             <AnimatedText delay={0}>
               <TransitionLink
-                href="/about"
+                href={PagesConfig.about}
                 className="inline-flex items-center group cursor-pointer"
               >
                 <div className="flex items-center">

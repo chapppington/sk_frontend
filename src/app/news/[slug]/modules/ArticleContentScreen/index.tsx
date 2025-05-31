@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -92,7 +94,7 @@ export default function ArticleContentSection({
           {/* Return to News Button */}
           <div className="mt-12">
             <TransitionLink
-              href="/news"
+              href={PagesConfig.news}
               className="inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group"
             >
               <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">

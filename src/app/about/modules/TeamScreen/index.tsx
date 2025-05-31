@@ -1,5 +1,7 @@
 "use client";
 
+import { PagesConfig } from "@/config/pages.config";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -112,7 +114,7 @@ export default function TeamScreen() {
               <div className="text-white text-xl md:text-2xl font-light">
                 Хотите к нам в команду?
               </div>
-              <MainButton text="Смотреть вакансии" href="/vacancies" />
+              <MainButton text="Смотреть вакансии" href={PagesConfig.vacancies} />
             </div>
           </div>
         </div>

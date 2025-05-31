@@ -1,51 +1,19 @@
 "use client";
 
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
-import CustomContainer from "@/components/ui/CustomContainer";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import MainButton from "@/components/ui/MainButton";
-import GradientHeading from "@/components/ui/GradientHeading";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-// Sample data for portfolio items
-const portfolioItems = [
-  {
-    id: 1,
-    title: "Барнаульская ТЭЦ-3",
-    description:
-      "Модернизация системы электроснабжения и установка современного распределительного оборудования на одной из крупнейших теплоэлектроцентралей Алтайского края.",
-    location: "Алтайский край",
-    image: "/news_bg.webp",
-  },
-  {
-    id: 2,
-    title: "Бийская ТЭЦ",
-    description:
-      "Комплексная реконструкция распределительных устройств и внедрение автоматизированной системы управления технологическими процессами.",
-    location: "Алтайский край",
-    image: "/news_bg2.webp",
-  },
-  {
-    id: 3,
-    title: "Новосибирская ГЭС",
-    description:
-      "Модернизация системы релейной защиты и автоматики, замена силового оборудования на современные аналоги с повышенной надежностью.",
-    location: "Новосибирская область",
-    image: "/news_bg.webp",
-  },
-  {
-    id: 4,
-    title: "Красноярская ГРЭС-2",
-    description:
-      "Внедрение цифровой системы мониторинга и управления электрическими подстанциями, обеспечивающей повышенную надежность энергоснабжения.",
-    location: "Красноярский край",
-    image: "/news_bg2.webp",
-  },
-];
+import CustomContainer from "@/components/ui/CustomContainer";
+import GradientHeading from "@/components/ui/GradientHeading";
+import MainButton from "@/components/ui/MainButton";
+
+import { portfolioItems } from "./mock_data";
 
 const indicatorCount = 40;
 
