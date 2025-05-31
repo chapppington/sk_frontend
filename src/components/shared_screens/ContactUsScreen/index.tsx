@@ -5,7 +5,7 @@ import { FC, useEffect } from "react";
 import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import ContactForm from "@/components/shared_screens/ContactForm";
+import ContactForm from "@/components/shared_screens/VacanciesContactForm";
 import AnimatedText from "@/components/ui/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);

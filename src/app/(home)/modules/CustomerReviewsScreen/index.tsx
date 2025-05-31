@@ -24,7 +24,7 @@ const reviews = [
   }),
 ];
 
-const CustomerReviews = () => {
+const CustomerReviewsScreen = () => {
   const swiperRef = useRef<any>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
 
@@ -206,4 +206,4 @@ const CustomerReviews = () => {
   );
 };
 
-export default CustomerReviews;
+export default CustomerReviewsScreen;

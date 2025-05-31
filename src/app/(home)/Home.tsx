@@ -1,18 +1,20 @@
 "use client";
-import FirstScreen from "./FirstScreen";
-import Mission from "./Mission";
+
 import { useEffect } from "react";
-import ProductsSlider from "./ProductsSlider";
-import ScrollingTextSection from "./ScrollingTextSection";
-import PortfolioSection from "./PortfolioSection";
-import CustomerReviews from "./CustomerReviews";
+
+import FirstScreen from "@/app/(home)/modules/FirstScreen";
+import Mission from "@/app/(home)/modules/MissionScreen";
+import ProductsSlider from "@/app/(home)/modules/ProductsScreen";
+import ScrollingTextSection from "@/app/(home)/modules/ScrollingTextScreen";
+import PortfolioSection from "@/app/(home)/modules/PortfolioScreen";
+import CustomerReviewsScreen from "@/app/(home)/modules/CustomerReviewsScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import { useCameraContext } from "@/components/3DScene/features/CameraContext";
 import { SectionObserver } from "@/components/3DScene/features/SectionObserver";
 
 export default function Home() {
   const { setTotalSections } = useCameraContext();
-  
+
   useEffect(() => {
     try {
       console.log("Setting total sections to 7");
@@ -45,7 +47,7 @@ export default function Home() {
         <PortfolioSection />
       </SectionObserver>
       <SectionObserver index={5}>
-        <CustomerReviews />
+        <CustomerReviewsScreen />
       </SectionObserver>
       <SectionObserver index={6}>
         <ContactUsScreen />
