@@ -3,11 +3,11 @@
 import { Suspense, useState } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
-import ResortVideo from "@/components/ui/VideoWrapper";
+import ResortVideo from "@/app/portfolio/[slug]/modules/FirstScreen/components/VideoWrapper";
 import AnimatedText from "@/components/ui/AnimatedText";
-import VideoPopup from "@/components/ui/VideoPopup";
+import VideoPopup from "@/app/portfolio/[slug]/modules/FirstScreen/components/VideoPopup";
 
 const FirstScreen = () => {
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);

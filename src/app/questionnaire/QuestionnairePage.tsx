@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Dropdown from "@/components/ui/Dropdown";

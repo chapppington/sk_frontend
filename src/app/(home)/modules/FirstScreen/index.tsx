@@ -3,7 +3,7 @@
 import MainButton from "@/components/ui/MainButton";
 import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
+import BlackBoxWithStats from "@/components/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { EButtonSize } from "@/components/ui/MainButton/types";
@@ -30,10 +30,13 @@ const FirstScreen: FC = () => {
               </p>
             </AnimatedText>
             <div className="block md:hidden">
-              <MainButton text="Связаться с отделом продаж" size={EButtonSize.SM} />
+              <MainButton
+                text="Связаться с отделом продаж"
+                size={EButtonSize.SM}
+              />
             </div>
             <div className="hidden md:block">
-              <MainButton text="Связаться с отделом продаж"/>
+              <MainButton text="Связаться с отделом продаж" />
             </div>
           </div>
         </div>

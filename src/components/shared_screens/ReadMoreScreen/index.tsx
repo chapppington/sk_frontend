@@ -16,7 +16,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 
 import { newsItems } from "./mock_data";
-import SectionHeader from "@/components/ui/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 

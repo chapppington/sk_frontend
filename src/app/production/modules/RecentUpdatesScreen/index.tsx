@@ -8,7 +8,7 @@ import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
-import SectionHeader from "@/components/ui/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 import RecentUpdateSliderItem from "./components/RecentUpdateSliderItem";
 

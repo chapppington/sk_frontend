@@ -3,7 +3,7 @@
 import { FC, useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";

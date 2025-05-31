@@ -1,6 +1,6 @@
 "use client";
 
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC, useState, useMemo } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -94,10 +94,16 @@ const FirstScreen: FC = () => {
               </p>
             </AnimatedText>
             <div className="block md:hidden mt-4">
-              <MainButton text="Связаться с отделом продаж" size={EButtonSize.SM} />
+              <MainButton
+                text="Связаться с отделом продаж"
+                size={EButtonSize.SM}
+              />
             </div>
             <div className="hidden md:block mt-4">
-              <MainButton text="Связаться с отделом продаж" size={EButtonSize.MD} />
+              <MainButton
+                text="Связаться с отделом продаж"
+                size={EButtonSize.MD}
+              />
             </div>
           </div>
 

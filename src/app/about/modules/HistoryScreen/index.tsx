@@ -8,7 +8,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import SectionHeader from "@/components/ui/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 import { historyEvents } from "./mock_data";
 
 const HistoryScreen: FC = () => {

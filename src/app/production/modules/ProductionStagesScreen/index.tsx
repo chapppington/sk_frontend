@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import SectionHeader from "@/components/ui/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 import { productionStages } from "./mock_data";
 
 const ProductionStagesScreen: FC = () => {

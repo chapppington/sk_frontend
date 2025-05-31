@@ -2,9 +2,8 @@
 
 // TODO create form component with react hook form
 
-
 import { FC } from "react";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";
@@ -12,14 +11,15 @@ import Input from "@/components/ui/Input";
 import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
 const Contacts: FC = () => {
-
   return (
     <main>
       {/* Breadcrumbs */}
-      <Breadcrumbs items={[
-        { label: "Главная", href: "/" },
-        { label: "Контакты", href: "/contacts", current: true },
-      ]} />
+      <Breadcrumbs
+        items={[
+          { label: "Главная", href: "/" },
+          { label: "Контакты", href: "/contacts", current: true },
+        ]}
+      />
 
       {/* Contact Section */}
       <section className="py-16">

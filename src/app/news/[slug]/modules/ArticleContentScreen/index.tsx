@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";

@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Thumbs } from "swiper/modules";
 
 import MainButton from "@/components/ui/MainButton";
-import SectionHeader from "@/components/ui/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 
 import { slides } from "./mock_data";
