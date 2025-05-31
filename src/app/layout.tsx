@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ViewTransitions } from "next-view-transitions";
-import { BreakpointIndicator } from "@/components/dev/BreakpointIndicator";
+import { BreakpointIndicator } from "@/utils/BreakpointIndicator";
 
 import Navbar from "@/components/shared_screens/Navbar";
 import Footer from "@/components/shared_screens/Footer";
