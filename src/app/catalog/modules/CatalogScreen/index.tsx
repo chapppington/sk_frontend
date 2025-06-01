@@ -238,7 +238,12 @@ const CatalogSectionContent: FC = () => {
         <div className="flex flex-col gap-6 xl:hidden">
           <div className="flex w-full relative">
             <button
-              onClick={() => setActiveTab("products")}
+              onClick={() => {
+                setActiveTab("products");
+                setActiveCategory("all");
+                setSearchQuery("");
+                setDebouncedSearchQuery("");
+              }}
               className={`flex-1 text-xl pb-4 transition-colors duration-300 relative ${
                 activeTab === "products" ? "text-white" : "text-white/60"
               }`}
@@ -246,7 +251,12 @@ const CatalogSectionContent: FC = () => {
               Продукция
             </button>
             <button
-              onClick={() => setActiveTab("services")}
+              onClick={() => {
+                setActiveTab("services");
+                setActiveCategory("all");
+                setSearchQuery("");
+                setDebouncedSearchQuery("");
+              }}
               className={`flex-1 text-xl pb-4 transition-colors duration-300 relative ${
                 activeTab === "services" ? "text-white" : "text-white/60"
               }`}
@@ -338,7 +348,12 @@ const CatalogSectionContent: FC = () => {
           <div className="flex gap-4">
             <div className="relative flex flex-col items-start group">
               <button
-                onClick={() => setActiveTab("products")}
+                onClick={() => {
+                  setActiveTab("products");
+                  setActiveCategory("all");
+                  setSearchQuery("");
+                  setDebouncedSearchQuery("");
+                }}
                 className={`text-xl pb-4 transition-colors duration-300 ${
                   activeTab === "products" ? "text-white" : "text-white/60"
                 }`}
@@ -353,7 +368,12 @@ const CatalogSectionContent: FC = () => {
             </div>
             <div className="relative flex flex-col items-start group">
               <button
-                onClick={() => setActiveTab("services")}
+                onClick={() => {
+                  setActiveTab("services");
+                  setActiveCategory("all");
+                  setSearchQuery("");
+                  setDebouncedSearchQuery("");
+                }}
                 className={`text-xl pb-4 transition-colors duration-300 ${
                   activeTab === "services" ? "text-white" : "text-white/60"
                 }`}

@@ -2,86 +2,14 @@
 
 import { FC, useRef } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
-import { IMainButtonProps, EButtonSize } from "./types";
-
-const sizeStyles = {
-  sm: {
-    text: "text-sm font-base",
-    padding: "pl-4 pr-[2px] py-[2px]",
-    iconSize: "w-10 h-10",
-    iconContainer: "w-10 h-10 ml-4",
-    icon: "w-5 h-5",
-    fontSize: "text-[14px]",
-    clipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)",
-    borderRadius: "8px",
-    iconClipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
-    iconBorderRadius: "6px",
-  },
-  md: {
-    text: "text-base font-base",
-    padding: "pl-6 pr-[2px] py-[2px]",
-    iconSize: "w-12 h-12",
-    iconContainer: "w-12 h-12 ml-6",
-    icon: "w-6 h-6",
-    fontSize: "text-[16px]",
-    clipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%)",
-    borderRadius: "9px",
-    iconClipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 17px), calc(100% - 17px) 100%, 0 100%)",
-    iconBorderRadius: "7px",
-  },
-  lg: {
-    text: "text-lg font-semibold",
-    padding: "pl-8 pr-[2px] py-[2px]",
-    iconSize: "w-14 h-14",
-    iconContainer: "w-14 h-14 ml-8",
-    icon: "w-7 h-7",
-    fontSize: "text-[18px]",
-    clipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)",
-    borderRadius: "10px",
-    iconClipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 19px), calc(100% - 19px) 100%, 0 100%)",
-    iconBorderRadius: "8px",
-  },
-  xl: {
-    text: "text-xl font-semibold",
-    padding: "pl-10 pr-[2px] py-[2px]",
-    iconSize: "w-16 h-16",
-    iconContainer: "w-16 h-16 ml-10",
-    icon: "w-8 h-8",
-    fontSize: "text-[20px]",
-    clipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%)",
-    borderRadius: "11px",
-    iconClipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 21px), calc(100% - 21px) 100%, 0 100%)",
-    iconBorderRadius: "9px",
-  },
-  "2xl": {
-    text: "text-2xl font-bold",
-    padding: "pl-12 pr-[2px] py-[2px]",
-    iconSize: "w-20 h-20",
-    iconContainer: "w-20 h-20 ml-12",
-    icon: "w-10 h-10",
-    fontSize: "text-[24px]",
-    clipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%)",
-    borderRadius: "12px",
-    iconClipPath:
-      "polygon(0 0, 100% 0, 100% calc(100% - 23px), calc(100% - 23px) 100%, 0 100%)",
-    iconBorderRadius: "10px",
-  },
-};
+import { IMainButtonProps } from "./types";
+import { sizeStyles } from "./sizeStyles";
 
 const MainButton: FC<IMainButtonProps> = ({
   text,
   onClick,
   className = "",
-  size = EButtonSize.MD,
+  size = "md",
   href = "#",
   disableRedirect = false,
 }) => {
@@ -97,11 +25,7 @@ const MainButton: FC<IMainButtonProps> = ({
         {text}
       </span>
       <div
-        className={`${styles.iconContainer} bg-black flex items-center justify-center`}
-        style={{
-          clipPath: styles.iconClipPath,
-          borderRadius: styles.iconBorderRadius,
-        }}
+        className={`${styles.iconContainer} bg-black flex items-center justify-center ${styles.iconClipPathClass} ${styles.iconBorderRadiusClass}`}
       >
         <svg
           className={`${styles.icon} text-white`}
@@ -124,11 +48,7 @@ const MainButton: FC<IMainButtonProps> = ({
     onClick,
     className: `mt-6 inline-flex bg-white relative w-fit${
       className ? ` ${className}` : ""
-    }`,
-    style: {
-      clipPath: styles.clipPath,
-      borderRadius: styles.borderRadius,
-    },
+    } ${styles.clipPathClass} ${styles.borderRadiusClass}`,
   };
 
   return disableRedirect ? (

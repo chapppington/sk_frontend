@@ -1,10 +1,4 @@
-export enum EButtonSize {
-  SM = "sm",
-  MD = "md",
-  LG = "lg",
-  XL = "xl",
-  XXL = "2xl",
-}
+export type EButtonSize = "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface IMainButtonProps {
   text: string;

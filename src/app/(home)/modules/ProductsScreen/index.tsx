@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -18,6 +19,7 @@ import { brands, products } from "./mock_data";
 export default function ProductsSlider() {
   const swiperRef = useRef<any>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
+  const [showButton, setShowButton] = useState(false);
 
   const updateProductsIndicators = (swiper: any) => {
     if (!swiper || !swiper.slides) return;
@@ -74,6 +76,15 @@ export default function ProductsSlider() {
       }
     }
 
+    // Refresh ScrollTrigger after component mounts
+    if (isComponentMounted) {
+      ScrollTrigger.refresh();
+      // Add a small delay before showing the button to allow layout to settle
+      setTimeout(() => {
+        setShowButton(true);
+      }, 100);
+    }
+
     // Cleanup function
     return () => {
       isComponentMounted = false;
@@ -97,7 +108,10 @@ export default function ProductsSlider() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-12">
-          <div className="flex-1 flex flex-col justify-end">
+          <div
+            className="flex-1 flex flex-col justify-end"
+            style={{ transform: "translateZ(0)" }}
+          >
             <AnimatedText delay={0}>
               <GradientHeading className="mb-6">
                 Низковольтные
@@ -131,7 +145,7 @@ export default function ProductsSlider() {
               </p>
             </AnimatedText>
 
-            <MainButton text="Узнать больше" />
+            {showButton && <MainButton text="Узнать больше" />}
 
             <div className="flex items-center mt-12">
               <div className="flex items-center space-x-3">

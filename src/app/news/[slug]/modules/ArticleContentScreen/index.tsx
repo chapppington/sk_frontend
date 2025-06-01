@@ -1,7 +1,6 @@
-"use client";
+"use client"
 
 import Image from "next/image";
-
 import { PagesConfig } from "@/config/pages.config";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -12,8 +11,6 @@ import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
 
 import { IArticleContentSectionProps } from "./types";
-
-// TODO make nice button for back to catalog
 
 export default function ArticleContentSection({
   category,
@@ -84,11 +81,9 @@ export default function ArticleContentSection({
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
           {content.map((paragraph, index) => (
-            <AnimatedText key={index} delay={0}>
-              <p className="text-white/90 text-lg leading-loose mb-6">
-                {paragraph}
-              </p>
-            </AnimatedText>
+            <p key={index} className="text-white/90 text-lg leading-loose mb-6">
+              {paragraph}
+            </p>
           ))}
 
           {/* Return to News Button */}

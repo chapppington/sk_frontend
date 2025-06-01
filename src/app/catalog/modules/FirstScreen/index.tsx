@@ -6,7 +6,6 @@ import { FC, useState, useMemo } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
-import { EButtonSize } from "@/components/ui/MainButton/types";
 
 const FirstScreen: FC = () => {
   // Added state management for the counter
@@ -96,13 +95,13 @@ const FirstScreen: FC = () => {
             <div className="block md:hidden mt-4">
               <MainButton
                 text="Связаться с отделом продаж"
-                size={EButtonSize.SM}
+                size="sm"
               />
             </div>
             <div className="hidden md:block mt-4">
               <MainButton
                 text="Связаться с отделом продаж"
-                size={EButtonSize.MD}
+                size="md"
               />
             </div>
           </div>

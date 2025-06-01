@@ -6,7 +6,6 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
-import { EButtonSize } from "@/components/ui/MainButton/types";
 
 const FirstScreen: FC = () => {
   return (
@@ -32,7 +31,7 @@ const FirstScreen: FC = () => {
             <div className="block md:hidden">
               <MainButton
                 text="Связаться с отделом продаж"
-                size={EButtonSize.SM}
+                size="sm"
               />
             </div>
             <div className="hidden md:block">
