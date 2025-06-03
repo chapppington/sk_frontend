@@ -22,7 +22,7 @@ export default function Camera3D() {
 
     // Целевые точки, на которые смотрит камера
     const lookAtPositions = [
-        new THREE.Vector3(-160, 0, 0),   // Цель для Header
+        new THREE.Vector3(-160, 130, 0),   // Цель для Header
         new THREE.Vector3(-500, 0, 0),  // Цель для ScrollingText
         new THREE.Vector3(-500, 1, 0),   // Цель для MissionSection
         new THREE.Vector3(-350, -60, 100),   // Цель для ProductsSlider

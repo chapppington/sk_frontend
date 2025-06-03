@@ -36,7 +36,7 @@ export default function Scene(){
   // const material123 = new THREE.MeshBasicMaterial( { color: 0x00A300 } );
     
   const [terrain,gltf,env,cars,logo,road,main] = useLoader(GLTFLoader,[
-    '/Scene/buildings_new.glb',
+    '/Scene/buildings.glb',
     '/Scene/walls.glb',
     '/Scene/env.glb',
     '/Scene/cars.glb',
@@ -128,7 +128,7 @@ useEffect(() => {
     );
     
     // Добавляем объединенный объект в сцену
-    scene.add(mergedLines);
+    terrain.scene.add(mergedLines);
     console.log(mergedLines)
   }
   
@@ -239,6 +239,7 @@ useEffect(() => {
   scene.add(logo.scene);
   scene.add(road.scene);
   scene.add(main.scene);
+  scene.add(terrain.scene);
   
   
 
@@ -286,7 +287,7 @@ useEffect(() => {
 //     {
 //         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 //         float windEffect = uWind * (random(modelPosition.yz) + 0.5);
-//         modelPosition.x += uTime * windEffect * 10.0;
+//         modelPosition.x += uTime * windEffect * 10.0; 
 //         modelPosition.y += sin(modelPosition.x * 0.1 + uTime) * 0.5;
 //         vec4 viewPosition = viewMatrix * modelPosition;
 //         float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
