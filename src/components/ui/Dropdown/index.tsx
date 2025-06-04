@@ -2,7 +2,6 @@
 
 import gsap from "gsap";
 import { useState, useRef, useEffect, FC } from "react";
-import { useLenis } from "lenis/react";
 
 import { IDropdownProps } from "@/components/ui/Dropdown/types";
 
@@ -14,7 +13,6 @@ const Dropdown: FC<IDropdownProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const plusIconRef = useRef<HTMLButtonElement>(null);
-  const lenis = useLenis();
 
   // Toggle animation
   useEffect(() => {
@@ -24,13 +22,7 @@ const Dropdown: FC<IDropdownProps> = ({
         height: isOpen ? "auto" : 0,
         opacity: isOpen ? 1 : 0,
         duration: 0.3,
-        ease: "power2.inOut",
-        onComplete: () => {
-          // Update Lenis after animation completes
-          if (lenis) {
-            lenis.resize();
-          }
-        },
+        ease: "power2.inOut"
       });
 
       // Animate plus icon
@@ -40,7 +32,7 @@ const Dropdown: FC<IDropdownProps> = ({
         ease: "power1.inOut",
       });
     }
-  }, [isOpen, lenis]);
+  }, [isOpen]);
 
   // Update isOpen state when defaultOpen prop changes
   useEffect(() => {

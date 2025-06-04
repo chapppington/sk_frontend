@@ -8,7 +8,7 @@ import AnimatedText from "@/components/ui/AnimatedText";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import TransitionLink from "@/components/ui/TransitionLink";
+import Link from "next/link";
 
 const MissionScreen: FC = () => {
   return (
@@ -35,7 +35,7 @@ const MissionScreen: FC = () => {
               </p>
             </AnimatedText>
             <AnimatedText delay={0}>
-              <TransitionLink
+              <Link
                 href={PagesConfig.about}
                 className="inline-flex items-center group cursor-pointer"
               >
@@ -59,7 +59,7 @@ const MissionScreen: FC = () => {
                     Больше о компании
                   </span>
                 </div>
-              </TransitionLink>
+              </Link>
             </AnimatedText>
           </div>
         </div>

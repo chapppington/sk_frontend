@@ -1,13 +1,12 @@
 "use client";
 
 import { FC, useCallback, useRef, useEffect, useState } from "react";
-import { useLenis } from "lenis/react";
 import { useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import gsap from "gsap";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import TransitionLink from "@/components/ui/TransitionLink";
+import Link from "next/link";
 import CategoryButton from "@/components/ui/CategoryButton";
 import SelectDropdown from "@/components/ui/SelectDropdown";
 
@@ -15,7 +14,6 @@ import type { SortOption, MonthMap, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
 
 const NewsGrid: FC = () => {
-  const lenis = useLenis();
   // Track if this is the initial render
   const [initialRender, setInitialRender] = useState(true);
   const searchParams = useSearchParams();
@@ -122,16 +120,10 @@ const NewsGrid: FC = () => {
           stagger: 0.05,
           ease: "power2.out",
           delay: 0.1, // Explicitly set delay to 0
-          onComplete: () => {
-            // Notify Lenis about the content height change
-            if (lenis) {
-              lenis.resize();
-            }
-          },
         });
       });
     }
-  }, [selectedCategorySlug, sortBy, currentPage, lenis]);
+  }, [selectedCategorySlug, sortBy, currentPage]);
 
   // Ensure content is visible on initial load
   useEffect(() => {
@@ -140,15 +132,11 @@ const NewsGrid: FC = () => {
       if (newsGridRef.current) {
         // Force all items to be visible in case animation didn't run
         gsap.set(newsGridRef.current.children, { opacity: 1, y: 0 });
-        // Notify Lenis about the content height change
-        if (lenis) {
-          lenis.resize();
-        }
       }
     }, 500); // Safety timeout
 
     return () => clearTimeout(timer);
-  }, [lenis]);
+  }, []);
 
   // GSAP animations for no results - exactly like in CatalogSection
   useEffect(() => {
@@ -161,16 +149,10 @@ const NewsGrid: FC = () => {
           y: 0,
           duration: 0.3,
           ease: "power2.out",
-          onComplete: () => {
-            // Notify Lenis about the content height change
-            if (lenis) {
-              lenis.resize();
-            }
-          },
         }
       );
     }
-  }, [currentNews.length, lenis]);
+  }, [currentNews.length]);
 
   // Handle dropdown animations
   useEffect(() => {
@@ -192,12 +174,6 @@ const NewsGrid: FC = () => {
           duration: 0.3,
           ease: "power3.out",
           display: "block",
-          onComplete: () => {
-            // Ensure Lenis knows about the height change
-            if (lenis) {
-              lenis.resize();
-            }
-          },
         }
       );
 
@@ -216,10 +192,6 @@ const NewsGrid: FC = () => {
         ease: "power3.in",
         onComplete: () => {
           gsap.set(optionsRef.current, { display: "none" });
-          // Ensure Lenis knows about the height change
-          if (lenis) {
-            lenis.resize();
-          }
         },
       });
 
@@ -230,7 +202,7 @@ const NewsGrid: FC = () => {
         ease: "power2.out",
       });
     }
-  }, [isDropdownOpen, lenis]);
+  }, [isDropdownOpen]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -269,31 +241,6 @@ const NewsGrid: FC = () => {
     updateUrl({ sort: newSort });
     setIsDropdownOpen(false);
   };
-
-  // Add resize listener for content changes
-  useEffect(() => {
-    // Update Lenis on page visibility change (when switching tabs)
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible" && lenis) {
-        setTimeout(() => {
-          lenis.resize();
-        }, 100);
-      }
-    };
-
-    // Update on window resize
-    const handleResize = () => {
-      if (lenis) lenis.resize();
-    };
-
-    window.addEventListener("resize", handleResize);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [lenis]);
 
   const sortOptions = [
     { value: "new", label: "Дате публикации (новые)" },
@@ -386,7 +333,7 @@ const NewsGrid: FC = () => {
                 className="group relative overflow-hidden rounded-lg p-1 transition-all duration-300"
                 style={{ opacity: 0 }} /* Start invisible */
               >
-                <TransitionLink href={`/news/${news.slug}`} className="block">
+                <Link href={`/news/${news.slug}`} className="block">
                   <div className="relative w-full h-56 mb-4 overflow-hidden rounded-lg aspect-[4/3]">
                     <Image
                       src="/news_bg.webp"
@@ -410,8 +357,8 @@ const NewsGrid: FC = () => {
                       {news.description}
                     </p>
                   </div>
-                </TransitionLink>
-                <TransitionLink
+                </Link>
+                <Link
                   href={`/news/${news.slug}`}
                   className="inline-flex items-center mt-6 text-white transition-colors duration-300 group-hover:text-white/80"
                 >
@@ -433,7 +380,7 @@ const NewsGrid: FC = () => {
                     </div>
                     <span className="ml-4 text-white text-lg">Читать</span>
                   </div>
-                </TransitionLink>
+                </Link>
               </article>
             ))}
           </div>

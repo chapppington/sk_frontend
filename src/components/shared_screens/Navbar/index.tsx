@@ -1,10 +1,10 @@
 "use client";
 
-import { PagesConfig } from "@/config/pages.config"
+import { PagesConfig } from "@/config/pages.config";
 
-import { FC, useState } from "react";
+import { FC, useState, useCallback } from "react";
 import Image from "next/image";
-import TransitionLink from "@/components/ui/TransitionLink";
+import Link from "next/link";
 import CustomContainer from "@/components/ui/CustomContainer";
 import ContactInfo from "./components/ContactInfo";
 import DesktopMenuItemsList from "./components/DesktopMenuItemsList";
@@ -14,14 +14,15 @@ import CTAButton from "./components/CTAButton";
 
 const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  console.log("Navbar render. isMobileMenuOpen:", isMobileMenuOpen);
 
   const handleMenuButtonClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
-  };
+  }, [setIsMobileMenuOpen]);
 
   return (
     <nav
@@ -29,7 +30,10 @@ const Navbar: FC = () => {
       style={{ backdropFilter: "blur(20px)" }}
     >
       <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto">
-        <TransitionLink href={PagesConfig.home} className="px-0 flex items-center select-none">
+        <Link
+          href={PagesConfig.home}
+          className="px-0 flex items-center select-none"
+        >
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"
@@ -38,7 +42,7 @@ const Navbar: FC = () => {
             className="h-8"
             priority
           />
-        </TransitionLink>
+        </Link>
 
         <DesktopMenuItemsList />
 
@@ -53,10 +57,7 @@ const Navbar: FC = () => {
         />
       </CustomContainer>
 
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={handleCloseMenu}
-      />
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={handleCloseMenu} />
     </nav>
   );
 };

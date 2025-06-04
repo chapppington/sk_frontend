@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useRef } from "react";
-import TransitionLink from "@/components/ui/TransitionLink";
+import Link from "next/link";
 import { IMainButtonProps } from "./types";
 import { sizeStyles } from "./sizeStyles";
 
@@ -56,9 +56,9 @@ const MainButton: FC<IMainButtonProps> = ({
       {buttonContent}
     </div>
   ) : (
-    <TransitionLink ref={anchorRef} href={href} {...commonProps}>
+    <Link ref={anchorRef} href={href} {...commonProps}>
       {buttonContent}
-    </TransitionLink>
+    </Link>
   );
 };
 

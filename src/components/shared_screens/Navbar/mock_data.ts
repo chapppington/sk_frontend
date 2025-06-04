@@ -1,10 +1,11 @@
 import { IMenuItem, ContactSection } from "./types";
+import { PagesConfig } from "@/config/pages.config";
 
 export const menuItems: IMenuItem[] = [
-  { href: "/catalog", label: "Каталог" },
-  { href: "/production", label: "О производстве" },
-  { href: "/news", label: "Новости" },
-  { href: "/contacts", label: "Контакты" },
+  { href: PagesConfig.catalog, label: "Каталог" },
+  { href: PagesConfig.production, label: "О производстве" },
+  { href: PagesConfig.news, label: "Новости" },
+  { href: PagesConfig.contacts, label: "Контакты" },
 ];
 
 export const contactSections: ContactSection[] = [
