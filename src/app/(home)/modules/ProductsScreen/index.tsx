@@ -132,6 +132,7 @@ export default function ProductsSlider() {
                     width={70}
                     height={50}
                     className="h-5 opacity-40 hover:opacity-80 transition-opacity"
+                    style={{ width: "auto" }}
                   />
                 ))}
               </div>
@@ -246,6 +247,7 @@ export default function ProductsSlider() {
                             src={product.image}
                             alt={product.title}
                             fill
+                            sizes="(max-width: 768px) 60px, 80px"
                             className="object-contain opacity-20"
                           />
                         </div>

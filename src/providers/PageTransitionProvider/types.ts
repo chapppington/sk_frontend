@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { ReactElement, RefObject } from "react";
 
 export interface IUseColumnsReturn {
   columnsRef: RefObject<HTMLDivElement[]>;
@@ -10,6 +10,7 @@ export interface IUseLogoReturn {
   logoRef: RefObject<HTMLDivElement>;
   createLogo: () => void;
   cleanupLogo: () => void;
+  isVisible: boolean;
 }
 
 export interface IUseAnimationsReturn {

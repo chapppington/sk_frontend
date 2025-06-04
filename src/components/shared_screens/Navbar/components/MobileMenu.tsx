@@ -1,5 +1,4 @@
-import { PagesConfig } from "@/config/pages.config"
-
+import { PagesConfig } from "@/config/pages.config";
 
 import { FC, useRef, useEffect } from "react";
 import Image from "next/image";

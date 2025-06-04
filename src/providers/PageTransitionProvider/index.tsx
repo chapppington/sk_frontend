@@ -12,6 +12,7 @@ import {
 import { useColumns } from "@/providers/PageTransitionProvider/hooks/useColumns";
 import { useLogo } from "@/providers/PageTransitionProvider/hooks/useLogo";
 import { useAnimations } from "@/providers/PageTransitionProvider/hooks/useAnimations";
+import { Logo } from "@/providers/PageTransitionProvider/components/Logo";
 
 import { ITransitionContextType } from "./types";
 
@@ -34,7 +35,7 @@ export const PageTransitionProvider = ({
   const lenis = useLenis();
 
   const { columnsRef, createColumns, cleanupColumns } = useColumns();
-  const { logoRef, createLogo, cleanupLogo } = useLogo();
+  const { logoRef, createLogo, cleanupLogo, isVisible } = useLogo();
   const { isAnimating, animateIn, animateOut } = useAnimations(
     columnsRef,
     logoRef,
@@ -92,6 +93,7 @@ export const PageTransitionProvider = ({
       <div style={{ visibility: isReady ? "visible" : "hidden" }}>
         {children}
       </div>
+      <Logo logoRef={logoRef} isVisible={isVisible} />
     </TransitionContext.Provider>
   );
 };
