@@ -1,4 +1,5 @@
-import { PagesConfig } from "@/config/pages.config";
+import { PagesConfig } from "@/config/pages.config"
+
 
 import { FC, useRef, useEffect } from "react";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import gsap from "gsap";
 
 import MainButton from "@/components/ui/MainButton";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import { IMobileMenuProps } from "@/components/shared_screens/Navbar/types";
 
 import {
@@ -15,8 +16,6 @@ import {
 } from "@/components/shared_screens/Navbar/mock_data";
 
 const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
-  console.log("MobileMenu render - isOpen:", isOpen);
-
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuItemsRef = useRef<HTMLDivElement[]>([]);
@@ -24,18 +23,15 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    console.log("Initial setup effect");
     if (menuRef.current) {
       gsap.set(menuRef.current, { x: "100%" });
     }
   }, []);
 
   useEffect(() => {
-    console.log("Menu open state changed:", isOpen);
     if (!isOpen) return;
 
     const ctx = gsap.context(() => {
-      console.log("Starting open animation");
       gsap.to(overlayRef.current, {
         opacity: 1,
         duration: 0.3,
@@ -83,9 +79,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleClose = () => {
-    console.log("handleClose called");
     const ctx = gsap.context(() => {
-      console.log("Starting close animation");
       gsap.to(overlayRef.current, {
         opacity: 0,
         duration: 0.3,
@@ -105,7 +99,6 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
         duration: 0.4,
         ease: "power2.in",
         onComplete: () => {
-          console.log("Close animation completed");
           onClose();
         },
       });
@@ -121,10 +114,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
       <div
         ref={overlayRef}
         className="fixed inset-0 bg-black/50 opacity-0"
-        onClick={() => {
-          console.log("Overlay clicked");
-          handleClose();
-        }}
+        onClick={handleClose}
       />
       <div
         ref={menuRef}
@@ -153,12 +143,11 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
                 }}
                 className="border-b border-white/30 opacity-0 translate-x-[50px]"
               >
-                <Link
+                <TransitionLink
                   href={item.href}
                   className="text-white/80 text-lg leading-none flex items-center justify-between py-6 font-light"
                   onClick={(e) => {
-                    console.log("Menu item clicked:", item.href, item.label);
-                    console.log("Click event:", e);
+                    e.stopPropagation();
                     handleClose();
                   }}
                 >
@@ -179,7 +168,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </Link>
+                </TransitionLink>
               </div>
             ))}
 
@@ -289,7 +278,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
                 © 2024г. Все права защищены.
               </p>
               <div className="space-y-2">
-                <Link
+                <TransitionLink
                   href={PagesConfig.privacy}
                   className="text-white/50 text-sm hover:text-white block"
                   onClick={(e) => {
@@ -298,7 +287,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
                   }}
                 >
                   Политика конфиденциальности
-                </Link>
+                </TransitionLink>
               </div>
             </div>
           </div>

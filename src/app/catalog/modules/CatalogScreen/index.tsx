@@ -3,10 +3,11 @@
 import gsap from "gsap";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { useLenis } from "lenis/react";
 import { FC, useState, useEffect, useRef, Suspense } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
 
 import { productCategories, products, services } from "./mock_data";
@@ -17,6 +18,7 @@ import {
 } from "./utils";
 
 const CatalogSectionContent: FC = () => {
+  const lenis = useLenis();
   const searchParams = useSearchParams();
 
   // Get and sanitize URL params
@@ -107,9 +109,15 @@ const CatalogSectionContent: FC = () => {
         x: activeTab === "products" ? "0%" : "100%",
         duration: 0.3,
         ease: "power2.inOut",
+        onComplete: () => {
+          // Notify Lenis about the content height change
+          if (lenis) {
+            lenis.resize();
+          }
+        },
       });
     }
-  }, [activeTab]);
+  }, [activeTab, lenis]);
 
   // GSAP animations for grid items
   useEffect(() => {
@@ -126,10 +134,16 @@ const CatalogSectionContent: FC = () => {
           duration: 0.3,
           stagger: 0.05,
           ease: "power2.out",
+          onComplete: () => {
+            // Notify Lenis about the content height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
     }
-  }, [activeTab, debouncedSearchQuery, activeCategory, currentPage]);
+  }, [activeTab, debouncedSearchQuery, activeCategory, currentPage, lenis]);
 
   // GSAP animations for pagination
   useEffect(() => {
@@ -142,10 +156,16 @@ const CatalogSectionContent: FC = () => {
           y: 0,
           duration: 0.3,
           ease: "power2.out",
+          onComplete: () => {
+            // Notify Lenis about the content height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
     }
-  }, [activeCategory, activeTab]);
+  }, [activeCategory, activeTab, lenis]);
 
   // Reset page when category or search changes
   useEffect(() => {
@@ -163,10 +183,53 @@ const CatalogSectionContent: FC = () => {
           y: 0,
           duration: 0.3,
           ease: "power2.out",
+          onComplete: () => {
+            // Notify Lenis about the content height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
     }
-  }, [filteredProducts.length, filteredServices.length]);
+  }, [filteredProducts.length, filteredServices.length, lenis]);
+
+  // Add general resize handler for content changes
+  useEffect(() => {
+    if (!lenis) return;
+
+    // Update Lenis on page visibility change (when switching tabs)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        setTimeout(() => {
+          lenis.resize();
+        }, 100);
+      }
+    };
+
+    // Update on window resize
+    const handleResize = () => {
+      lenis.resize();
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [lenis]);
+
+  // Effect to handle dropdown open/close and resize Lenis
+  useEffect(() => {
+    if (lenis && isDropdownOpen !== undefined) {
+      // Small delay to allow the dropdown to render completely
+      setTimeout(() => {
+        lenis.resize();
+      }, 50);
+    }
+  }, [isDropdownOpen, lenis]);
 
   return (
     <section id="catalog_section" className="bg-transparent py-24">
@@ -446,7 +509,7 @@ const CatalogSectionContent: FC = () => {
                   >
                     {currentProducts.map((product) => (
                       <div key={product.id} className="flex flex-col group">
-                        <Link
+                        <TransitionLink
                           href={`/product/${product.slug}`}
                           className="block"
                         >
@@ -484,7 +547,7 @@ const CatalogSectionContent: FC = () => {
                               </span>
                             </div>
                           </div>
-                        </Link>
+                        </TransitionLink>
                       </div>
                     ))}
                   </div>
@@ -539,7 +602,7 @@ const CatalogSectionContent: FC = () => {
                   >
                     {filteredServices.map((service) => (
                       <div key={service.id} className="flex flex-col group">
-                        <Link
+                        <TransitionLink
                           href={`/service/${service.category}`}
                           className="block"
                         >
@@ -571,7 +634,7 @@ const CatalogSectionContent: FC = () => {
                               </span>
                             </div>
                           </div>
-                        </Link>
+                        </TransitionLink>
                       </div>
                     ))}
                   </div>

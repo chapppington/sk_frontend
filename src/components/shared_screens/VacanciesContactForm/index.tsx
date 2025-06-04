@@ -2,6 +2,7 @@
 
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useLenis } from "lenis/react";
 
 import Input from "@/components/ui/Input";
 import MainButton from "@/components/ui/MainButton";
@@ -15,6 +16,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = [".pdf", ".doc", ".docx"];
 
 const ContactForm: FC = () => {
+  const lenis = useLenis();
   const {
     register,
     handleSubmit,
@@ -23,6 +25,13 @@ const ContactForm: FC = () => {
     setError,
     clearErrors,
   } = useForm<IContactFormData>();
+
+  // Add effect to handle Lenis resize when errors change
+  useEffect(() => {
+    if (lenis) {
+      lenis.resize();
+    }
+  }, [errors, lenis]);
 
   const selectedFile = watch("resume");
   const fileName = selectedFile?.[0]?.name

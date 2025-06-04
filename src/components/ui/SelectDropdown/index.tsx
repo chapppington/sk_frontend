@@ -1,4 +1,5 @@
 import { FC, useRef, useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 import gsap from "gsap";
 
 interface SelectDropdownProps {
@@ -19,6 +20,7 @@ const SelectDropdown: FC<SelectDropdownProps> = ({
   label,
   icon,
 }) => {
+  const lenis = useLenis();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
@@ -45,6 +47,12 @@ const SelectDropdown: FC<SelectDropdownProps> = ({
           duration: 0.3,
           ease: "power3.out",
           display: "block",
+          onComplete: () => {
+            // Ensure Lenis knows about the height change
+            if (lenis) {
+              lenis.resize();
+            }
+          },
         }
       );
 
@@ -63,6 +71,10 @@ const SelectDropdown: FC<SelectDropdownProps> = ({
         ease: "power3.in",
         onComplete: () => {
           gsap.set(optionsRef.current, { display: "none" });
+          // Ensure Lenis knows about the height change
+          if (lenis) {
+            lenis.resize();
+          }
         },
       });
 
@@ -73,7 +85,7 @@ const SelectDropdown: FC<SelectDropdownProps> = ({
         ease: "power2.out",
       });
     }
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, lenis]);
 
   // Close dropdown when clicking outside
   useEffect(() => {

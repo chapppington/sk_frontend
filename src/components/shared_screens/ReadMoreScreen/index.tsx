@@ -13,7 +13,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 import { newsItems } from "./mock_data";
 import SectionHeader from "@/components/SectionHeader";
@@ -176,7 +176,7 @@ const ReadMoreScreen: FC = () => {
           >
             {newsItems.map((item) => (
               <SwiperSlide key={item.id}>
-                <Link href={item.link} className="block">
+                <TransitionLink href={item.link} className="block">
                   <article className="group relative overflow-hidden">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-lg transition-all duration-300 ease-in-out">
                       <Image
@@ -303,7 +303,7 @@ const ReadMoreScreen: FC = () => {
                       </div>
                     </div>
                   </article>
-                </Link>
+                </TransitionLink>
               </SwiperSlide>
             ))}
           </Swiper>

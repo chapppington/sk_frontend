@@ -2,7 +2,7 @@ import { FC, Fragment } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import { IBreadcrumbsProps } from "@/components/ui/Breadcrumbs/types";
 
 const Breadcrumbs: FC<IBreadcrumbsProps> = ({
@@ -15,12 +15,12 @@ const Breadcrumbs: FC<IBreadcrumbsProps> = ({
       <div className="flex items-center space-x-2 text-white/80">
         {items.map((item, index) => (
           <Fragment key={index}>
-            <Link
+            <TransitionLink
               href={item.href}
               className={`${item.current ? "text-white" : "hover:text-white"}`}
             >
               {item.label}
-            </Link>
+            </TransitionLink>
             {index < items.length - 1 && (
               <span className="text-white/60"> → </span>
             )}

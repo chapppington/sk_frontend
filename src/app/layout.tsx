@@ -2,6 +2,9 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ViewTransitions } from "next-view-transitions";
+import { BreakpointIndicator } from "@/utils/BreakpointIndicator";
+
 import Navbar from "@/components/shared_screens/Navbar";
 import Footer from "@/components/shared_screens/Footer";
 
@@ -9,6 +12,8 @@ import ConditionalBGGradient from "@/components/ui/BackgroundGradient/Conditiona
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
+import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
+import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const inter = Inter({
   subsets: ["cyrillic"],
@@ -32,15 +37,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <CameraProvider>
-          <ConditionalBGGradient />
-          <ConditionalMainScene />
+        <ViewTransitions>
+          <PageTransitionProvider>
+            <CameraProvider>
+              <ConditionalBGGradient />
+              <CustomScrollbar />
+              <ConditionalMainScene />
+              <BreakpointIndicator />
+              <Navbar />
 
-          <Navbar />
-
-          {children}
-          <Footer />
-        </CameraProvider>
+              {children}
+              <Footer />
+            </CameraProvider>
+          </PageTransitionProvider>
+        </ViewTransitions>
       </body>
     </html>
   );

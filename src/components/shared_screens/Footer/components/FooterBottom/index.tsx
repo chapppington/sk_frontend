@@ -3,7 +3,7 @@
 import { PagesConfig } from "@/config/pages.config";
 
 import { FC } from "react";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 const FooterBottom: FC = () => {
   return (
@@ -13,12 +13,12 @@ const FooterBottom: FC = () => {
         <p className="text-white/80 text-sm">
           © {new Date().getFullYear()}г. Все права защищены.
         </p>
-        <Link
+        <TransitionLink
           href={PagesConfig.privacy}
           className="block text-white/80 text-sm hover:text-white/70"
         >
           Политика обработки персональных данных
-        </Link>
+        </TransitionLink>
       </div>
       {/* Desktop version (flex row) */}
       <div className="hidden md:flex md:flex-row justify-between items-center">
@@ -26,13 +26,13 @@ const FooterBottom: FC = () => {
           © {new Date().getFullYear()}г. Все права защищены.
         </p>
         <div className="flex space-x-6">
-          <Link
+          <TransitionLink
             href={PagesConfig.privacy}
             className="text-white/80 text-sm hover:text-white/70 relative select-none group transition-colors"
           >
             Политика обработки персональных данных
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </div>

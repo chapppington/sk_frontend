@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ISecondaryButtonProps } from "@/components/ui/SecondaryButton/types";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 
 const SecondaryButton: FC<ISecondaryButtonProps> = ({
   href,
@@ -8,7 +8,7 @@ const SecondaryButton: FC<ISecondaryButtonProps> = ({
   className = "",
 }) => {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={`flex items-center text-white/60 text-lg font-light hover:text-white transition-colors ${className}`}
     >
@@ -23,7 +23,7 @@ const SecondaryButton: FC<ISecondaryButtonProps> = ({
         <path d="M8 8 L24 24" />
         <path d="M24 8 L24 24 L8 24" />
       </svg>
-    </Link>
+    </TransitionLink>
   );
 };
 

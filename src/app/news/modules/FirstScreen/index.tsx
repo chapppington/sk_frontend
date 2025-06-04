@@ -5,7 +5,7 @@ import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import { newsItems } from "@/app/news/modules/FirstScreen/mock_data";
@@ -323,7 +323,7 @@ const FirstScreen: FC = () => {
 
             {/* Title */}
             <div ref={titleRef}>
-              <Link
+              <TransitionLink
                 href={`/news/${currentNews.slug}`}
                 className="block hover:opacity-90 transition-opacity"
               >
@@ -336,7 +336,7 @@ const FirstScreen: FC = () => {
                     {currentNews.title}
                   </GradientHeading>
                 </AnimatedText>
-              </Link>
+              </TransitionLink>
             </div>
 
             {/* Meta Info */}
@@ -371,7 +371,7 @@ const FirstScreen: FC = () => {
 
             {/* Read More Button */}
             <div ref={buttonRef} className="mt-6">
-              <Link href={`/news/${currentNews.slug}`}>
+              <TransitionLink href={`/news/${currentNews.slug}`}>
                 <div className="inline-flex items-center group news-button">
                   <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
                     <svg
@@ -390,7 +390,7 @@ const FirstScreen: FC = () => {
                   </div>
                   <span className="ml-4 text-white text-lg">Читать</span>
                 </div>
-              </Link>
+              </TransitionLink>
             </div>
           </div>
         </div>

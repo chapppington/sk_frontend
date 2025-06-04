@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import Image from "next/image";
 import { PagesConfig } from "@/config/pages.config";
@@ -6,7 +6,7 @@ import { PagesConfig } from "@/config/pages.config";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
 
@@ -88,7 +88,7 @@ export default function ArticleContentSection({
 
           {/* Return to News Button */}
           <div className="mt-12">
-            <Link
+            <TransitionLink
               href={PagesConfig.news}
               className="inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group"
             >
@@ -111,7 +111,7 @@ export default function ArticleContentSection({
                 </svg>
               </div>
               <span className="text-lg pl-4">Вернуться ко всем новостям</span>
-            </Link>
+            </TransitionLink>
           </div>
         </div>
       </CustomContainer>
