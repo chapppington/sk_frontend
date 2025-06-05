@@ -37,14 +37,17 @@ const EquipmentGridScreen: FC = () => {
         />
 
         {/* Grid Content */}
-        <div className="grid grid-cols-5 grid-rows-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
           {gridItems.map((item, index) => (
             <div
               key={index}
-              className="relative overflow-hidden min-h-[400px]"
+              className={`relative overflow-hidden min-h-[300px] md:min-h-[400px] ${
+                item.colSpan > 1
+                  ? "md:col-span-2 lg:col-span-" + item.colSpan
+                  : ""
+              }`}
               style={{
                 ...(item.clipPath ? { clipPath: item.clipPath } : {}),
-                gridColumn: `span ${item.colSpan} / span ${item.colSpan}`,
               }}
             >
               <Image
