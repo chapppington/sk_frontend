@@ -1,4 +1,4 @@
-import stylesModule from "./MainButton.module.css";
+import stylesModule from "./styles.module.css";
 
 export const sizeStyles = {
   sm: {
