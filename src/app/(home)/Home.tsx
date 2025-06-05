@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 
-import FirstScreen from "@/app/(home)/modules/FirstScreen";
-import Mission from "@/app/(home)/modules/MissionScreen";
-import ProductsSlider from "@/app/(home)/modules/ProductsScreen";
-import ScrollingTextSection from "@/app/(home)/modules/ScrollingTextScreen";
-import PortfolioSection from "@/app/(home)/modules/PortfolioScreen";
-import CustomerReviewsScreen from "@/app/(home)/modules/CustomerReviewsScreen";
+import FirstScreen from "@/app/(home)/screens/FirstScreen";
+import Mission from "@/app/(home)/screens/MissionScreen";
+import ProductsSlider from "@/app/(home)/screens/ProductsScreen";
+import ScrollingTextSection from "@/app/(home)/screens/ScrollingTextScreen";
+import PortfolioSection from "@/app/(home)/screens/PortfolioScreen";
+import CustomerReviewsScreen from "@/app/(home)/screens/CustomerReviewsScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 import { useCameraContext } from "@/components/3DScene/features/CameraContext";
 import { SectionObserver } from "@/components/3DScene/features/SectionObserver";

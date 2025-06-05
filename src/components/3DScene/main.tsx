@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
 
 
-
 function MainScene() {
   return (
     <div className="app-container fixed z-[-10]">
@@ -22,13 +21,17 @@ function MainScene() {
           }}
           camera={{ position: [0, 0, 10], fov: 70, near: 0.1, far: 10000 }}
           scene={{ background: new THREE.Color("#0f0d1f") }}
-          gl={{ antialias: true, powerPreference: "high-performance", stencil: false, depth: false }}
+          gl={{
+            antialias: true,
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: false,
+          }}
           dpr={[1, 2]}
         >
           <Scene />
-          <Camera3D/>
+          <Camera3D />
 
-            
           {/* <OrbitControls
             enableZoom={true}
             enablePan={true}

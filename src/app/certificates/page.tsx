@@ -1,4 +1,4 @@
-import CertificatesScreen from "@/app/certificates/modules/CertificatesScreen";
+import CertificatesScreen from "@/app/certificates/screens/CertificatesScreen";
 import ContactUsScreen from "@/components/shared_screens/ContactUsScreen";
 
 export default function CertificatesPage() {
