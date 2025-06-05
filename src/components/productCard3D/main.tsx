@@ -1,12 +1,14 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 const TempScene = dynamic(() => import("./features/Scene"), { ssr: false });
 
 function ProductScene() {
+  const canvasRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+ 
 
   const handlePointerEnter = useCallback(() => {
     setIsHovered(true);
@@ -18,6 +20,7 @@ function ProductScene() {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Canvas
+        ref={canvasRef}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         style={{

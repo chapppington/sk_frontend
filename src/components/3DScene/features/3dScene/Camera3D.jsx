@@ -11,7 +11,7 @@ export default function Camera3D() {
 
     // Целевые позиции для каждого раздела
     const cameraPositions = [
-        new THREE.Vector3(432.3, 205, -676), // Позиция для Header
+        new THREE.Vector3(502.3, 205, -676), // Позиция для Header
         new THREE.Vector3(432.3, 205, -676),  // Позиция для ScrollingText
         new THREE.Vector3(231.15, 42, -469),   // Позиция для MissionSection
         new THREE.Vector3(-9.65, 21.85, -61.8),   // Позиция для ProductsSlider
@@ -23,7 +23,7 @@ export default function Camera3D() {
     // Целевые точки, на которые смотрит камера
     const lookAtPositions = [
         new THREE.Vector3(-160, 130, 0),   // Цель для Header
-        new THREE.Vector3(-500, 0, 0),  // Цель для ScrollingText
+        new THREE.Vector3(-100, 0, 0),  // Цель для ScrollingText
         new THREE.Vector3(-500, 1, 0),   // Цель для MissionSection
         new THREE.Vector3(-350, -60, 100),   // Цель для ProductsSlider
         new THREE.Vector3(1, 0, 0),   // Цель для PortfolioSection

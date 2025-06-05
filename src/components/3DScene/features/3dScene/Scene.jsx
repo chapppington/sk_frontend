@@ -190,7 +190,7 @@ useEffect(() => {
   }, [gltf,customShaderTest]);
   useEffect(() => {
     env.scene.traverse((node) => {
-      node.material = customShaderTest
+      node.material = customShaderTest2
       
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);

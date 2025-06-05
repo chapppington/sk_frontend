@@ -3,13 +3,13 @@
 import { Canvas, extend } from "@react-three/fiber";
 import * as THREE from "three";
 import Scene from "@/components/3DScene/features/3dScene/Scene";
-
+import { useEffect } from "react";
 // import { OrbitControls } from "@react-three/drei";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
 
 
-function MainScene() {
 
+function MainScene() {
   return (
     <div className="app-container fixed z-[-10]">
       <div className="canvas-container pointer-events-auto">

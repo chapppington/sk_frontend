@@ -7,7 +7,7 @@ import { useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import gsap from "gsap";
 import { Power4 } from "gsap/all";
-import Stats from "three/examples/jsm/libs/stats.module.js";
+
 import React from "react";
 
 export default function TempScene({ isHovered }) {
@@ -17,8 +17,6 @@ export default function TempScene({ isHovered }) {
   const modelRef = useRef();
   const scene = new THREE.Scene();
   const isFirstRender = useRef(true);
-  const stats = new Stats();
-  document.body.appendChild(stats.dom);
 
   const gltf22 = useLoader(GLTFLoader, "/Scene/parn.glb", (loader) => {
     const dracoLoader = new DRACOLoader();
@@ -48,7 +46,7 @@ export default function TempScene({ isHovered }) {
     // customShader.uniforms.uProgress.value = progress;
     // console.log(cameraRef.current.position);
     customShader.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
-    stats.update();
+    
   });
   useEffect(() => {
     if (isFirstRender.current) {
@@ -144,9 +142,9 @@ export default function TempScene({ isHovered }) {
       <primitive
         object={gltf22.scene}
         ref={modelRef}
-        // onPointerEnter={handlePointerMove}
-        // onPointerLeave={handlePointerLeave}
-      />
+        
+        
+      ></primitive>
     </>
   );
 }

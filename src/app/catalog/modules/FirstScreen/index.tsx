@@ -6,6 +6,7 @@ import { FC, useState, useMemo } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
+import ProductsSlider3D from "@/components/ProductsSlider3D/main";
 
 const FirstScreen: FC = () => {
   // Added state management for the counter
@@ -72,7 +73,7 @@ const FirstScreen: FC = () => {
 
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <div className="pt-8 sm:pt-12 md:pt-16">
+        <div className="pt-8 sm:pt-12 md:pt-16 flex items-start">
           <AnimatedText>
             <GradientHeading className="2xl:text-6xl z-10">
               Каталог
@@ -80,6 +81,8 @@ const FirstScreen: FC = () => {
               продукции
             </GradientHeading>
           </AnimatedText>
+          {/* <div className="ml-8 border border-white/30 w-[1000px] h-[600px] hidden md:block" /> */}
+          <ProductsSlider3D/>
         </div>
 
         {/* Bottom Content - Three-column layout */}
