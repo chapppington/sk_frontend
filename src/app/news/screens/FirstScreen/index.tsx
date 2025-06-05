@@ -8,7 +8,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
-import { newsItems } from "@/app/news/modules/FirstScreen/mock_data";
+import { newsItems } from "@/app/news/screens/FirstScreen/mock_data";
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

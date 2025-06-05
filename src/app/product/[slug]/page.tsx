@@ -1,13 +1,13 @@
 import { Metadata, ResolvingMetadata } from "next";
 import dynamic from "next/dynamic";
 
-import FirstScreen from "@/app/product/[slug]/modules/FirstScreen";
+import FirstScreen from "@/app/product/[slug]/screens/FirstScreen";
 
-const InfoScreen = dynamic(() => import("@/app/product/[slug]/modules/InfoScreen"));
-const LogoGrid = dynamic(() => import("@/app/product/[slug]/modules/LogoGridScreen"));
-const NumbersSection = dynamic(() => import("@/app/product/[slug]/modules/NumbersScreen"));
-const SliderSection = dynamic(() => import("@/app/product/[slug]/modules/SliderScreen"));
-const TabsSection = dynamic(() => import("@/app/product/[slug]/modules/TabsScreen"));
+const InfoScreen = dynamic(() => import("@/app/product/[slug]/screens/InfoScreen"));
+const LogoGrid = dynamic(() => import("@/app/product/[slug]/screens/LogoGridScreen"));
+const NumbersSection = dynamic(() => import("@/app/product/[slug]/screens/NumbersScreen"));
+const SliderSection = dynamic(() => import("@/app/product/[slug]/screens/SliderScreen"));
+const TabsSection = dynamic(() => import("@/app/product/[slug]/screens/TabsScreen"));
 const ContactUsScreen = dynamic(() => import("@/components/shared_screens/ContactUsScreen"));
 
 export async function generateMetadata(

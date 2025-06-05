@@ -1,4 +1,4 @@
-import type { INewsItem } from "@/app/news/modules/FirstScreen/types";
+import type { INewsItem } from "@/app/news/screens/FirstScreen/types";
 
 // Mock news data - replace with your actual data source
 export const newsItems: INewsItem[] = [
