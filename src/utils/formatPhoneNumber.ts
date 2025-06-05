@@ -1,4 +1,4 @@
-// Perfect function, it handles all cases of phone inputs
+// handles all cases of phone inputs
 
 // Test cases:
 // formatPhoneNumber("8") => "+7"
