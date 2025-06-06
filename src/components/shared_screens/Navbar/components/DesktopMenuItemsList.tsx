@@ -3,7 +3,7 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import { menuItems } from "../mock_data";
 
 const DesktopMenu: FC = () => (
-  <div className="hidden 2xl:flex items-center space-x-12 px-12 h-full">
+  <div className="hidden 2xl:flex items-center space-x-10 px-12 h-full">
     {menuItems.map((item) => (
       <TransitionLink
         key={item.href}

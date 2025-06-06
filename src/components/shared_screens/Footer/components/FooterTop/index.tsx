@@ -1,6 +1,6 @@
 "use client";
 
-import { PagesConfig } from "@/config/pages.config"  
+import { PagesConfig } from "@/config/pages.config";
 
 import { FC } from "react";
 import Image from "next/image";
@@ -55,17 +55,34 @@ const FooterTop: FC = () => {
         {/* Desktop Links (grid) */}
         <div className="hidden md:flex justify-center items-center w-full">
           <div className="flex space-x-8 mx-auto">
-            {desktopNavigationItems.map((item) => (
-              <div key={item.name}>
-                <TransitionLink
-                  href={item.link}
-                  className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors"
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
-                </TransitionLink>
-              </div>
-            ))}
+            {/* Regular desktop items for md to 2xl screens */}
+            <div className="hidden md:flex 2xl:hidden">
+              {desktopNavigationItems.map((item) => (
+                <div key={item.name}>
+                  <TransitionLink
+                    href={item.link}
+                    className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                  </TransitionLink>
+                </div>
+              ))}
+            </div>
+            {/* All mobile items for 2xl screens */}
+            <div className="hidden 2xl:flex">
+              {mobileNavigationItems.map((item) => (
+                <div key={item.name}>
+                  <TransitionLink
+                    href={item.link}
+                    className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors ml-8"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                  </TransitionLink>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

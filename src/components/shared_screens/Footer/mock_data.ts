@@ -2,7 +2,6 @@ import { ContactBlock, NavigationItem } from "./types";
 
 export const mobileNavigationItems: NavigationItem[] = [
   { name: "Каталог", link: "/catalog" },
-  { name: "Проекты", link: "/projects" },
   { name: "О компании", link: "/about" },
   { name: "О производстве", link: "/production" },
   { name: "Сертификаты", link: "/certificates" },
