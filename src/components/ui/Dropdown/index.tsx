@@ -56,7 +56,7 @@ const Dropdown: FC<IDropdownProps> = ({
         <h3 className="text-white text-2xl font-light select-none">{title}</h3>
         <button
           ref={plusIconRef}
-          className="plus-icon w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 ease-in-out cursor-pointer hover:bg-white/10"
+          className="plus-icon w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 ease-in-out cursor-pointer hover:bg-white/10 flex-shrink-0"
         >
           <svg
             className="w-6 h-6"
