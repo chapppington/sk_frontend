@@ -101,7 +101,7 @@ export default function TasksScreen() {
           </div>
 
           {/* Main Content */}
-          <div className="container mx-auto px-4 relative">
+          <div className="container mx-auto relative">
             <div className="flex flex-col mx-auto">
               <div className="pl-0 md:pl-8">
                 {/* Heading and Description */}

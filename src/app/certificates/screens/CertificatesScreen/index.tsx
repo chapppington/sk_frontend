@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
+import { useState, useRef, useEffect } from "react";
 
 import Dropdown from "@/components/ui/Dropdown";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -41,7 +41,9 @@ export default function CertificatesScreen() {
       {/* Page Title */}
       <CustomContainer className="mt-8 mb-12">
         <AnimatedText>
-          <GradientHeading>Сертификаты и документация</GradientHeading>
+          <GradientHeading>
+            Сертификаты <br></br>и документация
+          </GradientHeading>
         </AnimatedText>
       </CustomContainer>
 
@@ -69,12 +71,12 @@ export default function CertificatesScreen() {
           <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8 w-full">
-                <div ref={tabContentRef}>
+                <div ref={tabContentRef} key={`tab-content-${activeTab}`}>
                   {faqCategories[activeTab].items.map((item, index) => (
                     <Dropdown
                       key={index}
                       title={item.title}
-                      defaultOpen={index === 0 && activeTab === 0}
+                      defaultOpen={faqCategories[activeTab].items.length === 1}
                     >
                       <p className="text-white/60 text-base select-none">
                         {item.content}
@@ -89,6 +91,8 @@ export default function CertificatesScreen() {
                             >
                               <a
                                 href={doc.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-white hover:text-white/80 flex items-center group"
                               >
                                 <span>{doc.title}</span>

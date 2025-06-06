@@ -5,6 +5,7 @@ import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import AnimatedText from "@/components/ui/AnimatedText";
+import CustomContainer from "@/components/ui/CustomContainer";
 
 const imageUrl =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"; // Placeholder image
@@ -12,7 +13,7 @@ const imageUrl =
 export default function SolutionScreen() {
   return (
     <section className="py-24 relative text-white">
-      <div className="container mx-auto px-4 lg:px-16 2xl:px-24">
+      <CustomContainer>
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar */}
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
@@ -20,7 +21,7 @@ export default function SolutionScreen() {
           </div>
 
           {/* Main Content */}
-          <div className="container mx-auto px-4 relative">
+          <div className="container mx-auto relative">
             <div className="flex flex-col mx-auto">
               <div className="pl-0 md:pl-8">
                 {/* Heading and Description */}
@@ -79,7 +80,7 @@ export default function SolutionScreen() {
           </div>
         </div>
         {/* End three-column section */}
-      </div>
+      </CustomContainer>
     </section>
   );
 }
