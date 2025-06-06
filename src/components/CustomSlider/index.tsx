@@ -6,7 +6,7 @@ import { CustomSliderProps } from "./types";
 import { NavigationButton } from "./components/NavigationButton";
 import { Indicators } from "./components/Indicators";
 import { useIndicators } from "./hooks/useIndicators";
-import { useSliderSetup } from "./hooks/useSwiper";
+import { useSliderSetup } from "./hooks/useSliderSetup";
 import { useId } from "react";
 
 const CustomSlider = ({
