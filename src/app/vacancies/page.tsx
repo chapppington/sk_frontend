@@ -1,11 +1,11 @@
-import FirstScreen from "@/app/vacancies/modules/FirstScreen";
+import FirstScreen from "@/app/vacancies/screens/FirstScreen";
 import dynamic from "next/dynamic";
 
-const VacanciesScreen = dynamic(() => import("@/app/vacancies/modules/VacanciesScreen"));
-const ValuesScreen = dynamic(() => import("@/app/vacancies/modules/ValuesScreen"));
-const AdvantagesScreen = dynamic(() => import("@/app/vacancies/modules/AdvantagesScreen"));
-const ReviewsScreen = dynamic(() => import("@/app/vacancies/modules/ReviewsScreen"));
-const FaqScreen = dynamic(() => import("@/app/vacancies/modules/FaqScreen"));
+const VacanciesScreen = dynamic(() => import("@/app/vacancies/screens/VacanciesScreen"));
+const ValuesScreen = dynamic(() => import("@/app/vacancies/screens/ValuesScreen"));
+const AdvantagesScreen = dynamic(() => import("@/app/vacancies/screens/AdvantagesScreen"));
+const ReviewsScreen = dynamic(() => import("@/app/vacancies/screens/ReviewsScreen"));
+const FaqScreen = dynamic(() => import("@/app/vacancies/screens/FaqScreen"));
 const ContactUsScreen = dynamic(() => import("@/components/shared_screens/ContactUsScreen"));
 
 export default function VacanciesPage() {

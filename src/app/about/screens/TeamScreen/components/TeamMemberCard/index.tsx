@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ITeamMemberCardProps } from "@/app/about/modules/TeamScreen/types";
+import { ITeamMemberCardProps } from "@/app/about/screens/TeamScreen/types";
 
 export const TeamMemberCard = ({
   name,

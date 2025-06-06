@@ -1,6 +1,6 @@
 "use client";
 
-import { IFaqItem } from "@/app/vacancies/modules/FaqScreen/types";
+import { IFaqItem } from "@/app/vacancies/screens/FaqScreen/types";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Dropdown from "@/components/ui/Dropdown";

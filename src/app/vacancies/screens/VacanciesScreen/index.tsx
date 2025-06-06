@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect, useRef, FC } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
-import { IJobItem } from "@/app/vacancies/modules/VacanciesScreen/types";
+import { IJobItem } from "@/app/vacancies/screens/VacanciesScreen/types";
 
 const VacanciesScreen: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);

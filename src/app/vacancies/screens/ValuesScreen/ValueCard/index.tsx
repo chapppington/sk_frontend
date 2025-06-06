@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IValueCardProps } from "@/app/vacancies/modules/ValuesScreen/ValueCard/types";
+import { IValueCardProps } from "@/app/vacancies/screens/ValuesScreen/ValueCard/types";
 
 const ValueCard: FC<IValueCardProps> = ({
   data,

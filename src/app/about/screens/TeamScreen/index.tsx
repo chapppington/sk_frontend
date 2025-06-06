@@ -14,7 +14,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 
 import { teamMembers } from "./mock_data";
-import { TeamMemberCard } from "@/app/about/modules/TeamScreen/components/TeamMemberCard";
+import { TeamMemberCard } from "@/app/about/screens/TeamScreen/components/TeamMemberCard";
 
 export default function TeamScreen() {
   return (
