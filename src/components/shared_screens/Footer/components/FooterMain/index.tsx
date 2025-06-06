@@ -6,7 +6,7 @@ import { companyAddress, contactBlocks } from "../../mock_data";
 
 const FooterMain: FC = () => {
   return (
-    <div className="border-t border-white/30 pt-12 pb-12">
+    <div className="md:border-t md:border-white/30 md:pt-12 pb-12">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Column 1 with 2 contact blocks */}
         <div className="space-y-8 md:flex md:flex-col md:justify-between">

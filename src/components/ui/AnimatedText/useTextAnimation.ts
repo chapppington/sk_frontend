@@ -7,10 +7,6 @@ import { UseTextAnimationProps } from "./types";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-const isMobile = () => {
-  return window.innerWidth <= 768;
-};
-
 export const useTextAnimation = ({
   animateOnScroll = true,
   delay = 0.45,
@@ -25,11 +21,6 @@ export const useTextAnimation = ({
   useGSAP(
     () => {
       if (!containerRef.current) return;
-
-      // Skip animation on mobile devices
-      if (isMobile()) {
-        return;
-      }
 
       splitRef.current = [];
       elementRef.current = [];
