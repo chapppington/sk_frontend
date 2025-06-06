@@ -22,7 +22,9 @@ const CustomSlider = ({
   indicatorCount = 60, // Number of indicator dots to show
   breakpoints, // Responsive breakpoints configuration
 }: CustomSliderProps) => {
+
   const sliderId = useId();
+  
   // Hook to manage progress indicators state and updates
   const { indicatorsRef, updateIndicators } = useIndicators({
     showIndicators,

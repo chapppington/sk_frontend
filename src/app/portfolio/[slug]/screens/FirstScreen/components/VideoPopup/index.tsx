@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, FC } from "react";
 
-import VideoWrapper from "@/app/portfolio/[slug]/modules/FirstScreen/components/VideoWrapper";
-import { IVideoPopupProps } from "@/app/portfolio/[slug]/modules/FirstScreen/components/VideoPopup/types";
+import VideoWrapper from "@/app/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
+import { IVideoPopupProps } from "@/app/portfolio/[slug]/screens/FirstScreen/components/VideoPopup/types";
 
 const VideoPopup: FC<IVideoPopupProps> = ({
   isOpen,
