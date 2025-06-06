@@ -1,10 +1,18 @@
-"use client";
-
 import { FC } from "react";
 import Image from "next/image";
-import { IRecentUpdateSliderItemProps } from "./types";
 
-const RecentUpdateSliderItem: FC<IRecentUpdateSliderItemProps> = ({ item }) => {
+interface IRecentUpdateItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface RecentUpdateSliderItemProps {
+  item: IRecentUpdateItem;
+}
+
+const RecentUpdateSliderItem: FC<RecentUpdateSliderItemProps> = ({ item }) => {
   return (
     <article className="relative overflow-hidden">
       <div className="relative aspect-[1/1] overflow-hidden">
