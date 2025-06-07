@@ -5,7 +5,6 @@ interface QuestionnaireStageProps {
     number: number;
     title: string;
     shortTitle: string;
-    sections: { number: number; title: string }[];
   };
   activeStage: number;
   stageIndex: number;
