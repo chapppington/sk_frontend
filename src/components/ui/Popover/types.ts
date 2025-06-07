@@ -5,4 +5,5 @@ export interface IPopoverProps {
   isOpen: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  className?: string;
 }

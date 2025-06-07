@@ -117,7 +117,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
       />
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 w-full h-screen bg-transparent overflow-y-auto"
+        className="fixed top-0 right-0 w-full md:w-[400px] h-screen bg-transparent overflow-y-auto"
       >
         <div className="sticky top-0 left-0 right-0 h-[72px] bg-black z-[1001] border-b border-white/20">
           <CustomContainer className="h-full flex justify-start items-center">

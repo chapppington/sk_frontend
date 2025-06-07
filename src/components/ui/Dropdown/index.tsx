@@ -13,11 +13,28 @@ const Dropdown: FC<IDropdownProps> = ({
   defaultOpen = false,
   children,
   popoverContent,
+  alwaysOpenOnMobile = false,
+  hidePlusButton = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
   const isFirstRender = useRef(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // If alwaysOpenOnMobile and on mobile, force open
+  useEffect(() => {
+    if (alwaysOpenOnMobile && isMobile) {
+      setIsOpen(true);
+    }
+  }, [alwaysOpenOnMobile, isMobile]);
 
   // Show info icon if popoverContent exists
   const shouldShowInfoIcon = !!popoverContent;
@@ -60,15 +77,19 @@ const Dropdown: FC<IDropdownProps> = ({
     <div className="dropdown border-t border-white/10 py-8 relative">
       <div
         className="flex justify-between items-center cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (!(alwaysOpenOnMobile && isMobile)) setIsOpen(!isOpen);
+        }}
       >
         <div className="flex items-center gap-2">
           <h3 className="text-white text-2xl font-light select-none">
             {title}
           </h3>
-          {shouldShowInfoIcon && <InfoIcon popoverContent={popoverContent} />}
         </div>
-        <PlusButton isOpen={isOpen} />
+        <div className="flex items-center gap-2">
+          {shouldShowInfoIcon && <InfoIcon popoverContent={popoverContent} />}
+          {!hidePlusButton && <PlusButton isOpen={isOpen} />}
+        </div>
       </div>
 
       <div

@@ -61,7 +61,7 @@ const FooterTop: FC = () => {
                 <div key={item.name}>
                   <TransitionLink
                     href={item.link}
-                    className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors"
+                    className="text-white hover:text-white/80 text-sm whitespace-nowrap relative select-none group transition-colors ml-8"
                   >
                     {item.name}
                     <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>

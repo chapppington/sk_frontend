@@ -6,4 +6,6 @@ export interface IDropdownProps {
   children: ReactNode;
   showInfoIcon?: boolean;
   popoverContent?: ReactNode;
+  alwaysOpenOnMobile?: boolean;
+  hidePlusButton?: boolean;
 }

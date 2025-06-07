@@ -91,7 +91,7 @@ export default function QuestionnairePage() {
   }, [activeStage]);
 
   return (
-    <main className="text-white pb-24 scroll-smooth">
+    <main className="text-white pb-24">
       <CustomContainer>
         <div className="flex flex-col lg:flex-row gap-10">
           <QuestionnaireLeftMenu

@@ -34,7 +34,7 @@ const Navbar: FC = () => {
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"
             width={175}
-            height={32}
+            height={28}
             className="h-8"
             priority
           />
