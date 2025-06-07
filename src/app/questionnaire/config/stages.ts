@@ -1,10 +1,6 @@
-export interface Stage {
-  number: number;
-  title: string;
-  shortTitle: string;
-}
+import { IStage } from "../types";
 
-export const stages: Stage[] = [
+export const stages: IStage[] = [
   {
     number: 1,
     title: "Основные параметры КТП",

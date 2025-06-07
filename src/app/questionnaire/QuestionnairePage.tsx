@@ -1,101 +1,84 @@
 "use client";
 
-import { useState } from "react";
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import GradientHeading from "@/components/ui/GradientHeading";
+import { useState, useEffect, useRef } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import QuestionnaireStage from "@/app/questionnaire/QuestionnaireStage";
-import { IQuestionnaireState } from "./types";
-import QuestionnaireQuestions from "./components/QuestionnaireQuestions";
-import { stages } from "./config/stages";
+import Questionnaire from "./components/Questionnaire";
+import QuestionnaireLeftMenu from "./components/QuestionnaireLeftMenu";
+import { initializeFormState, IFormState } from "./utils/initializeFormState";
 
 export default function QuestionnairePage() {
   const [activeStage, setActiveStage] = useState(1);
-  const [formState, setFormState] = useState<IQuestionnaireState>({
-    selectedKtpType: "",
-    selectedImplementation: "",
-    selectedTransformerCount: "",
-    selectedTransformerType: "",
-    selectedTransformerPower: "",
-    selectedWindingGroup: "",
-    selectedVoltageClass: "",
-    selectedSwitchgear: "",
-    selectedCellPurpose: "",
-    selectedSection10: "",
-    selectedSection11: "",
-    selectedSection12: "",
-    selectedSection13: "",
-    selectedSection14: "",
-    selectedSection15: "",
-    selectedSection16: "",
-    selectedSection17: "",
-    selectedSection18: "",
-    selectedSection19: "",
-    selectedSection20: "",
-    selectedSection21: "",
-    selectedSection22: "",
-    selectedSection23: "",
-    selectedSection24: "",
-    selectedSection25: [],
-    name: "",
-    phone: "",
-    email: "",
-    comments: "",
-  });
+  const [formState, setFormState] = useState<IFormState>(initializeFormState);
+  const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isInitialLoad = useRef(true);
 
-  const handleStateChange = (key: keyof IQuestionnaireState, value: any) => {
-    setFormState((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+  const handleStateChange = (
+    key: number,
+    value: string | number | string[]
+  ) => {
+    setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
-  const breadcrumbItems = [
-    { label: "Главная", href: "/", current: false },
-    { label: "Опросный лист", href: "/questionnaire", current: true },
-  ];
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isInitialLoad.current) {
+            const stageIndex = stageRefs.current.findIndex(
+              (ref) => ref === entry.target
+            );
+            if (stageIndex !== -1) {
+              setActiveStage(stageIndex + 1);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0,
+        rootMargin: "-30% 0px 0px 0px",
+      }
+    );
 
-  const changeStage = (sectionNumber: number) => {
-    setActiveStage(sectionNumber);
+    stageRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    // Set initial load to false after a short delay
+    const timer = setTimeout(() => {
+      isInitialLoad.current = false;
+    }, 100);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const scrollToStage = (stageIndex: number) => {
+    const targetRef = stageRefs.current[stageIndex - 1];
+    if (targetRef) {
+      targetRef.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <main className="text-white pb-24">
+    <main className="text-white pb-24 scroll-smooth">
       <CustomContainer>
         <div className="flex flex-col lg:flex-row gap-10">
-          {/* Left side: Breadcrumbs, Heading, Description, and Stages */}
-          <div className="w-full lg:w-1/2">
-            <Breadcrumbs items={breadcrumbItems} disableContainer />
+          <QuestionnaireLeftMenu
+            activeStage={activeStage}
+            setActiveStage={(stage) => {
+              setActiveStage(stage);
+              scrollToStage(stage);
+            }}
+          />
 
-            <GradientHeading className="mt-8 mb-6">
-              Опросный лист
-            </GradientHeading>
-
-            <p className="text-white/60 mb-12">
-              на изготовление комплектной трансформаторной подстанции (КТП),
-              производства ООО «СибКомплект»
-            </p>
-
-            {/* Stages section - Desktop */}
-            <div className="relative">
-              {stages.map((stage, stageIndex) => (
-                <QuestionnaireStage
-                  key={stageIndex}
-                  stage={stage}
-                  activeStage={activeStage}
-                  stageIndex={stageIndex}
-                  changeStage={changeStage}
-                  totalStages={stages.length}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right side: Questions */}
-          <div className="w-full lg:w-1/2 pt-32 h-[calc(100vh-12rem)] overflow-y-auto pr-4">
-            <QuestionnaireQuestions
+          {/* Right side */}
+          <div className="w-full lg:w-1/2 pt-32 pr-4">
+            <Questionnaire
               formState={formState}
               handleStateChange={handleStateChange}
+              stageRefs={stageRefs}
             />
           </div>
         </div>

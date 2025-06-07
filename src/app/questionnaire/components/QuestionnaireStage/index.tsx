@@ -1,18 +1,7 @@
-import React from "react";
+import { FC } from "react";
+import { QuestionnaireStageProps } from "./types";
 
-interface QuestionnaireStageProps {
-  stage: {
-    number: number;
-    title: string;
-    shortTitle: string;
-  };
-  activeStage: number;
-  stageIndex: number;
-  changeStage: (sectionNumber: number) => void;
-  totalStages: number;
-}
-
-const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
+const QuestionnaireStage: FC<QuestionnaireStageProps> = ({
   stage,
   activeStage,
   stageIndex,
@@ -21,23 +10,14 @@ const QuestionnaireStage: React.FC<QuestionnaireStageProps> = ({
 }) => {
   // Calculate if the current stage is active based on activeStage
   const isStageActive = (() => {
-    if (stage.number === 6) {
-      return activeStage >= 26 && activeStage <= 29;
-    }
     const stageStart = (stage.number - 1) * 5 + 1;
     const stageEnd = stage.number * 5;
     return activeStage >= stageStart && activeStage <= stageEnd;
   })();
 
   const handleStageClick = (): void => {
-    // For stage 6 (contact form), use section number 26
-    if (stage.number === 6) {
-      changeStage(26);
-    } else {
-      // For other stages, calculate the first section number
-      const firstSectionNumber = (stage.number - 1) * 5 + 1;
-      changeStage(firstSectionNumber);
-    }
+    const firstSectionNumber = (stage.number - 1) * 5 + 1;
+    changeStage(firstSectionNumber);
   };
 
   return (
