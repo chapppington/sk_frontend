@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Questionnaire from "./components/Questionnaire";
 import QuestionnaireLeftMenu from "./components/QuestionnaireLeftMenu";
-import { initializeFormState, IFormState } from "./utils/initializeFormState";
+import { initializeFormState } from "./utils/initializeFormState";
+import { IFormState } from "./types";
 
 export default function QuestionnairePage() {
   const [activeStage, setActiveStage] = useState(1);

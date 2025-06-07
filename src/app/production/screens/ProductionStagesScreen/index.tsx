@@ -3,7 +3,7 @@
 import { FC } from "react";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import CustomSlider from "@/components/CustomSlider";
 import ProductionStageSliderItem from "./components/ProductionStageSliderItem";
 import { productionStages } from "./mock_data";

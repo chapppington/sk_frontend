@@ -3,6 +3,8 @@
 import gsap from "gsap";
 import { useState, useRef, useEffect, FC } from "react";
 import { useLenis } from "lenis/react";
+import PlusButton from "./components/PlusButton";
+import InfoIcon from "./components/InfoIcon";
 
 import { IDropdownProps } from "@/components/ui/Dropdown/types";
 
@@ -10,15 +12,18 @@ const Dropdown: FC<IDropdownProps> = ({
   title,
   defaultOpen = false,
   children,
+  popoverContent,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
-  const plusIconRef = useRef<HTMLButtonElement>(null);
   const lenis = useLenis();
+
+  // Show info icon if popoverContent exists
+  const shouldShowInfoIcon = !!popoverContent;
 
   // Toggle animation
   useEffect(() => {
-    if (contentRef.current && plusIconRef.current) {
+    if (contentRef.current) {
       // Animate content
       gsap.to(contentRef.current, {
         height: isOpen ? "auto" : 0,
@@ -31,13 +36,6 @@ const Dropdown: FC<IDropdownProps> = ({
             lenis.resize();
           }
         },
-      });
-
-      // Animate plus icon
-      gsap.to(plusIconRef.current, {
-        rotation: isOpen ? 45 : 0,
-        duration: 0.07,
-        ease: "power1.inOut",
       });
     }
   }, [isOpen, lenis]);
@@ -53,25 +51,13 @@ const Dropdown: FC<IDropdownProps> = ({
         className="flex justify-between items-center cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h3 className="text-white text-2xl font-light select-none">{title}</h3>
-        <button
-          ref={plusIconRef}
-          className="plus-icon w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 ease-in-out cursor-pointer hover:bg-white/10 flex-shrink-0"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M12 6v12M6 12h12"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          <h3 className="text-white text-2xl font-light select-none">
+            {title}
+          </h3>
+          {shouldShowInfoIcon && <InfoIcon popoverContent={popoverContent} />}
+        </div>
+        <PlusButton isOpen={isOpen} />
       </div>
 
       <div

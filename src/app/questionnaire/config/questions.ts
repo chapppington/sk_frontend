@@ -1,6 +1,6 @@
-import { IQuestionConfig } from "../types";
+import { IQuestion } from "../types";
 
-export const questionsConfig: IQuestionConfig[] = [
+export const questionsConfig: IQuestion[] = [
   {
     id: 1,
     title: "01 · Тип КТП",
@@ -13,6 +13,8 @@ export const questionsConfig: IQuestionConfig[] = [
       { value: "stationary", label: "Стационарная" },
       { value: "mobile", label: "Передвижная" },
     ],
+    popoverContent:
+      "КТП (Комплектная трансформаторная подстанция) - это электроустановка, предназначенная для приема, преобразования и распределения электрической энергии. Выберите тип КТП в зависимости от места установки и требований к конструкции.",
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ export const questionsConfig: IQuestionConfig[] = [
       { value: "sectional", label: "Секционная" },
       { value: "outgoing", label: "Отходящая" },
     ],
+    popoverContent:
+      "Вводная ячейка - для подключения к источнику питания\nСекционная ячейка - для соединения секций\nОтходящая ячейка - для подключения потребителей",
   },
   {
     id: 3,
@@ -30,6 +34,8 @@ export const questionsConfig: IQuestionConfig[] = [
       { value: "indoor", label: "Внутреннее" },
       { value: "outdoor", label: "Наружное" },
     ],
+    popoverContent:
+      "Внутреннее исполнение - для установки внутри помещений\nНаружное исполнение - для установки на открытом воздухе",
   },
   {
     id: 4,

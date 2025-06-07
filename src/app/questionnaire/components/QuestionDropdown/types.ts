@@ -7,4 +7,5 @@ export interface QuestionDropdownProps {
   options: IQuestionOption[];
   defaultOpen?: boolean;
   questionId: number;
+  popoverContent?: string;
 }

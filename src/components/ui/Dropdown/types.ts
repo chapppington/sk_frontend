@@ -4,4 +4,6 @@ export interface IDropdownProps {
   title: string;
   defaultOpen?: boolean;
   children: ReactNode;
+  showInfoIcon?: boolean;
+  popoverContent?: ReactNode;
 }

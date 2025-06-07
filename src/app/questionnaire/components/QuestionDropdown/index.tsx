@@ -8,9 +8,15 @@ const QuestionDropdown = ({
   options,
   defaultOpen = true,
   questionId,
+  popoverContent,
 }: QuestionDropdownProps) => {
   return (
-    <Dropdown title={title} defaultOpen={defaultOpen}>
+    <Dropdown
+      title={title}
+      defaultOpen={defaultOpen}
+      showInfoIcon={!!popoverContent}
+      popoverContent={popoverContent}
+    >
       <div className="flex flex-wrap gap-4">
         {options.map((option) => (
           <div key={option.value} className="flex items-center gap-2">

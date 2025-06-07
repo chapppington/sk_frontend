@@ -25,6 +25,7 @@ const Questionnaire = ({
             value={formState[question.id]}
             onChange={(value) => handleStateChange(question.id, value)}
             questionId={question.id}
+            popoverContent={question.popoverContent}
           />
         </div>
       ))}

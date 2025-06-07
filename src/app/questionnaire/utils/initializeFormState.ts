@@ -1,12 +1,5 @@
 import { questionsConfig } from "../config/questions";
-
-// Define the possible types of answers in our form
-type Answer = string | number | string[];
-
-// Form state is a record of question IDs to their answers
-export interface IFormState {
-  [questionId: number]: Answer;
-}
+import { IFormState } from "../types";
 
 /**
  * Creates an initial form state where:

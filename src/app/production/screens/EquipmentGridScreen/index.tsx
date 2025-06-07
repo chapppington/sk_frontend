@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Image from "next/image";
 
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 import LogoGrid from "@/components/ui/LogoGrid";
 

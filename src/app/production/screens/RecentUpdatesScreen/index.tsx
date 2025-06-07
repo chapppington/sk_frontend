@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 import CustomSlider from "@/components/CustomSlider";
 import RecentUpdateSliderItem from "./components/RecentUpdateSliderItem";

@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import SectionHeader from "@/components/SectionHeader";
+import SectionHeader from "@/components/ui/SectionHeader";
 import CustomSlider from "@/components/CustomSlider";
 import NewsSliderItem from "./components/NewsSliderItem";
 import { newsItems } from "./mock_data";
