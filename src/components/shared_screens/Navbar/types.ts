@@ -1,6 +1,6 @@
 export interface IMenuItem {
-  href: string;
   label: string;
+  href: string;
 };
 
 export type ContactSection = {

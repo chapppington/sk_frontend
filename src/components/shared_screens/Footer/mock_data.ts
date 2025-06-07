@@ -1,19 +1,21 @@
 import { ContactBlock, NavigationItem } from "./types";
+import { PagesConfig } from "@/config/pages.config";
 
 export const mobileNavigationItems: NavigationItem[] = [
-  { name: "Каталог", link: "/catalog" },
-  { name: "О компании", link: "/about" },
-  { name: "О производстве", link: "/production" },
-  { name: "Сертификаты", link: "/certificates" },
-  { name: "Вакансии", link: "/vacancies" },
-  { name: "Контакты", link: "/contacts" },
+  { name: "Каталог", link: PagesConfig.catalog },
+  { name: "О компании", link: PagesConfig.about },
+  { name: "О производстве", link: PagesConfig.production },
+  { name: "Новости", link: PagesConfig.news },
+  { name: "Сертификаты", link: PagesConfig.certificates },
+  { name: "Вакансии", link: PagesConfig.vacancies },
+  { name: "Контакты", link: PagesConfig.contacts },
 ];
 
 export const desktopNavigationItems: NavigationItem[] = [
-  { name: "О компании", link: "/about" },
-  { name: "Сертификаты", link: "/certificates" },
-  { name: "Вакансии", link: "/vacancies" },
-  { name: "Контакты", link: "/contacts" },
+  { name: "О компании", link: PagesConfig.about },
+  { name: "Сертификаты", link: PagesConfig.certificates },
+  { name: "Вакансии", link: PagesConfig.vacancies },
+  { name: "Контакты", link: PagesConfig.contacts },
 ];
 
 export const contactBlocks: ContactBlock[] = [
