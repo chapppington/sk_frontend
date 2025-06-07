@@ -1,6 +1,7 @@
 import QuestionDropdown from "../QuestionDropdown";
 import { questionsConfig } from "../../config/questions";
 import { QuestionnaireProps } from "./types";
+import ContactForm from "@/components/ContactForm";
 
 const Questionnaire = ({
   formState,
@@ -8,7 +9,7 @@ const Questionnaire = ({
   stageRefs,
 }: QuestionnaireProps) => {
   return (
-    <div className="space-y-4">
+    <>
       {questionsConfig.map((question, index) => (
         <div
           key={question.id}
@@ -27,10 +28,20 @@ const Questionnaire = ({
             questionId={question.id}
             popoverContent={question.popoverContent}
             type={question.type}
+            textLabel={question.textLabel}
           />
         </div>
       ))}
-    </div>
+      <div
+        ref={(el) => {
+          if (stageRefs.current) {
+            stageRefs.current[questionsConfig.length] = el;
+          }
+        }}
+      >
+        <ContactForm variant="questionnaire" />
+      </div>
+    </>
   );
 };
 

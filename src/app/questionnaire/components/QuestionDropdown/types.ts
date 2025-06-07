@@ -8,5 +8,6 @@ export interface QuestionDropdownProps {
   defaultOpen?: boolean;
   questionId: number;
   popoverContent?: string;
-  type?: "slider";
+  type?: "slider" | "text" | "multiple_choice";
+  textLabel?: string;
 }

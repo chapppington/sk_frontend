@@ -1,19 +1,29 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useId } from "react";
 import { IInputProps } from "@/components/ui/Input/types";
 
-const Input: FC<IInputProps> = ({ label, error, className = "", ...props }) => {
+const Input: FC<IInputProps> = ({
+  label,
+  error,
+  className = "",
+  id,
+  ...props
+}) => {
+  const generatedId = useId();
+  const inputId = id || generatedId;
+
   return (
     <div className="relative">
       <input
         {...props}
+        id={inputId}
         className={`block w-full bg-transparent border border-white/50 text-white p-4 focus:border-white focus:outline-none peer ${className}`}
         placeholder=" "
       />
       <label
-        htmlFor={props.id}
-        className={`absolute text-white/80 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent backdrop-blur-md px-2 peer-focus:px-2 peer-focus:text-black peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2 ${
+        htmlFor={inputId}
+        className={`absolute text-white/80 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent backdrop-blur-md px-2 peer-focus:px-2 peer-focus:text-black peer-focus:bg-white peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2 select-none ${
           error ? "!-translate-y-[1.5em]" : ""
         }`}
       >

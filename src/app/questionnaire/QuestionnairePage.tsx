@@ -27,8 +27,9 @@ export default function QuestionnairePage() {
     const targetRef = stageRefs.current[stageIndex - 1];
     if (targetRef && lenis) {
       isScrolling.current = true;
+      setActiveStage(stageIndex);
       lenis.scrollTo(targetRef, {
-        offset: -72,
+        offset: -100,
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         onComplete: () => {
@@ -42,36 +43,52 @@ export default function QuestionnairePage() {
     const handleScroll = () => {
       if (isInitialLoad.current || isScrolling.current) return;
 
-      const scrollPosition = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const scrollThreshold = viewportHeight * 0.2;
+      const scrollThreshold = viewportHeight * 0.3; // Increased threshold for better detection
+
+      let newActiveStage = activeStage;
 
       stageRefs.current.forEach((ref, index) => {
         if (!ref) return;
 
         const rect = ref.getBoundingClientRect();
-        const elementTop = rect.top + scrollPosition;
+        const elementTop = rect.top;
+        const elementBottom = rect.bottom;
 
-        if (
-          elementTop - scrollPosition <= scrollThreshold &&
-          elementTop - scrollPosition >= 0
-        ) {
-          setActiveStage(index + 1);
+        // Check if the element is in the viewport threshold area
+        if (elementTop <= scrollThreshold && elementBottom >= 0) {
+          newActiveStage = index + 1;
         }
       });
+
+      if (newActiveStage !== activeStage) {
+        setActiveStage(newActiveStage);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Add throttling to prevent too frequent updates
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledScroll);
 
     const timer = setTimeout(() => {
       isInitialLoad.current = false;
     }, 100);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", throttledScroll);
       clearTimeout(timer);
     };
-  }, []);
+  }, [activeStage]);
 
   return (
     <main className="text-white pb-24 scroll-smooth">

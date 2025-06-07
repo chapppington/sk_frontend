@@ -12,7 +12,7 @@ const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
         onMouseLeave={() => setIsPopoverOpen(false)}
         className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:text-white hover:bg-white/30 transition-colors border border-white"
       >
-        <span className="text-sm">?</span>
+        <span className="text-sm select-none">?</span>
       </button>
       <Popover
         content={popoverContent}

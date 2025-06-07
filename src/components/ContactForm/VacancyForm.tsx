@@ -1,38 +1,42 @@
-"use client";
-
-import { FC, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useLenis } from "lenis/react";
+import { FC } from "react";
+import {
+  UseFormRegister,
+  UseFormHandleSubmit,
+  FieldErrors,
+  UseFormSetError,
+  UseFormClearErrors,
+  UseFormWatch,
+} from "react-hook-form";
 
 import Input from "@/components/ui/Input";
 import MainButton from "@/components/ui/MainButton";
 
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-
 import { IContactFormData } from "./types";
 import { sanitizeFileName } from "./utils";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = [".pdf", ".doc", ".docx"];
 
-const ContactForm: FC = () => {
-  const lenis = useLenis();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setError,
-    clearErrors,
-  } = useForm<IContactFormData>();
+interface VacancyFormProps {
+  register: UseFormRegister<IContactFormData>;
+  handleSubmit: UseFormHandleSubmit<IContactFormData>;
+  errors: FieldErrors<IContactFormData>;
+  setError: UseFormSetError<IContactFormData>;
+  clearErrors: UseFormClearErrors<IContactFormData>;
+  watch: UseFormWatch<IContactFormData>;
+  onSubmit: (data: IContactFormData) => void;
+}
 
-  // Add effect to handle Lenis resize when errors change
-  useEffect(() => {
-    if (lenis) {
-      lenis.resize();
-    }
-  }, [errors, lenis]);
-
+const VacancyForm: FC<VacancyFormProps> = ({
+  register,
+  handleSubmit,
+  errors,
+  setError,
+  clearErrors,
+  watch,
+  onSubmit,
+}) => {
   const selectedFile = watch("resume");
   const fileName = selectedFile?.[0]?.name
     ? sanitizeFileName(selectedFile[0].name)
@@ -65,16 +69,15 @@ const ContactForm: FC = () => {
     return true;
   };
 
-  const onSubmit = (data: IContactFormData) => {
+  const handleFormSubmit = (data: IContactFormData) => {
     if (data.resume?.[0] && !validateFile(data.resume[0])) {
       return;
     }
-    console.log(data);
-    // Handle form submission here
+    onSubmit(data);
   };
 
   return (
-    <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
       <Input
         type="text"
         id="name"
@@ -122,7 +125,6 @@ const ContactForm: FC = () => {
         })}
       />
 
-      {/* File Upload and Consent Section */}
       <div className="flex flex-col gap-6 mt-8">
         <div className="flex flex-col gap-2">
           <button
@@ -166,35 +168,34 @@ const ContactForm: FC = () => {
             <div className="text-sm text-red-500">{errors.resume.message}</div>
           )}
         </div>
-
-        <label className="flex items-center text-white/80 cursor-pointer">
-          <div className="relative flex items-center mr-3">
-            <input
-              type="checkbox"
-              className="peer appearance-none w-5 h-5 rounded-full border border-white/60 checked:border-white/60 outline-none cursor-pointer"
-              {...register("consent", {
-                required: "Необходимо согласие на обработку данных",
-              })}
-            />
-            <div className="absolute w-2.5 h-2.5 rounded-full bg-white/100 opacity-0 peer-checked:opacity-100 pointer-events-none left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-          </div>
-          Я согласен с условиями обработки персональных данных
-          {errors.consent && (
-            <span className="text-red-500 text-sm ml-2">
-              {errors.consent.message}
-            </span>
-          )}
-        </label>
       </div>
 
-      {/* Submit Button */}
+      <label className="flex items-center text-white/80 cursor-pointer">
+        <div className="relative flex items-center mr-3">
+          <input
+            type="checkbox"
+            className="peer appearance-none w-5 h-5 rounded-full border border-white/60 checked:border-white/60 outline-none cursor-pointer"
+            {...register("consent", {
+              required: "Необходимо согласие на обработку данных",
+            })}
+          />
+          <div className="absolute w-2.5 h-2.5 rounded-full bg-white/100 opacity-0 peer-checked:opacity-100 pointer-events-none left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
+        Я согласен с условиями обработки персональных данных
+        {errors.consent && (
+          <span className="text-red-500 text-sm ml-2">
+            {errors.consent.message}
+          </span>
+        )}
+      </label>
+
       <MainButton
         text="Отправить"
-        onClick={handleSubmit(onSubmit)}
+        onClick={handleSubmit(handleFormSubmit)}
         disableRedirect
       />
     </form>
   );
 };
 
-export default ContactForm;
+export default VacancyForm;

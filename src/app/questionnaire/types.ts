@@ -1,8 +1,9 @@
 export interface IQuestionOption {
   value: string | number;
   label: string;
-  type?: "text";
+  type?: "text" | "radio";
   textLabel?: string;
+  nestedOptions?: IQuestionOption[];
 }
 
 export interface IQuestion {
@@ -10,7 +11,8 @@ export interface IQuestion {
   title: string;
   options: IQuestionOption[];
   popoverContent?: string;
-  type?: "slider";
+  type?: "slider" | "text" | "multiple_choice";
+  textLabel?: string;
 }
 
 export interface IStage {
