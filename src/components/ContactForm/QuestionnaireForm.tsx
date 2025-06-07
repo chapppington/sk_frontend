@@ -6,6 +6,7 @@ import {
 } from "react-hook-form";
 
 import Input from "@/components/ui/Input";
+import TextArea from "@/components/ui/TextArea";
 import MainButton from "@/components/ui/MainButton";
 
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
@@ -73,18 +74,13 @@ const QuestionnaireForm: FC<QuestionnaireFormProps> = ({
         })}
       />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="comments" className="text-white/80">
-          Комментарии и пожелания
-        </label>
-        <textarea
-          id="comments"
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-white/20 transition-colors"
-          rows={4}
-          placeholder="Введите ваши комментарии и пожелания..."
-          {...register("comments")}
-        />
-      </div>
+      <TextArea
+        id="comments"
+        label="Комментарии и пожелания"
+        rows={4}
+        placeholder="Введите ваши комментарии и пожелания..."
+        {...register("comments")}
+      />
 
       <label className="flex items-center text-white/80 cursor-pointer">
         <div className="relative flex items-center mr-3">
