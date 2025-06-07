@@ -1,6 +1,8 @@
 export interface IQuestionOption {
   value: string | number;
   label: string;
+  type?: "text";
+  textLabel?: string;
 }
 
 export interface IQuestion {
@@ -8,6 +10,7 @@ export interface IQuestion {
   title: string;
   options: IQuestionOption[];
   popoverContent?: string;
+  type?: "slider";
 }
 
 export interface IStage {
@@ -15,7 +18,6 @@ export interface IStage {
   title: string;
   shortTitle: string;
 }
-
 
 // Define the possible types of answers in our form
 export type Answer = string | number | string[];

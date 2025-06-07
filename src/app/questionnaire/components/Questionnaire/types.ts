@@ -1,7 +1,6 @@
-import { IFormState } from "../../utils/initializeFormState";
-import { RefObject } from "react";
 
-type QuestionnaireState = Record<number, string | string[]>;
+import { RefObject } from "react";
+import { IFormState } from "../../types";
 
 export interface QuestionnaireProps {
   formState: IFormState;

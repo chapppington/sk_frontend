@@ -6,12 +6,15 @@ import Questionnaire from "./components/Questionnaire";
 import QuestionnaireLeftMenu from "./components/QuestionnaireLeftMenu";
 import { initializeFormState } from "./utils/initializeFormState";
 import { IFormState } from "./types";
+import { useLenis } from "lenis/react";
 
 export default function QuestionnairePage() {
   const [activeStage, setActiveStage] = useState(1);
   const [formState, setFormState] = useState<IFormState>(initializeFormState);
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isInitialLoad = useRef(true);
+  const lenis = useLenis();
+  const isScrolling = useRef(false);
 
   const handleStateChange = (
     key: number,
@@ -20,47 +23,55 @@ export default function QuestionnairePage() {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };
 
+  const scrollToStage = (stageIndex: number) => {
+    const targetRef = stageRefs.current[stageIndex - 1];
+    if (targetRef && lenis) {
+      isScrolling.current = true;
+      lenis.scrollTo(targetRef, {
+        offset: -72,
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        onComplete: () => {
+          isScrolling.current = false;
+        },
+      });
+    }
+  };
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isInitialLoad.current) {
-            const stageIndex = stageRefs.current.findIndex(
-              (ref) => ref === entry.target
-            );
-            if (stageIndex !== -1) {
-              setActiveStage(stageIndex + 1);
-            }
-          }
-        });
-      },
-      {
-        threshold: 0,
-        rootMargin: "-30% 0px 0px 0px",
-      }
-    );
+    const handleScroll = () => {
+      if (isInitialLoad.current || isScrolling.current) return;
 
-    stageRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const scrollThreshold = viewportHeight * 0.2;
 
-    // Set initial load to false after a short delay
+      stageRefs.current.forEach((ref, index) => {
+        if (!ref) return;
+
+        const rect = ref.getBoundingClientRect();
+        const elementTop = rect.top + scrollPosition;
+
+        if (
+          elementTop - scrollPosition <= scrollThreshold &&
+          elementTop - scrollPosition >= 0
+        ) {
+          setActiveStage(index + 1);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
     const timer = setTimeout(() => {
       isInitialLoad.current = false;
     }, 100);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
     };
   }, []);
-
-  const scrollToStage = (stageIndex: number) => {
-    const targetRef = stageRefs.current[stageIndex - 1];
-    if (targetRef) {
-      targetRef.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <main className="text-white pb-24 scroll-smooth">

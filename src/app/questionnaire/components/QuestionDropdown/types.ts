@@ -8,4 +8,5 @@ export interface QuestionDropdownProps {
   defaultOpen?: boolean;
   questionId: number;
   popoverContent?: string;
+  type?: "slider";
 }

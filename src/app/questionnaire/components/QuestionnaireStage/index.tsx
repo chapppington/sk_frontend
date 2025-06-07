@@ -30,20 +30,17 @@ const QuestionnaireStage: FC<QuestionnaireStageProps> = ({
         {/* Stage number circle and vertical line */}
         <div className="relative mr-6 flex flex-col items-center">
           <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center z-10 relative ${
-              isStageActive
-                ? "bg-white text-black"
-                : "border border-white/30 text-white/60"
-            }
-             transition-all duration-300`}
+            className={`w-10 h-10 rounded-full flex items-center justify-center z-10 relative transition-all duration-300 ${
+              isStageActive ? "border border-white" : "border border-white/30"
+            }`}
           >
-            {stage.number}
+            {isStageActive && (
+              <div className="w-5 h-5 rounded-full bg-white transition-all duration-300"></div>
+            )}
           </div>
           {stageIndex < totalStages - 1 && (
             <div
-              className={`absolute top-10 left-1/2 w-px bg-white/20 -translate-x-1/2
-              ${isStageActive ? "h-[calc(100%_+_20px)]" : "h-10"}
-              transition-all duration-300`}
+              className={`absolute top-10 left-1/2 w-px bg-white/20 -translate-x-1/2 h-7 transition-all duration-300`}
             ></div>
           )}
         </div>
@@ -57,9 +54,13 @@ const QuestionnaireStage: FC<QuestionnaireStageProps> = ({
           >
             {stage.shortTitle}
           </p>
-          {isStageActive && (
-            <h3 className="text-lg text-white mt-1">{stage.title}</h3>
-          )}
+          <h3
+            className={`text-lg mt-1 transition-colors duration-300 ${
+              isStageActive ? "text-white" : "text-white/60"
+            }`}
+          >
+            {stage.title}
+          </h3>
         </div>
       </div>
     </div>

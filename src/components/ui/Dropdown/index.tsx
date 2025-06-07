@@ -17,6 +17,7 @@ const Dropdown: FC<IDropdownProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
+  const isFirstRender = useRef(true);
 
   // Show info icon if popoverContent exists
   const shouldShowInfoIcon = !!popoverContent;
@@ -24,7 +25,17 @@ const Dropdown: FC<IDropdownProps> = ({
   // Toggle animation
   useEffect(() => {
     if (contentRef.current) {
-      // Animate content
+      // Skip animation on first render if defaultOpen is true
+      if (isFirstRender.current && defaultOpen) {
+        gsap.set(contentRef.current, {
+          height: "auto",
+          opacity: 1,
+        });
+        isFirstRender.current = false;
+        return;
+      }
+
+      // Animate content for subsequent toggles
       gsap.to(contentRef.current, {
         height: isOpen ? "auto" : 0,
         opacity: isOpen ? 1 : 0,
@@ -38,11 +49,11 @@ const Dropdown: FC<IDropdownProps> = ({
         },
       });
     }
-  }, [isOpen, lenis]);
+  }, [isOpen, lenis, defaultOpen]);
 
-  // Update isOpen state when defaultOpen prop changes
+  // Reset isFirstRender when defaultOpen changes
   useEffect(() => {
-    setIsOpen(defaultOpen);
+    isFirstRender.current = true;
   }, [defaultOpen]);
 
   return (
@@ -64,8 +75,8 @@ const Dropdown: FC<IDropdownProps> = ({
         ref={contentRef}
         className="faq-content overflow-hidden"
         style={{
-          height: 0,
-          opacity: 0,
+          height: defaultOpen ? "auto" : 0,
+          opacity: defaultOpen ? 1 : 0,
         }}
       >
         <div className="pt-6">{children}</div>

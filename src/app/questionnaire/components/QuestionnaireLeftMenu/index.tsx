@@ -10,7 +10,7 @@ export default function QuestionnaireLeftMenu({
   setActiveStage,
 }: QuestionnaireLeftMenuProps) {
   return (
-    <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+    <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen ">
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/", current: false },
