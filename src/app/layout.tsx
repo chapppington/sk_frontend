@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <ReactLenis
                 root
                 options={{
-                  lerp: 0.07,
-                  wheelMultiplier: 1.2,
+                  lerp: 0.15,
+                  wheelMultiplier: 0.95,
                   smoothWheel: true,
                   orientation: "vertical",
                   gestureOrientation: "vertical",
