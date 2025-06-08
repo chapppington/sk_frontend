@@ -30,10 +30,14 @@ export const useSliderSetup = ({
           slidesPerView,
           loop,
           breakpoints,
+          speed: 300,
+          allowTouchMove: true,
+          watchSlidesProgress: true,
           autoplay: autoplay
             ? {
                 delay: autoplayDelay,
                 disableOnInteraction: false,
+                waitForTransition: false,
               }
             : false,
           navigation: {

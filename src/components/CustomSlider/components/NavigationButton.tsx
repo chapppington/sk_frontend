@@ -1,4 +1,5 @@
 import type { NavigationButtonProps } from "../types";
+import { playSoftButtonSound } from "@/utils/sound";
 
 export const NavigationButton = ({
   direction,
@@ -6,7 +7,8 @@ export const NavigationButton = ({
 }: NavigationButtonProps) => {
   return (
     <button
-      className={`w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors slider-${direction}-${sliderId}`}
+      onClick={playSoftButtonSound}
+      className={`w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-all duration-100 hover:scale-[0.97] active:scale-[0.85] slider-${direction}-${sliderId}`}
     >
       <svg
         className="w-5 h-5"

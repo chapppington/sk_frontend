@@ -58,15 +58,6 @@ body {
   min-height: 100vh;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -98,9 +89,6 @@ body {
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out forwards;
-}
 .animate-fadeOut {
   animation: fadeOut 0.3s ease-out forwards;
 }
@@ -111,17 +99,22 @@ body {
   animation: scaleOut 0.3s ease-out forwards;
 }
 
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  transition: background-color 5000000s ease-in-out 0s, color 5000000s ease-in-out 0s;
+  transition: background-color 5000000s ease-in-out 0s,
+    color 5000000s ease-in-out 0s;
 }
-
 
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-  transition: background-color 5000000s ease-in-out 0s, color 5000000s ease-in-out 0s;
+  transition: background-color 5000000s ease-in-out 0s,
+    color 5000000s ease-in-out 0s;
 }

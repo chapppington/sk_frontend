@@ -2,14 +2,21 @@
 
 import { FC } from "react";
 import { ICategoryButtonProps } from "@/components/ui/CategoryButton/types";
+import { playSoftButtonSound } from "@/utils/sound";
 
 const CategoryButton: FC<ICategoryButtonProps> = ({
   isActive = false,
   children,
   className = "",
   ref,
+  onClick,
   ...props
 }) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    playSoftButtonSound();
+    onClick?.(e);
+  };
+
   return (
     <button
       ref={ref}
@@ -18,6 +25,7 @@ const CategoryButton: FC<ICategoryButtonProps> = ({
           ? "text-white bg-white/10 border-white/20 hover:scale-[0.99] active:scale-[0.93]"
           : "text-white/80 hover:text-white hover:bg-white/5 border-white/10 hover:scale-[0.99] active:scale-[0.93]"
       } ${className}`}
+      onClick={handleClick}
       {...props}
     >
       {children}

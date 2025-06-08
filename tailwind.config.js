@@ -6,7 +6,17 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        wave: {
+          "0%, 100%": { height: "8px" },
+          "50%": { height: "16px" },
+        },
+      },
+      animation: {
+        wave: "wave 1s ease-in-out infinite",
+      },
+    },
   },
   plugins: [],
   corePlugins: {

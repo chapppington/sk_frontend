@@ -7,6 +7,7 @@ import { ViewTransitions } from "next-view-transitions";
 
 import Navbar from "@/components/shared_screens/Navbar";
 import Footer from "@/components/shared_screens/Footer";
+import AmbientMusic from "@/components/MusicToggle";
 
 import ConditionalBGGradient from "@/components/ui/BackgroundGradient/ConditionalBackgroundGradient";
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
@@ -50,9 +51,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   gestureOrientation: "vertical",
                   infinite: false,
                   syncTouch: true,
-
                 }}
               >
+                <AmbientMusic />
                 <ConditionalBGGradient />
                 <CustomScrollbar />
                 <ConditionalMainScene />

@@ -6,6 +6,7 @@ import { useTransitionRouter } from "next-view-transitions";
 
 import { usePageTransition } from "@/providers/PageTransitionProvider";
 import { ITransitionLinkProps } from "@/components/ui/TransitionLink/types";
+import { soundConfig } from "@/utils/sound";
 
 const TransitionLink: FC<ITransitionLinkProps> = ({
   href,
@@ -15,13 +16,15 @@ const TransitionLink: FC<ITransitionLinkProps> = ({
   style,
   ref,
 }) => {
-
   const router = useTransitionRouter();
   const { animateIn, animateOut, isAnimating } = usePageTransition();
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isAnimating) return;
+
+    // Play click sound
+    soundConfig.playClickSound();
 
     // Call the provided onClick handler if it exists
     if (onClick) {
@@ -58,6 +61,7 @@ const TransitionLink: FC<ITransitionLinkProps> = ({
       }`}
       onClick={handleClick}
       style={style}
+      onMouseEnter={() => soundConfig.playHoverSound()}
     >
       {children}
     </Link>
