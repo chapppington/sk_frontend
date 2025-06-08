@@ -43,13 +43,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <ReactLenis
                 root
                 options={{
-                  lerp: 0.15,
-                  wheelMultiplier: 0.95,
+                  lerp: 0.16,
+                  wheelMultiplier: 1,
                   smoothWheel: true,
                   orientation: "vertical",
                   gestureOrientation: "vertical",
                   infinite: false,
                   syncTouch: true,
+
                 }}
               >
                 <ConditionalBGGradient />
