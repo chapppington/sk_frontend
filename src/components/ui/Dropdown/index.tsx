@@ -19,7 +19,6 @@ const Dropdown: FC<IDropdownProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
-  const isFirstRender = useRef(true);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -42,17 +41,7 @@ const Dropdown: FC<IDropdownProps> = ({
   // Toggle animation
   useEffect(() => {
     if (contentRef.current) {
-      // Skip animation on first render if defaultOpen is true
-      if (isFirstRender.current && defaultOpen) {
-        gsap.set(contentRef.current, {
-          height: "auto",
-          opacity: 1,
-        });
-        isFirstRender.current = false;
-        return;
-      }
-
-      // Animate content for subsequent toggles
+      // Animate content for all toggles
       gsap.to(contentRef.current, {
         height: isOpen ? "auto" : 0,
         opacity: isOpen ? 1 : 0,
@@ -66,19 +55,14 @@ const Dropdown: FC<IDropdownProps> = ({
         },
       });
     }
-  }, [isOpen, lenis, defaultOpen]);
-
-  // Reset isFirstRender when defaultOpen changes
-  useEffect(() => {
-    isFirstRender.current = true;
-  }, [defaultOpen]);
+  }, [isOpen, lenis]);
 
   return (
     <div className="dropdown border-t border-white/10 py-8 relative">
       <div
         className="flex justify-between items-center cursor-pointer"
         onClick={() => {
-          if (!(alwaysOpenOnMobile && isMobile)) setIsOpen(!isOpen);
+          if (!(alwaysOpenOnMobile && isMobile)) setIsOpen((prev) => !prev);
         }}
       >
         <div className="flex items-center gap-2">
