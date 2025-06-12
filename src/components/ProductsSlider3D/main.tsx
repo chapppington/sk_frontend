@@ -4,17 +4,19 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { easing } from "maath";
 import * as THREE from 'three'
+import { useScrollOffset } from "./features/ScrollProviderOffset";
 
 function ProductsSlider3D() {
+  const {scrollOffset, setScrollOffset} = useScrollOffset();
 
   function Rig(props: any) {
     const ref = useRef<any>(null);
     const scroll = useScroll();
      const autoScrollRef = useRef(0);
     useFrame((state: any, delta) => {
-      // autoScrollRef.current += delta * 0.05;
-      // scroll.offset = (autoScrollRef.current % 1);
-      ref.current.rotation.y = -scroll.offset * (Math.PI * 2);
+      autoScrollRef.current += delta * 0.05;
+      scroll.offset = (autoScrollRef.current % 1);
+      ref.current.rotation.y = -scrollOffset * (Math.PI * 2);
       state.events.update();
       easing.damp3(state.camera.position, [
         -state.pointer.x * 2,
