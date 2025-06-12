@@ -25,8 +25,3 @@ export interface UseSwiperProps {
   onSlideChange?: (swiper: any) => void;
   onInit?: (swiper: any) => void;
 }
-
-export interface NavigationButtonProps {
-  direction: "prev" | "next";
-  sliderId: string;
-}

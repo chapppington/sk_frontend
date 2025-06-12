@@ -27,7 +27,7 @@ export const getThumbStyle = (
   thumbHeight: number
 ): CSSProperties => {
   const availableTravel = scrollbarRef.current
-    ? scrollbarRef.current.clientHeight - thumbHeight
+    ? scrollbarRef.current.clientHeight - thumbHeight - SCROLLBAR_CONFIG.navbarHeight
     : 0;
 
   return {

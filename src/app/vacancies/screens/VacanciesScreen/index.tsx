@@ -249,7 +249,7 @@ const VacanciesScreen: FC = () => {
                     <div className="text-white">
                       <span className="text-white/60 text-sm">от</span>
                       <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light ml-2">
-                        {job.salary.toLocaleString()}
+                        {job.salary.toLocaleString('ru-RU')}
                       </span>
                       <span className="text-sm sm:text-base">₽/мес</span>
                     </div>

@@ -1,4 +1,4 @@
-import type { NavigationButtonProps } from "../types";
+import type { NavigationButtonProps } from "./types";
 
 export const NavigationButton = ({
   direction,

@@ -50,7 +50,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   gestureOrientation: "vertical",
                   infinite: false,
                   syncTouch: true,
-
                 }}
               >
                 <ConditionalBGGradient />
