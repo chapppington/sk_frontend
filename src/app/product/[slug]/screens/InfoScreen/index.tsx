@@ -59,26 +59,6 @@ const InfoScreen: FC = () => {
       ease: "power2.inOut",
     });
 
-    // Slide out the text
-    timeline.to(
-      textContainerRef.current,
-      {
-        opacity: 0,
-        y: 20,
-        duration: 0.3, // Make animation faster
-        ease: "power2.out",
-      },
-      "<"
-    );
-
-    // Slide in the new text
-    timeline.fromTo(
-      textContainerRef.current,
-      { opacity: 0, y: -20 },
-      { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, // Make animation faster
-      "<0.15"
-    );
-
     // Cleanup function to kill the timeline when component unmounts
     return () => {
       if (timelineRef.current) {
@@ -164,7 +144,9 @@ const InfoScreen: FC = () => {
               ref={textContainerRef}
               className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20"
             >
-              <p>{features[activeFeatureIndex].description}</p>
+              <AnimatedText key={activeFeatureIndex} delay={0}>
+                <p>{features[activeFeatureIndex].description}</p>
+              </AnimatedText>
             </div>
           </div>
         </div>

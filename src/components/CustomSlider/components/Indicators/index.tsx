@@ -1,9 +1,4 @@
-import { RefObject } from "react";
-
-interface IndicatorsProps {
-  indicatorsRef: RefObject<HTMLDivElement | null>;
-  showIndicators: boolean;
-}
+import { IndicatorsProps } from "./types";
 
 export const Indicators = ({
   indicatorsRef,

@@ -1,5 +1,4 @@
 import type { NavigationButtonProps } from "../types";
-import { playSoftButtonSound } from "@/utils/sound";
 
 export const NavigationButton = ({
   direction,
