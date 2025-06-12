@@ -1,24 +1,30 @@
+"use client";
+
 import { FC } from "react";
-import Image from "next/image";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
+import ParallaxImage from "@/components/ui/ParallaxImage";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const FirstScreen: FC = () => {
+  const isMobile = useIsMobile();
+
   return (
     <header className="relative min-h-screen">
       {/* Background Image */}
-      <Image
-        src="/news_bg2.webp"
-        alt="Production background"
-        fill
-        priority
-        className="object-cover z-[0]"
-        quality={100}
-      />
+      <div className="absolute inset-0 overflow-hidden">
+        <ParallaxImage
+          src="/news_bg2.webp"
+          alt="Production background"
+          priority
+          isMobile={isMobile}
+          quality={100}
+        />
+      </div>
 
       {/* Base Overlay */}
       <div className="overlay-base absolute inset-0 bg-black/20"></div>

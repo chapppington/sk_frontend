@@ -8,7 +8,7 @@ const ReviewItem: FC<ReviewItemProps> = ({ review, onClick }) => {
       className="flex flex-col p-8 border border-white/40 rounded-xl shadow-md h-full bg-white/5 cursor-pointer hover:border-white/60 transition-all"
       onClick={onClick}
     >
-      <div className="flex flex-col lg:flex-row items-start lg:items-end w-full gap-0 lg:gap-6">
+      <div className="flex flex-col lg:flex-row items-start lg:items-end w-full gap-0 lg:gap-8">
         <div className="w-40 h-40 rounded-lg overflow-hidden mb-6 lg:mb-0 flex items-center justify-center bg-white">
           <Image
             src={review.image}
@@ -27,7 +27,7 @@ const ReviewItem: FC<ReviewItemProps> = ({ review, onClick }) => {
           </div>
         </div>
       </div>
-      <div className="text-white/80 text-base leading-relaxed mt-4 lg:mt-8">
+      <div className="text-white/80 text-base leading-relaxed mt-4 lg:mt-7">
         {review.shortText}
       </div>
       <div className="mt-4 text-sm text-white/50 flex items-center">

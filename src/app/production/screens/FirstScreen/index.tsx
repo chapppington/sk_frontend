@@ -1,25 +1,15 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import ParallaxImage from "@/components/ui/ParallaxImage";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const FirstScreen: FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <header className="relative min-h-screen overflow-y-hidden">
