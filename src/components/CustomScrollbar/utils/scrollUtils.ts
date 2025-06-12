@@ -1,5 +1,5 @@
 import { CSSProperties, RefObject } from "react";
-
+import { SCROLLBAR_CONFIG } from "../config";
 export const calculateDocumentHeight = (): number => {
   return Math.max(
     document.body.scrollHeight,
@@ -31,7 +31,7 @@ export const getThumbStyle = (
     : 0;
 
   return {
-    transform: `translateY(${(scrollPercentage / 100) * availableTravel}px)`,
+    transform: `translateY(${SCROLLBAR_CONFIG.navbarHeight + (scrollPercentage / 100) * availableTravel}px)`,
     height: `${thumbHeight}px`,
   };
 };

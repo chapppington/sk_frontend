@@ -107,3 +107,17 @@
   ) !important;
   border-radius: 10px !important;
 }
+
+.main-btn-dark-fix::after {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  right: 4px;
+  width: 28px; /* Adjust width to match the skewed cut */
+  height: 2px;  /* Thin line */
+  background: white;
+  transform: rotate(-45deg) translate(8px, 8px); /* Adjust for your skew/clip-path */
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 2;
+}
