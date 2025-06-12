@@ -7,6 +7,7 @@ import CustomSlider from "@/components/CustomSlider";
 import BracketsText from "@/components/ui/BracketsText";
 import ReviewPopup from "./components/ReviewPopup";
 import ReviewItem from "./components/ReviewItem";
+import AnimatedText from "@/components/ui/AnimatedText";
 
 import { reviews } from "./mock_data";
 
@@ -39,12 +40,16 @@ const ReviewsScreen: FC = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <GradientHeading>Отзывы сотрудников</GradientHeading>
-            <p className="text-white/70 mt-6">
-              Наши сотрудники ценят стабильность, профессиональный рост и
-              дружественную атмосферу в компании. Узнайте, что они говорят о
-              работе в нашей команде.
-            </p>
+            <AnimatedText>
+              <GradientHeading>Отзывы сотрудников</GradientHeading>
+            </AnimatedText>
+            <AnimatedText delay={0.2}>
+              <p className="text-white/70 mt-6">
+                Наши сотрудники ценят стабильность, профессиональный рост и
+                дружественную атмосферу в компании. Узнайте, что они говорят о
+                работе в нашей команде.
+              </p>
+            </AnimatedText>
           </div>
         </div>
 
