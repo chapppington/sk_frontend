@@ -9,13 +9,13 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import { newsItems } from "@/app/news/screens/FirstScreen/mock_data";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const [prevIndex, setPrevIndex] = useState(0);
   const [key, setKey] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const categoryRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -23,26 +23,6 @@ const FirstScreen: FC = () => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     // Reset all elements to initial state with smaller y offset
