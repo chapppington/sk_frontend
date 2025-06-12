@@ -7,4 +7,6 @@ export interface IMainButtonProps {
   size?: EButtonSize;
   href?: string;
   disableRedirect?: boolean;
+  transparent?: boolean;
+  fullWidth?: boolean;
 }
