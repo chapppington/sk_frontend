@@ -30,7 +30,7 @@ const Popover: FC<IPopoverProps> = ({
       ref={popoverRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`absolute right-full top-1/2 -translate-y-1/2 mr-2 w-80 max-w-[calc(100vw-2rem)] p-3 bg-white/10 backdrop-blur-xl rounded-lg text-white text-sm z-50 invisible opacity-0 select-none
+      className={`absolute right-full top-1/2 -translate-y-1/2 mr-2 w-80 max-w-[calc(100vw-2rem)] p-3 bg-gray-800 rounded-lg text-white text-sm z-50 invisible opacity-0 select-none
       md:right-full md:translate-x-0
       sm:right-1/2 sm:-translate-x-1/2 sm:mr-0 ${className}`}
       style={{

@@ -1,7 +1,7 @@
+import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import { FC } from "react";
 import BottomInfoWithIcon from "./BottomInfoWithIcon/BottomInfoWithIcon";
 import AdvantagesList from "./AdvantagesList/AdvantagesList";
 
