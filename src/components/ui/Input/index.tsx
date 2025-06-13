@@ -8,13 +8,14 @@ const Input: FC<IInputProps> = ({
   error,
   className = "",
   id,
+  isNumber,
   ...props
 }) => {
   const generatedId = useId();
   const inputId = id || generatedId;
 
   return (
-    <div className="relative">
+    <div className={`relative ${isNumber ? "w-16" : ""}`}>
       <input
         {...props}
         id={inputId}
