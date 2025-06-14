@@ -1,0 +1,18 @@
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  font-weight: 300;
+}
+
+.default {
+  background-color: white;
+  color: var(--color-dark);
+}
+
+.transparent {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}

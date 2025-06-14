@@ -10,7 +10,7 @@ export const cardsData: CardData[] = [
   {
     title: "Курортный комплекс «Манжерок»",
     description:
-      "A gravity-defying residence that appears to float above the landscape, featuring cantilevered spaces and panoramic glass walls",
+      "Круглогодичный курортный комплекс «Манжерок» расположен у знаменитого озера Манжерокское у подножия горы Малая Синюха – это центр семейного отдыха Республики Алтай, привлекающий туристов со всей России, Азиатского региона и Европы.",
     imageUrl: "/news_bg.webp",
     alt: "Floating modern house",
     hasMarquee: true,

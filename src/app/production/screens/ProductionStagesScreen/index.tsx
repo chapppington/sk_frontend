@@ -40,7 +40,7 @@ const ProductionStagesScreen: FC = () => {
 
         {/* Production Stages Slider */}
         <CustomSlider
-          autoplay={true}
+          autoplay={false}
           autoplayDelay={3000}
           slidesPerView={1}
           spaceBetween={24}
@@ -55,7 +55,7 @@ const ProductionStagesScreen: FC = () => {
           }}
         >
           {productionStages.map((stage) => (
-            <ProductionStageSliderItem key={stage.id} stage={stage} />
+            <ProductionStageSliderItem key={stage.id} stage={stage} translateY="-translate-y-24"/>
           ))}
         </CustomSlider>
       </CustomContainer>

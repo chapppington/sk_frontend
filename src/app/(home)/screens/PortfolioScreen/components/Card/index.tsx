@@ -70,7 +70,7 @@ const PortfolioCard: FC<CardProps> = ({
             <p className="paragraph">{description}</p>
             <MainButton
               text="Смотреть кейс"
-              href="/portfolio"
+              href="/portfolio/test"
               transparent={true}
             />
           </div>

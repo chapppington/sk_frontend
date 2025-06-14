@@ -10,9 +10,13 @@ import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import { NavigationButton } from "@/components/ui/NavigationButton";
 import CircleIconButton from "@/components/ui/CircleIconButton";
+import Badge from "@/components/ui/Badge";
 
 import useIsMobile from "@/hooks/useIsMobile";
-import { useContentAnimation, useImageTransition } from "./hooks/useNewsAnimations";
+import {
+  useContentAnimation,
+  useImageTransition,
+} from "./hooks/useNewsAnimations";
 
 import { newsItems } from "@/app/news/screens/FirstScreen/mock_data";
 
@@ -156,9 +160,7 @@ const FirstScreen: FC = () => {
           <div ref={contentRef} className="md:mb-14 news-content">
             {/* Category */}
             <div ref={categoryRef} className="mb-8 lg:mb-10 news-category">
-              <span className="px-4 py-2 border border-white text-white text-sm rounded font-light">
-                {currentNews.category}
-              </span>
+              <Badge variant="transparent">{currentNews.category}</Badge>
             </div>
 
             {/* Title */}

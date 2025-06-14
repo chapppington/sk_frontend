@@ -13,6 +13,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import AnimatedText from "@/components/ui/AnimatedText";
+import { NavigationButton } from "@/components/ui/NavigationButton";
 
 import { brands, products } from "./mock_data";
 
@@ -150,36 +151,16 @@ export default function ProductsSlider() {
 
             <div className="flex items-center mt-12">
               <div className="flex items-center space-x-3">
-                <button className="products-prev w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M15 19l-7-7 7-7"
-                    ></path>
-                  </svg>
-                </button>
-                <button className="products-next w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
-                </button>
+                <NavigationButton
+                  direction="prev"
+                  sliderId="products"
+                  className="slider-prev-products"
+                />
+                <NavigationButton
+                  direction="next"
+                  sliderId="products"
+                  className="slider-next-products"
+                />
               </div>
             </div>
           </div>
@@ -203,8 +184,8 @@ export default function ProductsSlider() {
                 disableOnInteraction: false,
               }}
               navigation={{
-                nextEl: ".products-next",
-                prevEl: ".products-prev",
+                nextEl: ".slider-next-products",
+                prevEl: ".slider-prev-products",
               }}
               onSlideChange={(swiper) => {
                 if (swiper) {

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FC } from "react";
 import MainButton from "@/components/ui/MainButton";
+import Badge from "@/components/ui/Badge";
 
 interface ProjectSlideProps {
   id: string | number;
@@ -24,12 +25,8 @@ const ProjectSlide: FC<ProjectSlideProps> = ({ id, title, image, year }) => {
 
       <div className="absolute inset-0 flex flex-col justify-between p-6 z-10">
         <div className="flex items-center">
-          <button className="py-2 px-4 bg-white text-dark text-sm rounded-md">
-            Что реализовали
-          </button>
-          <button className="py-2 px-4 ml-2 bg-white text-dark text-sm rounded-md">
-            {year}
-          </button>
+          <Badge>Что реализовали</Badge>
+          <Badge className="ml-2">{year}</Badge>
         </div>
 
         <div className="w-full">
