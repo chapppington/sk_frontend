@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import { PagesConfig } from "@/config/pages.config";
@@ -6,9 +6,9 @@ import { PagesConfig } from "@/config/pages.config";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import RevealAnimation from "@/components/ui/RevealAnimation";
+import CircleIconButton from "@/components/ui/CircleIconButton";
 
 import { IArticleContentSectionProps } from "./types";
 
@@ -88,30 +88,10 @@ export default function ArticleContentSection({
 
           {/* Return to News Button */}
           <div className="mt-12">
-            <TransitionLink
+            <CircleIconButton
               href={PagesConfig.news}
-              className="inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group"
-            >
-              <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transform rotate-[-45deg]"
-                >
-                  <path
-                    d="M5 12H19M19 12L12 5M19 12L12 19"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <span className="text-lg pl-4">Вернуться ко всем новостям</span>
-            </TransitionLink>
+              text="Вернуться ко всем новостям"
+            />
           </div>
         </div>
       </CustomContainer>

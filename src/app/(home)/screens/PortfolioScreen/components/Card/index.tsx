@@ -2,6 +2,7 @@ import { FC } from "react";
 import Image from "next/image";
 import { useCardAnimation } from "../../hooks/useCardAnimation";
 import { CardProps } from "./types";
+import MainButton from "@/components/ui/MainButton";
 
 const PortfolioCard: FC<CardProps> = ({
   title,
@@ -20,6 +21,7 @@ const PortfolioCard: FC<CardProps> = ({
     imgWrapperRef,
     imgRef,
     marqueeRef,
+    scrollHintRef,
   } = useCardAnimation(isIntroCard, isLastCard, totalCards);
 
   return (
@@ -27,10 +29,34 @@ const PortfolioCard: FC<CardProps> = ({
       {hasMarquee && (
         <div className="card-marquee">
           <div className="marquee" ref={marqueeRef}>
-            <h1 className="heading-1">Кейсы</h1>
-            <h1 className="heading-1">Кейсы</h1>
-            <h1 className="heading-1">Кейсы</h1>
+            <span className="heading-1">Проекты</span>
+            <span className="heading-1">Проекты</span>
+            <span className="heading-1">Проекты</span>
+            <span className="heading-1">Проекты</span>
+            <span className="heading-1">Проекты</span>
+            <span className="heading-1">Проекты</span>
           </div>
+        </div>
+      )}
+      {isIntroCard && (
+        <div className="scroll-hint" ref={scrollHintRef}>
+          <span>Продолжайте листать</span>
+          <svg
+            className="scroll-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 5V19M12 19L5 12M12 19L19 12"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
       )}
       <div className="card-wrapper">
@@ -42,6 +68,11 @@ const PortfolioCard: FC<CardProps> = ({
           </div>
           <div className="card-description" ref={descriptionRef}>
             <p className="paragraph">{description}</p>
+            <MainButton
+              text="Смотреть кейс"
+              href="/portfolio"
+              transparent={true}
+            />
           </div>
         </div>
         <div className="card-img" ref={imgWrapperRef}>
