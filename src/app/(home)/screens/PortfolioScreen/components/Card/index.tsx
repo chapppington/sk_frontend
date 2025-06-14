@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { useCardAnimation } from "../hooks/useCardAnimation";
-import { setupMarqueeAnimation } from "../marquee";
+import { FC } from "react";
+import Image from "next/image";
+import { useCardAnimation } from "../../hooks/useCardAnimation";
+import { CardProps } from "./types";
 
-function Card({
+const PortfolioCard: FC<CardProps> = ({
   title,
   description,
   imageUrl,
@@ -11,7 +12,7 @@ function Card({
   isIntroCard,
   isLastCard,
   totalCards,
-}) {
+}) => {
   const {
     cardRef,
     titleRef,
@@ -20,15 +21,6 @@ function Card({
     imgRef,
     marqueeRef,
   } = useCardAnimation(isIntroCard, isLastCard, totalCards);
-
-  useEffect(() => {
-    if (hasMarquee) {
-      // Small delay to ensure DOM is ready
-      setTimeout(() => {
-        setupMarqueeAnimation();
-      }, 100);
-    }
-  }, [hasMarquee]);
 
   return (
     <div className="card" ref={cardRef}>
@@ -53,11 +45,12 @@ function Card({
           </div>
         </div>
         <div className="card-img" ref={imgWrapperRef}>
-          <img className="image" ref={imgRef} src={imageUrl} alt={alt} />
+          <Image className="image" ref={imgRef} src={imageUrl} alt={alt} fill />
+          <div className="image-gradient"></div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default Card;
+export default PortfolioCard;
