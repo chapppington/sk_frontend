@@ -3,7 +3,7 @@
 import { useRef, FC } from "react";
 import { useSearchParams } from "next/navigation";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/ui/Pagination";
 import { usePagination } from "./hooks/usePagination";
 import { useCategoryFilter } from "./hooks/useCategoryFilter";
 import { useUrlSync } from "./hooks/useUrlSync";

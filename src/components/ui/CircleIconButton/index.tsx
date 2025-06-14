@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, ButtonHTMLAttributes } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { ICircleIconButtonProps } from "./types";
 
@@ -11,12 +11,8 @@ const CircleIconButton: FC<ICircleIconButtonProps> = ({
   onClick,
   ...props
 }) => {
-  return (
-    <TransitionLink
-      href={href}
-      className={`inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group hover:scale-[0.99] active:scale-[0.93] transition-transform ${className}`}
-      onClick={onClick}
-    >
+  const buttonContent = (
+    <>
       <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
         <svg
           width="24"
@@ -36,7 +32,31 @@ const CircleIconButton: FC<ICircleIconButtonProps> = ({
         </svg>
       </div>
       {text && <span className="text-lg pl-4">{text}</span>}
-    </TransitionLink>
+    </>
+  );
+
+  if (href) {
+    return (
+      <TransitionLink
+        href={href}
+        className={`inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group hover:scale-[0.99] active:scale-[0.93] transition-transform ${className}`}
+        onClick={onClick}
+        {...props}
+      >
+        {buttonContent}
+      </TransitionLink>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={`inline-flex items-center space-x-2 text-white hover:text-white/80 transition-colors group hover:scale-[0.99] active:scale-[0.93] transition-transform ${className}`}
+      onClick={onClick}
+      {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
+      {buttonContent}
+    </button>
   );
 };
 

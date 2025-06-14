@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/ui/TransitionLink";
+import CircleIconButton from "@/components/ui/CircleIconButton";
 import { INewsItem } from "../types";
 
 interface NewsSliderItemProps {
@@ -52,50 +53,12 @@ const NewsSliderItem: FC<NewsSliderItemProps> = ({ item }) => {
                   ? `${item.description.slice(0, 80)}...`
                   : item.description}
               </p>
-              <div className="inline-flex items-center group/news-button">
-                <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover/news-button:border-white/60 transition-colors duration-300">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                    ></path>
-                  </svg>
-                </div>
-                <span className="ml-4 text-white text-lg border-b border-white/30 transition-colors duration-300 group-hover/news-button:border-white">
-                  Читать
-                </span>
-              </div>
+              <CircleIconButton text="Читать" />
             </div>
 
             {/* Button for mobile and tablet devices */}
             <div className="mt-6 block xl:hidden">
-              <div className="inline-flex items-center group/news-button">
-                <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                    ></path>
-                  </svg>
-                </div>
-                <span className="ml-4 text-white text-lg border-b border-white/30">
-                  Читать
-                </span>
-              </div>
+              <CircleIconButton text="Читать" />
             </div>
           </div>
         </div>
