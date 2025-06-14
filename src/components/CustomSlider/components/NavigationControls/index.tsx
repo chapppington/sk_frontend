@@ -1,4 +1,4 @@
-import { NavigationButton } from "../../../ui/NavigationButton";
+import { NavigationButton } from "@/components/ui/NavigationButton";
 import { Indicators } from "../Indicators";
 import { NavigationControlsProps } from "./types";
 
