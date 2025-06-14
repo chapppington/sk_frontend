@@ -1,17 +1,7 @@
 import { FC, useRef, useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 import gsap from "gsap";
-
-interface SelectDropdownProps {
-  options: {
-    value: string;
-    label: string;
-  }[];
-  value: string;
-  onChange: (value: string) => void;
-  label: string;
-  icon?: React.ReactNode;
-}
+import { SelectDropdownProps } from "./types";
 
 const SelectDropdown: FC<SelectDropdownProps> = ({
   options,

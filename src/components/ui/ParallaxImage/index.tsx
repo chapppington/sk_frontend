@@ -32,7 +32,7 @@ const ParallaxImage: FC<IParallaxImageProps> = ({
         fill
         priority={priority}
         className={`object-cover ${className}`}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+        sizes="100vw"
         quality={quality}
         style={{
           transform: isMobile
