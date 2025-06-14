@@ -9,6 +9,7 @@ import { FC, useState, useEffect, useRef, Suspense } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
+import Pagination from "@/components/ui/Pagination";
 
 import { productCategories, products, services } from "./mock_data";
 import {
@@ -437,64 +438,12 @@ const CatalogSectionContent: FC = () => {
             {activeTab === "products" && (
               <div className="hidden xl:flex justify-end mb-6">
                 {totalPages > 1 && filteredProducts.length > 0 && (
-                  <div ref={paginationRef} className="flex items-center gap-2">
-                    <button
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                      disabled={currentPage === 1}
-                      className="w-8 h-8 rounded-lg border border-white/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:border-white transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4 text-white"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (page) => (
-                        <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-colors ${
-                            currentPage === page
-                              ? "bg-white text-black border-white"
-                              : "border-white/30 text-white hover:border-white"
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      )
-                    )}
-                    <button
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                      }
-                      disabled={currentPage === totalPages}
-                      className="w-8 h-8 rounded-lg border border-white/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:border-white transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4 text-white"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
+                  <div ref={paginationRef}>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={setCurrentPage}
+                    />
                   </div>
                 )}
               </div>

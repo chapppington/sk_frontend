@@ -3,16 +3,17 @@
 import { FC, useCallback, useRef, useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 import { useSearchParams, usePathname } from "next/navigation";
-import Image from "next/image";
 import gsap from "gsap";
 
 import CustomContainer from "@/components/ui/CustomContainer";
-import TransitionLink from "@/components/ui/TransitionLink";
 import CategoryButton from "@/components/ui/CategoryButton";
 import SelectDropdown from "@/components/ui/SelectDropdown";
+import NewsGridItem from "./NewsGridItem";
+import Pagination from "@/components/ui/Pagination";
 
-import type { SortOption, MonthMap, QueryParams } from "./types";
+import type { SortOption, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
+import { parseRussianDate, createQueryString } from "./utils";
 
 const NewsGrid: FC = () => {
   const lenis = useLenis();
@@ -26,39 +27,10 @@ const NewsGrid: FC = () => {
   const sortBy = (searchParams.get("sort") as SortOption) || "new";
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 6;
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Reference for news grid animations
   const newsGridRef = useRef<HTMLDivElement>(null);
   const noResultsRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const optionsRef = useRef<HTMLDivElement>(null);
-  const arrowRef = useRef<SVGSVGElement>(null);
-  const sortOptionRef = useRef<HTMLDivElement>(null);
-
-  const parseRussianDate = (dateStr: string) => {
-    const months: MonthMap = {
-      Января: 0,
-      Февраля: 1,
-      Марта: 2,
-      Апреля: 3,
-      Мая: 4,
-      Июня: 5,
-      Июля: 6,
-      Августа: 7,
-      Сентября: 8,
-      Октября: 9,
-      Ноября: 10,
-      Декабря: 11,
-    };
-
-    const [day, month, year] = dateStr.split(" ");
-    return new Date(
-      parseInt(year),
-      months[month as keyof typeof months],
-      parseInt(day)
-    );
-  };
 
   const filteredNews = sampleNews
     .filter(
@@ -79,23 +51,12 @@ const NewsGrid: FC = () => {
     currentPage * itemsPerPage
   );
 
-  const createQueryString = useCallback(
-    (params: QueryParams) => {
-      const newParams = new URLSearchParams(searchParams.toString());
-      Object.entries(params).forEach(([key, value]) => {
-        if (value) newParams.set(key, value);
-      });
-      return newParams.toString();
-    },
-    [searchParams]
-  );
-
   const updateUrl = useCallback(
     (params: QueryParams) => {
-      const newUrl = `${pathname}?${createQueryString(params)}`;
+      const newUrl = `${pathname}?${createQueryString(searchParams, params)}`;
       window.history.pushState({}, "", newUrl);
     },
-    [pathname, createQueryString]
+    [pathname, searchParams]
   );
 
   // Run animation when component mounts
@@ -121,7 +82,7 @@ const NewsGrid: FC = () => {
           duration: 0.05,
           stagger: 0.05,
           ease: "power2.out",
-          delay: 0.1, // Explicitly set delay to 0
+          delay: 0.1,
           onComplete: () => {
             // Notify Lenis about the content height change
             if (lenis) {
@@ -131,7 +92,7 @@ const NewsGrid: FC = () => {
         });
       });
     }
-  }, [selectedCategorySlug, sortBy, currentPage, lenis]);
+  }, [selectedCategorySlug, sortBy, currentPage]);
 
   // Ensure content is visible on initial load
   useEffect(() => {
@@ -150,7 +111,7 @@ const NewsGrid: FC = () => {
     return () => clearTimeout(timer);
   }, [lenis]);
 
-  // GSAP animations for no results - exactly like in CatalogSection
+  // GSAP animations for no results
   useEffect(() => {
     if (noResultsRef.current && currentNews.length === 0) {
       gsap.fromTo(
@@ -171,129 +132,6 @@ const NewsGrid: FC = () => {
       );
     }
   }, [currentNews.length, lenis]);
-
-  // Handle dropdown animations
-  useEffect(() => {
-    if (!dropdownRef.current || !optionsRef.current || !arrowRef.current)
-      return;
-
-    if (isDropdownOpen) {
-      // Animate options appearing
-      gsap.fromTo(
-        optionsRef.current,
-        {
-          opacity: 0,
-          y: -10,
-          display: "none",
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          ease: "power3.out",
-          display: "block",
-          onComplete: () => {
-            // Ensure Lenis knows about the height change
-            if (lenis) {
-              lenis.resize();
-            }
-          },
-        }
-      );
-
-      // Rotate arrow
-      gsap.to(arrowRef.current, {
-        rotation: 180,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    } else {
-      // Animate options disappearing
-      gsap.to(optionsRef.current, {
-        opacity: 0,
-        y: -10,
-        duration: 0.2,
-        ease: "power3.in",
-        onComplete: () => {
-          gsap.set(optionsRef.current, { display: "none" });
-          // Ensure Lenis knows about the height change
-          if (lenis) {
-            lenis.resize();
-          }
-        },
-      });
-
-      // Rotate arrow back
-      gsap.to(arrowRef.current, {
-        rotation: 0,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    }
-  }, [isDropdownOpen, lenis]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Handle option selection with animation
-  const handleSortChange = (newSort: SortOption) => {
-    if (sortBy === newSort) return;
-
-    if (sortOptionRef.current) {
-      // Animate the selected option without changing size
-      gsap.fromTo(
-        sortOptionRef.current,
-        { backgroundColor: "rgba(255, 255, 255, 0.2)" },
-        {
-          backgroundColor: "rgba(255, 255, 255, 0.1)",
-          duration: 0.3,
-          ease: "power2.out",
-        }
-      );
-    }
-
-    updateUrl({ sort: newSort });
-    setIsDropdownOpen(false);
-  };
-
-  // Add resize listener for content changes
-  useEffect(() => {
-    // Update Lenis on page visibility change (when switching tabs)
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible" && lenis) {
-        setTimeout(() => {
-          lenis.resize();
-        }, 100);
-      }
-    };
-
-    // Update on window resize
-    const handleResize = () => {
-      if (lenis) lenis.resize();
-    };
-
-    window.addEventListener("resize", handleResize);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [lenis]);
 
   const sortOptions = [
     { value: "new", label: "Дате публикации (новые)" },
@@ -381,60 +219,15 @@ const NewsGrid: FC = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           >
             {currentNews.map((news) => (
-              <article
+              <NewsGridItem
                 key={news.id}
-                className="group relative overflow-hidden rounded-lg p-1 transition-all duration-300"
-                style={{ opacity: 0 }} /* Start invisible */
-              >
-                <TransitionLink href={`/news/${news.slug}`} className="block">
-                  <div className="relative w-full h-56 mb-4 overflow-hidden rounded-lg aspect-[4/3]">
-                    <Image
-                      src="/news_bg.webp"
-                      alt={news.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    {/* Meta Info */}
-                    <div className="flex items-center space-x-4 text-white/60 text-sm md:text-base lg:text-base">
-                      <span>{news.date}</span>
-                      <span>•</span>
-                      <span>{news.readTime}</span>
-                    </div>
-                    <h3 className="text-xl font-medium text-white line-clamp-2 transition-colors duration-300 group-hover:text-white/80">
-                      {news.title}
-                    </h3>
-
-                    <p className="text-white/60 transition-colors duration-300 group-hover:text-white/80">
-                      {news.description}
-                    </p>
-                  </div>
-                </TransitionLink>
-                <TransitionLink
-                  href={`/news/${news.slug}`}
-                  className="inline-flex items-center mt-6 text-white transition-colors duration-300 group-hover:text-white/80"
-                >
-                  <div className="inline-flex items-center group">
-                    <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7 17L17 7M17 7H7M17 7V17"
-                        ></path>
-                      </svg>
-                    </div>
-                    <span className="ml-4 text-white text-lg">Читать</span>
-                  </div>
-                </TransitionLink>
-              </article>
+                id={news.id}
+                slug={news.slug}
+                title={news.title}
+                description={news.description}
+                date={news.date}
+                readTime={news.readTime}
+              />
             ))}
           </div>
         ) : (
@@ -474,75 +267,12 @@ const NewsGrid: FC = () => {
 
         {/* Pagination */}
         {totalPages > 1 && currentNews.length > 0 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
-            <button
-              onClick={() =>
-                updateUrl({
-                  page: String(Math.max(currentPage - 1, 1)),
-                })
-              }
-              disabled={currentPage === 1}
-              className={`w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center ${
-                currentPage === 1
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:border-white"
-              } transition-colors`}
-            >
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => updateUrl({ page: String(page) })}
-                className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-colors ${
-                  currentPage === page
-                    ? "bg-white text-black border-white"
-                    : "border-white/30 text-white hover:border-white"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                updateUrl({
-                  page: String(Math.min(currentPage + 1, totalPages)),
-                })
-              }
-              disabled={currentPage === totalPages}
-              className={`w-10 h-10 rounded-lg border border-white/30 flex items-center justify-center ${
-                currentPage === totalPages
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:border-white"
-              } transition-colors`}
-            >
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => updateUrl({ page: String(page) })}
+            className="mt-8"
+          />
         )}
       </CustomContainer>
     </section>
