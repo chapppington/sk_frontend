@@ -8,10 +8,10 @@ interface CardData {
 
 export const cardsData: CardData[] = [
   {
-    title: "Floating Sanctuary",
+    title: "Курортный комплекс «Манжерок»",
     description:
       "A gravity-defying residence that appears to float above the landscape, featuring cantilevered spaces and panoramic glass walls",
-    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    imageUrl: "/news_bg.webp",
     alt: "Floating modern house",
     hasMarquee: true,
   },

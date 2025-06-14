@@ -10,6 +10,7 @@ interface CardAnimationRefs {
   imgWrapperRef: RefObject<HTMLDivElement | null>;
   imgRef: RefObject<HTMLImageElement | null>;
   marqueeRef: RefObject<HTMLDivElement | null>;
+  scrollHintRef: RefObject<HTMLDivElement | null>;
 }
 
 export function useCardAnimation(
@@ -23,21 +24,77 @@ export function useCardAnimation(
   const imgWrapperRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
+  const scrollHintRef = useRef<HTMLDivElement | null>(null);
   const contentRevealedRef = useRef<boolean>(false);
+  const marqueeAnimationRef = useRef<gsap.core.Timeline | null>(null);
+  const splitTextRef = useRef<SplitText | null>(null);
+  const scrollTriggerRefs = useRef<ScrollTrigger[]>([]);
 
   useEffect(() => {
     if (!cardRef.current) return;
 
     gsap.registerPlugin(ScrollTrigger, SplitText);
 
+    // Reset any existing animations
+    if (splitTextRef.current) {
+      splitTextRef.current.revert();
+    }
+    if (marqueeAnimationRef.current) {
+      marqueeAnimationRef.current.kill();
+    }
+    // Kill only our tracked ScrollTrigger instances
+    scrollTriggerRefs.current.forEach((trigger) => trigger.kill());
+    scrollTriggerRefs.current = [];
+
+    // Reset GSAP states for our elements only
+    const elementsToReset = [
+      imgWrapperRef.current,
+      imgRef.current,
+      marqueeRef.current,
+      scrollHintRef.current,
+    ].filter(Boolean); // Filter out null values
+
+    if (elementsToReset.length > 0) {
+      gsap.set(elementsToReset, {
+        clearProps: "all",
+      });
+    }
+
+    // Marquee animation
+    if (marqueeRef.current) {
+      const marquee = marqueeRef.current;
+      const marqueeWidth = marquee.offsetWidth;
+      const duration = 40;
+
+      // Create a smooth infinite loop animation
+      marqueeAnimationRef.current = gsap.timeline({
+        repeat: -1,
+        defaults: { ease: "none" },
+      });
+
+      // Clone the marquee content for seamless looping
+      const originalContent = marquee.innerHTML;
+      marquee.innerHTML = originalContent + originalContent + originalContent;
+
+      // Set initial position
+      gsap.set(marquee, { x: 0 });
+
+      // Create a continuous animation
+      marqueeAnimationRef.current.to(marquee, {
+        x: -marqueeWidth * 2,
+        duration: duration * 3,
+        ease: "none",
+      });
+    }
+
     // Split text animation
     if (titleRef.current) {
-      const split = new SplitText(titleRef.current, {
+      splitTextRef.current = new SplitText(titleRef.current, {
         type: "chars",
         charsClass: "char",
         tag: "div",
       });
-      split.chars.forEach((char) => {
+      splitTextRef.current.chars.forEach((char) => {
         char.innerHTML = `<span>${char.textContent}</span>`;
       });
     }
@@ -46,6 +103,9 @@ export function useCardAnimation(
     if (isIntroCard && imgWrapperRef.current && imgRef.current) {
       gsap.set(imgWrapperRef.current, { scale: 0.5, borderRadius: "400px" });
       gsap.set(imgRef.current, { scale: 1.5 });
+      if (scrollHintRef.current) {
+        gsap.set(scrollHintRef.current, { opacity: 1 });
+      }
     }
 
     // Animation functions
@@ -53,6 +113,7 @@ export function useCardAnimation(
       titleChars: Element[],
       description: HTMLElement | null
     ) => {
+      if (!titleChars.length || !description) return;
       gsap.to(titleChars, { x: "0%", duration: 0.75, ease: "power4.out" });
       gsap.to(description, {
         x: 0,
@@ -67,6 +128,7 @@ export function useCardAnimation(
       titleChars: Element[],
       description: HTMLElement | null
     ) => {
+      if (!titleChars.length || !description) return;
       gsap.to(titleChars, { x: "100%", duration: 0.5, ease: "power4.out" });
       gsap.to(description, {
         x: "40px",
@@ -78,7 +140,7 @@ export function useCardAnimation(
 
     // Scroll animations
     if (isIntroCard && cardRef.current) {
-      ScrollTrigger.create({
+      const introTrigger = ScrollTrigger.create({
         trigger: cardRef.current,
         start: "top top",
         end: "+=300vh",
@@ -110,6 +172,18 @@ export function useCardAnimation(
             }
           }
 
+          // Handle scroll hint visibility
+          if (scrollHintRef.current) {
+            if (imgScale >= 0.5 && imgScale <= 0.75) {
+              const fadeProgress = (imgScale - 0.5) / (0.75 - 0.5);
+              gsap.set(scrollHintRef.current, { opacity: 1 - fadeProgress });
+            } else if (imgScale < 0.5) {
+              gsap.set(scrollHintRef.current, { opacity: 1 });
+            } else if (imgScale > 0.75) {
+              gsap.set(scrollHintRef.current, { opacity: 0 });
+            }
+          }
+
           const titleChars = cardRef.current?.querySelectorAll(".char span");
           if (progress >= 1 && !contentRevealedRef.current && titleChars) {
             contentRevealedRef.current = true;
@@ -122,6 +196,7 @@ export function useCardAnimation(
           }
         },
       });
+      scrollTriggerRefs.current.push(introTrigger);
     } else if (cardRef.current) {
       // Card transition animations
       if (!isLastCard) {
@@ -129,7 +204,7 @@ export function useCardAnimation(
           ".card:first-child .card-img"
         );
         if (cardRef.current.nextElementSibling) {
-          ScrollTrigger.create({
+          const transitionTrigger = ScrollTrigger.create({
             trigger: cardRef.current.nextElementSibling,
             start: "top bottom",
             end: "top top",
@@ -143,11 +218,12 @@ export function useCardAnimation(
               }
             },
           });
+          scrollTriggerRefs.current.push(transitionTrigger);
         }
       }
 
       // Card entrance animations
-      ScrollTrigger.create({
+      const entranceTrigger = ScrollTrigger.create({
         trigger: cardRef.current,
         start: "top bottom",
         end: "top top",
@@ -163,9 +239,10 @@ export function useCardAnimation(
           }
         },
       });
+      scrollTriggerRefs.current.push(entranceTrigger);
 
       // Content animations
-      ScrollTrigger.create({
+      const contentTrigger = ScrollTrigger.create({
         trigger: cardRef.current,
         start: "top top",
         onEnter: () => {
@@ -181,10 +258,32 @@ export function useCardAnimation(
           }
         },
       });
+      scrollTriggerRefs.current.push(contentTrigger);
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      // Cleanup only our animations and triggers
+      if (splitTextRef.current) {
+        splitTextRef.current.revert();
+      }
+      if (marqueeAnimationRef.current) {
+        marqueeAnimationRef.current.kill();
+      }
+      scrollTriggerRefs.current.forEach((trigger) => trigger.kill());
+
+      // Reset GSAP states for our elements only
+      const elementsToReset = [
+        imgWrapperRef.current,
+        imgRef.current,
+        marqueeRef.current,
+        scrollHintRef.current,
+      ].filter(Boolean); // Filter out null values
+
+      if (elementsToReset.length > 0) {
+        gsap.set(elementsToReset, {
+          clearProps: "all",
+        });
+      }
     };
   }, [isIntroCard, isLastCard, totalCards]);
 
@@ -195,5 +294,6 @@ export function useCardAnimation(
     imgWrapperRef,
     imgRef,
     marqueeRef,
+    scrollHintRef,
   };
 }
