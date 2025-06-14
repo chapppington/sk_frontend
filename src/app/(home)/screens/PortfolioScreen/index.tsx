@@ -1,10 +1,11 @@
 "use client";
 
-import Cards from "./components/Cards";
+import PortfolioCards from "./components/Cards";
+import { cardsData } from "./mock_data";
 import "./styles.css";
 
-const PortfolioSection = () => {
-  return <Cards></Cards>;
+const PortfolioCardsScreen = () => {
+  return <PortfolioCards cards={cardsData}></PortfolioCards>;
 };
 
-export default PortfolioSection;
+export default PortfolioCardsScreen;

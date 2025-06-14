@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function useCardPinning() {
+export function useCardPinning(): void {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const cards = gsap.utils.toArray(".card");
+    const cards: Element[] = gsap.utils.toArray(".card");
 
-    cards.forEach((card, index) => {
-      const isLastCard = index === cards.length - 1;
+    cards.forEach((card: Element, index: number) => {
+      const isLastCard: boolean = index === cards.length - 1;
 
       ScrollTrigger.create({
         trigger: card,

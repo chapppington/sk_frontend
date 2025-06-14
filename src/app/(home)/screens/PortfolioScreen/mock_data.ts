@@ -1,35 +1,42 @@
-// Sample data for portfolio items
-export const portfolioItems = [
+interface CardData {
+  title: string;
+  description: string;
+  imageUrl: string;
+  alt: string;
+  hasMarquee: boolean;
+}
+
+export const cardsData: CardData[] = [
   {
-    id: 1,
-    title: "Барнаульская ТЭЦ-3",
+    title: "Floating Sanctuary",
     description:
-      "Модернизация системы электроснабжения и установка современного распределительного оборудования на одной из крупнейших теплоэлектроцентралей Алтайского края.",
-    location: "Алтайский край",
-    image: "/news_bg.webp",
+      "A gravity-defying residence that appears to float above the landscape, featuring cantilevered spaces and panoramic glass walls",
+    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    alt: "Floating modern house",
+    hasMarquee: true,
   },
   {
-    id: 2,
-    title: "Бийская ТЭЦ",
+    title: "Biomorphic Haven",
     description:
-      "Комплексная реконструкция распределительных устройств и внедрение автоматизированной системы управления технологическими процессами.",
-    location: "Алтайский край",
-    image: "/news_bg2.webp",
+      "An organic-inspired dwelling that mimics natural forms, incorporating flowing curves and sustainable materials",
+    imageUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+    alt: "Organic modern house",
+    hasMarquee: false,
   },
   {
-    id: 3,
-    title: "Новосибирская ГЭС",
+    title: "Digital Oasis",
     description:
-      "Модернизация системы релейной защиты и автоматики, замена силового оборудования на современные аналоги с повышенной надежностью.",
-    location: "Новосибирская область",
-    image: "/news_bg.webp",
+      "A smart home that seamlessly integrates technology with living spaces, featuring automated systems and interactive surfaces",
+    imageUrl: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea",
+    alt: "Smart modern house",
+    hasMarquee: false,
   },
   {
-    id: 4,
-    title: "Красноярская ГРЭС-2",
+    title: "Minimalist Retreat",
     description:
-      "Внедрение цифровой системы мониторинга и управления электрическими подстанциями, обеспечивающей повышенную надежность энергоснабжения.",
-    location: "Красноярский край",
-    image: "/news_bg2.webp",
+      "A zen-inspired residence that celebrates simplicity and light, with clean lines and open spaces that promote mindfulness",
+    imageUrl: "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+    alt: "Minimalist modern house",
+    hasMarquee: false,
   },
 ];
