@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/ui/TransitionLink";
+import CircleIconButton from "@/components/ui/CircleIconButton";
 
 interface NewsGridItemProps {
   id: string | number;
@@ -50,29 +51,7 @@ const NewsGridItem: FC<NewsGridItemProps> = ({
           </p>
         </div>
       </TransitionLink>
-      <TransitionLink
-        href={`/news/${slug}`}
-        className="inline-flex items-center mt-6 text-white transition-colors duration-300 group-hover:text-white/80"
-      >
-        <div className="inline-flex items-center group">
-          <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-            <svg
-              className="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M7 17L17 7M17 7H7M17 7V17"
-              ></path>
-            </svg>
-          </div>
-          <span className="ml-4 text-white text-lg">Читать</span>
-        </div>
-      </TransitionLink>
+      <CircleIconButton href={`/news/${slug}`} text="Читать" className="mt-6" />
     </article>
   );
 };

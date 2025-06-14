@@ -1,15 +1,20 @@
 "use client";
 
-import { FC, useState, useEffect, useRef } from "react";
-import gsap from "gsap";
+import { FC, useState, useRef } from "react";
+
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import TransitionLink from "@/components/ui/TransitionLink";
 import AnimatedText from "@/components/ui/AnimatedText";
 import ParallaxImage from "@/components/ui/ParallaxImage";
-import { newsItems } from "@/app/news/screens/FirstScreen/mock_data";
+import { NavigationButton } from "@/components/ui/NavigationButton";
+import CircleIconButton from "@/components/ui/CircleIconButton";
+
 import useIsMobile from "@/hooks/useIsMobile";
+import { useContentAnimation, useImageTransition } from "./hooks/useNewsAnimations";
+
+import { newsItems } from "@/app/news/screens/FirstScreen/mock_data";
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,114 +29,20 @@ const FirstScreen: FC = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    // Reset all elements to initial state with smaller y offset
-    gsap.set(
-      [
-        contentRef.current,
-        categoryRef.current,
-        titleRef.current,
-        metaRef.current,
-        descriptionRef.current,
-        buttonRef.current,
-      ],
-      {
-        opacity: 0,
-        y: 10,
-      }
-    );
+  // Use custom hooks for animations
+  useContentAnimation(
+    {
+      contentRef,
+      categoryRef,
+      titleRef,
+      metaRef,
+      descriptionRef,
+      buttonRef,
+    },
+    currentIndex
+  );
 
-    // Create the animation sequence with smoother easing
-    const tl = gsap.timeline({
-      defaults: {
-        ease: "expo.out",
-        duration: 0.3,
-      },
-    });
-
-    // Animate elements one after another with no overlap
-    tl.to(contentRef.current, {
-      opacity: 1,
-      y: 0,
-    })
-      .to(categoryRef.current, {
-        opacity: 1,
-        y: 0,
-      })
-      .to(
-        titleRef.current,
-        {
-          opacity: 1,
-          y: 0,
-        },
-        "-=0.3"
-      )
-      .to(
-        metaRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-        },
-        "-=0.3"
-      )
-      .to(
-        descriptionRef.current,
-        {
-          opacity: 1,
-          y: 0,
-        },
-        "-=0.5"
-      )
-      .to(
-        buttonRef.current,
-        {
-          opacity: 1,
-          y: 0,
-        },
-        "-=0.35"
-      );
-
-    return () => {
-      tl.kill();
-    };
-  }, [currentIndex]);
-
-  useEffect(() => {
-    // Animate image transition
-    if (imageRefs.current[currentIndex] && imageRefs.current[prevIndex]) {
-      const currentImage = imageRefs.current[currentIndex];
-      const prevImage = imageRefs.current[prevIndex];
-
-      // Set initial states
-      gsap.set(currentImage, { opacity: 0, zIndex: 2 });
-      gsap.set(prevImage, { opacity: 1, zIndex: 1 });
-
-      // Create a timeline for image transitions
-      const imageTl = gsap.timeline({
-        defaults: {
-          ease: "back.in",
-          duration: 0.01,
-        },
-      });
-
-      imageTl
-        .to(currentImage, {
-          opacity: 1,
-        })
-        .to(
-          prevImage,
-          {
-            opacity: 0,
-          },
-          "-=0.15"
-        );
-
-      return () => {
-        imageTl.kill();
-      };
-    }
-  }, [currentIndex, prevIndex]);
+  useImageTransition(imageRefs, currentIndex, prevIndex);
 
   const handlePrev = () => {
     setPrevIndex(currentIndex);
@@ -191,42 +102,16 @@ const FirstScreen: FC = () => {
 
         {/* Navigation Arrows */}
         <div className="flex space-x-4">
-          <button
+          <NavigationButton
+            direction="prev"
+            sliderId="news-mobile"
             onClick={handlePrev}
-            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors prev-btn"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M15 19l-7-7 7-7"
-              ></path>
-            </svg>
-          </button>
-          <button
+          />
+          <NavigationButton
+            direction="next"
+            sliderId="news-mobile"
             onClick={handleNext}
-            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors next-btn"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </button>
+          />
         </div>
       </div>
 
@@ -253,42 +138,17 @@ const FirstScreen: FC = () => {
 
           {/* Navigation Arrows */}
           <div className="flex ml-5">
-            <button
+            <NavigationButton
+              direction="prev"
+              sliderId="news-desktop"
               onClick={handlePrev}
-              className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors prev-btn mr-4"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M15 19l-7-7 7-7"
-                ></path>
-              </svg>
-            </button>
-            <button
+            />
+            <NavigationButton
+              direction="next"
+              sliderId="news-desktop"
+              className="ml-3"
               onClick={handleNext}
-              className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors next-btn"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M9 5l7 7-7 7"
-                ></path>
-              </svg>
-            </button>
+            />
           </div>
         </div>
         {/* Content Area */}
@@ -351,26 +211,10 @@ const FirstScreen: FC = () => {
 
             {/* Read More Button */}
             <div ref={buttonRef} className="mt-6">
-              <TransitionLink href={`/news/${currentNews.slug}`}>
-                <div className="inline-flex items-center group news-button">
-                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7 17L17 7M17 7H7M17 7V17"
-                      ></path>
-                    </svg>
-                  </div>
-                  <span className="ml-4 text-white text-lg">Читать</span>
-                </div>
-              </TransitionLink>
+              <CircleIconButton
+                href={`/news/${currentNews.slug}`}
+                text="Читать"
+              />
             </div>
           </div>
         </div>

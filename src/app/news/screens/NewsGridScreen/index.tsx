@@ -8,8 +8,11 @@ import gsap from "gsap";
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
 import SelectDropdown from "@/components/ui/SelectDropdown";
-import NewsGridItem from "./NewsGridItem";
+import NewsGridItem from "./components/NewsGridItem";
 import Pagination from "@/components/ui/Pagination";
+import { FilterIcon } from "@/icons/FilterIcon";
+import { SortIcon } from "@/icons/SortIcon";
+import { SearchIcon } from "@/icons/SearchIcon";
 
 import type { SortOption, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
@@ -138,22 +141,6 @@ const NewsGrid: FC = () => {
     { value: "old", label: "Дате публикации (старые)" },
   ];
 
-  const sortIcon = (
-    <svg
-      className="w-5 h-5 mr-2"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-      ></path>
-    </svg>
-  );
-
   return (
     <section className="py-20 relative">
       {/* Bottom Gradient */}
@@ -167,19 +154,7 @@ const NewsGrid: FC = () => {
           {/* Filters */}
           <div className="flex flex-col space-y-4">
             <span className="text-white/60 text-sm flex items-center">
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                ></path>
-              </svg>
+              <FilterIcon />
               Фильтр по новостям:
             </span>
             <div className="flex flex-wrap gap-2 lg:gap-3">
@@ -205,7 +180,7 @@ const NewsGrid: FC = () => {
               updateUrl({ sort: value as SortOption, page: "1" })
             }
             label="Сортировать по:"
-            icon={sortIcon}
+            icon={<SortIcon />}
           />
         </div>
 
@@ -236,19 +211,7 @@ const NewsGrid: FC = () => {
             className="flex flex-col items-center justify-center py-12 text-center"
           >
             <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-              <svg
-                className="w-12 h-12 text-white/40"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+              <SearchIcon />
             </div>
             <h3 className="text-white text-xl mb-2">
               По вашему запросу новости не найдены
