@@ -185,6 +185,18 @@ const NewsGrid: FC = () => {
           />
         </div>
 
+        {/* Pagination */}
+        {totalPages > 1 && currentNews.length > 0 && (
+          <div className="flex justify-start">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => updateUrl({ page: String(page) })}
+              className="mb-8"
+            />
+          </div>
+        )}
+
         {/* News Grid - using the same pattern as CatalogSection */}
         {currentNews.length > 0 ? (
           <div
@@ -215,16 +227,6 @@ const NewsGrid: FC = () => {
               onReset={() => updateUrl({ category: "all" })}
             />
           </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && currentNews.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page) => updateUrl({ page: String(page) })}
-            className="mt-8"
-          />
         )}
       </CustomContainer>
     </section>
