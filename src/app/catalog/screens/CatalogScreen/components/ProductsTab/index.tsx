@@ -2,6 +2,7 @@
 
 import { FC, useState, useEffect } from "react";
 import { useLenis } from "lenis/react";
+import { useSearchParams, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -21,11 +22,49 @@ const ProductsTab: FC<ProductsTabProps> = ({
   noResultsRef,
 }) => {
   const lenis = useLenis();
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  // Initialize state from URL params
+  const [activeCategory, setActiveCategory] = useState(
+    searchParams.get("category") || "all"
+  );
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") || ""
+  );
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Update URL when state changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (activeCategory !== "all") {
+      params.set("category", activeCategory);
+    } else {
+      params.delete("category");
+    }
+    if (debouncedSearchQuery) {
+      params.set("search", debouncedSearchQuery);
+    } else {
+      params.delete("search");
+    }
+    if (currentPage > 1) {
+      params.set("page", currentPage.toString());
+    } else {
+      params.delete("page");
+    }
+    const newUrl = `${pathname}?${params.toString()}`;
+    window.history.pushState({}, "", newUrl);
+  }, [
+    activeCategory,
+    debouncedSearchQuery,
+    currentPage,
+    pathname,
+    searchParams,
+  ]);
 
   const itemsPerPage = 6;
   const filteredProducts = products.filter(
@@ -141,7 +180,6 @@ const ProductsTab: FC<ProductsTabProps> = ({
 
       <div className="flex-1">
         {/* Search Bar */}
-
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
