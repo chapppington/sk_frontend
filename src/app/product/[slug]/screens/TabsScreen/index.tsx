@@ -33,22 +33,18 @@ const TabsSection: FC = () => {
 
   const LeftContent = () => (
     <div ref={leftContentRef}>
-      <AnimatedText delay={0}>
-        <GradientHeading className="mb-6">
-          Пункт автоматического регулирования напряжения (ПАРН)
-        </GradientHeading>
-      </AnimatedText>
-      <AnimatedText delay={0}>
-        <p className="text-white/70 text-lg">
-          — это устройство, предназначенное для обеспечения стабильного и
-          безопасного уровня напряжения в электрических сетях.
-        </p>
-      </AnimatedText>
-      <AnimatedText delay={0}>
-        <div className="mt-8">
-          <DownloadButton />
-        </div>
-      </AnimatedText>
+      <GradientHeading className="mb-6">
+        Пункт автоматического регулирования напряжения (ПАРН)
+      </GradientHeading>
+
+      <p className="text-white/70 text-lg">
+        — это устройство, предназначенное для обеспечения стабильного и
+        безопасного уровня напряжения в электрических сетях.
+      </p>
+
+      <div className="mt-8">
+        <DownloadButton />
+      </div>
     </div>
   );
 

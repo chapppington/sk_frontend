@@ -3,6 +3,7 @@ import { FeederSectionOptionProps, FeederData } from "./types";
 import { Tabs, TabContent } from "@/components/ui/Tabs";
 import Input from "@/components/ui/Input";
 import MainButton from "@/components/ui/MainButton";
+import { useLenis } from "lenis/react";
 
 const MAX_FEEDERS_PER_SECTION = 16;
 
@@ -15,6 +16,7 @@ const FeederSectionOption = ({
   const [sectionsData, setSectionsData] = useState<
     Record<string, FeederData[]>
   >({});
+  const lenis = useLenis();
 
   useEffect(() => {
     // Initialize sectionsData based on numberOfSections
@@ -51,6 +53,12 @@ const FeederSectionOption = ({
     ];
     setSectionsData(newSectionsData);
     onChange(newSectionsData);
+    // Resize Lenis after adding a feeder
+    if (lenis) {
+      setTimeout(() => {
+        lenis.resize();
+      }, 50);
+    }
   };
 
   const handleDeleteFeeder = (sectionKey: string, index: number) => {
@@ -64,6 +72,12 @@ const FeederSectionOption = ({
     }
     setSectionsData(newSectionsData);
     onChange(newSectionsData);
+    // Resize Lenis after deleting a feeder
+    if (lenis) {
+      setTimeout(() => {
+        lenis.resize();
+      }, 50);
+    }
   };
 
   const tabs = Array.from({ length: numberOfSections }, (_, i) => {

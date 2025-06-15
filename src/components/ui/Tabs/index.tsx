@@ -9,6 +9,7 @@ import {
   ReactElement,
 } from "react";
 import gsap from "gsap";
+import { useLenis } from "lenis/react";
 import { TabsContextType, TabsProps } from "./types";
 import { TabButton } from "./components/TabButton";
 import { TabContent } from "./components/TabContent";
@@ -26,6 +27,7 @@ export const Tabs: FC<TabsProps> = ({
   const [activeTab, setActiveTab] = useState(defaultTab);
   const lineRef = useRef<HTMLDivElement>(null);
   const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   const handleTabClick = (value: string) => {
     if (lineRef.current && tabsContainerRef.current) {
@@ -45,6 +47,13 @@ export const Tabs: FC<TabsProps> = ({
     }
     setActiveTab(value);
     onChange?.(value);
+
+    // Resize Lenis after tab change
+    if (lenis) {
+      setTimeout(() => {
+        lenis.resize();
+      }, 50);
+    }
   };
 
   useEffect(() => {
