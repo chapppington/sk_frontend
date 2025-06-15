@@ -13,6 +13,7 @@ import Pagination from "@/components/ui/Pagination";
 import { FilterIcon } from "@/icons/FilterIcon";
 import { SortIcon } from "@/icons/SortIcon";
 import { SearchIcon } from "@/icons/SearchIcon";
+import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 
 import type { SortOption, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
@@ -206,25 +207,13 @@ const NewsGrid: FC = () => {
             ))}
           </div>
         ) : (
-          <div
-            ref={noResultsRef}
-            className="flex flex-col items-center justify-center py-12 text-center"
-          >
-            <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-              <SearchIcon />
-            </div>
-            <h3 className="text-white text-xl mb-2">
-              По вашему запросу новости не найдены
-            </h3>
-            <p className="text-white/60 max-w-md mb-6">
-              Попробуйте изменить параметры фильтрации или сортировки
-            </p>
-            <button
-              onClick={() => updateUrl({ category: "all" })}
-              className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white transition-colors"
-            >
-              Сбросить фильтры
-            </button>
+          <div ref={noResultsRef}>
+            <NoResultsPlaceholder
+              icon={<SearchIcon />}
+              title="По вашему запросу новости не найдены"
+              description="Попробуйте изменить параметры фильтрации или сортировки"
+              onReset={() => updateUrl({ category: "all" })}
+            />
           </div>
         )}
 

@@ -1,8 +1,14 @@
 import { FC } from "react";
 
-export const SearchIcon: FC = () => (
+interface SearchIconProps {
+  className?: string;
+}
+
+export const SearchIcon: FC<SearchIconProps> = ({
+  className = "w-12 h-12 text-white/40",
+}) => (
   <svg
-    className="w-12 h-12 text-white/40"
+    className={className}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
