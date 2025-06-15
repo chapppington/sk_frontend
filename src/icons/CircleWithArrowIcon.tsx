@@ -12,7 +12,8 @@ const CircleWithArrow: FC<CircleWithArrowProps> = ({ className = "" }) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`transform rotate-[-45deg] ${className}`}
+      className={className}
+      style={{ transform: "rotate(-45deg)", transformOrigin: "center" }}
     >
       <path
         d="M5 12H19M19 12L12 5M19 12L12 19"

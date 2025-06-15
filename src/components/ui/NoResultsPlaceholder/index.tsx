@@ -1,12 +1,5 @@
-import { FC, ReactNode } from "react";
-
-interface NoResultsPlaceholderProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  onReset?: () => void;
-  resetButtonText?: string;
-}
+import { FC } from "react";
+import { NoResultsPlaceholderProps } from "./types";
 
 const NoResultsPlaceholder: FC<NoResultsPlaceholderProps> = ({
   icon,

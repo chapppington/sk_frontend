@@ -3,7 +3,7 @@
 import { FC, ButtonHTMLAttributes } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { ICircleIconButtonProps } from "./types";
-import CircleWithArrow from "@/icons/CircleWithArrow";
+import CircleWithArrowIcon from "@/icons/CircleWithArrowIcon";
 
 const CircleIconButton: FC<ICircleIconButtonProps> = ({
   href,
@@ -15,7 +15,7 @@ const CircleIconButton: FC<ICircleIconButtonProps> = ({
   const buttonContent = (
     <>
       <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-colors">
-        <CircleWithArrow />
+        <CircleWithArrowIcon />
       </div>
       {text && <span className="text-lg pl-4">{text}</span>}
     </>
