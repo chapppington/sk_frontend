@@ -55,7 +55,7 @@ const ProductionStagesScreen: FC = () => {
           }}
         >
           {productionStages.map((stage) => (
-            <ProductionStageSliderItem key={stage.id} stage={stage} translateY="-translate-y-24"/>
+            <ProductionStageSliderItem key={stage.id} stage={stage} />
           ))}
         </CustomSlider>
       </CustomContainer>
