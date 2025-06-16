@@ -1,42 +1,11 @@
 "use client";
-import { useRef, FC } from "react";
+import { FC } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { ILogoGridProps } from "./types";
 
 const LogoGrid: FC<ILogoGridProps> = ({ partners }) => {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    gsap.fromTo(
-      grid,
-      {
-        opacity: 0,
-        y: 100,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: grid,
-          start: "top bottom-=100",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-  }, []);
-
   return (
-    <div className="mt-16" ref={gridRef}>
+    <div className="mt-16">
       {/* Row 1 */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-16 items-center">
         {partners.slice(0, 6).map((logo, index) => (

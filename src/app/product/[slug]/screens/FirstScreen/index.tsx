@@ -6,7 +6,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
-import AnimatedText from "@/components/ui/AnimatedText";
 import SecondaryButton from "@/components/ui/SecondaryButton";
 import dynamic from "next/dynamic";
 
@@ -54,34 +53,28 @@ export default function FirstScreen() {
               },
             ]}
           />
-          <AnimatedText>
-            <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
-              Стабилизация напряжения в электрических сетях
-            </span>
-          </AnimatedText>
-          <AnimatedText>
-            <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
-              Пункт автоматического регулирования напряжения
-            </GradientHeading>
-          </AnimatedText>
-          <AnimatedText>
-            <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6 md:mb-10">
-              Специализированное устройство для обеспечения стабильного напряжения в электрических сетях. 
-              Автоматически компенсирует колебания напряжения и защищает оборудование от скачков. 
-              Применяется в распределительных сетях, на промышленных предприятиях и объектах с критическим потреблением энергии.
-            </p>
-          </AnimatedText>
+          <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
+            Стабилизация напряжения в электрических сетях
+          </span>
+          <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
+            Пункт автоматического регулирования напряжения
+          </GradientHeading>
+          <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6 md:mb-10">
+            Специализированное устройство для обеспечения стабильного напряжения
+            в электрических сетях. Автоматически компенсирует колебания
+            напряжения и защищает оборудование от скачков. Применяется в
+            распределительных сетях, на промышленных предприятиях и объектах с
+            критическим потреблением энергии.
+          </p>
           <div className="mb-6 flex flex-col gap-4 md:gap-6 w-full max-w-2xl">
             {stats.map((stat, index) => (
-              <AnimatedText key={index} delay={index * 0.1 + 0.6}>
-                <div className="text-white text-base md:text-lg">
-                  <span className="flex-1">{stat.description}:</span>
-                  <span className="ml-2 md:ml-4 font-light">
-                    {stat.value}{" "}
-                    <span className="font-normal">{stat.unit.text}</span>
-                  </span>
-                </div>
-              </AnimatedText>
+              <div key={index} className="text-white text-base md:text-lg">
+                <span className="flex-1">{stat.description}:</span>
+                <span className="ml-2 md:ml-4 font-light">
+                  {stat.value}{" "}
+                  <span className="font-normal">{stat.unit.text}</span>
+                </span>
+              </div>
             ))}
           </div>
           <div className="flex items-center mt-4">

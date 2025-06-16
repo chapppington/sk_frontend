@@ -6,7 +6,6 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import ResortVideo from "@/app/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
-import AnimatedText from "@/components/ui/AnimatedText";
 import VideoPopup from "@/app/portfolio/[slug]/screens/FirstScreen/components/VideoPopup";
 
 const FirstScreen = () => {
@@ -26,23 +25,20 @@ const FirstScreen = () => {
         />
 
         {/* Headings and Description */}
-        <div className="flex flex-col md:flex-row md:justify-between gap-8 my-12">
+        <div className="flex flex-col lg:flex-row lg:justify-between gap-10 my-12">
           <div>
-            <AnimatedText>
-              <GradientHeading className="mb-2 2xl:text-6xl">
-                Курортный комплекс «Манжерок»
-              </GradientHeading>
-            </AnimatedText>
+            <GradientHeading className="mb-2 2xl:text-5xl">
+              Реконструкция трансформаторной подстанции для АО «Алтайвагон»
+            </GradientHeading>
           </div>
           <div>
-            <AnimatedText>
-              <div className="max-w-xl text-white/60 text-lg md:text-base">
-                Круглогодичный курортный комплекс «Манжерок» расположен у
-                знаменитого озера Манжерокское у подножия горы Малая Синюха –
-                это центр семейного отдыха Республики Алтай, привлекающий
-                туристов со всей России, Азиатского региона и Европы.
-              </div>
-            </AnimatedText>
+            <div className="max-w-xl text-white/60 text-lg md:text-base">
+              АО «Алтайвагон» — один из крупнейших заводов в России по
+              производству железнодорожного грузового подвижного состава.
+              Предприятие выпускает порядка 20 моделей современных вагонов
+              различных типов, а его производственные мощности позволяют
+              выпускать свыше 10 000 вагонов ежегодно.
+            </div>
           </div>
         </div>
 

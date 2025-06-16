@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
 import CustomContainer from "@/components/ui/CustomContainer";
 
 const imageUrl =
@@ -23,32 +22,30 @@ export default function SolutionScreen() {
           {/* Main Content */}
           <div className="container mx-auto relative">
             <div className="flex flex-col mx-auto">
-              <div className="pl-0 md:pl-8">
+              <div className="pl-0">
                 {/* Heading and Description */}
-                <AnimatedText delay={0}>
-                  <GradientHeading>
-                    Заголовок о решениях в проекте
-                  </GradientHeading>
-                </AnimatedText>
-                <AnimatedText delay={0}>
-                  <p className="text-white/60 text-base my-12 ">
-                    Круглогодичный курортный комплекс «Манжерок» расположен у
-                    знаменитого озера Манжерокское у подножия горы Малая Синюха
-                    – это центр семейного отдыха Республики Алтай, привлекающий
-                    туристов со всей России, Азиатского региона и Европы.
-                  </p>
-                </AnimatedText>
+                <GradientHeading>
+                  Комплексное решение для энергоснабжения
+                </GradientHeading>
+                <p className="text-white/60 text-base my-12 ">
+                  Для повышения мощности и надёжности была спроектирована и
+                  внедрена новая модульная трансформаторная подстанция,
+                  включающая 3 силовых трансформатора и 2 распределительных
+                  устройства 0,4 кВ. Конфигурация распределения предусматривала
+                  3 секции, соединённые секционными выключателями, что позволило
+                  повысить управляемость и обеспечить резервирование питания.
+                </p>
               </div>
             </div>
           </div>
         </div>
         {/* Three-column section: full width of container */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-0 items-stretch mt-12">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-0 items-stretch mt-12">
           {/* Left image */}
           <div className="flex-[1.3] min-w-0">
             <Image
               src={imageUrl}
-              alt="solution left"
+              alt="Кабельные линии"
               className="w-full h-[400px] object-cover"
               width={800}
               height={400}
@@ -56,23 +53,23 @@ export default function SolutionScreen() {
           </div>
           {/* Center card */}
           <div className="flex-1 min-w-0 flex flex-col justify-center p-8">
-            <AnimatedText delay={0}>
-              <h2 className="text-white text-3xl font-light mb-6">Решение</h2>
-            </AnimatedText>
-            <AnimatedText delay={0}>
-              <div className="text-white/80 text-base leading-relaxed">
-                Круглогодичный курортный комплекс «Манжерок» расположен у
-                знаменитого озера Манжерокское у подножия горы Малая Синюха –
-                это центр семейного отдыха Республики Алтай, привлекающий
-                туристов со всей России, Азиатского региона и Европы.
-              </div>
-            </AnimatedText>
+            <h2 className="text-white text-3xl font-light mb-6">
+              Технические решения
+            </h2>
+            <div className="text-white/80 text-base leading-relaxed">
+              Были проложены две кабельные линии 6 кВ от РУ-2 до новой
+              подстанции общей протяжённостью около 180 метров, из которых 80
+              метров — методом горизонтального направленного бурения. В рамках
+              распределения нагрузки установлено 60 силовых автоматических
+              выключателей, размещённых в 20 ячейках с горизонтальным
+              расположением коммутационных аппаратов для питания 60 фидеров.
+            </div>
           </div>
           {/* Right image */}
           <div className="flex-[0.7] min-w-0">
             <Image
               src={imageUrl}
-              alt="solution right"
+              alt="Распределительное устройство"
               className="w-full h-[400px] object-cover"
               width={800}
               height={400}
