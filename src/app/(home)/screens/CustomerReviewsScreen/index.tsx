@@ -3,7 +3,6 @@
 import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/AnimatedText";
 import CustomSlider from "@/components/CustomSlider";
 import BracketsText from "@/components/ui/BracketsText";
 
@@ -19,16 +18,11 @@ const CustomerReviewsScreen = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <AnimatedText delay={0}>
-              <GradientHeading>Мнение наших клиентов</GradientHeading>
-            </AnimatedText>
-            <AnimatedText delay={0}>
-              <p className="text-white/70 mt-6">
-                Как уже неоднократно упомянуто, действия представителей
-                оппозиции объявлены нарушающими общечеловеческие нормы этики и
-                морали.
-              </p>
-            </AnimatedText>
+            <GradientHeading>Мнение наших клиентов</GradientHeading>
+            <p className="text-white/70 mt-6">
+              Как уже неоднократно упомянуто, действия представителей оппозиции
+              объявлены нарушающими общечеловеческие нормы этики и морали.
+            </p>
           </div>
         </div>
 

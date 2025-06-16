@@ -1,42 +1,35 @@
-interface CardData {
-  title: string;
-  description: string;
-  imageUrl: string;
-  alt: string;
-  hasMarquee: boolean;
-}
-
-export const cardsData: CardData[] = [
+// Sample data for portfolio items
+export const portfolioItems = [
   {
-    title: "Курортный комплекс «Манжерок»",
+    id: 1,
+    title: "Барнаульская ТЭЦ-3",
     description:
-      "Круглогодичный курортный комплекс «Манжерок» расположен у знаменитого озера Манжерокское у подножия горы Малая Синюха – это центр семейного отдыха Республики Алтай, привлекающий туристов со всей России, Азиатского региона и Европы.",
-    imageUrl: "/news_bg.webp",
-    alt: "Floating modern house",
-    hasMarquee: true,
+      "Модернизация системы электроснабжения и установка современного распределительного оборудования на одной из крупнейших теплоэлектроцентралей Алтайского края.",
+    location: "Алтайский край",
+    image: "/news_bg.webp",
   },
   {
-    title: "Biomorphic Haven",
+    id: 2,
+    title: "Бийская ТЭЦ",
     description:
-      "An organic-inspired dwelling that mimics natural forms, incorporating flowing curves and sustainable materials",
-    imageUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
-    alt: "Organic modern house",
-    hasMarquee: false,
+      "Комплексная реконструкция распределительных устройств и внедрение автоматизированной системы управления технологическими процессами.",
+    location: "Алтайский край",
+    image: "/news_bg2.webp",
   },
   {
-    title: "Digital Oasis",
+    id: 3,
+    title: "Новосибирская ГЭС",
     description:
-      "A smart home that seamlessly integrates technology with living spaces, featuring automated systems and interactive surfaces",
-    imageUrl: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea",
-    alt: "Smart modern house",
-    hasMarquee: false,
+      "Модернизация системы релейной защиты и автоматики, замена силового оборудования на современные аналоги с повышенной надежностью.",
+    location: "Новосибирская область",
+    image: "/news_bg.webp",
   },
   {
-    title: "Minimalist Retreat",
+    id: 4,
+    title: "Красноярская ГРЭС-2",
     description:
-      "A zen-inspired residence that celebrates simplicity and light, with clean lines and open spaces that promote mindfulness",
-    imageUrl: "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
-    alt: "Minimalist modern house",
-    hasMarquee: false,
+      "Внедрение цифровой системы мониторинга и управления электрическими подстанциями, обеспечивающей повышенную надежность энергоснабжения.",
+    location: "Красноярский край",
+    image: "/news_bg2.webp",
   },
 ];

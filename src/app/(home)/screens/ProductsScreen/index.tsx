@@ -12,7 +12,6 @@ import { Navigation, Autoplay } from "swiper/modules";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
-import AnimatedText from "@/components/ui/AnimatedText";
 import { NavigationButton } from "@/components/ui/NavigationButton";
 
 import { brands, products } from "./mock_data";
@@ -113,12 +112,10 @@ export default function ProductsSlider() {
             className="flex-1 flex flex-col justify-end"
             style={{ transform: "translateZ(0)" }}
           >
-            <AnimatedText delay={0}>
-              <GradientHeading className="mb-6">
-                Низковольтные
-                <br /> комплектные устройства
-              </GradientHeading>
-            </AnimatedText>
+            <GradientHeading className="mb-6">
+              Низковольтные
+              <br /> комплектные устройства
+            </GradientHeading>
 
             <div className="flex flex-wrap items-center gap-4 mb-8">
               <span className="text-white/60 text-sm">
@@ -139,13 +136,10 @@ export default function ProductsSlider() {
               </div>
             </div>
 
-            <AnimatedText delay={0}>
-              <p className="text-white/60 text-lg mb-4 max-w-2xl">
-                Как уже неоднократно упомянуто, действия представителей
-                оппозиции объявлены нарушающими общечеловеческие нормы этики и
-                морали.
-              </p>
-            </AnimatedText>
+            <p className="text-white/60 text-lg mb-4 max-w-2xl">
+              Как уже неоднократно упомянуто, действия представителей оппозиции
+              объявлены нарушающими общечеловеческие нормы этики и морали.
+            </p>
 
             {showButton && <MainButton text="Узнать больше" />}
 
