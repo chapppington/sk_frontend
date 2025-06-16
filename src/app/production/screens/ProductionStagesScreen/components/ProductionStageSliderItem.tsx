@@ -11,13 +11,18 @@ interface ProductionStage {
 
 interface ProductionStageSliderItemProps {
   stage: ProductionStage;
+  translateY?: string;
 }
 
 const ProductionStageSliderItem: FC<ProductionStageSliderItemProps> = ({
   stage,
+  translateY,
 }) => {
   return (
-    <article key={stage.id} className="group relative overflow-hidden">
+    <article
+      key={stage.id}
+      className={`group relative overflow-hidden ${translateY || ""}`}
+    >
       <div
         className="relative aspect-[3/4] overflow-hidden transition-all duration-300 ease-in-out"
         style={{
