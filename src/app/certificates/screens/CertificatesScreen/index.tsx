@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from "react";
 
 import Dropdown from "@/components/ui/Dropdown";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
@@ -40,11 +39,9 @@ export default function CertificatesScreen() {
 
       {/* Page Title */}
       <CustomContainer className="mt-8 mb-12">
-        <AnimatedText>
-          <GradientHeading>
-            Сертификаты <br></br>и документация
-          </GradientHeading>
-        </AnimatedText>
+        <GradientHeading>
+          Сертификаты <br></br>и документация
+        </GradientHeading>
       </CustomContainer>
 
       {/* Left Sidebar Navigation */}

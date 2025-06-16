@@ -3,7 +3,6 @@
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Dropdown from "@/components/ui/Dropdown";
-import AnimatedText from "@/components/ui/AnimatedText";
 import BracketsText from "@/components/ui/BracketsText";
 
 import { faqItems } from "./mock_data";
@@ -18,19 +17,13 @@ const FaqScreen = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <AnimatedText>
-              <GradientHeading>
-                Ответы на частозадаваемые вопросы
-              </GradientHeading>
-            </AnimatedText>
-            <AnimatedText delay={0.2}>
-              <p className="text-white/70 mt-6">
-                Здесь вы найдете ответы на самые распространенные вопросы о
-                работе в нашей компании, условиях трудоустройства и
-                корпоративной культуре. Если у вас остались дополнительные
-                вопросы, свяжитесь с нашим HR-отделом.
-              </p>
-            </AnimatedText>
+            <GradientHeading>Ответы на частозадаваемые вопросы</GradientHeading>
+            <p className="text-white/70 mt-6">
+              Здесь вы найдете ответы на самые распространенные вопросы о работе
+              в нашей компании, условиях трудоустройства и корпоративной
+              культуре. Если у вас остались дополнительные вопросы, свяжитесь с
+              нашим HR-отделом.
+            </p>
           </div>
         </div>
 

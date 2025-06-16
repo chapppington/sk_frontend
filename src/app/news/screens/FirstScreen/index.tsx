@@ -129,7 +129,7 @@ const FirstScreen: FC = () => {
           disableContainer={true}
         />
         {/* Desktop Navigation - Absolute Positioned */}
-        <div className="hidden md:flex items-center absolute bottom-20 right-4 md:right-10 xl:right-24 z-[50]">
+        <div className="hidden md:flex items-center absolute bottom-20 right-10 lg:right-10 2xl:right-28 z-[50]">
           {/* Page Counter */}
           <div className="text-white text-xl news-counter">
             <span className="text-4xl current-page">
