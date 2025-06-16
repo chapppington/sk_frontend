@@ -50,6 +50,9 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "vacancy" }) => {
       register={register}
       handleSubmit={handleSubmit}
       errors={errors}
+      setError={setError}
+      clearErrors={clearErrors}
+      watch={watch}
       onSubmit={onSubmit}
     />
   );

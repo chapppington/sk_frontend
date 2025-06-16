@@ -282,8 +282,8 @@ export const questionsConfig: IQuestion[] = [
         type: "radio",
         textLabel: "Укажите тип счетчика:",
         nestedOptions: [
-          { value: "ap", label: "AP" },
-          { value: "a", label: "A" },
+          { value: "ap", label: "AP активно реактивная" },
+          { value: "a", label: "A " },
         ],
       },
     ],

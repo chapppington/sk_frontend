@@ -1,32 +1,71 @@
 import { FC } from "react";
-import {
-  UseFormRegister,
-  UseFormHandleSubmit,
-  FieldErrors,
-} from "react-hook-form";
 
 import Input from "@/components/ui/Input";
 import TextArea from "@/components/ui/TextArea";
 import MainButton from "@/components/ui/MainButton";
+import PaperClipIcon from "@/icons/PaperClipIcon";
 
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
-import { IContactFormData } from "./types";
-
-interface QuestionnaireFormProps {
-  register: UseFormRegister<IContactFormData>;
-  handleSubmit: UseFormHandleSubmit<IContactFormData>;
-  errors: FieldErrors<IContactFormData>;
-  onSubmit: (data: IContactFormData) => void;
-}
+import { IContactFormData } from "../types";
+import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE, sanitizeFileName } from "../utils";
+import { QuestionnaireFormProps } from "./types";
 
 const QuestionnaireForm: FC<QuestionnaireFormProps> = ({
   register,
   handleSubmit,
   errors,
+  setError,
+  clearErrors,
+  watch,
   onSubmit,
 }) => {
+  const selectedFile = watch("resume");
+  const fileName = selectedFile?.[0]?.name
+    ? sanitizeFileName(selectedFile[0].name)
+    : "";
+
+  const validateFile = (file: File) => {
+    clearErrors("resume");
+
+    if (!file) {
+      setError("resume", {
+        type: "manual",
+        message: "Это поле обязательно",
+      });
+      return false;
+    }
+
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      setError("resume", {
+        type: "manual",
+        message: "Размер файла не должен превышать 5MB",
+      });
+      return false;
+    }
+
+    // Check file type
+    const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+    if (!ALLOWED_FILE_TYPES.includes(fileExtension)) {
+      setError("resume", {
+        type: "manual",
+        message: "Допустимые форматы: PDF, DOC, DOCX",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleFormSubmit = (data: IContactFormData) => {
+    if (!data.resume?.[0] || !validateFile(data.resume[0])) {
+      return;
+    }
+    onSubmit(data);
+  };
+
   return (
-    <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
       <Input
         type="text"
         id="name"
@@ -74,6 +113,40 @@ const QuestionnaireForm: FC<QuestionnaireFormProps> = ({
         })}
       />
 
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <button
+            type="button"
+            className="flex items-center text-white/80 hover:text-white transition-colors"
+            onClick={() => document.getElementById("resume-upload")?.click()}
+          >
+            <PaperClipIcon className="w-5 h-5 mr-2" />
+            {fileName ? "Изменить файл" : "Прикрепить файл"}
+          </button>
+          <input
+            id="resume-upload"
+            type="file"
+            className="hidden"
+            accept=".pdf,.doc,.docx"
+            {...register("resume", {
+              required: "Это поле обязательно",
+              onChange: (e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  validateFile(file);
+                }
+              },
+            })}
+          />
+          {fileName && (
+            <div className="text-sm text-white/60">Выбран файл: {fileName}</div>
+          )}
+          {errors.resume && (
+            <div className="text-sm text-red-500">{errors.resume.message}</div>
+          )}
+        </div>
+      </div>
+
       <TextArea
         id="comments"
         label="Комментарии и пожелания"
@@ -103,7 +176,7 @@ const QuestionnaireForm: FC<QuestionnaireFormProps> = ({
 
       <MainButton
         text="Отправить"
-        onClick={handleSubmit(onSubmit)}
+        onClick={handleSubmit(handleFormSubmit)}
         disableRedirect
       />
     </form>

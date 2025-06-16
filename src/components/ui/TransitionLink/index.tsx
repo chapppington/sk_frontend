@@ -15,13 +15,21 @@ const TransitionLink: FC<ITransitionLinkProps> = ({
   style,
   ref,
 }) => {
-
   const router = useTransitionRouter();
   const { animateIn, animateOut, isAnimating } = usePageTransition();
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isAnimating) return;
+
+    // Skip animations for anchor links
+    if (href.startsWith("#")) {
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+      return;
+    }
 
     // Call the provided onClick handler if it exists
     if (onClick) {

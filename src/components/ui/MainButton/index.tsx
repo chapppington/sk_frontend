@@ -4,7 +4,7 @@ import { FC, useRef } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { IMainButtonProps } from "./types";
 import { sizeStyles } from "./sizeStyles";
-import stylesModule from './styles.module.css';
+import stylesModule from "./styles.module.css";
 
 const MainButton: FC<IMainButtonProps> = ({
   text,
@@ -21,17 +21,29 @@ const MainButton: FC<IMainButtonProps> = ({
   const divRef = useRef<HTMLDivElement | null>(null);
 
   const buttonContent = (
-    <div className={`flex items-center ${fullWidth ? 'justify-between w-full' : ''} ${styles.padding}`}>
+    <div
+      className={`flex items-center ${
+        fullWidth ? "justify-between w-full" : ""
+      } ${styles.padding}`}
+    >
       <span
-        className={`${transparent ? 'text-white' : 'text-black'} ${styles.text} ${styles.fontSize} whitespace-nowrap select-none`}
+        className={`${transparent ? "text-white" : "text-black"} ${
+          styles.text
+        } ${styles.fontSize} whitespace-nowrap select-none`}
       >
         {text}
       </span>
       <div
-        className={`${styles.iconContainer} ${transparent ? 'bg-white' : 'bg-black'} flex items-center justify-center ${styles.iconClipPathClass} ${styles.iconBorderRadiusClass}`}
+        className={`${styles.iconContainer} ${
+          transparent ? "bg-white" : "bg-black"
+        } flex items-center justify-center ${styles.iconClipPathClass} ${
+          styles.iconBorderRadiusClass
+        }`}
       >
         <svg
-          className={`${styles.icon} ${transparent ? 'text-black' : 'text-white'}`}
+          className={`${styles.icon} ${
+            transparent ? "text-black" : "text-white"
+          }`}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -49,16 +61,26 @@ const MainButton: FC<IMainButtonProps> = ({
 
   const commonProps = {
     onClick,
-    className: `mt-6 inline-flex ${transparent ? 'bg-transparent border border-white main-btn-dark-fix' : 'bg-white'} relative ${fullWidth ? 'w-full' : 'w-fit'}${
+    className: `mt-6 inline-flex ${
+      transparent
+        ? "bg-transparent border border-white main-btn-dark-fix"
+        : "bg-white"
+    } relative ${fullWidth ? "w-full" : "w-fit"}${
       className ? ` ${className}` : ""
-    } ${styles.clipPathClass} ${styles.borderRadiusClass} ${transparent ? stylesModule['main-btn-dark-fix'] : ''}`,
+    } ${styles.clipPathClass} ${styles.borderRadiusClass} ${
+      transparent ? stylesModule["main-btn-dark-fix"] : ""
+    }`,
   };
 
-  return disableRedirect ? (
-    <div ref={divRef} {...commonProps}>
-      {buttonContent}
-    </div>
-  ) : (
+  if (disableRedirect) {
+    return (
+      <div ref={divRef} {...commonProps}>
+        {buttonContent}
+      </div>
+    );
+  }
+
+  return (
     <TransitionLink ref={anchorRef} href={href} {...commonProps}>
       {buttonContent}
     </TransitionLink>
