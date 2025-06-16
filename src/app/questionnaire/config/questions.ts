@@ -34,7 +34,6 @@ export const questionsConfig: IQuestion[] = [
   {
     id: 3,
     title: "03 · Количество трансформаторов",
-    type: "slider",
     options: [
       { value: 1, label: "1" },
       { value: 2, label: "2" },
@@ -90,7 +89,6 @@ export const questionsConfig: IQuestion[] = [
   {
     id: 7,
     title: "07 · Класс напряжения по стороне ВН, кВ",
-    type: "slider",
     options: [
       { value: 6, label: "6" },
       { value: 10, label: "10" },
