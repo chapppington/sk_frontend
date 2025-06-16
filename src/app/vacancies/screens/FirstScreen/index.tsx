@@ -84,7 +84,7 @@ const FirstScreen: FC = () => {
         stats={[
           {
             value: "90+",
-            description: "Количество сотрудников \nв штате",
+            description: "Количество сотрудников в штате",
           },
           {
             value: "4.7 NPS",
