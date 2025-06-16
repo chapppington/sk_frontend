@@ -6,8 +6,6 @@ import { PagesConfig } from "@/config/pages.config";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
-import AnimatedText from "@/components/ui/AnimatedText";
-import RevealAnimation from "@/components/ui/RevealAnimation";
 import CircleIconButton from "@/components/ui/CircleIconButton";
 
 import { IArticleContentSectionProps } from "./types";
@@ -37,38 +35,25 @@ export default function ArticleContentSection({
 
         {/* Category Tag */}
         <div className="mb-6 px-4 py-2 border border-white text-white text-sm rounded font-light">
-          <AnimatedText>
-            <span>{category}</span>
-          </AnimatedText>
+          <span>{category}</span>
         </div>
 
         {/* Article Title */}
         <div>
-          <AnimatedText>
-            <GradientHeading className="leading-tight mb-6">
-              {title}
-            </GradientHeading>
-          </AnimatedText>
+          <GradientHeading className="leading-tight mb-6">
+            {title}
+          </GradientHeading>
         </div>
 
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
-          <AnimatedText delay={0.6}>
-            <span>{date}</span>
-          </AnimatedText>
-          <AnimatedText delay={0.6}>
-            <span>•</span>
-          </AnimatedText>
-          <AnimatedText delay={0.6}>
-            <span>{readTime}</span>
-          </AnimatedText>
+          <span>{date}</span>
+          <span>•</span>
+          <span>{readTime}</span>
         </div>
 
         {/* Featured Image */}
-        <RevealAnimation
-          className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full"
-          useScrollTrigger={false}
-        >
+        <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
           <Image
             src={imageSrc}
             alt="Featured Image"
@@ -76,7 +61,7 @@ export default function ArticleContentSection({
             className="object-cover rounded-lg"
             priority
           />
-        </RevealAnimation>
+        </div>
 
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
