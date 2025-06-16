@@ -12,7 +12,7 @@ const ValueCard: FC<IValueCardProps> = ({
     return (
       <div className="bg-transparent backdrop-blur-sm p-6 border border-white/50">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
+          <div className="w-12 h-12 flex items-center justify-center">
             {data.icon}
           </div>
           <h3 className="text-2xl text-white font-normal">{data.title}</h3>
@@ -47,7 +47,7 @@ const ValueCard: FC<IValueCardProps> = ({
         >
           {/* Icon */}
           <div className="w-14 h-14 mb-6 flex items-center justify-center">
-            <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center">
+            <div className="w-12 h-12 flex items-center justify-center">
               {data.icon}
             </div>
           </div>
