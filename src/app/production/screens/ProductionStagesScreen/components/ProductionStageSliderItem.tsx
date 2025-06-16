@@ -11,12 +11,10 @@ interface ProductionStage {
 
 interface ProductionStageSliderItemProps {
   stage: ProductionStage;
-  translateY?: string;
 }
 
 const ProductionStageSliderItem: FC<ProductionStageSliderItemProps> = ({
   stage,
-  translateY = "-translate-y-20", // default value
 }) => {
   return (
     <article key={stage.id} className="group relative overflow-hidden">
@@ -58,9 +56,7 @@ const ProductionStageSliderItem: FC<ProductionStageSliderItemProps> = ({
           </div>
 
           {/* Bottom content */}
-          <div
-            className={`mt-auto lg:transition-transform lg:duration-300 lg:ease-in-out lg:group-hover:${translateY}`}
-          >
+          <div className="mt-auto lg:transition-transform lg:duration-300 lg:ease-in-out lg:group-hover:-translate-y-20">
             <h3 className="text-2xl text-white font-light leading-tight lg:mb-0 mb-4">
               {stage.title}
             </h3>

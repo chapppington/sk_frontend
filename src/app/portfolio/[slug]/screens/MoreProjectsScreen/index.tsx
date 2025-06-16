@@ -5,7 +5,6 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
 import CustomSlider from "@/components/CustomSlider";
 import ProjectSlide from "./components/ProjectSlide";
 
@@ -19,9 +18,7 @@ const MoreProjectsScreen: FC = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start mb-16">
           {/* Main Title (left) */}
           <div className="mb-4 lg:mb-0 lg:max-w-[60%]">
-            <AnimatedText delay={0}>
-              <GradientHeading>Другие проекты</GradientHeading>
-            </AnimatedText>
+            <GradientHeading>Другие проекты</GradientHeading>
           </div>
 
           {/* Category Label (right) */}

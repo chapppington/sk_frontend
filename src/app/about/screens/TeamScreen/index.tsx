@@ -9,9 +9,9 @@ import { Navigation, Autoplay } from "swiper/modules";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
+import { NavigationButton } from "@/components/ui/NavigationButton";
 
 import { teamMembers } from "./mock_data";
 import { TeamMemberCard } from "@/app/about/screens/TeamScreen/components/TeamMemberCard";
@@ -28,58 +28,34 @@ export default function TeamScreen() {
 
           {/* Right column: Main content */}
           <div className="md:col-span-4 flex flex-col gap-8 ">
-            <AnimatedText>
-              <GradientHeading className="leading-tight text-4xl md:text-6xl">
-                Сложно сказать, почему постоянный количественный рост{" "}
-                <span className="text-white/60">
-                  связывает нас с нашим прошлым
-                </span>
-              </GradientHeading>
-            </AnimatedText>
+            <GradientHeading className="leading-tight text-4xl md:text-6xl">
+              Сложно сказать, почему постоянный количественный рост{" "}
+              <span className="text-white/60">
+                связывает нас с нашим прошлым
+              </span>
+            </GradientHeading>
 
             {/* Swiper Slider */}
             <div className="relative">
               {/* Description and Buttons Row */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                <AnimatedText>
-                  <p className="text-white/60 max-w-2xl">
-                    В своём стремлении улучшить пользовательский опыт мы
-                    упускаем, что предприниматели в сети интернет лишь добавляют
-                    фракционных разногласий и представлены в исключительно
-                    положительном свете.
-                  </p>
-                </AnimatedText>
+                <p className="text-white/60 max-w-2xl">
+                  В своём стремлении улучшить пользовательский опыт мы упускаем,
+                  что предприниматели в сети интернет лишь добавляют фракционных
+                  разногласий и представлены в исключительно положительном
+                  свете.
+                </p>
                 <div className="flex items-center space-x-3">
-                  <button className="team-prev w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                  </button>
-                  <button className="team-next w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
+                  <NavigationButton
+                    direction="prev"
+                    sliderId="team"
+                    className="slider-prev-team"
+                  />
+                  <NavigationButton
+                    direction="next"
+                    sliderId="team"
+                    className="slider-next-team"
+                  />
                 </div>
               </div>
               <Swiper
@@ -87,8 +63,8 @@ export default function TeamScreen() {
                 spaceBetween={24}
                 slidesPerView={1}
                 navigation={{
-                  nextEl: ".team-next",
-                  prevEl: ".team-prev",
+                  nextEl: ".slider-next-team",
+                  prevEl: ".slider-prev-team",
                 }}
                 breakpoints={{
                   300: { slidesPerView: 1 },
@@ -114,7 +90,10 @@ export default function TeamScreen() {
               <div className="text-white text-xl md:text-2xl font-light">
                 Хотите к нам в команду?
               </div>
-              <MainButton text="Смотреть вакансии" href={PagesConfig.vacancies} />
+              <MainButton
+                text="Смотреть вакансии"
+                href={PagesConfig.vacancies}
+              />
             </div>
           </div>
         </div>

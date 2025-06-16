@@ -3,7 +3,6 @@
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import AnimatedText from "@/components/ui/AnimatedText";
 import Dropdown from "@/components/ui/Dropdown";
 
 import { taskItems } from "./mock_data";
@@ -23,24 +22,19 @@ export default function TasksScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0">
                 {/* Heading and Description */}
-                <AnimatedText>
-                  <GradientHeading>
-                    Реконструкция трансформаторных подстанций
-                  </GradientHeading>
-                </AnimatedText>
-                <AnimatedText>
-                  <p className="text-white/60 text-base my-12 ">
-                    Две ранее установленные трансформаторные подстанции
-                    мощностью 2×1000 кВА не обеспечивали необходимый объём
-                    мощности для существующих и перспективных производственных
-                    нагрузок. Требовалось увеличить суммарную мощность
-                    энергоснабжения, обеспечить отказоустойчивость и гибкость в
-                    управлении нагрузками. При этом необходимо было
-                    интегрировать решение в действующую инфраструктуру
-                    предприятия, минимизируя простои и риски для
-                    производственного процесса.
-                  </p>
-                </AnimatedText>
+                <GradientHeading>
+                  Реконструкция трансформаторных подстанций
+                </GradientHeading>
+                <p className="text-white/60 text-base my-12 ">
+                  Две ранее установленные трансформаторные подстанции мощностью
+                  2×1000 кВА не обеспечивали необходимый объём мощности для
+                  существующих и перспективных производственных нагрузок.
+                  Требовалось увеличить суммарную мощность энергоснабжения,
+                  обеспечить отказоустойчивость и гибкость в управлении
+                  нагрузками. При этом необходимо было интегрировать решение в
+                  действующую инфраструктуру предприятия, минимизируя простои и
+                  риски для производственного процесса.
+                </p>
 
                 {/* Tasks List */}
                 {[
