@@ -39,7 +39,7 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ review, isClosing, onClose }) => {
           </svg>
         </button>
 
-        <div className="flex flex-col items-start gap-4 sm:gap-6 mb-4 sm:mb-8">
+        <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-4 sm:mb-8">
           <div className="w-24 h-24 sm:w-48 sm:h-48 rounded-lg overflow-hidden bg-white flex-shrink-0">
             <Image
               src={review.image}
@@ -49,11 +49,11 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ review, isClosing, onClose }) => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="text-center sm:text-left">
-            <h3 className="text-white text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-left">
+          <div className="text-left">
+            <h3 className="text-white text-xl sm:text-2xl font-bold mb-1 sm:mb-2">
               {review.name}
             </h3>
-            <p className="text-white/70 text-base sm:text-lg text-left">
+            <p className="text-white/70 text-base sm:text-lg">
               {review.position}
             </p>
           </div>
