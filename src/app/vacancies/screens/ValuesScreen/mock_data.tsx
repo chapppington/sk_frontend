@@ -7,8 +7,8 @@ export const valuesData: IValueData[] = [
       "Стремление действовать честно, справедливо и уважительно по отношению к себе и другим",
     icon: (
       <svg
-        width="171"
-        height="119"
+        width="181"
+        height="129"
         viewBox="0 0 171 119"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
