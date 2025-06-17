@@ -6,18 +6,7 @@ interface INews {
   title: string;
   content: string;
   createdAt: string;
-}
-
-interface ICreateNewsDto {
-  category: string;
-  title: string;
-  content: string;
-}
-
-interface IUpdateNewsDto {
-  category?: string;
-  title?: string;
-  content?: string;
+  imageUrl?: string;
 }
 
 class NewsService {
@@ -27,12 +16,20 @@ class NewsService {
     return instance.get<INews[]>(this._BASE_URL);
   }
 
-  async create(data: ICreateNewsDto) {
-    return instance.post<INews>(this._BASE_URL, data);
+  async create(data: FormData) {
+    return instance.post<INews>(this._BASE_URL, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
 
-  async update(id: string, data: IUpdateNewsDto) {
-    return instance.patch<INews>(`${this._BASE_URL}/${id}`, data);
+  async update(id: string, data: FormData) {
+    return instance.patch<INews>(`${this._BASE_URL}/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
 
   async delete(id: string) {

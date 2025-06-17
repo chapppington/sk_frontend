@@ -17,6 +17,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -30,6 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Pencil, Trash2 } from "lucide-react";
 import newsService from "@/services/news.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { BACKEND_MAIN } from "@/constants";
 
 interface INews {
   id: string;
@@ -37,11 +43,15 @@ interface INews {
   title: string;
   content: string;
   createdAt: string;
+  imageUrl?: string;
 }
 
 export default function NewsManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<INews | null>(null);
+  const [deletePopoverOpen, setDeletePopoverOpen] = useState<string | null>(
+    null
+  );
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -49,6 +59,7 @@ export default function NewsManagement() {
     category: "",
     title: "",
     content: "",
+    image: undefined as File | undefined,
   });
 
   const { data: news = [], isLoading: isLoadingNews } = useQuery({
@@ -60,45 +71,41 @@ export default function NewsManagement() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: Omit<INews, "id" | "createdAt">) =>
-      newsService.create(data),
+    mutationFn: async (formData: FormData) => {
+      return newsService.create(formData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       toast({
-        title: "Success",
-        description: "News created successfully",
+        title: "Успех",
+        description: "Новость успешно создана",
       });
       setIsDialogOpen(false);
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to create news",
+        title: "Ошибка",
+        description: "Не удалось создать новость",
         variant: "destructive",
       });
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: Omit<INews, "id" | "createdAt">;
-    }) => newsService.update(id, data),
+    mutationFn: async ({ id, data }: { id: string; data: FormData }) =>
+      newsService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       toast({
-        title: "Success",
-        description: "News updated successfully",
+        title: "Успех",
+        description: "Новость успешно обновлена",
       });
       setIsDialogOpen(false);
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to update news",
+        title: "Ошибка",
+        description: "Не удалось обновить новость",
         variant: "destructive",
       });
     },
@@ -109,14 +116,14 @@ export default function NewsManagement() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
       toast({
-        title: "Success",
-        description: "News deleted successfully",
+        title: "Успех",
+        description: "Новость успешно удалена",
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to delete news",
+        title: "Ошибка",
+        description: "Не удалось удалить новость",
         variant: "destructive",
       });
     },
@@ -124,16 +131,29 @@ export default function NewsManagement() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formDataToSend = new FormData();
+    formDataToSend.append("category", formData.category);
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("content", formData.content);
+    if (formData.image) {
+      console.log("File being uploaded:", {
+        name: formData.image.name,
+        type: formData.image.type,
+        size: formData.image.size,
+      });
+      formDataToSend.append("image", formData.image);
+    }
+
     if (editingNews) {
-      updateMutation.mutate({ id: editingNews.id, data: formData });
+      updateMutation.mutate({ id: editingNews.id, data: formDataToSend });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(formDataToSend);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this news?")) return;
     deleteMutation.mutate(id);
+    setDeletePopoverOpen(null);
   };
 
   const handleEdit = (news: INews) => {
@@ -142,6 +162,7 @@ export default function NewsManagement() {
       category: news.category,
       title: news.title,
       content: news.content,
+      image: undefined,
     });
     setIsDialogOpen(true);
   };
@@ -149,22 +170,27 @@ export default function NewsManagement() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">News Management</h1>
+        <h1 className="text-2xl font-bold">Управление новостями</h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
               onClick={() => {
                 setEditingNews(null);
-                setFormData({ category: "", title: "", content: "" });
+                setFormData({
+                  category: "",
+                  title: "",
+                  content: "",
+                  image: undefined,
+                });
               }}
             >
-              Add News
+              Добавить новость
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {editingNews ? "Edit News" : "Add News"}
+                {editingNews ? "Редактировать новость" : "Добавить новость"}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -175,37 +201,59 @@ export default function NewsManagement() {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="announcement">Announcement</SelectItem>
-                  <SelectItem value="update">Update</SelectItem>
-                  <SelectItem value="event">Event</SelectItem>
+                  <SelectItem value="announcement">Объявление</SelectItem>
+                  <SelectItem value="update">Обновление</SelectItem>
+                  <SelectItem value="event">Событие</SelectItem>
                 </SelectContent>
               </Select>
               <Input
-                placeholder="Title"
+                placeholder="Заголовок"
                 value={formData.title}
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
               />
               <Textarea
-                placeholder="Content"
+                placeholder="Содержание"
                 value={formData.content}
                 onChange={(e) =>
                   setFormData({ ...formData, content: e.target.value })
                 }
               />
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Изображение</label>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setFormData({ ...formData, image: file });
+                    }
+                  }}
+                />
+                {editingNews?.imageUrl && !formData.image && (
+                  <div className="mt-2">
+                    <img
+                      src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
+                      alt="Текущее изображение новости"
+                      className="w-32 h-32 object-cover rounded"
+                    />
+                  </div>
+                )}
+              </div>
               <Button
                 type="submit"
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending
-                  ? "Saving..."
+                  ? "Сохранение..."
                   : editingNews
-                  ? "Update"
-                  : "Create"}
+                  ? "Обновить"
+                  : "Создать"}
               </Button>
             </form>
           </DialogContent>
@@ -213,21 +261,31 @@ export default function NewsManagement() {
       </div>
 
       {isLoadingNews ? (
-        <div>Loading...</div>
+        <div>Загрузка...</div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Category</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Content</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Изображение</TableHead>
+              <TableHead>Категория</TableHead>
+              <TableHead>Заголовок</TableHead>
+              <TableHead>Содержание</TableHead>
+              <TableHead>Дата создания</TableHead>
+              <TableHead>Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {news.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>
+                  {item.imageUrl && (
+                    <img
+                      src={`${BACKEND_MAIN}${item.imageUrl}`}
+                      alt={item.title}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  )}
+                </TableCell>
                 <TableCell>{item.category}</TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell className="max-w-xs truncate">
@@ -245,14 +303,48 @@ export default function NewsManagement() {
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDelete(item.id)}
-                      disabled={deleteMutation.isPending}
+                    <Popover
+                      open={deletePopoverOpen === item.id}
+                      onOpenChange={(open: boolean) =>
+                        setDeletePopoverOpen(open ? item.id : null)
+                      }
                     >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          disabled={deleteMutation.isPending}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80">
+                        <div className="space-y-4">
+                          <p className="text-sm">
+                            Вы уверены, что хотите удалить эту новость?
+                          </p>
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setDeletePopoverOpen(null)}
+                            >
+                              Отмена
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDelete(item.id)}
+                              disabled={deleteMutation.isPending}
+                            >
+                              {deleteMutation.isPending
+                                ? "Удаление..."
+                                : "Удалить"}
+                            </Button>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </TableCell>
               </TableRow>
