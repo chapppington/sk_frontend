@@ -1,6 +1,6 @@
 "use client";
 
-import { PUBLIC_PAGES } from "@/config/pages/public.config";
+import { DASHBOARD_PAGES } from "@/config/pages/dashboard.config";
 import authService from "@/services/auth/auth.service";
 import { IFormData } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ export function useAuthForm() {
     onSuccess() {
       startTransition(() => {
         reset();
-        router.push(PUBLIC_PAGES.HOME);
+        router.push(DASHBOARD_PAGES.PROFILE);
       });
     },
     onError(error) {
