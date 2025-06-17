@@ -7,6 +7,7 @@ interface INews {
   content: string;
   createdAt: string;
   imageUrl?: string;
+  readingTime: number;
 }
 
 class NewsService {

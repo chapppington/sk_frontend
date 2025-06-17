@@ -52,6 +52,7 @@ interface INews {
   content: string;
   createdAt: string;
   imageUrl?: string;
+  readingTime: number;
 }
 
 export default function NewsManagement() {
@@ -280,6 +281,7 @@ export default function NewsManagement() {
               <TableHead>Категория</TableHead>
               <TableHead>Заголовок</TableHead>
               <TableHead>Содержание</TableHead>
+              <TableHead>Время чтения</TableHead>
               <TableHead>Дата создания</TableHead>
               <TableHead>Действия</TableHead>
             </TableRow>
@@ -303,6 +305,7 @@ export default function NewsManagement() {
                 <TableCell className="max-w-xs truncate">
                   {item.content}
                 </TableCell>
+                <TableCell>{item.readingTime} мин</TableCell>
                 <TableCell>
                   {new Date(item.createdAt).toLocaleDateString()}
                 </TableCell>
