@@ -3,7 +3,7 @@ import { AuthPageWrapper } from "./AuthPageWrapper";
 
 export function AuthPage() {
   return (
-    <AuthPageWrapper heading="Sign In">
+    <AuthPageWrapper heading="Вход">
       <AuthForm />
     </AuthPageWrapper>
   );

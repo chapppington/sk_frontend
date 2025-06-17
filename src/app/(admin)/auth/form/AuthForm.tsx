@@ -17,7 +17,7 @@ export function AuthForm() {
           Email
           <input
             type="email"
-            placeholder="Enter email: "
+            placeholder="Введите email: "
             {...register("email", { required: true })}
             className={styles["input-field"]}
           />
@@ -26,10 +26,10 @@ export function AuthForm() {
 
       <div className="mb-6">
         <label className="text-gray-600">
-          Password
+          Пароль
           <input
             type="password"
-            placeholder="Enter password: "
+            placeholder="Введите пароль: "
             {...register("password", { required: true })}
             className={styles["input-field"]}
           />
@@ -54,7 +54,7 @@ export function AuthForm() {
           )}
           disabled={isLoading}
         >
-          {isLoading ? <MiniLoader /> : "Sign In"}
+          {isLoading ? <MiniLoader /> : "Войти"}
         </button>
       </div>
     </form>
