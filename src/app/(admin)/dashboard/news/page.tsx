@@ -37,6 +37,14 @@ import newsService from "@/services/news.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BACKEND_MAIN } from "@/constants";
 
+const categoryMap: Record<string, string> = {
+  all: "Все",
+  production: "Производство",
+  technology: "Технологии",
+  event: "События",
+  interview: "Интервью",
+};
+
 interface INews {
   id: string;
   category: string;
@@ -56,7 +64,7 @@ export default function NewsManagement() {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
-    category: "",
+    category: "all",
     title: "",
     content: "",
     image: undefined as File | undefined,
@@ -177,7 +185,7 @@ export default function NewsManagement() {
               onClick={() => {
                 setEditingNews(null);
                 setFormData({
-                  category: "",
+                  category: "all",
                   title: "",
                   content: "",
                   image: undefined,
@@ -204,9 +212,11 @@ export default function NewsManagement() {
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="announcement">Объявление</SelectItem>
-                  <SelectItem value="update">Обновление</SelectItem>
-                  <SelectItem value="event">Событие</SelectItem>
+                  <SelectItem value="all">Все</SelectItem>
+                  <SelectItem value="production">Производство</SelectItem>
+                  <SelectItem value="technology">Технологии</SelectItem>
+                  <SelectItem value="event">События</SelectItem>
+                  <SelectItem value="interview">Интервью</SelectItem>
                 </SelectContent>
               </Select>
               <Input
@@ -286,7 +296,9 @@ export default function NewsManagement() {
                     />
                   )}
                 </TableCell>
-                <TableCell>{item.category}</TableCell>
+                <TableCell>
+                  {categoryMap[item.category] || item.category}
+                </TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell className="max-w-xs truncate">
                   {item.content}
@@ -315,7 +327,7 @@ export default function NewsManagement() {
                           size="icon"
                           disabled={deleteMutation.isPending}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-80">
