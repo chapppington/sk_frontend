@@ -3,32 +3,28 @@
 @tailwind utilities;
 
 @theme {
-	--color-primary: var(--color-emerald-600);
-	--color-secondary: var(--color-rose-500);
+  --color-primary: var(--color-emerald-600);
+  --color-secondary: var(--color-rose-500);
 
-	--default-transition-duration: 400ms;
-	--default-transition-timing-function: ease-in-out;
-}
-
-html {
-	@apply bg-zinc-950 text-white;
+  --default-transition-duration: 400ms;
+  --default-transition-timing-function: ease-in-out;
 }
 
 body {
-	@apply px-8;
-	font-size: 20px;
-	margin: 0 auto;
+  @apply px-8 bg-white;
+  font-size: 20px;
+  margin: 0 auto;
 }
 
 input,
 button {
-	font-size: 20px;
+  font-size: 20px;
 }
 
 h1 {
-	@apply text-4xl;
+  @apply text-4xl;
 }
 
 h2 {
-	@apply text-2xl;
+  @apply text-2xl;
 }
