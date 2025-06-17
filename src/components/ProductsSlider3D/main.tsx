@@ -1,12 +1,16 @@
 "use client";
 import { useScroll,ScrollControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
 import { easing } from "maath";
 import * as THREE from 'three'
+import { gsap } from "gsap";
 import { useScrollOffset } from "./features/ScrollProviderOffset";
+import { ISectionHeaderProps } from "../ui/SliderSelectButtons/types";
+import { Power4 } from "gsap/all";
 
-function ProductsSlider3D() {
+
+function ProductsSlider3D({currentSlide,setCurrentSlide}: ISectionHeaderProps) {
   const {scrollOffset, setScrollOffset} = useScrollOffset();
 
   function Rig(props: any) {
@@ -29,8 +33,11 @@ function ProductsSlider3D() {
       <group ref={ref} {...props}/>
     );
   }
-  function Carousel({ radius = 2.4, count = 8 }) {
+  function Carousel({ radius = 2.4, count = 7 }) {
+    const targetIndex = 2;
+    
     return Array.from({ length: count }, (_, i) => (
+      
       <Model
         model={null}
         key={i}
@@ -40,12 +47,47 @@ function ProductsSlider3D() {
           0,
           Math.cos((i / count) * Math.PI * 2) * radius,
         ]}
+        // scale={i === currentSlide-1 ? 1.5 : 1}
         rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
+
       />
     ));
   }
   function Model({ model, ...props }: any) {
     const ref = useRef<THREE.Mesh>(null);
+    const targetScaleRef = useRef(1);
+    const scaleRef = useRef(new THREE.Vector3(1, 1, 1));
+
+    useEffect(() => {
+        targetScaleRef.current = props.index === currentSlide - 1 ? 1.5 : 1;
+    }, [currentSlide, props.index]);
+    useFrame((state,delta) => {
+        if (!ref.current) return;
+
+        easing.damp(
+            scaleRef.current,
+            'x',
+            targetScaleRef.current,
+            0.9,
+            delta
+        );
+        easing.damp(
+            scaleRef.current,
+            'y',
+            targetScaleRef.current,
+            0.9,
+            delta
+        );
+        easing.damp(
+            scaleRef.current,
+            'z',
+            targetScaleRef.current,
+            0.9,
+            delta
+        );
+
+        ref.current.scale.copy(scaleRef.current);
+    });
 
     const PrimitiveGeometry = ({ index }: { index: number }) => {
     switch (index % 4) {

@@ -6,6 +6,8 @@ import Scene from "@/components/3DScene/features/3dScene/Scene";
 import { useEffect } from "react";
 // import { OrbitControls } from "@react-three/drei";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
+import { WebGLRenderer } from "three";
+import { canvas } from "framer-motion/client";
 
 
 function MainScene() {
@@ -26,8 +28,12 @@ function MainScene() {
             powerPreference: "high-performance",
             stencil: false,
             depth: false,
+            outputColorSpace: THREE.SRGBColorSpace,
+            alpha: true, // Enable alpha for transparency
+            logarithmicDepthBuffer: true, // Enable logarithmic depth buffer for better depth precision
+            pixelRatio: window.devicePixelRatio, // Set pixel ratio for high DPI displays
           }}
-          dpr={[1, 2]}
+          // dpr={[1, 2]}
         >
           <Scene />
           <Camera3D />

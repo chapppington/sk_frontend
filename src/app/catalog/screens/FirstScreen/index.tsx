@@ -76,10 +76,10 @@ const FirstScreen: FC = () => {
             </GradientHeading>
           </AnimatedText>
           {/* <div className="ml-8 border border-white/30 w-[1000px] h-[600px] hidden md:block" /> */}
-       
-            <ProductsSlider3D/>
-          
-          
+
+            <ProductsSlider3D currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
+
+
         </div>
 
         {/* Bottom Content - Three-column layout */}
@@ -107,7 +107,7 @@ const FirstScreen: FC = () => {
           </div>
 
           {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
-          <SliderSelectButtons/>
+          <SliderSelectButtons currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
 
           {/* Column 3: Indicators (spans 6 cols) */}
           <div className="lg:col-span-6 hidden lg:block">

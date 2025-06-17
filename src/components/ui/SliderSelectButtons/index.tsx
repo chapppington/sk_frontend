@@ -1,17 +1,31 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect,useRef, FC } from "react";
 import { useScrollOffset } from "@/components/ProductsSlider3D/features/ScrollProviderOffset";
-
-const SliderSelectButtons = () => {
+import { gsap } from "gsap";
+import { ISectionHeaderProps } from "./types";
+import { Power4 } from "gsap/all";
+const SliderSelectButtons: FC<ISectionHeaderProps> = ({currentSlide,setCurrentSlide}) => {
     const totalSlides = 7; // Set the total number of slides
-    const [currentSlide, setCurrentSlide] = useState(1);
     const {scrollOffset, setScrollOffset} = useScrollOffset();
+    const tweenRef = useRef({ value: 0 });
+    useEffect(() => {
+        const newOffset = (currentSlide - 1) / (totalSlides);
+        gsap.to(tweenRef.current, {
+            value: newOffset,
+            duration: 0.8,
+            ease: Power4.easeOut,
+            onUpdate: () => {
+                setScrollOffset(tweenRef.current.value);
+            }
+        });
+        
+    }, [currentSlide, totalSlides, setScrollOffset]);
 
 
   // Navigation handlers
   const handleNext = () => {
     setCurrentSlide((prev) => (prev < totalSlides ? prev + 1 : 1));
-    setScrollOffset(currentSlide/totalSlides-1);
+    
   };
 
   const handlePrev = () => {
