@@ -6,7 +6,11 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#3B82F6", // Using a default blue color, you can change this to your preferred color
+      },
+    },
   },
   plugins: [],
   corePlugins: {
