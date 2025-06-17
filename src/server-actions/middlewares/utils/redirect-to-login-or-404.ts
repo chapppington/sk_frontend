@@ -9,5 +9,5 @@ export const redirectToLoginOrNotFound = (request: NextRequest) => {
 		pathname.startsWith(ADMIN_PAGES.HOME) ||
 		pathname.startsWith(ADMIN_PAGES.MANAGER)
 
-	return nextRedirect(isAdminPage ? '/404' : PUBLIC_PAGES.LOGIN, request.url)
+	return nextRedirect(isAdminPage ? '/not-found' : PUBLIC_PAGES.LOGIN, request.url)
 }

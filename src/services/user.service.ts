@@ -19,10 +19,6 @@ class UserService {
 	async fetchList() {
 		return instance.get<IUser[]>(`${this._BASE_URL}/list`)
 	}
-
-	async updateUserEmail(email: string) {
-		return instance.patch(`${this._BASE_URL}/update-email`, { email })
-	}
 }
 
 export default new UserService()
