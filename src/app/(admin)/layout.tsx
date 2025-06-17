@@ -1,20 +1,15 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./globals.css";
 import { Providers } from "./Providers";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import { AdminNav } from "./components/AdminNav";
+import { AdminLayoutContent } from "./components/AdminLayoutContent";
 
 const inter = Inter({
   subsets: ["cyrillic"],
   weight: ["300", "400", "500", "600", "700"],
 });
-
-export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Admin dashboard for managing the application",
-  robots: "noindex",
-};
 
 export default function AdminLayout({
   children,
@@ -25,10 +20,7 @@ export default function AdminLayout({
     <html lang="en" className={inter.className}>
       <body>
         <Providers>
-          <AdminNav />
-          <main className="flex min-h-screen flex-col items-center justify-between p-8">
-            {children}
-          </main>
+          <AdminLayoutContent>{children}</AdminLayoutContent>
           <Toaster />
         </Providers>
       </body>
