@@ -19,6 +19,7 @@ export function WfMid2() {
 
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
                 uRevealDistance: { value: 1000.0 },
+                uDevicePixelRatio: { value: window.devicePixelRatio },
 
                 uAlpha: { value: 0.03 },
 

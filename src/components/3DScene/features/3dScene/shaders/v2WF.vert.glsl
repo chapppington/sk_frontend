@@ -4,6 +4,7 @@ uniform vec3 uRevealPosition;
 uniform float uRevealDistance;
 uniform float uFluctuationFrequency;
 uniform float uFluctuationAmplitude;
+uniform float uDevicePixelRatio;
 
 varying vec3 vColor;
 varying float vAlpha;
@@ -24,14 +25,14 @@ void main() {
         sin(uTime * uFluctuationFrequency + worldPosition.z * uFluctuationAmplitude * 0.679) * 0.5 + 0.5;
     
     alphaFluctuation /= 3.0;
-    alphaFluctuation = alphaFluctuation * 0.9 + 0.1;
-
+    alphaFluctuation = (alphaFluctuation * 0.9 + 0.1) * uDevicePixelRatio;
     // Alpha
-    vAlpha = focusDistance * alphaFluctuation;
+    vAlpha = focusDistance * alphaFluctuation / uDevicePixelRatio;
 
     // Color
     vColor = uColor;
 
     // Return
-    gl_Position = projectionMatrix * viewMatrix * worldPosition;
+    vec4 finalPosition = projectionMatrix * viewMatrix * worldPosition;
+    gl_Position = finalPosition;
 }
