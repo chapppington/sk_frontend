@@ -3,11 +3,13 @@
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import Dropdown from "@/components/ui/Dropdown";
+import { IPortfolioItem } from "../../types";
 
-import { taskItems } from "./mock_data";
+interface TasksScreenProps {
+  portfolio: IPortfolioItem;
+}
 
-export default function TasksScreen() {
+export default function TasksScreen({ portfolio }: TasksScreenProps) {
   return (
     <section className="bg-transparent py-24 relative">
       <CustomContainer>
@@ -22,21 +24,10 @@ export default function TasksScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0">
                 {/* Heading and Description */}
-                <GradientHeading>
-                  Реконструкция трансформаторных подстанций
-                </GradientHeading>
-                <p className="text-white/60 text-base my-12 ">
-                  Две ранее установленные трансформаторные подстанции мощностью
-                  2×1000 кВА не обеспечивали необходимый объём мощности для
-                  существующих и перспективных производственных нагрузок.
-                  Требовалось увеличить суммарную мощность энергоснабжения,
-                  обеспечить отказоустойчивость и гибкость в управлении
-                  нагрузками. При этом необходимо было интегрировать решение в
-                  действующую инфраструктуру предприятия, минимизируя простои и
-                  риски для производственного процесса.
+                <GradientHeading>{portfolio.taskTitle}</GradientHeading>
+                <p className="text-white/60 text-base my-12">
+                  {portfolio.taskDescription}
                 </p>
-
-                
               </div>
             </div>
           </div>

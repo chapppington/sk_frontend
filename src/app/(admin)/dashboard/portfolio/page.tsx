@@ -36,13 +36,16 @@ interface IPortfolioItem {
   id: string;
   name: string;
   poster?: string;
+  year: number;
   taskTitle: string;
   taskDescription: string;
   solutionTitle: string;
   solutionDescription: string;
   solutionSubtitle: string;
   solutionSubdescription: string;
-  solutionImage?: string;
+  solutionImages?: string[];
+  previewVideoPath?: string;
+  fullVideoPath?: string;
   hasReview: boolean;
   reviewTitle?: string;
   reviewText?: string;
@@ -65,6 +68,7 @@ export default function PortfolioManagement() {
 
   const [formData, setFormData] = useState({
     name: "",
+    year: new Date().getFullYear(),
     taskTitle: "",
     taskDescription: "",
     solutionTitle: "",
@@ -77,8 +81,10 @@ export default function PortfolioManagement() {
     reviewName: "",
     reviewRole: "",
     poster: undefined as File | undefined,
-    solutionImage: undefined as File | undefined,
+    solutionImages: [] as File[],
     reviewImage: undefined as File | undefined,
+    previewVideo: undefined as File | undefined,
+    fullVideo: undefined as File | undefined,
   });
 
   const { data: portfolio = [], isLoading: isLoadingPortfolio } = useQuery({
@@ -152,6 +158,7 @@ export default function PortfolioManagement() {
     e.preventDefault();
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
+    formDataToSend.append("year", formData.year.toString());
     formDataToSend.append("taskTitle", formData.taskTitle);
     formDataToSend.append("taskDescription", formData.taskDescription);
     formDataToSend.append("solutionTitle", formData.solutionTitle);
@@ -173,11 +180,19 @@ export default function PortfolioManagement() {
     if (formData.poster) {
       formDataToSend.append("poster", formData.poster);
     }
-    if (formData.solutionImage) {
-      formDataToSend.append("solutionImage", formData.solutionImage);
+    if (formData.solutionImages.length > 0) {
+      formData.solutionImages.forEach((file) => {
+        formDataToSend.append("solutionImages", file);
+      });
     }
     if (formData.reviewImage) {
       formDataToSend.append("reviewImage", formData.reviewImage);
+    }
+    if (formData.previewVideo) {
+      formDataToSend.append("previewVideo", formData.previewVideo);
+    }
+    if (formData.fullVideo) {
+      formDataToSend.append("fullVideo", formData.fullVideo);
     }
 
     if (editingPortfolio) {
@@ -196,6 +211,7 @@ export default function PortfolioManagement() {
     setEditingPortfolio(portfolio);
     setFormData({
       name: portfolio.name,
+      year: portfolio.year,
       taskTitle: portfolio.taskTitle,
       taskDescription: portfolio.taskDescription,
       solutionTitle: portfolio.solutionTitle,
@@ -208,8 +224,10 @@ export default function PortfolioManagement() {
       reviewName: portfolio.reviewName || "",
       reviewRole: portfolio.reviewRole || "",
       poster: undefined,
-      solutionImage: undefined,
+      solutionImages: [],
       reviewImage: undefined,
+      previewVideo: undefined,
+      fullVideo: undefined,
     });
     setIsDialogOpen(true);
   };
@@ -225,6 +243,7 @@ export default function PortfolioManagement() {
                 setEditingPortfolio(null);
                 setFormData({
                   name: "",
+                  year: new Date().getFullYear(),
                   taskTitle: "",
                   taskDescription: "",
                   solutionTitle: "",
@@ -237,8 +256,10 @@ export default function PortfolioManagement() {
                   reviewName: "",
                   reviewRole: "",
                   poster: undefined,
-                  solutionImage: undefined,
+                  solutionImages: [],
                   reviewImage: undefined,
+                  previewVideo: undefined,
+                  fullVideo: undefined,
                 });
               }}
             >
@@ -248,7 +269,7 @@ export default function PortfolioManagement() {
           <DialogContent className="max-w-2xl h-[90vh] p-0">
             <DialogHeader className="px-6 pt-6">
               <DialogTitle>
-                {editingPortfolio ? "Редактировать проект" : "Добавить проект"}
+                {editingPortfolio ? "Редактировать проект" : "Новый проект"}
               </DialogTitle>
             </DialogHeader>
             <div
@@ -262,49 +283,45 @@ export default function PortfolioManagement() {
             >
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Основная информация</Label>
+                  <Label>Название проекта</Label>
                   <Input
-                    placeholder="Название проекта"
                     value={formData.name}
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
+                    required
                   />
-                  <div className="space-y-2">
-                    <Label>Постер проекта</Label>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFormData({ ...formData, poster: file });
-                        }
-                      }}
-                    />
-                    {editingPortfolio?.poster && !formData.poster && (
-                      <div className="mt-2">
-                        <img
-                          src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.poster}`}
-                          alt="Current poster"
-                          className="w-32 h-32 object-cover rounded"
-                        />
-                      </div>
-                    )}
-                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Задача</Label>
+                  <Label>Год</Label>
                   <Input
-                    placeholder="Заголовок задачи"
+                    type="number"
+                    value={formData.year}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        year: parseInt(e.target.value),
+                      })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Заголовок задачи</Label>
+                  <Input
                     value={formData.taskTitle}
                     onChange={(e) =>
                       setFormData({ ...formData, taskTitle: e.target.value })
                     }
+                    required
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Описание задачи</Label>
                   <Textarea
-                    placeholder="Описание задачи"
                     value={formData.taskDescription}
                     onChange={(e) =>
                       setFormData({
@@ -312,13 +329,13 @@ export default function PortfolioManagement() {
                         taskDescription: e.target.value,
                       })
                     }
+                    required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Решение</Label>
+                  <Label>Заголовок решения</Label>
                   <Input
-                    placeholder="Заголовок решения"
                     value={formData.solutionTitle}
                     onChange={(e) =>
                       setFormData({
@@ -326,9 +343,13 @@ export default function PortfolioManagement() {
                         solutionTitle: e.target.value,
                       })
                     }
+                    required
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Описание решения</Label>
                   <Textarea
-                    placeholder="Описание решения"
                     value={formData.solutionDescription}
                     onChange={(e) =>
                       setFormData({
@@ -336,9 +357,13 @@ export default function PortfolioManagement() {
                         solutionDescription: e.target.value,
                       })
                     }
+                    required
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Подзаголовок решения</Label>
                   <Input
-                    placeholder="Подзаголовок решения"
                     value={formData.solutionSubtitle}
                     onChange={(e) =>
                       setFormData({
@@ -346,9 +371,13 @@ export default function PortfolioManagement() {
                         solutionSubtitle: e.target.value,
                       })
                     }
+                    required
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Подописание решения</Label>
                   <Textarea
-                    placeholder="Подописание решения"
                     value={formData.solutionSubdescription}
                     onChange={(e) =>
                       setFormData({
@@ -356,115 +385,288 @@ export default function PortfolioManagement() {
                         solutionSubdescription: e.target.value,
                       })
                     }
+                    required
                   />
-                  <div className="space-y-2">
-                    <Label>Изображение решения</Label>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFormData({ ...formData, solutionImage: file });
-                        }
-                      }}
-                    />
-                    {editingPortfolio?.solutionImage &&
-                      !formData.solutionImage && (
-                        <div className="mt-2">
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Постер</Label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        poster: e.target.files?.[0],
+                      })
+                    }
+                  />
+                  {(editingPortfolio?.poster || formData.poster) && (
+                    <div className="mt-2 flex gap-2">
+                      {editingPortfolio?.poster && !formData.poster && (
+                        <div className="relative">
                           <img
-                            src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.solutionImage}`}
-                            alt="Current solution image"
+                            src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.poster}`}
+                            alt="Current poster"
                             className="w-32 h-32 object-cover rounded"
                           />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Текущий
+                          </span>
                         </div>
                       )}
-                  </div>
+                      {formData.poster && (
+                        <div className="relative">
+                          <img
+                            src={URL.createObjectURL(formData.poster)}
+                            alt="New poster"
+                            className="w-32 h-32 object-cover rounded"
+                          />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Новый
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Изображения решения (до 2)</Label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        solutionImages: Array.from(e.target.files || []),
+                      })
+                    }
+                  />
+                  {(editingPortfolio?.solutionImages?.length ||
+                    formData.solutionImages.length) > 0 && (
+                    <div className="mt-2 flex gap-2">
+                      {editingPortfolio?.solutionImages?.map(
+                        (image, index) =>
+                          !formData.solutionImages[index] && (
+                            <div key={image} className="relative">
+                              <img
+                                src={`${BACKEND_MAIN}/uploads/portfolio/${image}`}
+                                alt={`Current solution image ${index + 1}`}
+                                className="w-32 h-32 object-cover rounded"
+                              />
+                              <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                Текущее {index + 1}
+                              </span>
+                            </div>
+                          )
+                      )}
+                      {formData.solutionImages.map((file, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`New solution image ${index + 1}`}
+                            className="w-32 h-32 object-cover rounded"
+                          />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Новое {index + 1}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Превью видео</Label>
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        previewVideo: e.target.files?.[0],
+                      })
+                    }
+                  />
+                  {(editingPortfolio?.previewVideoPath ||
+                    formData.previewVideo) && (
+                    <div className="mt-2 flex gap-2">
+                      {editingPortfolio?.previewVideoPath &&
+                        !formData.previewVideo && (
+                          <div className="relative">
+                            <video
+                              src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.previewVideoPath}`}
+                              className="w-32 h-32 object-cover rounded"
+                              controls
+                            />
+                            <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                              Текущее
+                            </span>
+                          </div>
+                        )}
+                      {formData.previewVideo && (
+                        <div className="relative">
+                          <video
+                            src={URL.createObjectURL(formData.previewVideo)}
+                            className="w-32 h-32 object-cover rounded"
+                            controls
+                          />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Новое
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Полное видео</Label>
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        fullVideo: e.target.files?.[0],
+                      })
+                    }
+                  />
+                  {(editingPortfolio?.fullVideoPath || formData.fullVideo) && (
+                    <div className="mt-2 flex gap-2">
+                      {editingPortfolio?.fullVideoPath &&
+                        !formData.fullVideo && (
+                          <div className="relative">
+                            <video
+                              src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.fullVideoPath}`}
+                              className="w-32 h-32 object-cover rounded"
+                              controls
+                            />
+                            <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                              Текущее
+                            </span>
+                          </div>
+                        )}
+                      {formData.fullVideo && (
+                        <div className="relative">
+                          <video
+                            src={URL.createObjectURL(formData.fullVideo)}
+                            className="w-32 h-32 object-cover rounded"
+                            controls
+                          />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Новое
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Switch
-                      id="hasReview"
                       checked={formData.hasReview}
                       onCheckedChange={(checked) =>
                         setFormData({ ...formData, hasReview: checked })
                       }
                     />
-                    <Label htmlFor="hasReview">Добавить отзыв</Label>
+                    <Label>Добавить отзыв</Label>
                   </div>
+                </div>
 
-                  {formData.hasReview && (
-                    <div className="space-y-4 mt-4">
+                {formData.hasReview && (
+                  <div className="space-y-4 mt-4">
+                    <Input
+                      placeholder="Заголовок отзыва"
+                      value={formData.reviewTitle}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          reviewTitle: e.target.value,
+                        })
+                      }
+                    />
+                    <Textarea
+                      placeholder="Текст отзыва"
+                      value={formData.reviewText}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          reviewText: e.target.value,
+                        })
+                      }
+                    />
+                    <Input
+                      placeholder="Имя автора отзыва"
+                      value={formData.reviewName}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          reviewName: e.target.value,
+                        })
+                      }
+                    />
+                    <Input
+                      placeholder="Должность автора отзыва"
+                      value={formData.reviewRole}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          reviewRole: e.target.value,
+                        })
+                      }
+                    />
+                    <div className="space-y-2">
+                      <Label>Фото автора отзыва</Label>
                       <Input
-                        placeholder="Заголовок отзыва"
-                        value={formData.reviewTitle}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            reviewTitle: e.target.value,
-                          })
-                        }
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setFormData({ ...formData, reviewImage: file });
+                          }
+                        }}
                       />
-                      <Textarea
-                        placeholder="Текст отзыва"
-                        value={formData.reviewText}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            reviewText: e.target.value,
-                          })
-                        }
-                      />
-                      <Input
-                        placeholder="Имя автора отзыва"
-                        value={formData.reviewName}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            reviewName: e.target.value,
-                          })
-                        }
-                      />
-                      <Input
-                        placeholder="Должность автора отзыва"
-                        value={formData.reviewRole}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            reviewRole: e.target.value,
-                          })
-                        }
-                      />
-                      <div className="space-y-2">
-                        <Label>Фото автора отзыва</Label>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              setFormData({ ...formData, reviewImage: file });
-                            }
-                          }}
-                        />
+                    </div>
+                    {(editingPortfolio?.reviewImage ||
+                      formData.reviewImage) && (
+                      <div className="mt-2 flex gap-2">
                         {editingPortfolio?.reviewImage &&
                           !formData.reviewImage && (
-                            <div className="mt-2">
+                            <div className="relative">
                               <img
                                 src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.reviewImage}`}
                                 alt="Current review image"
                                 className="w-32 h-32 object-cover rounded"
                               />
+                              <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                Текущее
+                              </span>
                             </div>
                           )}
+                        {formData.reviewImage && (
+                          <div className="relative">
+                            <img
+                              src={URL.createObjectURL(formData.reviewImage)}
+                              alt="New review image"
+                              className="w-32 h-32 object-cover rounded"
+                            />
+                            <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                              Новое
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
 
                 <Button type="submit" className="w-full">
-                  {editingPortfolio ? "Обновить" : "Создать"}
+                  {editingPortfolio ? "Сохранить" : "Создать"}
                 </Button>
               </form>
             </div>
@@ -476,8 +678,9 @@ export default function PortfolioManagement() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Постер</TableHead>
+              <TableHead className="w-[160px]">Постер</TableHead>
               <TableHead>Название</TableHead>
+              <TableHead>Год</TableHead>
               <TableHead>Задача</TableHead>
               <TableHead>Решение</TableHead>
               <TableHead>Отзыв</TableHead>
@@ -502,14 +705,17 @@ export default function PortfolioManagement() {
                 <TableRow key={item.id}>
                   <TableCell>
                     {item.poster && (
-                      <img
-                        src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
-                        alt={item.name}
-                        className="w-16 h-16 object-cover rounded"
-                      />
+                      <div className="w-[160px] aspect-[16/9] relative">
+                        <img
+                          src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                          alt={item.name}
+                          className="w-full h-full object-cover rounded"
+                        />
+                      </div>
                     )}
                   </TableCell>
                   <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.year}</TableCell>
                   <TableCell>{item.taskTitle}</TableCell>
                   <TableCell>{item.solutionTitle}</TableCell>
                   <TableCell>{item.hasReview ? "Есть" : "Нет"}</TableCell>

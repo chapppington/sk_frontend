@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, FC } from "react";
 
-import VideoWrapper from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
+import MediaPreview from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
 import { IVideoPopupProps } from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoPopup/types";
 
 const VideoPopup: FC<IVideoPopupProps> = ({
@@ -64,7 +64,7 @@ const VideoPopup: FC<IVideoPopupProps> = ({
             ></path>
           </svg>
         </button>
-        <VideoWrapper src={videoSrc} poster={posterSrc} />
+        <MediaPreview src={videoSrc} poster={posterSrc} />
       </div>
     </div>
   );

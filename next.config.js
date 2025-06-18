@@ -14,6 +14,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "4200",
+      },
+      {
+        protocol: "https",
+        hostname: "api.testsk2.ru",
+      },
     ],
   },
   // async headers() {

@@ -5,10 +5,21 @@ import { useRef, FC } from "react";
 interface IVideoWrapperProps {
   src: string;
   poster?: string;
+  onlyShowPoster?: boolean;
 }
 
-const VideoWrapper: FC<IVideoWrapperProps> = ({ src, poster }) => {
+const MediaPreview: FC<IVideoWrapperProps> = ({
+  src,
+  poster,
+  onlyShowPoster = false,
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  if (onlyShowPoster && poster) {
+    return (
+      <img src={poster} alt="Preview" className="w-full h-full object-cover" />
+    );
+  }
 
   return (
     <video
@@ -27,4 +38,4 @@ const VideoWrapper: FC<IVideoWrapperProps> = ({ src, poster }) => {
   );
 };
 
-export default VideoWrapper;
+export default MediaPreview;

@@ -5,6 +5,10 @@ const portfolioService = {
     return instance.get("/portfolio");
   },
 
+  fetchOne: (slug: string) => {
+    return instance.get(`/portfolio/${slug}`);
+  },
+
   create: (formData: FormData) => {
     return instance.post("/portfolio", formData, {
       headers: {

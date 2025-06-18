@@ -5,11 +5,14 @@ import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
+import { IPortfolioItem } from "../../types";
+import { BACKEND_MAIN } from "@/constants";
 
-const imageUrl =
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"; // Placeholder image
+interface SolutionScreenProps {
+  portfolio: IPortfolioItem;
+}
 
-export default function SolutionScreen() {
+export default function SolutionScreen({ portfolio }: SolutionScreenProps) {
   return (
     <section className="py-24 relative text-white">
       <CustomContainer>
@@ -24,16 +27,9 @@ export default function SolutionScreen() {
             <div className="flex flex-col mx-auto">
               <div className="pl-0">
                 {/* Heading and Description */}
-                <GradientHeading>
-                  Комплексное решение для энергоснабжения
-                </GradientHeading>
-                <p className="text-white/60 text-base my-12 ">
-                  Для повышения мощности и надёжности была спроектирована и
-                  внедрена новая модульная трансформаторная подстанция,
-                  включающая 3 силовых трансформатора и 2 распределительных
-                  устройства 0,4 кВ. Конфигурация распределения предусматривала
-                  3 секции, соединённые секционными выключателями, что позволило
-                  повысить управляемость и обеспечить резервирование питания.
+                <GradientHeading>{portfolio.solutionTitle}</GradientHeading>
+                <p className="text-white/60 text-base my-12">
+                  {portfolio.solutionDescription}
                 </p>
               </div>
             </div>
@@ -43,40 +39,38 @@ export default function SolutionScreen() {
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-0 items-stretch mt-12">
           {/* Left image */}
           <div className="flex-[1.3] min-w-0">
-            <Image
-              src={imageUrl}
-              alt="Кабельные линии"
-              className="w-full h-[400px] object-cover"
-              width={800}
-              height={400}
-            />
+            {portfolio.solutionImages?.[0] && (
+              <Image
+                src={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.solutionImages[0]}`}
+                alt="Solution image 1"
+                className="w-full h-[400px] object-cover"
+                width={800}
+                height={400}
+              />
+            )}
           </div>
           {/* Center card */}
           <div className="flex-1 min-w-0 flex flex-col justify-center p-8">
             <h2 className="text-white text-3xl font-light mb-6">
-              Технические решения
+              {portfolio.solutionSubtitle}
             </h2>
             <div className="text-white/80 text-base leading-relaxed">
-              Были проложены две кабельные линии 6 кВ от РУ-2 до новой
-              подстанции общей протяжённостью около 180 метров, из которых 80
-              метров — методом горизонтального направленного бурения. В рамках
-              распределения нагрузки установлено 60 силовых автоматических
-              выключателей, размещённых в 20 ячейках с горизонтальным
-              расположением коммутационных аппаратов для питания 60 фидеров.
+              {portfolio.solutionSubdescription}
             </div>
           </div>
           {/* Right image */}
           <div className="flex-[0.7] min-w-0">
-            <Image
-              src={imageUrl}
-              alt="Распределительное устройство"
-              className="w-full h-[400px] object-cover"
-              width={800}
-              height={400}
-            />
+            {portfolio.solutionImages?.[1] && (
+              <Image
+                src={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.solutionImages[1]}`}
+                alt="Solution image 2"
+                className="w-full h-[400px] object-cover"
+                width={800}
+                height={400}
+              />
+            )}
           </div>
         </div>
-        {/* End three-column section */}
       </CustomContainer>
     </section>
   );

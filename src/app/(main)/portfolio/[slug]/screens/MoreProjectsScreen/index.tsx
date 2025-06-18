@@ -1,6 +1,9 @@
 "use client";
 
 import { FC } from "react";
+import { useQuery } from "@tanstack/react-query";
+import portfolioService from "@/services/portfolio.service";
+import { BACKEND_MAIN } from "@/constants";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -8,9 +11,36 @@ import BracketsText from "@/components/ui/BracketsText";
 import CustomSlider from "@/components/CustomSlider";
 import ProjectSlide from "./components/ProjectSlide";
 
-import { projects } from "./mock_data";
+interface IPortfolioItem {
+  id: string;
+  name: string;
+  poster?: string;
+  taskTitle: string;
+  taskDescription: string;
+  solutionTitle: string;
+  solutionDescription: string;
+  solutionSubtitle: string;
+  solutionSubdescription: string;
+  solutionImage?: string;
+  hasReview: boolean;
+  reviewTitle?: string;
+  reviewText?: string;
+  reviewName?: string;
+  reviewImage?: string;
+  reviewRole?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const MoreProjectsScreen: FC = () => {
+  const { data: projects = [], isLoading } = useQuery<IPortfolioItem[]>({
+    queryKey: ["portfolio"],
+    queryFn: async () => {
+      const { data } = await portfolioService.fetchAll();
+      return data;
+    },
+  });
+
   return (
     <section className="bg-transparent py-24 relative">
       <CustomContainer className="h-full flex flex-col relative z-10">
@@ -31,30 +61,34 @@ const MoreProjectsScreen: FC = () => {
         <div className="grid grid-cols-1 gap-4">
           {/* Projects Slider */}
           <div className="overflow-hidden">
-            <CustomSlider
-              slidesPerView={2}
-              spaceBetween={20}
-              loop={true}
-              showIndicators={true}
-              breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                },
-                768: {
-                  slidesPerView: 2,
-                },
-              }}
-            >
-              {projects.map((project) => (
-                <ProjectSlide
-                  key={project.id}
-                  id={project.id}
-                  title={project.title}
-                  image={project.image}
-                  year={project.year}
-                />
-              ))}
-            </CustomSlider>
+            {isLoading ? (
+              <div className="text-center py-8">Загрузка...</div>
+            ) : (
+              <CustomSlider
+                slidesPerView={2}
+                spaceBetween={20}
+                loop={true}
+                showIndicators={true}
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                }}
+              >
+                {projects.map((project: IPortfolioItem) => (
+                  <ProjectSlide
+                    key={project.id}
+                    id={project.id}
+                    title={project.name}
+                    image={`${BACKEND_MAIN}/uploads/portfolio/${project.poster}`}
+                    year={new Date(project.createdAt).getFullYear().toString()}
+                  />
+                ))}
+              </CustomSlider>
+            )}
           </div>
         </div>
       </CustomContainer>

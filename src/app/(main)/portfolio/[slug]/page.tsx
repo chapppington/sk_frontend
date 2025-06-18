@@ -1,21 +1,4 @@
-import FirstScreen from "@/app/(main)/portfolio/[slug]/screens/FirstScreen";
-import dynamic from "next/dynamic";
-
-const TasksScreen = dynamic(
-  () => import("@/app/(main)/portfolio/[slug]/screens/TasksScreen")
-);
-const SolutionScreen = dynamic(
-  () => import("@/app/(main)/portfolio/[slug]/screens/SolutionScreen")
-);
-const ReviewScreen = dynamic(
-  () => import("@/app/(main)/portfolio/[slug]/screens/ReviewScreen")
-);
-const MoreProjectsScreen = dynamic(
-  () => import("@/app/(main)/portfolio/[slug]/screens/MoreProjectsScreen")
-);
-const ContactUsScreen = dynamic(
-  () => import("@/components/shared_screens/ContactUsScreen")
-);
+import ClientPage from "./ClientPage";
 
 interface PortfolioPageProps {
   params: Promise<{
@@ -25,18 +8,9 @@ interface PortfolioPageProps {
 
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = await params;
-  console.log(slug);
 
-  return (
-    <main>
-      <FirstScreen />
-      <TasksScreen />
-      <SolutionScreen />
-      <ReviewScreen />
-      <MoreProjectsScreen />
-      <ContactUsScreen />
-    </main>
-  );
+  
+  return <ClientPage slug={slug} />;
 };
 
 export default PortfolioPage;

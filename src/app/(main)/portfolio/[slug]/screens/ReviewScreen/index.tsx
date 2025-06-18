@@ -1,101 +1,14 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const ReviewScreen = () => {
-  const quotesRef = useRef(null);
-  const userInfoRef = useRef(null);
-  const imageRef = useRef(null);
-  const sectionRef = useRef(null);
-
-  useGSAP(() => {
-    // Create ScrollTrigger instances
-    const quotesTrigger = gsap.fromTo(
-      quotesRef.current,
-      {
-        scale: 0.8,
-        opacity: 0,
-        rotation: -5,
-        y: 50,
-      },
-      {
-        scale: 1,
-        opacity: 1,
-        rotation: 0,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-
-    const userInfoTrigger = gsap.fromTo(
-      userInfoRef.current,
-      {
-        opacity: 0,
-        y: 50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-
-    const imageTrigger = gsap.fromTo(
-      imageRef.current,
-      {
-        scale: 0.9,
-        opacity: 0,
-      },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-
-    // Cleanup function
-    return () => {
-      // Kill all ScrollTrigger instances
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      // Kill the animations
-      quotesTrigger.kill();
-      userInfoTrigger.kill();
-      imageTrigger.kill();
-    };
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative flex flex-col justify-center overflow-hidden"
-    >
+    <section className="relative flex flex-col justify-center overflow-hidden">
       {/* Main Content in CustomContainer */}
       <CustomContainer className="relative z-10 flex flex-col py-24">
         {/* Section Label - Left Aligned, On Top */}
@@ -118,7 +31,7 @@ const ReviewScreen = () => {
           {/* Right: Testimonial */}
           <div className="flex-1 flex flex-col items-start">
             {/* Big fat commas SVG */}
-            <div className="mb-12" ref={quotesRef}>
+            <div className="mb-12">
               <svg
                 width="64"
                 height="54"
@@ -153,9 +66,9 @@ const ReviewScreen = () => {
               решений»
             </blockquote>
             {/* User Info */}
-            <div ref={userInfoRef} className="flex items-center gap-4 mt-6">
+            <div className="flex items-center gap-4 mt-6">
               <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-gray-700">
-                <div ref={imageRef} className="w-full h-full">
+                <div className="w-full h-full">
                   <Image
                     src="https://randomuser.me/api/portraits/men/32.jpg"
                     alt="avatar"
