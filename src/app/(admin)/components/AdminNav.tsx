@@ -55,11 +55,11 @@ export function AdminNav() {
           </Link>
         </div>
         <Button
-          variant="outline"
+          variant="destructive"
           onClick={() => mutateLogout()}
           disabled={isLogoutLoading}
         >
-          {isLogoutLoading ? <MiniLoader /> : "Logout"}
+          {isLogoutLoading ? <MiniLoader /> : "Выйти"}
         </Button>
       </div>
     </nav>

@@ -36,6 +36,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import newsService from "@/services/news.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BACKEND_MAIN } from "@/constants";
+import Image from "next/image";
 
 const categoryMap: Record<string, string> = {
   all: "Все",
@@ -202,38 +203,51 @@ export default function NewsManagement() {
                 {editingNews ? "Редактировать новость" : "Добавить новость"}
               </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Select
-                value={formData.category}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, category: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Выберите категорию" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Все</SelectItem>
-                  <SelectItem value="production">Производство</SelectItem>
-                  <SelectItem value="technology">Технологии</SelectItem>
-                  <SelectItem value="event">События</SelectItem>
-                  <SelectItem value="interview">Интервью</SelectItem>
-                </SelectContent>
-              </Select>
-              <Input
-                placeholder="Заголовок"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-              />
-              <Textarea
-                placeholder="Содержание"
-                value={formData.content}
-                onChange={(e) =>
-                  setFormData({ ...formData, content: e.target.value })
-                }
-              />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Категория</label>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, category: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Выберите категорию" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Все</SelectItem>
+                    <SelectItem value="production">Производство</SelectItem>
+                    <SelectItem value="technology">Технологии</SelectItem>
+                    <SelectItem value="event">События</SelectItem>
+                    <SelectItem value="interview">Интервью</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Заголовок</label>
+                <Input
+                  placeholder="Введите заголовок новости"
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Содержание</label>
+                <Textarea
+                  placeholder="Введите содержание новости"
+                  value={formData.content}
+                  onChange={(e) =>
+                    setFormData({ ...formData, content: e.target.value })
+                  }
+                  className="min-h-[200px]"
+                />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Изображение</label>
                 <Input
@@ -248,24 +262,48 @@ export default function NewsManagement() {
                 />
                 {editingNews?.imageUrl && !formData.image && (
                   <div className="mt-2">
-                    <img
-                      src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
-                      alt="Текущее изображение новости"
-                      className="w-32 h-32 object-cover rounded"
-                    />
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Текущее изображение:
+                    </p>
+                    <div className="relative aspect-[16/9] w-[320px]">
+                      <Image
+                        src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
+                        alt="Current news image"
+                        fill
+                        className="object-cover rounded-md"
+                      />
+                    </div>
+                  </div>
+                )}
+                {formData.image && (
+                  <div className="mt-2">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Новое изображение:
+                    </p>
+                    <div className="relative aspect-[16/9] w-[320px]">
+                      <Image
+                        src={URL.createObjectURL(formData.image)}
+                        alt="New news image"
+                        fill
+                        className="object-cover rounded-md"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
-              <Button
-                type="submit"
-                disabled={createMutation.isPending || updateMutation.isPending}
-              >
-                {createMutation.isPending || updateMutation.isPending
-                  ? "Сохранение..."
-                  : editingNews
-                  ? "Обновить"
-                  : "Создать"}
-              </Button>
+
+              <div className="flex justify-end space-x-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Отмена
+                </Button>
+                <Button type="submit">
+                  {editingNews ? "Сохранить" : "Создать"}
+                </Button>
+              </div>
             </form>
           </DialogContent>
         </Dialog>
@@ -274,98 +312,111 @@ export default function NewsManagement() {
       {isLoadingNews ? (
         <div>Загрузка...</div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Изображение</TableHead>
-              <TableHead>Категория</TableHead>
-              <TableHead>Заголовок</TableHead>
-              <TableHead>Содержание</TableHead>
-              <TableHead>Время чтения</TableHead>
-              <TableHead>Дата создания</TableHead>
-              <TableHead>Действия</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {news.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>
-                  {item.imageUrl && (
-                    <img
-                      src={`${BACKEND_MAIN}${item.imageUrl}`}
-                      alt={item.title}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {categoryMap[item.category] || item.category}
-                </TableCell>
-                <TableCell>{item.title}</TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {item.content}
-                </TableCell>
-                <TableCell>{item.readingTime} мин</TableCell>
-                <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleEdit(item)}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Popover
-                      open={deletePopoverOpen === item.id}
-                      onOpenChange={(open: boolean) =>
-                        setDeletePopoverOpen(open ? item.id : null)
-                      }
-                    >
-                      <PopoverTrigger asChild>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[160px]">Изображение</TableHead>
+                <TableHead>Категория</TableHead>
+                <TableHead>Заголовок</TableHead>
+                <TableHead>Содержание</TableHead>
+                <TableHead>Время чтения</TableHead>
+                <TableHead>Дата создания</TableHead>
+                <TableHead>Действия</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {news.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center">
+                    Нет новостей
+                  </TableCell>
+                </TableRow>
+              ) : (
+                news.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {item.imageUrl && (
+                        <div className="w-[160px] aspect-[16/9] relative">
+                          <Image
+                            src={`${BACKEND_MAIN}${item.imageUrl}`}
+                            alt={item.title}
+                            fill
+                            className="object-cover rounded"
+                          />
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {categoryMap[item.category] || item.category}
+                    </TableCell>
+                    <TableCell>{item.title}</TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {item.content}
+                    </TableCell>
+                    <TableCell>{item.readingTime} мин</TableCell>
+                    <TableCell>
+                      {new Date(item.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
                         <Button
                           variant="ghost"
                           size="icon"
-                          disabled={deleteMutation.isPending}
+                          onClick={() => handleEdit(item)}
                         >
-                          <Trash2 className="h-4 w-4 text-red-500" />
+                          <Pencil className="h-4 w-4" />
                         </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-80">
-                        <div className="space-y-4">
-                          <p className="text-sm">
-                            Вы уверены, что хотите удалить эту новость?
-                          </p>
-                          <div className="flex justify-end space-x-2">
+                        <Popover
+                          open={deletePopoverOpen === item.id}
+                          onOpenChange={(open: boolean) =>
+                            setDeletePopoverOpen(open ? item.id : null)
+                          }
+                        >
+                          <PopoverTrigger asChild>
                             <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setDeletePopoverOpen(null)}
-                            >
-                              Отмена
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => handleDelete(item.id)}
+                              variant="ghost"
+                              size="icon"
                               disabled={deleteMutation.isPending}
                             >
-                              {deleteMutation.isPending
-                                ? "Удаление..."
-                                : "Удалить"}
+                              <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
-                          </div>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-80">
+                            <div className="space-y-4">
+                              <p className="text-sm">
+                                Вы уверены, что хотите удалить эту новость?
+                              </p>
+                              <div className="flex justify-end space-x-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setDeletePopoverOpen(null)}
+                                >
+                                  Отмена
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => handleDelete(item.id)}
+                                  disabled={deleteMutation.isPending}
+                                >
+                                  {deleteMutation.isPending
+                                    ? "Удаление..."
+                                    : "Удалить"}
+                                </Button>
+                              </div>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );

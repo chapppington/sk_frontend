@@ -10,27 +10,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomSlider from "@/components/CustomSlider";
 import ProjectSlide from "./components/ProjectSlide";
-
-interface IPortfolioItem {
-  id: string;
-  name: string;
-  poster?: string;
-  taskTitle: string;
-  taskDescription: string;
-  solutionTitle: string;
-  solutionDescription: string;
-  solutionSubtitle: string;
-  solutionSubdescription: string;
-  solutionImage?: string;
-  hasReview: boolean;
-  reviewTitle?: string;
-  reviewText?: string;
-  reviewName?: string;
-  reviewImage?: string;
-  reviewRole?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { IPortfolioItem } from "../../types";
 
 const MoreProjectsScreen: FC = () => {
   const { data: projects = [], isLoading } = useQuery<IPortfolioItem[]>({
@@ -84,7 +64,7 @@ const MoreProjectsScreen: FC = () => {
                     id={project.id}
                     title={project.name}
                     image={`${BACKEND_MAIN}/uploads/portfolio/${project.poster}`}
-                    year={new Date(project.createdAt).getFullYear().toString()}
+                    year={String(project.year)}
                   />
                 ))}
               </CustomSlider>

@@ -408,7 +408,7 @@ export default function PortfolioManagement() {
                           <img
                             src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.poster}`}
                             alt="Current poster"
-                            className="w-32 h-32 object-cover rounded"
+                            className="w-32 aspect-[16/9] object-cover rounded"
                           />
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                             Текущий
@@ -420,7 +420,7 @@ export default function PortfolioManagement() {
                           <img
                             src={URL.createObjectURL(formData.poster)}
                             alt="New poster"
-                            className="w-32 h-32 object-cover rounded"
+                            className="w-32 aspect-[16/9] object-cover rounded"
                           />
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                             Новый
@@ -454,7 +454,7 @@ export default function PortfolioManagement() {
                               <img
                                 src={`${BACKEND_MAIN}/uploads/portfolio/${image}`}
                                 alt={`Current solution image ${index + 1}`}
-                                className="w-32 h-32 object-cover rounded"
+                                className="w-32 aspect-[16/9] object-cover rounded"
                               />
                               <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                 Текущее {index + 1}
@@ -467,7 +467,7 @@ export default function PortfolioManagement() {
                           <img
                             src={URL.createObjectURL(file)}
                             alt={`New solution image ${index + 1}`}
-                            className="w-32 h-32 object-cover rounded"
+                            className="w-32 aspect-[16/9] object-cover rounded"
                           />
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                             Новое {index + 1}
@@ -641,7 +641,7 @@ export default function PortfolioManagement() {
                               <img
                                 src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.reviewImage}`}
                                 alt="Current review image"
-                                className="w-32 h-32 object-cover rounded"
+                                className="w-32 aspect-[16/9] object-cover rounded"
                               />
                               <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                 Текущее
@@ -653,7 +653,7 @@ export default function PortfolioManagement() {
                             <img
                               src={URL.createObjectURL(formData.reviewImage)}
                               alt="New review image"
-                              className="w-32 h-32 object-cover rounded"
+                              className="w-32 aspect-[16/9] object-cover rounded"
                             />
                             <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                               Новое
