@@ -22,6 +22,12 @@ export function AdminNav() {
           >
             Новости
           </Link>
+          <Link
+            href="/dashboard/portfolio"
+            className="text-sm font-medium hover:text-primary"
+          >
+            Портфолио
+          </Link>
         </div>
         <Button
           variant="outline"

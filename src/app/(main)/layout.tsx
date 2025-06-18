@@ -4,6 +4,7 @@ import Footer from "@/components/shared_screens/Footer";
 import ConditionalBGGradient from "@/components/ui/BackgroundGradient/ConditionalBackgroundGradient";
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 import CustomScrollbar from "@/components/CustomScrollbar";
+import "./globals.css";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
