@@ -3,7 +3,7 @@
 import "./globals.css";
 import { Providers } from "./Providers";
 import { Inter } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/shadcn/toaster";
 import { AdminLayoutContent } from "./components/AdminLayoutContent";
 
 const inter = Inter({
