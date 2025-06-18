@@ -22,11 +22,11 @@ const ContactUsScreen = dynamic(
   () => import("@/components/shared_screens/ContactUsScreen")
 );
 
-interface ClientPageProps {
+interface PortfolioDetailsProps {
   slug: string;
 }
 
-const ClientPage = ({ slug }: ClientPageProps) => {
+const PortfolioDetails = ({ slug }: PortfolioDetailsProps) => {
   const { data: portfolio, isLoading } = useQuery<IPortfolioItem>({
     queryKey: ["portfolio", slug],
     queryFn: async () => {
@@ -55,4 +55,4 @@ const ClientPage = ({ slug }: ClientPageProps) => {
   );
 };
 
-export default ClientPage;
+export default PortfolioDetails;

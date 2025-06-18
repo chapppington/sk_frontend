@@ -1,4 +1,4 @@
-import ClientPage from "./ClientPage";
+import PortfolioDetails from "./PortfolioDetails";
 
 interface PortfolioPageProps {
   params: Promise<{
@@ -9,8 +9,8 @@ interface PortfolioPageProps {
 const PortfolioPage = async ({ params }: PortfolioPageProps) => {
   const { slug } = await params;
 
-  
-  return <ClientPage slug={slug} />;
+
+  return <PortfolioDetails slug={slug} />;
 };
 
 export default PortfolioPage;
