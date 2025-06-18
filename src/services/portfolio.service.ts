@@ -6,7 +6,7 @@ const portfolioService = {
   },
 
   fetchOne: (slug: string) => {
-    return instance.get(`/portfolio/${slug}`);
+    return instance.get(`/portfolio/slug/${slug}`);
   },
 
   create: (formData: FormData) => {
