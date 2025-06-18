@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/shadcn/button";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { PUBLIC_PAGES } from "@/config/pages/public.config";
-import { useProfile } from "@/hooks/useProfile";
 import authService from "@/services/auth/auth.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MiniLoader } from "@/components/ui/MiniLoader";
