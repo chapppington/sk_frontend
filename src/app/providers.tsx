@@ -3,7 +3,7 @@
 import { ReactNode, useState } from "react";
 import ReactLenis from "lenis/react";
 import { ViewTransitions } from "next-view-transitions";
-import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
+import { PageTransitionProvider } from "@/context/PageTransitionProvider";
 import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

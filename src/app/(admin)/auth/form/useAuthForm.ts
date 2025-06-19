@@ -2,7 +2,7 @@
 
 import { DASHBOARD_PAGES } from "@/config/pages/dashboard.config";
 import authService from "@/services/auth/auth.service";
-import { IFormData } from "@/types/auth.types";
+import { IFormData } from "@/shared/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";

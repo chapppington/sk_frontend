@@ -10,9 +10,9 @@ import CategoryButton from "@/components/ui/CategoryButton";
 import SelectDropdown from "@/components/ui/SelectDropdown";
 import NewsGridItem from "./components/NewsGridItem";
 import Pagination from "@/components/ui/Pagination";
-import { FilterIcon } from "@/icons/FilterIcon";
-import { SortIcon } from "@/icons/SortIcon";
-import { SearchIcon } from "@/icons/SearchIcon";
+import { FilterIcon } from "@/shared/icons/FilterIcon";
+import { SortIcon } from "@/shared/icons/SortIcon";
+import { SearchIcon } from "@/shared/icons/SearchIcon";
 import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 
 import type { SortOption, QueryParams } from "./types";

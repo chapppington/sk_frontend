@@ -2,9 +2,9 @@ import { FC } from "react";
 
 import Input from "@/components/ui/Input";
 import MainButton from "@/components/ui/MainButton";
-import PaperClipIcon from "@/icons/PaperClipIcon";
+import PaperClipIcon from "@/shared/icons/PaperClipIcon";
 
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import { formatPhoneNumber } from "@/shared/utils/formatPhoneNumber";
 import { IContactFormData } from "../types";
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE, sanitizeFileName } from "../utils";
 import { VacancyFormProps } from "./types";

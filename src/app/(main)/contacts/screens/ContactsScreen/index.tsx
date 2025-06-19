@@ -9,9 +9,9 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import Input from "@/components/ui/Input";
 import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
-import PhoneIcon from "@/icons/PhoneIcon";
-import EmailIcon from "@/icons/EmailIcon";
-import LocationIcon from "@/icons/LocationIcon";
+import PhoneIcon from "@/shared/icons/PhoneIcon";
+import EmailIcon from "@/shared/icons/EmailIcon";
+import LocationIcon from "@/shared/icons/LocationIcon";
 
 const Contacts: FC = () => {
   return (

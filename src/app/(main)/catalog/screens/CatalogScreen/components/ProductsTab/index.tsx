@@ -10,7 +10,7 @@ import CategoryButton from "@/components/ui/CategoryButton";
 import Pagination from "@/components/ui/Pagination";
 import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 import SearchBar from "@/components/ui/SearchBar";
-import { SearchIcon } from "@/icons/SearchIcon";
+import { SearchIcon } from "@/shared/icons/SearchIcon";
 import ProductCard from "../ProductCard";
 
 import { productCategories, products } from "../../mock_data";

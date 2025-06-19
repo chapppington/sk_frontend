@@ -1,5 +1,5 @@
 import type { NavigationButtonProps } from "./types";
-import { ChevronIcon } from "@/icons/ChevronIcon";
+import { ChevronIcon } from "@/shared/icons/ChevronIcon";
 
 export const NavigationButton = ({
   direction,

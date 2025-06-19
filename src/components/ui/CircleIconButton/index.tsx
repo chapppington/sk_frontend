@@ -3,7 +3,7 @@
 import { FC, ButtonHTMLAttributes } from "react";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { ICircleIconButtonProps } from "./types";
-import CircleWithArrowIcon from "@/icons/CircleWithArrowIcon";
+import CircleWithArrowIcon from "@/shared/icons/CircleWithArrowIcon";
 
 const CircleIconButton: FC<ICircleIconButtonProps> = ({
   href,

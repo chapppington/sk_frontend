@@ -5,6 +5,7 @@ export interface INewsItem {
   date: string;
   readTime: string;
   description: string;
+  shortContent?: string;
   image: string;
   slug: string;
 }

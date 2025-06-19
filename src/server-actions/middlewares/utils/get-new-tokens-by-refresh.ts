@@ -1,27 +1,27 @@
-'use server'
+"use server";
 
-import { API_URL } from '@/constants'
-import { IUser } from '@/types/user.types'
+import { API_URL } from "@/constants";
+import { IUser } from "@/shared/types/user.types";
 
 interface IAuthResponse {
-	user: IUser
-	accessToken: string
+  user: IUser;
+  accessToken: string;
 }
 
 export async function getNewTokensByRefresh(refreshToken: string) {
-	const response = await fetch(`${API_URL}/auth/access-token`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Cookie: `refreshToken=${refreshToken}`
-		},
-		credentials: 'include'
-	})
+  const response = await fetch(`${API_URL}/auth/access-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `refreshToken=${refreshToken}`,
+    },
+    credentials: "include",
+  });
 
-	if (!response.ok) {
-		throw new Error('Failed to fetch new tokens')
-	}
+  if (!response.ok) {
+    throw new Error("Failed to fetch new tokens");
+  }
 
-	const data: IAuthResponse = await response.json()
-	return data
+  const data: IAuthResponse = await response.json();
+  return data;
 }

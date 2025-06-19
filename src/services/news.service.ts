@@ -1,14 +1,5 @@
 import { instance } from "@/api/axios";
-
-interface INews {
-  id: string;
-  category: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  imageUrl?: string;
-  readingTime: number;
-}
+import type { INews } from "@/shared/types/news.types";
 
 class NewsService {
   private _BASE_URL = "/news";

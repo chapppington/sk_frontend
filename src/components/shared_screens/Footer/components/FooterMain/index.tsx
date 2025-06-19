@@ -3,9 +3,9 @@
 import { FC } from "react";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
 import { companyAddress, contactBlocks } from "../../mock_data";
-import PhoneIcon from "@/icons/PhoneIcon";
-import EmailIcon from "@/icons/EmailIcon";
-import LocationIcon from "@/icons/LocationIcon";
+import PhoneIcon from "@/shared/icons/PhoneIcon";
+import EmailIcon from "@/shared/icons/EmailIcon";
+import LocationIcon from "@/shared/icons/LocationIcon";
 
 const FooterMain: FC = () => {
   return (

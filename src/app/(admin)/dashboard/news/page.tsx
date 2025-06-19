@@ -37,6 +37,7 @@ import newsService from "@/services/news.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
+import type { INews } from "@/shared/types/news.types";
 
 const categoryMap: Record<string, string> = {
   all: "Все",
@@ -45,16 +46,6 @@ const categoryMap: Record<string, string> = {
   event: "События",
   interview: "Интервью",
 };
-
-interface INews {
-  id: string;
-  category: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  imageUrl?: string;
-  readingTime: number;
-}
 
 export default function NewsManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -70,6 +61,7 @@ export default function NewsManagement() {
     title: "",
     content: "",
     image: undefined as File | undefined,
+    shortContent: "",
   });
 
   const { data: news = [], isLoading: isLoadingNews } = useQuery({
@@ -145,6 +137,7 @@ export default function NewsManagement() {
     formDataToSend.append("category", formData.category);
     formDataToSend.append("title", formData.title);
     formDataToSend.append("content", formData.content);
+    formDataToSend.append("shortContent", formData.shortContent);
     if (formData.image) {
       console.log("File being uploaded:", {
         name: formData.image.name,
@@ -173,6 +166,7 @@ export default function NewsManagement() {
       title: news.title,
       content: news.content,
       image: undefined,
+      shortContent: news.shortContent || "",
     });
     setIsDialogOpen(true);
   };
@@ -191,6 +185,7 @@ export default function NewsManagement() {
                   title: "",
                   content: "",
                   image: undefined,
+                  shortContent: "",
                 });
               }}
             >
@@ -198,113 +193,137 @@ export default function NewsManagement() {
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {editingNews ? "Редактировать новость" : "Добавить новость"}
-              </DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Категория</label>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, category: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Выберите категорию" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Все</SelectItem>
-                    <SelectItem value="production">Производство</SelectItem>
-                    <SelectItem value="technology">Технологии</SelectItem>
-                    <SelectItem value="event">События</SelectItem>
-                    <SelectItem value="interview">Интервью</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Заголовок</label>
-                <Input
-                  placeholder="Введите заголовок новости"
-                  value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Содержание</label>
-                <Textarea
-                  placeholder="Введите содержание новости"
-                  value={formData.content}
-                  onChange={(e) =>
-                    setFormData({ ...formData, content: e.target.value })
-                  }
-                  className="min-h-[200px]"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Изображение</label>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setFormData({ ...formData, image: file });
+            <div
+              className="max-h-[70vh] overflow-y-auto"
+              onWheel={(e) => {
+                e.stopPropagation();
+                const container = e.currentTarget;
+                const delta = e.deltaY;
+                container.scrollTop += delta;
+              }}
+            >
+              <DialogHeader>
+                <DialogTitle>
+                  {editingNews ? "Редактировать новость" : "Добавить новость"}
+                </DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Категория</label>
+                  <Select
+                    value={formData.category}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, category: value })
                     }
-                  }}
-                />
-                {editingNews?.imageUrl && !formData.image && (
-                  <div className="mt-2">
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Текущее изображение:
-                    </p>
-                    <div className="relative aspect-[16/9] w-[320px]">
-                      <Image
-                        src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
-                        alt="Current news image"
-                        fill
-                        className="object-cover rounded-md"
-                      />
-                    </div>
-                  </div>
-                )}
-                {formData.image && (
-                  <div className="mt-2">
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Новое изображение:
-                    </p>
-                    <div className="relative aspect-[16/9] w-[320px]">
-                      <Image
-                        src={URL.createObjectURL(formData.image)}
-                        alt="New news image"
-                        fill
-                        className="object-cover rounded-md"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Выберите категорию" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Все</SelectItem>
+                      <SelectItem value="production">Производство</SelectItem>
+                      <SelectItem value="technology">Технологии</SelectItem>
+                      <SelectItem value="event">События</SelectItem>
+                      <SelectItem value="interview">Интервью</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="flex justify-end space-x-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Отмена
-                </Button>
-                <Button type="submit">
-                  {editingNews ? "Сохранить" : "Создать"}
-                </Button>
-              </div>
-            </form>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Заголовок</label>
+                  <Input
+                    placeholder="Введите заголовок новости"
+                    value={formData.title}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Содержание</label>
+                  <Textarea
+                    placeholder="Введите содержание новости"
+                    value={formData.content}
+                    onChange={(e) =>
+                      setFormData({ ...formData, content: e.target.value })
+                    }
+                    className="min-h-[200px]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">
+                    Краткое содержание
+                  </label>
+                  <Textarea
+                    placeholder="Введите краткое содержание новости"
+                    value={formData.shortContent}
+                    onChange={(e) =>
+                      setFormData({ ...formData, shortContent: e.target.value })
+                    }
+                    className="min-h-[80px]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Изображение</label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setFormData({ ...formData, image: file });
+                      }
+                    }}
+                  />
+                  {editingNews?.imageUrl && !formData.image && (
+                    <div className="mt-2">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Текущее изображение:
+                      </p>
+                      <div className="relative aspect-[16/9] w-[320px]">
+                        <Image
+                          src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
+                          alt="Current news image"
+                          fill
+                          className="object-cover rounded-md"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {formData.image && (
+                    <div className="mt-2">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Новое изображение:
+                      </p>
+                      <div className="relative aspect-[16/9] w-[320px]">
+                        <Image
+                          src={URL.createObjectURL(formData.image)}
+                          alt="New news image"
+                          fill
+                          className="object-cover rounded-md"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-end space-x-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
+                    Отмена
+                  </Button>
+                  <Button type="submit">
+                    {editingNews ? "Сохранить" : "Создать"}
+                  </Button>
+                </div>
+              </form>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -320,6 +339,7 @@ export default function NewsManagement() {
                 <TableHead>Категория</TableHead>
                 <TableHead>Заголовок</TableHead>
                 <TableHead>Содержание</TableHead>
+                <TableHead>Краткое содержание</TableHead>
                 <TableHead>Время чтения</TableHead>
                 <TableHead>Дата создания</TableHead>
                 <TableHead>Действия</TableHead>
@@ -353,6 +373,9 @@ export default function NewsManagement() {
                     <TableCell>{item.title}</TableCell>
                     <TableCell className="max-w-xs truncate">
                       {item.content}
+                    </TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {item.shortContent}
                     </TableCell>
                     <TableCell>{item.readingTime} мин</TableCell>
                     <TableCell>
