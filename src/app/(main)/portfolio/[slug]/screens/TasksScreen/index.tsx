@@ -3,20 +3,20 @@
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BracketsText from "@/components/ui/BracketsText";
-import { IPortfolioItem } from "../../types";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
-interface TasksScreenProps {
+interface Props {
   portfolio: IPortfolioItem;
 }
 
-export default function TasksScreen({ portfolio }: TasksScreenProps) {
+export default function TasksScreen({ portfolio }: Props) {
   return (
     <section className="bg-transparent py-24 relative">
       <CustomContainer>
         <div className="flex flex-col lg:flex-row">
           {/* Sidebar */}
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
-            <BracketsText className="text-white/60 mb-8">ЗАДАЧИ</BracketsText>
+            <BracketsText className="text-white/60 mb-8">ЗАДАЧА</BracketsText>
           </div>
 
           {/* Main Content */}

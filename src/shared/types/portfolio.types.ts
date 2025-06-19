@@ -1,8 +1,9 @@
 export interface IPortfolioItem {
   id: string;
   name: string;
-  poster?: string;
+  poster: string;
   year: number;
+  description: string;
   taskTitle: string;
   taskDescription: string;
   solutionTitle: string;

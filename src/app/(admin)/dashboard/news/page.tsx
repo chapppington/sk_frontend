@@ -338,7 +338,6 @@ export default function NewsManagement() {
                 <TableHead className="w-[160px]">Изображение</TableHead>
                 <TableHead>Категория</TableHead>
                 <TableHead>Заголовок</TableHead>
-                <TableHead>Содержание</TableHead>
                 <TableHead>Краткое содержание</TableHead>
                 <TableHead>Время чтения</TableHead>
                 <TableHead>Дата создания</TableHead>
@@ -371,9 +370,6 @@ export default function NewsManagement() {
                       {categoryMap[item.category] || item.category}
                     </TableCell>
                     <TableCell>{item.title}</TableCell>
-                    <TableCell className="max-w-xs truncate">
-                      {item.content}
-                    </TableCell>
                     <TableCell className="max-w-xs truncate">
                       {item.shortContent}
                     </TableCell>

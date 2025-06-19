@@ -46,6 +46,7 @@ export default function PortfolioManagement() {
   const [formData, setFormData] = useState({
     name: "",
     year: new Date().getFullYear(),
+    description: "",
     taskTitle: "",
     taskDescription: "",
     solutionTitle: "",
@@ -136,6 +137,7 @@ export default function PortfolioManagement() {
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("year", formData.year.toString());
+    formDataToSend.append("description", formData.description);
     formDataToSend.append("taskTitle", formData.taskTitle);
     formDataToSend.append("taskDescription", formData.taskDescription);
     formDataToSend.append("solutionTitle", formData.solutionTitle);
@@ -189,6 +191,7 @@ export default function PortfolioManagement() {
     setFormData({
       name: portfolio.name,
       year: portfolio.year,
+      description: portfolio.description,
       taskTitle: portfolio.taskTitle,
       taskDescription: portfolio.taskDescription,
       solutionTitle: portfolio.solutionTitle,
@@ -221,6 +224,7 @@ export default function PortfolioManagement() {
                 setFormData({
                   name: "",
                   year: new Date().getFullYear(),
+                  description: "",
                   taskTitle: "",
                   taskDescription: "",
                   solutionTitle: "",
@@ -280,6 +284,17 @@ export default function PortfolioManagement() {
                         ...formData,
                         year: parseInt(e.target.value),
                       })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Описание проекта</Label>
+                  <Textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
                     }
                     required
                   />
@@ -658,8 +673,7 @@ export default function PortfolioManagement() {
               <TableHead className="w-[160px]">Постер</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Год</TableHead>
-              <TableHead>Задача</TableHead>
-              <TableHead>Решение</TableHead>
+              <TableHead>Описание</TableHead>
               <TableHead>Отзыв</TableHead>
               <TableHead>Действия</TableHead>
             </TableRow>
@@ -693,8 +707,11 @@ export default function PortfolioManagement() {
                   </TableCell>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.year}</TableCell>
-                  <TableCell>{item.taskTitle}</TableCell>
-                  <TableCell>{item.solutionTitle}</TableCell>
+                  <TableCell>
+                    {item.description.length > 100
+                      ? item.description.slice(0, 100) + "..."
+                      : item.description}
+                  </TableCell>
                   <TableCell>{item.hasReview ? "Есть" : "Нет"}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">

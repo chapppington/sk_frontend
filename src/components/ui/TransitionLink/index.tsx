@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { useTransitionRouter } from "next-view-transitions";
 
+import { useTransitionRouter } from "next-view-transitions";
 import { usePageTransition } from "@/context/PageTransitionProvider";
 import { ITransitionLinkProps } from "@/components/ui/TransitionLink/types";
 

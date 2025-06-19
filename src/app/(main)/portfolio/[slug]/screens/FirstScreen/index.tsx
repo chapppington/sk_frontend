@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import { IPortfolioItem } from "../../types";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -36,7 +36,7 @@ const FirstScreen = ({ portfolio }: FirstScreenProps) => {
           </div>
           <div>
             <div className="max-w-xl text-white/60 text-lg md:text-base">
-              {portfolio.taskDescription}
+              {portfolio.description}
             </div>
           </div>
         </div>

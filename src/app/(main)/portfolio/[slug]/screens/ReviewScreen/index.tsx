@@ -8,11 +8,11 @@ import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import BigFatCommaIcon from "@/shared/icons/BigFatCommaIcon";
 import { BACKEND_MAIN } from "@/constants";
 
-interface ReviewScreenProps {
+interface Props {
   portfolio: IPortfolioItem;
 }
 
-const ReviewScreen = ({ portfolio }: ReviewScreenProps) => {
+const ReviewScreen = ({ portfolio }: Props) => {
   return (
     <section className="relative flex flex-col justify-center overflow-hidden">
       {/* Main Content in CustomContainer */}
