@@ -21,7 +21,7 @@ function MainScene() {
             position: "absolute",
             top: 0,
           }}
-          camera={{ position: [0, 0, 10], fov: 70, near: 0.1, far: 10000 }}
+          camera={{ position: [0, 0, 10], fov: 70, near: 10.1, far: 10000 }}
           scene={{ background: new THREE.Color("#0f0d1f") }}
           gl={{
             antialias: true,
@@ -31,9 +31,9 @@ function MainScene() {
             outputColorSpace: THREE.SRGBColorSpace,
             alpha: true, // Enable alpha for transparency
             logarithmicDepthBuffer: true, // Enable logarithmic depth buffer for better depth precision
-            pixelRatio: window.devicePixelRatio, // Set pixel ratio for high DPI displays
+
           }}
-          // dpr={[1, 2]}
+          dpr={[1, 2]}
         >
           <Scene />
           <Camera3D />
@@ -43,8 +43,8 @@ function MainScene() {
             enablePan={true}
             enableRotate={true}
           /> */}
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
+          {/* <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 5, 5]} intensity={1} /> */}
 
           {/*<CameraAnimation />*/}
         </Canvas>

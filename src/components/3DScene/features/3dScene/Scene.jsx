@@ -1,71 +1,117 @@
-import { useLoader } from '@react-three/fiber'
-import {DRACOLoader, GLTFLoader, OBJLoader } from 'three/examples/jsm/Addons.js'
-import * as THREE from 'three'
-import {useEffect, useMemo, useRef} from "react";
-import Stats from 'three/examples/jsm/libs/stats.module.js';
+import { useLoader } from "@react-three/fiber";
+import {
+  DRACOLoader,
+  GLTFLoader,
+  OBJLoader,
+} from "three/examples/jsm/Addons.js";
+import * as THREE from "three";
+import { useEffect, useMemo, useRef } from "react";
+import Stats from "three/examples/jsm/libs/stats.module.js";
 // import {addBarycentricCoordinates} from "../../tools/geom.js";
-import {useAnimations} from "@react-three/drei";
-import { useFrame } from '@react-three/fiber';
-import { WfThrough } from './materials/WfThrough.jsx';
-import { WfFar } from './materials/WfFar.jsx';
-import { WfMid } from './materials/WfMid.jsx';
-import  WfMain  from './materials/mainShader.jsx'
-import { WfMid2 } from './materials/WfMid2.jsx';
-import gsap from 'gsap';
-import { Power1,Power4 } from 'gsap/all';
-import buildingsList from '@public/buildings.json';
-import { BufferGeometryUtils } from 'three/examples/jsm/Addons.js';
+import { useAnimations } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { WfThrough } from "./materials/WfThrough.jsx";
+import { WfFar } from "./materials/WfFar.jsx";
+import { WfMid } from "./materials/WfMid.jsx";
+import WfMain from "./materials/mainShader.jsx";
+import { WfMid2 } from "./materials/WfMid2.jsx";
+import { worldWireframe } from "./materials/worldWirframe.jsx";
+import gsap from "gsap";
+import { Power1, Power4 } from "gsap/all";
+import buildingsList from "@public/buildings.json";
+import { BufferGeometryUtils } from "three/examples/jsm/Addons.js";
+import {basicWF} from "./materials/basicWF.jsx";
 
-export default function Scene(){
 
-   const isFirstRender = useRef(true);
-
-  // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
+export default function Scene() {
+  const isFirstRender = useRef(true);
   
+  // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
+
   const customShader = WfThrough();
   const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
+  const worldMaterial = worldWireframe();
+  const basicMaterial = basicWF();
   const scene = new THREE.Scene();
-  
-  
+
+ 
+
   // const mainShader = new WfMain({
   //   wireframe: false,
   //   сolor: new THREE.Vector3(0.502, 0.502, 0.502),
   // });
   // const geometry = new THREE.BoxGeometry(1,1,1);
   // const material123 = new THREE.MeshBasicMaterial( { color: 0x00A300 } );
-    
-  const [terrain,gltf,env,cars,logo,road,main] = useLoader(GLTFLoader,[
-    '/Scene/buildings.glb',
-    '/Scene/walls.glb',
-    '/Scene/env.glb',
-    '/Scene/cars.glb',
-    '/Scene/logo.glb',
-    '/Scene/road.glb',
-    '/Scene/main.glb'
-  ],(loader)=>{
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderConfig({ type: 'js' });
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    loader.setDRACOLoader(dracoLoader)
-  });
-  const [build_b,build_c,build_d,build_e] = useLoader(GLTFLoader,[
-    '/Scene/buildings/build_b.glb',
-    '/Scene/buildings/build_c.glb',
-    '/Scene/buildings/build_d.glb',
-    '/Scene/buildings/build_e.glb'
-  ],(loader)=>{
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderConfig({ type: 'js' });
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    loader.setDRACOLoader(dracoLoader)
-  }); 
+
+  const [terrain, gltf, env, cars, logo, road, main] = useLoader(
+    GLTFLoader,
+    [
+      "/Scene/buildings.glb",
+      "/Scene/walls2.glb",
+      "/Scene/env.glb",
+      "/Scene/cars.glb",
+      "/Scene/logo.glb",
+      "/Scene/road.glb",
+      "/Scene/main.glb",
+    ],
+    (loader) => {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderConfig({ type: "js" });
+      dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+      loader.setDRACOLoader(dracoLoader);
+    }
+  );
+  const [build_b, build_c, build_d, build_e] = useLoader(
+    GLTFLoader,
+    [
+      "/Scene/buildings/build_b.glb",
+      "/Scene/buildings/build_c.glb",
+      "/Scene/buildings/build_d.glb",
+      "/Scene/buildings/build_e.glb",
+    ],
+    (loader) => {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderConfig({ type: "js" });
+      dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+      loader.setDRACOLoader(dracoLoader);
+    }
+  );
 
   console.log(gltf);
   console.log(terrain);
 
+  
+  const materialASD = new THREE.MeshBasicMaterial({
+    color: new THREE.Color("#0f0d1f"),
+    transparent: true,
+    side: THREE.DoubleSide,
+  });
 
-  // TODO: Дописать блок для создания инстансов зданий
+  function addBarycentricCoordinates(bufferGeometry, removeEdge = false) {
+  const attrib = bufferGeometry.getIndex() || bufferGeometry.getAttribute('position');
+  const count = attrib.count / 3;
+  const barycentric = [];
+
+  // for each triangle in the geometry, add the barycentric coordinates
+  for (let i = 0; i < count; i++) {
+    const even = i % 2 === 0;
+    const Q = removeEdge ? 1 : 0;
+    if (even) {
+      barycentric.push(0, 0, 1, 0, 1, 0, 1, 0, Q);
+    } else {
+      barycentric.push(0, 1, 0, 0, 0, 1, 1, 0, Q);
+    }
+  }
+
+  // add the attribute to the geometry
+  const array = new Float32Array(barycentric);
+  const attribute = new THREE.BufferAttribute(array, 3);
+  bufferGeometry.setAttribute('barycentric', attribute);
+}
+
+
+
 
   const buildings = [build_b, build_c, build_d, build_e];
   // console.log(buildings);
@@ -101,107 +147,105 @@ export default function Scene(){
 
   // })
 
-useEffect(() => {
-  // Массив для хранения геометрии
-  const geometriesToMerge = [];
-  
-  terrain.scene.traverse((node) => {
-    if (node.isLineSegments) {
-      // Клонируем геометрию с учетом мировой матрицы
-      const geometry = node.geometry.clone();
-      geometry.applyMatrix4(node.matrixWorld);
-      geometriesToMerge.push(geometry);
-      
-      // Делаем исходный объект невидимым
-      node.visible = false;
+  useEffect(() => {
+    // Массив для хранения геометрии
+    const geometriesToMerge = [];
+
+    terrain.scene.traverse((node) => {
+      if (node.isLineSegments) {
+        // Клонируем геометрию с учетом мировой матрицы
+        const geometry = node.geometry.clone();
+        geometry.applyMatrix4(node.matrixWorld);
+        geometriesToMerge.push(geometry);
+
+        // Делаем исходный объект невидимым
+        node.visible = false;
+        node.renderOrder = 2;
+      }
+    });
+
+    if (geometriesToMerge.length > 0) {
+      // Объединяем все геометрии в одну
+      const mergedGeometry =
+        BufferGeometryUtils.mergeGeometries(geometriesToMerge);
+
+      // Создаем один большой LineSegments объект
+      const mergedLines = new THREE.LineSegments(mergedGeometry, worldMaterial);
+
+      // Добавляем объединенный объект в сцену
+      terrain.scene.add(mergedLines);
+      console.log(mergedLines);
     }
-  });
+  }, [terrain, worldMaterial]);
 
-  if (geometriesToMerge.length > 0) {
-    // Объединяем все геометрии в одну
-    const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometriesToMerge);
-    
-    // Создаем один большой LineSegments объект
-    const mergedLines = new THREE.LineSegments(
-      mergedGeometry,
-      customShaderTest2
-    );
-    
-    // Добавляем объединенный объект в сцену
-    terrain.scene.add(mergedLines);
-    console.log(mergedLines)
-  }
-  
-}, [terrain, customShaderTest2]);
+  // const renderer = new THREE.WebGLRenderer();
+  // let gl = renderer.getContext();
+  // let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+  // let vendor = "unk";
+  // let gpu = "unk";
+  // try {
+  //   vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+  //   gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+  // } catch (err) {}
+  // console.log(vendor, gpu);
 
-
-
-
-
-
-
-
-
-  
-
-   const renderer = new THREE.WebGLRenderer();
-  let gl = renderer.getContext();
-    let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-    let vendor='unk';
-    let gpu = 'unk';
-    try {
-         vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-         gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-    } catch (err) {
-    }
-    console.log(vendor, gpu);
-  
   // terrain.scene.position.set(0,-1000,0);
-  
+  //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
+  // непрзрачно для обеих сторон
   useEffect(() => {
     gltf.scene.traverse((node) => {
-      node.material = customShaderTest
+      node.renderOrder = 1;
+      // if(node.isMesh) {
+      //   let geometry = node.geometry;
+      //   if (node.geometry.index){
+      //     node.geometry = geometry.toNonIndexed();
+      //   }
+      //   addBarycentricCoordinates(node.geometry, true);
+      // }
       
+      node.material = materialASD;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [gltf,customShaderTest]);
+  }, [gltf, basicMaterial]);
   useEffect(() => {
     main.scene.traverse((node) => {
-      node.material = customShaderTest
-      
+      node.material = customShaderTest2;
+      node.renderOrder = 2;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [gltf,customShaderTest]);
+  }, [gltf, customShaderTest]);
   useEffect(() => {
     logo.scene.traverse((node) => {
-      node.material = customShaderTest
-      
+      node.material = customShaderTest2;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [gltf,customShaderTest]);
+  }, [gltf, customShaderTest2]);
   useEffect(() => {
     env.scene.traverse((node) => {
-      node.material = customShaderTest2
-      
+      node.material = worldMaterial;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [env,customShaderTest]);
+  }, [env, worldMaterial]);
   // useEffect(() => {
   //   terrain.scene.traverse((node) => {
   //     node.material = customShaderTest2
-      
+
   //     // mesh.position.copy(node.position);
   //     // mesh.rotation.copy(node.rotation);
   //     // mesh.scale.copy(node.scale);
@@ -210,25 +254,24 @@ useEffect(() => {
   // }, [terrain,customShaderTest]);
   useEffect(() => {
     road.scene.traverse((node) => {
-      node.material = customShaderTest
-      
+      node.material = customShaderTest2;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [road,customShaderTest]);
+  }, [road, customShaderTest2]);
   useEffect(() => {
     cars.scene.traverse((node) => {
-      node.material = customShaderTest2
-      
+      node.material = customShaderTest2;
+
       // mesh.position.copy(node.position);
       // mesh.rotation.copy(node.rotation);
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [cars,customShaderTest]);
-
+  }, [cars, customShaderTest2]);
 
   scene.add(gltf.scene);
   // Террейн выключен из-за ненадобности
@@ -240,93 +283,88 @@ useEffect(() => {
   scene.add(road.scene);
   scene.add(main.scene);
   scene.add(terrain.scene);
-  
-  
 
- 
+  //   const particles = {};
+  //   particles.geometry = new THREE.BufferGeometry();
+  //   const positions = new Float32Array(5000 * 3);
+  //   for(let i = 0; i < 5000; i++) {
+  //     positions[i * 3] = (Math.random() - 0.5) * 500;      //x
+  //     positions[i * 3 + 1] = (Math.random() - 0.5) * 150;  //y
+  //     positions[i * 3 + 2] = (Math.random() - 0.5) * 1000;  //z
+  // }
+  //   particles.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-//   const particles = {};
-//   particles.geometry = new THREE.BufferGeometry();
-//   const positions = new Float32Array(5000 * 3);
-//   for(let i = 0; i < 5000; i++) {
-//     positions[i * 3] = (Math.random() - 0.5) * 500;      //x
-//     positions[i * 3 + 1] = (Math.random() - 0.5) * 150;  //y
-//     positions[i * 3 + 2] = (Math.random() - 0.5) * 1000;  //z
-// }
-//   particles.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  //   particles.material = new THREE.ShaderMaterial({
+  //     transparent: true,
+  //             uniforms:
+  //             {
+  //                 uColor: { value: new THREE.Color(0xffe600) },
+  //                 uAlpha: { value: 1 },
+  //                 uTime: { value: 0 },
+  //                 uWind: { value:  - 0.0008 } // - 0.0008
+  //             },
+  //             vertexShader: `
+  //     #define M_PI 3.1415926535897932384626433832795
 
-//   particles.material = new THREE.ShaderMaterial({
-//     transparent: true,
-//             uniforms:
-//             {
-//                 uColor: { value: new THREE.Color(0xffe600) },
-//                 uAlpha: { value: 1 },
-//                 uTime: { value: 0 },
-//                 uWind: { value:  - 0.0008 } // - 0.0008
-//             },
-//             vertexShader: `
-//     #define M_PI 3.1415926535897932384626433832795
+  //     uniform float uTime;
+  //     uniform float uWind;
 
-//     uniform float uTime;
-//     uniform float uWind;
+  //     varying float vAlpha;
 
-//     varying float vAlpha;
+  //     highp float random(vec2 co)
+  //     {
+  //         highp float a = 12.9898;
+  //         highp float b = 78.233;
+  //         highp float c = 43758.5453;
+  //         highp float dt = dot(co.xy, vec2(a, b));
+  //         highp float sn = mod(dt, M_PI);
 
-//     highp float random(vec2 co)
-//     {
-//         highp float a = 12.9898;
-//         highp float b = 78.233;
-//         highp float c = 43758.5453;
-//         highp float dt = dot(co.xy, vec2(a, b));
-//         highp float sn = mod(dt, M_PI);
+  //         return fract(sin(sn) * c);
+  //     }
 
-//         return fract(sin(sn) * c);
-//     }
+  //     void main()
+  //     {
+  //         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+  //         float windEffect = uWind * (random(modelPosition.yz) + 0.5);
+  //         modelPosition.x += uTime * windEffect * 10.0;
+  //         modelPosition.y += sin(modelPosition.x * 0.1 + uTime) * 0.5;
+  //         vec4 viewPosition = viewMatrix * modelPosition;
+  //         float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
 
-//     void main()
-//     {
-//         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-//         float windEffect = uWind * (random(modelPosition.yz) + 0.5);
-//         modelPosition.x += uTime * windEffect * 10.0; 
-//         modelPosition.y += sin(modelPosition.x * 0.1 + uTime) * 0.5;
-//         vec4 viewPosition = viewMatrix * modelPosition;
-//         float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
+  //         gl_PointSize = 1.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
+  //         gl_Position = projectionMatrix * viewPosition;
 
-//         gl_PointSize = 1.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
-//         gl_Position = projectionMatrix * viewPosition;
+  //         vAlpha = 1.0 - clamp(distance * 0.5 / 100.0, 0.0, 1.0);
+  //     }
+  // `,
+  //             fragmentShader: `
+  //                 uniform vec3 uColor;
+  //                 uniform float uAlpha;
 
-        
-//         vAlpha = 1.0 - clamp(distance * 0.5 / 100.0, 0.0, 1.0);
-//     }
-// `,
-//             fragmentShader: `
-//                 uniform vec3 uColor;
-//                 uniform float uAlpha;
+  //                 varying float vAlpha;
 
-//                 varying float vAlpha;
+  //                 void main()
+  //                 {
+  //                     gl_FragColor = vec4(uColor, vAlpha * uAlpha);
+  //                     // gl_FragColor = vec4(uColor, 1.0);
+  //                 }
+  //             `
+  //   })
+  //   particles.points = new THREE.Points(particles.geometry, particles.material);
+  //   particles.points.frustumCulled = false;
+  //   console.log(particles);
+  //   scene.add(particles.points);
 
-//                 void main()
-//                 {
-//                     gl_FragColor = vec4(uColor, vAlpha * uAlpha);
-//                     // gl_FragColor = vec4(uColor, 1.0);
-//                 }
-//             `
-//   })
-//   particles.points = new THREE.Points(particles.geometry, particles.material);
-//   particles.points.frustumCulled = false;
-//   console.log(particles);
-//   scene.add(particles.points);
-  
-  useFrame(({clock})=>{
-    const progress = Math.min(1, clock.getElapsedTime()/5)
+  useFrame(({ clock }) => {
+    const progress = Math.min(1, clock.getElapsedTime() / 5);
     customShader.uniforms.uProgress.value = progress;
     customShader.uniforms.time.value = clock.getElapsedTime();
-    customShaderTest.uniforms.uTime.value = clock.getElapsedTime()*1.2;
-    customShaderTest2.uniforms.uTime.value = clock.getElapsedTime()*1.2;
+    customShaderTest.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    customShaderTest2.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    worldMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     // particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     // particles.geometry.attributes.position.needsUpdate = true;
-    
-  })
+  });
   const mainAnimations = useAnimations(main.animations, main.scene);
   const roadAnimations = useAnimations(road.animations, road.scene);
   const carsAnimations = useAnimations(cars.animations, cars.scene);
@@ -334,96 +372,98 @@ useEffect(() => {
   useEffect(() => {
     // Play all animations
     mainAnimations.names.forEach((name) => {
-    mainAnimations.actions[name].reset().play();
+      mainAnimations.actions[name].reset().play();
     });
     carsAnimations.names.forEach((name) => {
-    carsAnimations.actions[name].reset().play();
+      carsAnimations.actions[name].reset().play();
     });
     roadAnimations.names.forEach((name) => {
-    roadAnimations.actions[name].reset().play();
+      roadAnimations.actions[name].reset().play();
     });
+  }, [mainAnimations, carsAnimations]);
 
-
-
-  }, [mainAnimations,carsAnimations])
-
-  useEffect(() => {  
+  useEffect(() => {
     if (isFirstRender.current) {
       const tl = gsap.timeline();
-      tl.to(customShaderTest.uniforms.uRevealDistance, {
-        value: 1,
-        duration: 1.5,
-        delay: 0,
-        ease: Power4.easeOut
-      },0)
-      .to(customShaderTest.uniforms.uFluctuationFrequency, {
-        value: 1,
-        duration: 0,
-        delay: 0,
-      },2)
-      .to(customShaderTest.uniforms.uFluctuationAmplitude, {
-        value: 1,
-        duration: 0,
-        delay: 0,
-      },2)
-      .to(customShaderTest.uniforms.uColor.value, {
-        x: 1, y: 1, z: 1,
-        duration: 2,
-        ease: Power1.easeOut
-      },2.0)
-      .to(terrain.scene.position, {
-        y: 0,
-        duration: 3,
-        delay: 0,
-        ease: Power4.easeOut
-      },0.5)
-      .to(customShaderTest2.uniforms.uRevealDistance, {
-        value: 1,
-        duration: 5,
-        delay: 0,
-        ease: Power4.easeOut
-      },0.5)
-      .to(customShaderTest2.uniforms.uFluctuationFrequency, {
-        value: 1,
-        duration: 0,
-        delay: 0,
-      },6)
-      .to(customShaderTest2.uniforms.uFluctuationAmplitude, {
-        value: 1,
-        duration: 0,
-        delay: 0,
-      },6)
+      tl.to(
+        customShaderTest.uniforms.uRevealDistance,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      );
+      tl.to(
+        worldMaterial.uniforms.uRevealDistance,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+        .to(
+          terrain.scene.position,
+          {
+            y: 0,
+            duration: 3,
+            delay: 0,
+            ease: Power4.easeOut,
+          },
+          0.5
+        )
+        .to(
+          customShaderTest2.uniforms.uRevealDistance,
+          {
+            value: 1,
+            duration: 5,
+            delay: 0,
+            ease: Power4.easeOut,
+          },
+          0.5
+        )
+        .to(
+          customShaderTest2.uniforms.uFluctuationFrequency,
+          {
+            value: 1,
+            duration: 0,
+            delay: 0,
+          },
+          6
+        )
+        .to(
+          customShaderTest2.uniforms.uFluctuationAmplitude,
+          {
+            value: 1,
+            duration: 0,
+            delay: 0,
+          },
+          6
+        );
 
       // .to(customShaderTest2.uniforms.uColor.value, {
       //   x: 1, y: 1, z: 1,
       //   duration: 2,
       //   ease: Power1.easeOut
-        
+
       // },4.0);
 
       // Отмечаем, что первый рендер прошел
       isFirstRender.current = false;
-      
     }
   }, [customShaderTest]);
   useEffect(() => {
     if (isFirstRender.current) {
       // Создаем timeline
       const tl = gsap.timeline();
-     
-      
 
       // Отмечаем, что первый рендер прошел
       isFirstRender.current = false;
     }
   }, [customShaderTest2]);
-  
-  
 
-
-  return (
-  <primitive object={scene}/>
-  )
-
+  return <primitive object={scene} />;
 }
-
