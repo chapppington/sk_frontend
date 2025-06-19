@@ -31,30 +31,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BACKEND_MAIN } from "@/constants";
 import { Switch } from "@/components/ui/shadcn/switch";
 import { Label } from "@/components/ui/shadcn/label";
-
-interface IPortfolioItem {
-  id: string;
-  name: string;
-  poster?: string;
-  year: number;
-  taskTitle: string;
-  taskDescription: string;
-  solutionTitle: string;
-  solutionDescription: string;
-  solutionSubtitle: string;
-  solutionSubdescription: string;
-  solutionImages?: string[];
-  previewVideoPath?: string;
-  fullVideoPath?: string;
-  hasReview: boolean;
-  reviewTitle?: string;
-  reviewText?: string;
-  reviewName?: string;
-  reviewImage?: string;
-  reviewRole?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 export default function PortfolioManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

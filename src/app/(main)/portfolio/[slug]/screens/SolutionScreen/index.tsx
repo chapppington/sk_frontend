@@ -5,14 +5,14 @@ import Image from "next/image";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
-import { IPortfolioItem } from "../../types";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import { BACKEND_MAIN } from "@/constants";
 
-interface SolutionScreenProps {
+interface Props {
   portfolio: IPortfolioItem;
 }
 
-export default function SolutionScreen({ portfolio }: SolutionScreenProps) {
+export default function SolutionScreen({ portfolio }: Props) {
   return (
     <section className="py-24 relative text-white">
       <CustomContainer>

@@ -192,9 +192,14 @@ export default function NewsManagement() {
               Добавить новость
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-2xl h-[90vh] p-0">
+            <DialogHeader className="px-6 pt-6">
+              <DialogTitle>
+                {editingNews ? "Редактировать новость" : "Добавить новость"}
+              </DialogTitle>
+            </DialogHeader>
             <div
-              className="max-h-[70vh] overflow-y-auto"
+              className="h-[calc(90vh-80px)] overflow-y-auto px-6 pb-6"
               onWheel={(e) => {
                 e.stopPropagation();
                 const container = e.currentTarget;
@@ -202,11 +207,6 @@ export default function NewsManagement() {
                 container.scrollTop += delta;
               }}
             >
-              <DialogHeader>
-                <DialogTitle>
-                  {editingNews ? "Редактировать новость" : "Добавить новость"}
-                </DialogTitle>
-              </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Категория</label>

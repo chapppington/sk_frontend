@@ -9,10 +9,10 @@ import {
   useContext,
 } from "react";
 
-import { useColumns } from "@/providers/PageTransitionProvider/hooks/useColumns";
-import { useLogo } from "@/providers/PageTransitionProvider/hooks/useLogo";
-import { useAnimations } from "@/providers/PageTransitionProvider/hooks/useAnimations";
-import { Logo } from "@/providers/PageTransitionProvider/components/Logo";
+import { useColumns } from "@/context/PageTransitionProvider/hooks/useColumns";
+import { useLogo } from "@/context/PageTransitionProvider/hooks/useLogo";
+import { useAnimations } from "@/context/PageTransitionProvider/hooks/useAnimations";
+import { Logo } from "@/context/PageTransitionProvider/components/Logo";
 
 import { ITransitionContextType } from "./types";
 

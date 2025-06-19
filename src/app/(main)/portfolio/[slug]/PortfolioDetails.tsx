@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import FirstScreen from "@/app/(main)/portfolio/[slug]/screens/FirstScreen";
 import dynamic from "next/dynamic";
 import portfolioService from "@/services/portfolio.service";
-import { IPortfolioItem } from "./types";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 const TasksScreen = dynamic(
   () => import("@/app/(main)/portfolio/[slug]/screens/TasksScreen")
@@ -22,11 +22,11 @@ const ContactUsScreen = dynamic(
   () => import("@/components/shared_screens/ContactUsScreen")
 );
 
-interface PortfolioDetailsProps {
+interface Props {
   slug: string;
 }
 
-const PortfolioDetails = ({ slug }: PortfolioDetailsProps) => {
+const PortfolioDetails = ({ slug }: Props) => {
   const { data: portfolio, isLoading } = useQuery<IPortfolioItem>({
     queryKey: ["portfolio", slug],
     queryFn: async () => {
@@ -48,7 +48,7 @@ const PortfolioDetails = ({ slug }: PortfolioDetailsProps) => {
       <FirstScreen portfolio={portfolio} />
       <TasksScreen portfolio={portfolio} />
       <SolutionScreen portfolio={portfolio} />
-      <ReviewScreen />
+      {portfolio.hasReview && <ReviewScreen portfolio={portfolio} />}
       <MoreProjectsScreen />
       <ContactUsScreen />
     </main>
