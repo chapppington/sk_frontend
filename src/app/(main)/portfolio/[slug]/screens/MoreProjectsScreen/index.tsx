@@ -10,7 +10,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomSlider from "@/components/CustomSlider";
 import ProjectSlide from "./components/ProjectSlide";
-import { IPortfolioItem } from "../../types";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 const MoreProjectsScreen: FC = () => {
   const { data: projects = [], isLoading } = useQuery<IPortfolioItem[]>({
@@ -61,7 +61,7 @@ const MoreProjectsScreen: FC = () => {
                 {projects.map((project: IPortfolioItem) => (
                   <ProjectSlide
                     key={project.id}
-                    id={project.id}
+                    slug={project.slug}
                     title={project.name}
                     image={`${BACKEND_MAIN}/uploads/portfolio/${project.poster}`}
                     year={String(project.year)}

@@ -3,6 +3,7 @@ export interface IPortfolioItem {
   name: string;
   poster: string;
   year: number;
+  slug: string;
   description: string;
   taskTitle: string;
   taskDescription: string;

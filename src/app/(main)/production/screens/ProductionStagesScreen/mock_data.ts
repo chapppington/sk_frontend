@@ -20,9 +20,9 @@ export const productionStages: IProductionStage[] = [
   {
     id: 3,
     number: "03",
-    title: "Окраска и сборка корпуса КТП",
+    title: "Окраска и сборка корпуса",
     description:
-      "Сборка корпуса КТП с использованием сварки и порошковой окраски.",
+      "Сборка корпуса с использованием сварки и порошковой окраски.",
     image: "/construction_bg.webp",
   },
   {

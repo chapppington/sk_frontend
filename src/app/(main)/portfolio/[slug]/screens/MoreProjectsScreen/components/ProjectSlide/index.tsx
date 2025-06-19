@@ -4,13 +4,13 @@ import MainButton from "@/components/ui/MainButton";
 import Badge from "@/components/ui/Badge";
 
 interface ProjectSlideProps {
-  id: string | number;
+  slug: string ;
   title: string;
   image: string;
   year: string;
 }
 
-const ProjectSlide: FC<ProjectSlideProps> = ({ id, title, image, year }) => {
+const ProjectSlide: FC<ProjectSlideProps> = ({ slug, title, image, year }) => {
   return (
     <div className="relative h-[420px] w-full overflow-hidden rounded-lg">
       <Image
@@ -31,7 +31,7 @@ const ProjectSlide: FC<ProjectSlideProps> = ({ id, title, image, year }) => {
 
         <div className="w-full">
           <h3 className="text-3xl text-white max-w-[66.67%]">{title}</h3>
-          <MainButton text="Узнать подробнее" href={`/portfolio/${id}`} />
+          <MainButton text="Узнать подробнее" href={`/portfolio/${slug}`} />
         </div>
       </div>
     </div>
