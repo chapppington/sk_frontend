@@ -8,12 +8,11 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 // import {addBarycentricCoordinates} from "../../tools/geom.js";
-import { useAnimations } from "@react-three/drei";
+import { useAnimations, Wireframe, MeshWobbleMaterial, useStencil, Mask, useMask } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { WfThrough } from "./materials/WfThrough.jsx";
 import { WfFar } from "./materials/WfFar.jsx";
 import { WfMid } from "./materials/WfMid.jsx";
-import WfMain from "./materials/mainShader.jsx";
 import { WfMid2 } from "./materials/WfMid2.jsx";
 import { worldWireframe } from "./materials/worldWirframe.jsx";
 import gsap from "gsap";
@@ -27,6 +26,7 @@ export default function Scene() {
   const isFirstRender = useRef(true);
   
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
+  // TODO: Использовать маски для отрисовки конвейера из React Drei 
 
   const customShader = WfThrough();
   const customShaderTest = WfMid();
@@ -43,8 +43,8 @@ export default function Scene() {
   // });
   // const geometry = new THREE.BoxGeometry(1,1,1);
   // const material123 = new THREE.MeshBasicMaterial( { color: 0x00A300 } );
-
-  const [terrain, gltf, env, cars, logo, road, main] = useLoader(
+  const texture = useLoader(THREE.TextureLoader, "/Scene/testTexture.png");
+  const [terrain, gltf, env, cars, logo, road, main, wallsOut, invisible, lenta, lenta2, main_static] = useLoader(
     GLTFLoader,
     [
       "/Scene/buildings.glb",
@@ -54,6 +54,11 @@ export default function Scene() {
       "/Scene/logo.glb",
       "/Scene/road.glb",
       "/Scene/main.glb",
+      "/Scene/wallsOut.glb",
+      "/Scene/invisible.glb",
+      "/Scene/lenta.glb",
+      "/Scene/lenta2.glb",
+      "/Scene/main_static.glb",
     ],
     (loader) => {
       const dracoLoader = new DRACOLoader();
@@ -81,7 +86,32 @@ export default function Scene() {
   console.log(gltf);
   console.log(terrain);
 
-  
+  const lentaMaterial = new THREE.ShaderMaterial({
+        transparent: true,
+        uniforms: {
+          uTexture: { value: texture },
+          uTime: { value: 0 }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform sampler2D uTexture;
+          uniform float uTime;
+          varying vec2 vUv;
+
+          void main() {
+            vec2 uv = vUv;
+            uv.y = mod(-uv.y + uTime * 0.1, 1.0); 
+            vec4 texColor = texture2D(uTexture, uv);
+            gl_FragColor = texColor;
+          }
+        `
+      });
   const materialASD = new THREE.MeshBasicMaterial({
     color: new THREE.Color("#0f0d1f"),
     transparent: true,
@@ -192,27 +222,15 @@ export default function Scene() {
   // terrain.scene.position.set(0,-1000,0);
   //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
   // непрзрачно для обеих сторон
+  const stencil = useMask(1,true);
   useEffect(() => {
-    gltf.scene.traverse((node) => {
-      node.renderOrder = 1;
-      // if(node.isMesh) {
-      //   let geometry = node.geometry;
-      //   if (node.geometry.index){
-      //     node.geometry = geometry.toNonIndexed();
-      //   }
-      //   addBarycentricCoordinates(node.geometry, true);
-      // }
-      
-      node.material = materialASD;
-
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
-    });
+      gltf.scene.traverse((node) => {
+        node.renderOrder = 1;     
+        node.material = basicMaterial;
+      });
   }, [gltf, basicMaterial]);
   useEffect(() => {
-    main.scene.traverse((node) => {
+    main_static.scene.traverse((node) => {
       node.material = customShaderTest2;
       node.renderOrder = 2;
 
@@ -221,7 +239,7 @@ export default function Scene() {
       // mesh.scale.copy(node.scale);
       // scene.add(mesh);
     });
-  }, [gltf, customShaderTest]);
+  }, [main_static, customShaderTest2]);
   useEffect(() => {
     logo.scene.traverse((node) => {
       node.material = customShaderTest2;
@@ -272,7 +290,55 @@ export default function Scene() {
       // scene.add(mesh);
     });
   }, [cars, customShaderTest2]);
+  useEffect(() => {
+    wallsOut.scene.traverse((node) => {
+      node.material = customShaderTest2;
 
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [wallsOut, customShaderTest2]);
+  useEffect(() => {
+    invisible.scene.traverse((node) => {
+      node.material = basicMaterial;
+      node.renderOrder = 2;
+
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [invisible, basicMaterial]);
+  useEffect(() => {
+    lenta.scene.traverse((node) => {
+      node.material = lentaMaterial;
+      
+
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [lenta,lentaMaterial]);
+  useEffect(() => {
+    lenta2.scene.traverse((node) => {
+      node.material = lentaMaterial;
+      
+
+      // mesh.position.copy(node.position);
+      // mesh.rotation.copy(node.rotation);
+      // mesh.scale.copy(node.scale);
+      // scene.add(mesh);
+    });
+  }, [lenta2,lentaMaterial]);
+  const uniforms = {
+    uTexture: { value: texture},
+    uTime: { value: 0 }
+  }
+
+  invisible.scene.position.y = 6;
   scene.add(gltf.scene);
   // Террейн выключен из-за ненадобности
   // scene.add(terrain.scene);
@@ -281,8 +347,14 @@ export default function Scene() {
   scene.add(cars.scene);
   scene.add(logo.scene);
   scene.add(road.scene);
-  scene.add(main.scene);
+  // scene.add(main.scene);
   scene.add(terrain.scene);
+  scene.add(wallsOut.scene);
+  // scene.add(invisible.scene);
+  scene.add(lenta.scene);
+  scene.add(lenta2.scene);
+  scene.add(main_static.scene);
+  
 
   //   const particles = {};
   //   particles.geometry = new THREE.BufferGeometry();
@@ -362,6 +434,7 @@ export default function Scene() {
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     customShaderTest2.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     worldMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    lentaMaterial.uniforms.uTime.value = clock.getElapsedTime() * 10.2;
     // particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
     // particles.geometry.attributes.position.needsUpdate = true;
   });
@@ -465,5 +538,13 @@ export default function Scene() {
     }
   }, [customShaderTest2]);
 
-  return <primitive object={scene} />;
+  return (
+    <>
+    
+      <primitive object={scene} />
+      
+
+    
+    </>
+  );
 }
