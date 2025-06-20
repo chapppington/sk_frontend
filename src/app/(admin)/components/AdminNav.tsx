@@ -53,6 +53,12 @@ export function AdminNav() {
           >
             Портфолио
           </Link>
+          <Link
+            href="/dashboard/vacancy"
+            className="text-sm font-medium hover:text-primary"
+          >
+            Вакансии
+          </Link>
         </div>
         <Button
           variant="destructive"

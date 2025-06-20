@@ -14,7 +14,7 @@ const LogoGridScreen: FC = () => {
   return (
     <CustomContainer className="py-24">
       <div className="flex flex-col md:flex-row justify-between items-center">
-        <AnimatedText delay={0}>
+        <AnimatedText delay={0} animateOnScroll={false}>
           <GradientHeading className="text-center md:text-right">
             Нас уже выбрали
           </GradientHeading>

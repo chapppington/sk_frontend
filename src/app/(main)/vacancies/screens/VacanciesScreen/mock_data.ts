@@ -1,7 +1,6 @@
 import { IJobItem } from "./types";
 
 export const categoryMap = {
-  all: "Все вакансии",
   hr: "Кадровый резерв",
   production: "Производство",
   sales: "Продажи и маркетинг",

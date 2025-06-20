@@ -74,7 +74,7 @@ const InfoScreen: FC = () => {
         <div className="w-full md:w-2/5 z-30 flex flex-col pr-4 relative justify-start">
           <BracketsText>ПРЕИМУЩЕСТВА</BracketsText>
           {/* Overlapping Heading */}
-          <AnimatedText delay={0}>
+          <AnimatedText delay={0} animateOnScroll={false}>
             <h1
               className="
                 text-4xl md:text-5xl mt-8 text-white
@@ -123,6 +123,7 @@ const InfoScreen: FC = () => {
                   fill
                   className="object-cover rounded-lg"
                 />
+                <div className="absolute inset-0 bg-black/50 rounded-lg" />
               </div>
             )}
 
@@ -138,13 +139,18 @@ const InfoScreen: FC = () => {
                 className="object-cover rounded-lg"
                 priority
               />
+              <div className="absolute inset-0 bg-black/30 rounded-lg" />
             </div>
 
             <div
               ref={textContainerRef}
               className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20"
             >
-              <AnimatedText key={activeFeatureIndex} delay={0}>
+              <AnimatedText
+                key={activeFeatureIndex}
+                delay={0}
+                animateOnScroll={false}
+              >
                 <p>{features[activeFeatureIndex].description}</p>
               </AnimatedText>
             </div>

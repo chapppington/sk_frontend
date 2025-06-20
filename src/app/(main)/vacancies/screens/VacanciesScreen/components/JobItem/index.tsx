@@ -16,7 +16,7 @@ const JobItem: FC<JobItemProps> = ({ job, index }) => {
           <li key={reqIndex}>{req}</li>
         ))}
       </ul>
-      <div className="job-details flex flex-wrap items-center justify-between gap-6 order-2">
+      <div className="job-details flex flex-wrap items-end justify-between gap-6 order-2">
         <div className="flex flex-wrap gap-4 w-full md:w-auto mb-4 md:mb-0">
           {job.experience.map((exp, expIndex) => (
             <span
@@ -27,7 +27,7 @@ const JobItem: FC<JobItemProps> = ({ job, index }) => {
             </span>
           ))}
         </div>
-        <div className="flex items-center gap-8 w-full md:w-auto">
+        <div className="flex items-end gap-8 w-full md:w-auto">
           <div className="text-white">
             <span className="text-white/60 text-sm">от</span>
             <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light ml-2">

@@ -14,7 +14,7 @@ const NumbersSection = () => {
     <section className="w-full text-white py-24 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <BracketsText>ПОЧЕМУ МЫ</BracketsText>
-        <AnimatedText delay={0}>
+        <AnimatedText delay={0} animateOnScroll={false}>
           <GradientHeading className="mt-6">
             Нас выбирают потому, что
             <br />

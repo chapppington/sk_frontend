@@ -20,25 +20,30 @@ export const desktopNavigationItems: NavigationItem[] = [
 
 export const contactBlocks: ContactBlock[] = [
   {
-    title: "Отдел продаж",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
-  },
-  {
     title: "Офис компании",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
+    phone: "+7 (3852) 53-99-33",
+    phoneRaw: "+73852539933",
+    email: "info@sibkomplekt.ru",
   },
   {
-    title: "Конструкторский отдел",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
+    title: "Отдел продаж",
+    phone: "+7 (800) 600-39-89",
+    phoneRaw: "+78006003989",
+    email: "sales@sibkomplekt.ru",
   },
   {
     title: "Сервисная служба",
-    phone: "8 (880) 990-00-00",
-    email: "test@mail.ru",
+    phone: "+7 (800) 700-26-91",
+    phoneRaw: "+78007002691",
+    email: "servise@sibkomplekt.ru",
+  },
+  {
+    title: "Отдел снабжения",
+    phone: "",
+    phoneRaw: "",
+    email: "snab@sibkomplekt.ru",
   },
 ];
 
-export const companyAddress: string = "ул. Арбат, 26, Москва";
+export const companyAddress: string =
+  "Россия, 656922, Алтайский край, г. Барнаул, ул. Попова, 248Е";

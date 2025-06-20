@@ -16,13 +16,19 @@ const FooterMain: FC = () => {
           {contactBlocks.slice(0, 2).map((block, index) => (
             <div key={index}>
               <p className="text-white/80 mb-4">• {block.title}</p>
-              <div className="flex items-center mb-3">
-                <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                <span className="text-white">{block.phone}</span>
-              </div>
+              {block.phone && (
+                <div className="flex items-center mb-3">
+                  <PhoneIcon className="w-4 h-4 text-white mr-2" />
+                  <a href={`tel:${block.phoneRaw}`} className="text-white">
+                    {block.phone}
+                  </a>
+                </div>
+              )}
               <div className="flex items-center">
                 <EmailIcon className="w-4 h-4 text-white mr-2" />
-                <span className="text-white">{block.email}</span>
+                <a href={`mailto:${block.email}`} className="text-white">
+                  {block.email}
+                </a>
               </div>
             </div>
           ))}
@@ -33,13 +39,19 @@ const FooterMain: FC = () => {
           {contactBlocks.slice(2, 4).map((block, index) => (
             <div key={index}>
               <p className="text-white/80 mb-4">• {block.title}</p>
-              <div className="flex items-center mb-3">
-                <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                <span className="text-white">{block.phone}</span>
-              </div>
+              {block.phone && (
+                <div className="flex items-center mb-3">
+                  <PhoneIcon className="w-4 h-4 text-white mr-2" />
+                  <a href={`tel:${block.phoneRaw}`} className="text-white">
+                    {block.phone}
+                  </a>
+                </div>
+              )}
               <div className="flex items-center">
                 <EmailIcon className="w-4 h-4 text-white mr-2" />
-                <span className="text-white">{block.email}</span>
+                <a href={`mailto:${block.email}`} className="text-white">
+                  {block.email}
+                </a>
               </div>
             </div>
           ))}

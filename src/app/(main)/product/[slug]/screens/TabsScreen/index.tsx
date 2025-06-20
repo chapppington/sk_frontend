@@ -3,7 +3,6 @@
 import { useState, useRef, FC } from "react";
 import { useLenis } from "lenis/react";
 
-import AnimatedText from "@/components/ui/AnimatedText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { Tabs, TabContent } from "@/components/ui/Tabs";

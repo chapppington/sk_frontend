@@ -6,5 +6,6 @@ export type NavigationItem = {
 export type ContactBlock = {
   title: string;
   phone: string;
+  phoneRaw: string;
   email: string;
 };

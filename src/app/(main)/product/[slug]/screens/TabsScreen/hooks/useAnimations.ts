@@ -1,8 +1,5 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const useLeftContentAnimation = (
   leftContentRef: React.RefObject<HTMLDivElement | null>
@@ -21,11 +18,6 @@ export const useLeftContentAnimation = (
           duration: 0.5,
           stagger: 0.1,
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: leftContentRef.current,
-            start: "top 80%",
-            once: true,
-          },
         }
       );
     }
@@ -54,11 +46,6 @@ export const useRightContentAnimation = (
           duration: 0.3,
           stagger: 0.05,
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: rightContentRef.current,
-            start: "top 80%",
-            once: true,
-          },
           onComplete: () => {
             if (lenis) {
               lenis.resize();
