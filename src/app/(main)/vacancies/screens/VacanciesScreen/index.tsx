@@ -1,49 +1,44 @@
 "use client";
 
 import { useRef, FC } from "react";
-import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import CustomContainer from "@/components/ui/CustomContainer";
-import Pagination from "@/components/ui/Pagination";
-import { usePagination } from "./hooks/usePagination";
-import { useCategoryFilter } from "./hooks/useCategoryFilter";
-import { useUrlSync } from "./hooks/useUrlSync";
-import { useJobAnimations } from "./hooks/useJobAnimations";
-import FilterButtons from "./components/FilterButtons";
 import JobList from "./components/JobList";
-
-import { jobs, categoryMap } from "./mock_data";
+import vacancyService from "@/services/vacancy.service";
+import type { IVacancy } from "@/shared/types/vacancy.types";
 
 const VacanciesScreen: FC = () => {
-  const searchParams = useSearchParams();
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemsPerPage = 3;
 
-  const categorySlug = searchParams.get("category") || "all";
-  const selectedCategory =
-    categoryMap[categorySlug as keyof typeof categoryMap] || categoryMap.all;
-
-  const { updateUrl } = useUrlSync();
-  const { categories, filteredJobs } = useCategoryFilter({
-    jobs,
-    selectedCategory,
+  const { data: vacancies = [], isLoading } = useQuery({
+    queryKey: ["vacancies"],
+    queryFn: async () => {
+      const { data } = await vacancyService.fetchAll();
+      return data;
+    },
   });
-  const { currentPage, totalPages, currentItems, setCurrentPage } =
-    usePagination({
-      items: filteredJobs,
-      itemsPerPage,
-    });
 
-  useJobAnimations(containerRef, [currentPage, selectedCategory]);
+  // Transform backend data to match frontend format
+  const transformedJobs = vacancies.map((vacancy: IVacancy) => ({
+    title: vacancy.title,
+    requirements: vacancy.requirements,
+    experience: vacancy.experience,
+    salary: vacancy.salary,
+  }));
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    updateUrl({ page: page.toString() });
-  };
-
-  const handleCategoryChange = (slug: string) => {
-    updateUrl({ category: slug, page: "1" });
-    setCurrentPage(1);
-  };
+  if (isLoading) {
+    return (
+      <section id="jobs_list_section" className="py-20 relative">
+        <div
+          className="absolute inset-x-0 top-0 h-[512px] bg-gradient-to-b from-black to-transparent"
+          style={{ zIndex: -1 }}
+        />
+        <CustomContainer>
+          <div className="text-center text-white">Загрузка вакансий...</div>
+        </CustomContainer>
+      </section>
+    );
+  }
 
   return (
     <section id="jobs_list_section" className="py-20 relative">
@@ -54,20 +49,7 @@ const VacanciesScreen: FC = () => {
       />
       <div ref={containerRef}>
         <CustomContainer>
-          <FilterButtons
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
-          />
-
-          <JobList jobs={currentItems} />
-
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            className="mt-8"
-          />
+          <JobList jobs={transformedJobs} />
         </CustomContainer>
       </div>
     </section>

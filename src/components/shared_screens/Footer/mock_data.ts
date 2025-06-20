@@ -46,4 +46,4 @@ export const contactBlocks: ContactBlock[] = [
 ];
 
 export const companyAddress: string =
-  "Россия, 656922, Алтайский край, г. Барнаул, ул. Попова, 248Е";
+  "Россия, Алтайский край, г. Барнаул, ул. Попова, 248Е";

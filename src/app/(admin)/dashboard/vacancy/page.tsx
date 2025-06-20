@@ -36,7 +36,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select";
-import { categoryMap } from "@/app/(main)/vacancies/screens/VacanciesScreen/mock_data";
+
+const categoryMap = {
+  hr: "Кадровый резерв",
+  production: "Производство",
+  sales: "Продажи и маркетинг",
+  office: "Офис компании",
+} as const;
 
 export default function VacancyManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
