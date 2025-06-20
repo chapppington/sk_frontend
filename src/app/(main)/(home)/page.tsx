@@ -1,18 +1,28 @@
 import Home from "./Home";
-import { Metadata } from "next";
-import { SeoMetaTags } from "@/components/SeoMetaTags";
+import type { Metadata } from "next";
+import { fetchSeoSettingsSSR } from "@/shared/utils/fetchSeoSettingsSSR";
 
-export const metadata: Metadata = {
-  title: "СибКомплект - Производство и поставка электрооборудования",
-  description:
-    "СибКомплект - ведущий производитель и поставщик электрооборудования в Сибири. КТП, КРУ, КСО, БМУ и другое электрооборудование высокого качества.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await fetchSeoSettingsSSR("/");
+  return {
+    title:
+      seo?.title || "СибКомплект - Производство и поставка электрооборудования",
+    description:
+      seo?.description ||
+      "СибКомплект - ведущий производитель и поставщик электрооборудования в Сибири. КТП, КРУ, КСО, БМУ и другое электрооборудование высокого качества.",
+    keywords: seo?.keywords,
+    openGraph:
+      seo?.ogTitle || seo?.ogDescription || seo?.ogImage
+        ? {
+            title: seo.ogTitle,
+            description: seo.ogDescription,
+            images: seo.ogImage ? [seo.ogImage] : undefined,
+          }
+        : undefined,
+    alternates: seo?.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+  };
+}
 
 export default function HomePage() {
-  return (
-    <>
-      <SeoMetaTags pagePath="/" />
-      <Home />
-    </>
-  );
+  return <Home />;
 }
