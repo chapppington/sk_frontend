@@ -3,7 +3,7 @@ import { Providers } from "./Providers";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/shadcn/toaster";
 import { AdminLayoutContent } from "./components/AdminLayoutContent";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/context/theme-provider";
 
 const inter = Inter({
   subsets: ["cyrillic"],

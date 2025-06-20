@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import gsap from "gsap";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,23 +13,43 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
+import { NavigationButton } from "@/components/ui/NavigationButton";
+import AnimatedText from "@/components/ui/AnimatedText";
 
-import { portfolioItems } from "./mock_data";
 import { PagesConfig } from "@/config/pages.config";
+import portfolioService from "@/services/portfolio.service";
+import { BACKEND_MAIN } from "@/constants";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 const indicatorCount = 40;
 
 const PortfolioSection = () => {
   const swiperRef = useRef<any>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [bgLoaded, setBgLoaded] = useState<Record<number, boolean>>({});
   const [indicatorState, setIndicatorState] = useState<number[]>(
     Array(indicatorCount).fill(4)
   );
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const {
+    data: portfolioItems = [],
+    isLoading,
+    isError,
+  } = useQuery<IPortfolioItem[]>({
+    queryKey: ["portfolio"],
+    queryFn: async () => {
+      const { data } = await portfolioService.fetchAll();
+      return data;
+    },
+  });
 
   // Update indicators based on Swiper's realIndex
   const updatePortfolioIndicators = (realIndex: number) => {
     const slideCount = portfolioItems.length;
+    if (slideCount === 0) return;
     const totalPositions = indicatorCount - 5;
     const progress = realIndex / (slideCount - 1);
     const position = Math.round(progress * totalPositions);
@@ -47,7 +68,42 @@ const PortfolioSection = () => {
   // Sync indicator state on activeIndex change
   useEffect(() => {
     updatePortfolioIndicators(activeIndex);
+  }, [activeIndex, portfolioItems.length]);
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      gsap.set(buttonRef.current, { opacity: 0, y: 10 });
+      gsap.to(buttonRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.35,
+        delay: 0.3,
+        ease: "expo.out",
+      });
+    }
   }, [activeIndex]);
+
+  if (isLoading) {
+    return (
+      <div className="text-center text-white py-24">Загрузка портфолио...</div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center text-red-500 py-24">
+        Ошибка загрузки портфолио
+      </div>
+    );
+  }
+
+  if (!portfolioItems.length) {
+    return (
+      <div className="text-center text-white py-24">
+        Нет реализованных проектов
+      </div>
+    );
+  }
 
   return (
     <section
@@ -56,32 +112,30 @@ const PortfolioSection = () => {
     >
       {/* Background image with overlay */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <AnimatePresence mode="wait">
-          {portfolioItems.map((item, idx) =>
-            idx === activeIndex || bgLoaded[idx] ? (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: idx === activeIndex ? 1 : 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6 }}
-                className="absolute inset-0 w-full h-full"
-                style={{ zIndex: idx === activeIndex ? 2 : 1 }}
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  priority={idx === activeIndex}
-                  onLoad={() => {
-                    setBgLoaded((prev) => ({ ...prev, [idx]: true }));
-                  }}
-                />
-              </motion.div>
-            ) : null
-          )}
-        </AnimatePresence>
+        {portfolioItems.map((item, idx) =>
+          idx === activeIndex || bgLoaded[idx] ? (
+            <div
+              key={item.id}
+              className="absolute inset-0 w-full h-full"
+              style={{
+                opacity: idx === activeIndex ? 1 : 0,
+                zIndex: idx === activeIndex ? 2 : 1,
+                transition: "opacity 0.6s",
+              }}
+            >
+              <Image
+                src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                alt={item.name}
+                fill
+                className="object-cover"
+                priority={idx === activeIndex}
+                onLoad={() => {
+                  setBgLoaded((prev) => ({ ...prev, [idx]: true }));
+                }}
+              />
+            </div>
+          ) : null
+        )}
         {/* Overlays */}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-20"></div>
@@ -100,27 +154,34 @@ const PortfolioSection = () => {
           {/* Left side - Main content */}
           <div className="w-full xl:w-1/2 mb-8 xl:mb-0">
             <div className="portfolio-main-content">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <GradientHeading className="mb-6">
-                    {portfolioItems[activeIndex].title}
-                  </GradientHeading>
-                  <p className="text-white/60 text-lg mb-4 portfolio-description">
-                    {portfolioItems[activeIndex].description}
-                  </p>
-
-                  <MainButton
-                    text="Узнать подробнее"
-                    href={`${PagesConfig.portfolio}/project1`}
-                  />
-                </motion.div>
-              </AnimatePresence>
+              <AnimatedText
+                key={`portfolio-title-${activeIndex}`}
+                animateOnScroll={false}
+                delay={0.1}
+              >
+                <GradientHeading className="mb-6">
+                  {portfolioItems[activeIndex].name}
+                </GradientHeading>
+              </AnimatedText>
+              <AnimatedText
+                key={`portfolio-desc-${activeIndex}`}
+                animateOnScroll={false}
+                delay={0}
+              >
+                <p className="text-white/60 text-lg mb-4 portfolio-description">
+                  {portfolioItems[activeIndex].description}
+                </p>
+              </AnimatedText>
+              <div
+                ref={buttonRef}
+                className="mt-6"
+                key={`portfolio-btn-${activeIndex}`}
+              >
+                <MainButton
+                  text="Узнать подробнее"
+                  href={`${PagesConfig.portfolio}/${portfolioItems[activeIndex].slug}`}
+                />
+              </div>
             </div>
           </div>
 
@@ -132,8 +193,8 @@ const PortfolioSection = () => {
               spaceBetween={20}
               loop={true}
               navigation={{
-                nextEl: ".portfolio-next",
-                prevEl: ".portfolio-prev",
+                nextEl: nextRef.current,
+                prevEl: prevRef.current,
               }}
               onSlideChange={(swiper) => {
                 setActiveIndex(swiper.realIndex);
@@ -141,6 +202,13 @@ const PortfolioSection = () => {
               onInit={(swiper) => {
                 swiperRef.current = swiper;
                 setActiveIndex(swiper.realIndex);
+                // Ensure navigation refs are set after mount
+                // @ts-ignore
+                swiper.params.navigation.prevEl = prevRef.current;
+                // @ts-ignore
+                swiper.params.navigation.nextEl = nextRef.current;
+                swiper.navigation.init();
+                swiper.navigation.update();
               }}
               className="portfolioSwiper h-[220px] sm:h-[260px] md:h-[300px] w-full max-w-full"
             >
@@ -149,8 +217,8 @@ const PortfolioSection = () => {
                   <div className="cursor-pointer group relative h-full">
                     <div className="relative h-full overflow-hidden rounded-lg shadow-lg">
                       <Image
-                        src={item.image}
-                        alt="Portfolio Project"
+                        src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                        alt={item.name}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -159,10 +227,10 @@ const PortfolioSection = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <div className="text-white/60 text-sm mb-2">
-                          {item.location}
+                          {item.year}
                         </div>
                         <h3 className="text-white text-xl font-light">
-                          {item.title}
+                          {item.name}
                         </h3>
                       </div>
                     </div>
@@ -174,36 +242,18 @@ const PortfolioSection = () => {
             {/* Custom Navigation */}
             <div className="flex items-center justify-between mt-8">
               <div className="flex items-center space-x-3">
-                <button className="portfolio-prev w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M15 19l-7-7 7-7"
-                    ></path>
-                  </svg>
-                </button>
-                <button className="portfolio-next w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
-                </button>
+                <NavigationButton
+                  ref={prevRef}
+                  direction="prev"
+                  sliderId="portfolio"
+                  className="portfolio-prev"
+                />
+                <NavigationButton
+                  ref={nextRef}
+                  direction="next"
+                  sliderId="portfolio"
+                  className="portfolio-next"
+                />
               </div>
 
               {/* Slider Indicators */}
