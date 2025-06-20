@@ -30,7 +30,7 @@ export function AdminNav() {
   const isLogoutLoading = isLogoutPending || isPending;
 
   return (
-    <nav className="w-full border-b p-4">
+    <nav className="w-full border-b py-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-6">
           <h1 className="text-xl font-bold">Админ панель</h1>
@@ -58,6 +58,12 @@ export function AdminNav() {
             className="text-sm font-medium hover:text-primary"
           >
             Вакансии
+          </Link>
+          <Link
+            href="/dashboard/seo-settings"
+            className="text-sm font-medium hover:text-primary"
+          >
+            SEO настройки
           </Link>
         </div>
         <Button

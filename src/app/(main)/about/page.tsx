@@ -1,6 +1,8 @@
 import { FC } from "react";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
 import FirstScreen from "@/app/(main)/about/screens/FirstScreen";
+import { fetchSeoSettingsSSR } from "@/shared/utils/fetchSeoSettingsSSR";
 
 const HistoryScreen = dynamic(
   () => import("@/app/(main)/about/screens/HistoryScreen")
@@ -23,6 +25,24 @@ const TeamScreen = dynamic(
 const LogoGridScreen = dynamic(
   () => import("@/app/(main)/about/screens/LogoGridScreen")
 );
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await fetchSeoSettingsSSR("/about");
+  return {
+    title: seo?.title || "О компании | СибКомплект",
+    description: seo?.description || "Описание компании СибКомплект...",
+    keywords: seo?.keywords,
+    openGraph:
+      seo?.ogTitle || seo?.ogDescription || seo?.ogImage
+        ? {
+            title: seo.ogTitle,
+            description: seo.ogDescription,
+            images: seo.ogImage ? [seo.ogImage] : undefined,
+          }
+        : undefined,
+    alternates: seo?.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
+  };
+}
 
 const AboutPage: FC = () => {
   return (
