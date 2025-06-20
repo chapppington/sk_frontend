@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { InfoIconProps } from "./types";
 import Popover from "@/components/ui/Popover";
+import { Info } from "lucide-react";
 
 const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -22,12 +23,16 @@ const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
   return (
     <div className="relative">
       <button
+        type="button"
         onMouseEnter={() => setIsPopoverOpen(true)}
         onMouseLeave={() => setIsPopoverOpen(false)}
         onClick={handleClick}
-        className="w-6 h-6 rounded-full flex items-center justify-center text-white hover:text-white hover:bg-white/30 transition-colors border border-white"
+        className="w-6 h-6 rounded-full flex items-center justify-center bg-transparent hover:bg-[#e3e3e3]/40 dark:hover:bg-[#333]/40 transition-colors"
       >
-        <span className="text-sm select-none">?</span>
+        <Info
+          className="w-4 h-4 text-[#202124] dark:text-[#fff]"
+          strokeWidth={2}
+        />
       </button>
 
       {/* Desktop Popover */}

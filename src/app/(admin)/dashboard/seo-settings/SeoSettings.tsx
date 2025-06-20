@@ -43,6 +43,112 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/shadcn/tabs";
+import InfoIcon from "@/components/ui/Dropdown/components/InfoIcon";
+
+// Вынести универсальный сниппет в отдельный компонент
+function GoogleSnippet({
+  title,
+  description,
+  url,
+  renderDescription,
+  truncateWithEllipsis,
+}: {
+  title: string;
+  description: string;
+  url: string;
+  renderDescription: (desc: string) => React.ReactNode;
+  truncateWithEllipsis: (text: string, max: number) => string;
+}) {
+  return (
+    <div className="flex flex-col gap-0 rounded-xl p-4 max-w-[600px] mx-auto min-h-[90px] border border-[#e3e3e3] shadow-sm bg-background dark:bg-[#202124] dark:border-[#333]">
+      <div className="flex items-center gap-2 mb-1">
+        {/* Favicon */}
+        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-[#e3e3e3] dark:border-[#333]">
+          <img
+            src="/favicon.ico"
+            alt="favicon"
+            className="w-8 h-8 object-contain rounded-full"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        </div>
+        <div className="flex flex-col">
+          {/* Название сайта */}
+          <span className="text-[13px] font-normal text-[#202124] dark:text-[#fff] leading-tight">
+            Сибкомплект
+          </span>
+          {/* URL */}
+          <span className="text-[12px] font-medium text-[#5f6368] dark:text-[#bdc1c6] leading-tight">
+            {url}
+          </span>
+        </div>
+      </div>
+      {/* Заголовок */}
+      <div
+        className="text-[16px] font-bold leading-tight mt-1 mb-0.5 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
+        style={{ wordBreak: "break-word" }}
+      >
+        {truncateWithEllipsis(title || "Заголовок страницы", 70)}
+      </div>
+      {/* Описание */}
+      <div className="text-[13px] leading-snug break-words text-foreground dark:text-[#bdc1c6] mt-1">
+        {renderDescription(
+          truncateWithEllipsis(description || "Описание страницы", 160)
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Компонент сниппета Яндекса
+function YandexSnippet({
+  title,
+  url,
+  description,
+  renderDescription,
+  truncateWithEllipsis,
+}: {
+  title: string;
+  url: string;
+  description: string;
+  renderDescription: (desc: string) => React.ReactNode;
+  truncateWithEllipsis: (text: string, max: number) => string;
+}) {
+  return (
+    <div className="flex flex-row gap-3 rounded-xl p-4 max-w-[600px] mx-auto min-h-[90px] border border-[#e3e3e3] shadow-sm bg-background dark:bg-[#202124] dark:border-[#333]">
+      {/* Фавикон слева */}
+      <div className="flex flex-col items-center min-w-[40px]">
+        <div className="w-7 h-7 rounded bg-white flex items-center justify-center">
+          <img
+            src="/favicon.ico"
+            alt="favicon"
+            className="w-6 h-6 object-contain rounded"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        </div>
+      </div>
+      {/* Контент справа */}
+      <div className="flex-1 flex flex-col gap-0">
+        {/* Заголовок */}
+        <div
+          className="text-[16px] font-bold leading-tight mb-1 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
+          style={{ wordBreak: "break-word" }}
+        >
+          {truncateWithEllipsis(title || "Заголовок страницы", 70)}
+        </div>
+        {/* URL */}
+        <div className="text-[13px] font-medium mb-1 text-[#4caf50] dark:text-[#bdc1c6]">
+          {url}
+        </div>
+        {/* Описание */}
+        <div className="text-[13px] leading-snug break-words text-foreground dark:text-[#bdc1c6]">
+          {renderDescription(
+            truncateWithEllipsis(description || "Описание страницы", 160)
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SeoSettingsManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -215,7 +321,7 @@ export default function SeoSettingsManagement() {
         descriptionLength: formData.description.length,
         titleStatus: formData.title.length <= 70 ? "good" : "warning",
         descriptionStatus:
-          formData.description.length <= 180 ? "good" : "warning",
+          formData.description.length <= 160 ? "good" : "warning",
       },
       yandex: {
         title: formData.title,
@@ -225,7 +331,7 @@ export default function SeoSettingsManagement() {
         descriptionLength: formData.description.length,
         titleStatus: formData.title.length <= 70 ? "good" : "warning",
         descriptionStatus:
-          formData.description.length <= 200 ? "good" : "warning",
+          formData.description.length <= 160 ? "good" : "warning",
       },
       og: {
         title: formData.ogTitle || formData.title,
@@ -304,7 +410,9 @@ export default function SeoSettingsManagement() {
               >
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Путь страницы</Label>
+                    <Label className="flex items-center gap-1">
+                      Путь страницы
+                    </Label>
                     <Input
                       value={formData.pagePath}
                       onChange={(e) =>
@@ -316,7 +424,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Название страницы</Label>
+                    <Label className="flex items-center gap-1">
+                      Название страницы
+                      <InfoIcon popoverContent="Человекочитаемое название страницы для удобства в админке. Не отображается на сайте и не влияет на SEO." />
+                    </Label>
                     <Input
                       value={formData.pageName}
                       onChange={(e) =>
@@ -328,7 +439,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Title</Label>
+                    <Label className="flex items-center gap-1">
+                      Title
+                      <InfoIcon popoverContent="Title — основной SEO-заголовок страницы. Отображается в результатах поиска и во вкладке браузера. Рекомендуется до 70 символов." />
+                    </Label>
                     <Input
                       value={formData.title}
                       onChange={(e) =>
@@ -348,7 +462,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Description</Label>
+                    <Label className="flex items-center gap-1">
+                      Description
+                      <InfoIcon popoverContent="Description — краткое описание страницы для поисковых систем. Показывается в сниппете поисковой выдачи. Рекомендуется до 160 символов." />
+                    </Label>
                     <Textarea
                       value={formData.description}
                       onChange={(e) =>
@@ -362,8 +479,8 @@ export default function SeoSettingsManagement() {
                       required
                     />
                     <div className="text-sm text-gray-500">
-                      {formData.description.length}/180 символов
-                      {formData.description.length > 180 && (
+                      {formData.description.length}/160 символов
+                      {formData.description.length > 160 && (
                         <span className="text-red-500 ml-2">
                           Превышен лимит!
                         </span>
@@ -372,7 +489,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Keywords</Label>
+                    <Label className="flex items-center gap-1">
+                      Keywords
+                      <InfoIcon popoverContent="Ключевые слова через запятую. Сейчас почти не используются поисковиками, но могут быть полезны для внутреннего поиска или аналитики." />
+                    </Label>
                     <Input
                       value={formData.keywords}
                       onChange={(e) =>
@@ -383,7 +503,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>OG Title</Label>
+                    <Label className="flex items-center gap-1">
+                      OG Title
+                      <InfoIcon popoverContent="Open Graph Title — заголовок для социальных сетей (Facebook, ВКонтакте и др.). Если не заполнено, используется обычный Title." />
+                    </Label>
                     <Input
                       value={formData.ogTitle}
                       onChange={(e) =>
@@ -394,7 +517,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>OG Description</Label>
+                    <Label className="flex items-center gap-1">
+                      OG Description
+                      <InfoIcon popoverContent="Open Graph Description — описание для социальных сетей. Если не заполнено, используется обычный Description." />
+                    </Label>
                     <Textarea
                       value={formData.ogDescription}
                       onChange={(e) =>
@@ -409,7 +535,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>OG Image URL</Label>
+                    <Label className="flex items-center gap-1">
+                      OG Image URL
+                      <InfoIcon popoverContent="Ссылка на изображение для предпросмотра в социальных сетях (Open Graph). Рекомендуется использовать изображение размером не менее 1200x630px." />
+                    </Label>
                     <Input
                       value={formData.ogImage}
                       onChange={(e) =>
@@ -420,7 +549,10 @@ export default function SeoSettingsManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Canonical URL</Label>
+                    <Label className="flex items-center gap-1">
+                      Canonical URL
+                      <InfoIcon popoverContent="Канонический URL — основной адрес страницы для поисковых систем. Помогает избежать дублей контента. Обычно совпадает с основным URL страницы." />
+                    </Label>
                     <Input
                       value={formData.canonicalUrl}
                       onChange={(e) =>
@@ -440,7 +572,10 @@ export default function SeoSettingsManagement() {
                         setFormData({ ...formData, isActive: checked })
                       }
                     />
-                    <Label>Активно</Label>
+                    <Label className="flex items-center gap-1">
+                      Активно
+                      <InfoIcon popoverContent="Если выключено — SEO-настройки для этой страницы не применяются на сайте." />
+                    </Label>
                   </div>
 
                   <div className="flex justify-end space-x-2 pt-4">
@@ -471,51 +606,29 @@ export default function SeoSettingsManagement() {
               <div className="w-1/2 px-6 pb-6">
                 <div className="sticky top-0 bg-background pb-4">
                   <h3 className="text-lg font-semibold mb-4">
-                    Предпросмотр сниппетов
+                    Предпросмотр карточки поиска
                   </h3>
                 </div>
 
                 <div className="space-y-6">
                   {/* Универсальный сниппет */}
                   <div className="space-y-4">
-                    <div className="flex items-start gap-3 rounded p-3 max-w-[600px] mx-auto min-h-[60px] border border-[#e3e3e3] shadow-sm bg-background dark:bg-[#202124] dark:border-[#333]">
-                      {/* Фавикон */}
-                      <img
-                        src="/favicon.ico"
-                        alt="favicon"
-                        className="w-6 h-6 rounded bg-background object-contain mt-1 border border-[#e3e3e3] dark:border-[#333]"
-                        style={{ background: "#fff" }}
-                        onError={(e) =>
-                          (e.currentTarget.style.display = "none")
-                        }
-                      />
-                      {/* Контент */}
-                      <div className="flex-1 min-w-0">
-                        <div
-                          className="text-[18px] font-bold leading-tight mb-1 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
-                          style={{ wordBreak: "break-word" }}
-                        >
-                          {truncateWithEllipsis(
-                            formPreview.google.title || "Заголовок страницы",
-                            70
-                          )}
-                        </div>
-                        <div className="text-[15px] font-bold mb-1 truncate text-[#202124] dark:text-[#8ab4a5]">
-                          {formPreview.google.url
-                            .replace(/^https?:\/\//, "")
-                            .replace(/\/$/, "")}
-                        </div>
-                        <div className="text-[15px] leading-snug break-words text-foreground dark:text-[#bdc1c6]">
-                          {renderDescription(
-                            truncateWithEllipsis(
-                              formPreview.google.description ||
-                                "Описание страницы",
-                              180
-                            )
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    <p>Google</p>
+                    <GoogleSnippet
+                      title={formPreview.google.title}
+                      description={formPreview.google.description}
+                      url={formPreview.google.url}
+                      renderDescription={renderDescription}
+                      truncateWithEllipsis={truncateWithEllipsis}
+                    />
+                    <p>Яндекс</p>
+                    <YandexSnippet
+                      title={formPreview.yandex.title}
+                      url={formPreview.yandex.url}
+                      description={formPreview.yandex.description}
+                      renderDescription={renderDescription}
+                      truncateWithEllipsis={truncateWithEllipsis}
+                    />
                   </div>
                 </div>
               </div>
@@ -580,13 +693,13 @@ export default function SeoSettingsManagement() {
                       <div className="flex gap-1 mt-1">
                         <Badge
                           variant={
-                            item.description.length <= 180
+                            item.description.length <= 160
                               ? "default"
                               : "destructive"
                           }
                           className="text-xs"
                         >
-                          {item.description.length}/180
+                          {item.description.length}/160
                         </Badge>
                       </div>
                     </TableCell>
@@ -681,70 +794,62 @@ export default function SeoSettingsManagement() {
               </TabsList>
 
               <TabsContent value="google" className="space-y-4">
-                <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
-                  <div className="text-sm mb-2 text-[#202124] dark:text-[#8ab4a5]">
-                    {preview.google.url}
-                  </div>
-                  <div className="text-lg font-medium mb-1 text-[#1a0dab] dark:text-[#8ab4f8]">
-                    {preview.google.title}
-                  </div>
-                  <div className="text-sm text-gray-700 dark:text-[#bdc1c6]">
-                    {preview.google.description}
-                  </div>
-                  <div className="flex gap-2 mt-2">
-                    <Badge
-                      variant={
-                        preview.google.titleStatus === "good"
-                          ? "default"
-                          : "destructive"
-                      }
-                    >
-                      Title: {preview.google.titleLength}/70
-                    </Badge>
-                    <Badge
-                      variant={
-                        preview.google.descriptionStatus === "good"
-                          ? "default"
-                          : "destructive"
-                      }
-                    >
-                      Desc: {preview.google.descriptionLength}/180
-                    </Badge>
-                  </div>
+                <GoogleSnippet
+                  title={preview.google.title}
+                  description={preview.google.description}
+                  url={preview.google.url}
+                  renderDescription={renderDescription}
+                  truncateWithEllipsis={truncateWithEllipsis}
+                />
+                <div className="flex gap-2 mt-2">
+                  <Badge
+                    variant={
+                      preview.google.titleStatus === "good"
+                        ? "default"
+                        : "destructive"
+                    }
+                  >
+                    Title: {preview.google.titleLength}/70
+                  </Badge>
+                  <Badge
+                    variant={
+                      preview.google.descriptionStatus === "good"
+                        ? "default"
+                        : "destructive"
+                    }
+                  >
+                    Desc: {preview.google.descriptionLength}/160
+                  </Badge>
                 </div>
               </TabsContent>
 
               <TabsContent value="yandex" className="space-y-4">
-                <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
-                  <div className="text-sm mb-2 text-[#202124] dark:text-[#8ab4a5]">
-                    {preview.yandex.url}
-                  </div>
-                  <div className="text-lg font-medium mb-1 text-[#1a0dab] dark:text-[#8ab4f8]">
-                    {preview.yandex.title}
-                  </div>
-                  <div className="text-sm text-gray-700 dark:text-[#bdc1c6]">
-                    {preview.yandex.description}
-                  </div>
-                  <div className="flex gap-2 mt-2">
-                    <Badge
-                      variant={
-                        preview.yandex.titleStatus === "good"
-                          ? "default"
-                          : "destructive"
-                      }
-                    >
-                      Title: {preview.yandex.titleLength}/70
-                    </Badge>
-                    <Badge
-                      variant={
-                        preview.yandex.descriptionStatus === "good"
-                          ? "default"
-                          : "destructive"
-                      }
-                    >
-                      Desc: {preview.yandex.descriptionLength}/200
-                    </Badge>
-                  </div>
+                <YandexSnippet
+                  title={preview.yandex.title}
+                  url={preview.yandex.url}
+                  description={preview.yandex.description}
+                  renderDescription={renderDescription}
+                  truncateWithEllipsis={truncateWithEllipsis}
+                />
+                <div className="flex gap-2 mt-2">
+                  <Badge
+                    variant={
+                      preview.yandex.titleStatus === "good"
+                        ? "default"
+                        : "destructive"
+                    }
+                  >
+                    Title: {preview.yandex.titleLength}/70
+                  </Badge>
+                  <Badge
+                    variant={
+                      preview.yandex.descriptionStatus === "good"
+                        ? "default"
+                        : "destructive"
+                    }
+                  >
+                    Desc: {preview.yandex.descriptionLength}/160
+                  </Badge>
                 </div>
               </TabsContent>
 
