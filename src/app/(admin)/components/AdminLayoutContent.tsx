@@ -13,7 +13,7 @@ export function AdminLayoutContent({
   return (
     <>
       {user?.isLoggedIn && <AdminNav />}
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="flex min-h-screen flex-col items-center justify-between bg-background text-foreground">
         {children}
       </main>
     </>

@@ -3,11 +3,20 @@ import { Providers } from "./Providers";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/shadcn/toaster";
 import { AdminLayoutContent } from "./components/AdminLayoutContent";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   subsets: ["cyrillic"],
   weight: ["300", "400", "500", "600", "700"],
 });
+
+export const metadata = {
+  title: "Админ-панель | СибКомплект",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function AdminLayout({
   children,
@@ -15,12 +24,19 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={inter.className} suppressHydrationWarning>
       <body>
-        <Providers>
-          <AdminLayoutContent>{children}</AdminLayoutContent>
-          <Toaster />
-        </Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            <AdminLayoutContent>{children}</AdminLayoutContent>
+            <Toaster />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

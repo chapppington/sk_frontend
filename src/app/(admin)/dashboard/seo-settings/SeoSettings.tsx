@@ -469,7 +469,7 @@ export default function SeoSettingsManagement() {
 
               {/* Правая часть - предпросмотр (sticky) */}
               <div className="w-1/2 px-6 pb-6">
-                <div className="sticky top-0 bg-white pb-4">
+                <div className="sticky top-0 bg-background pb-4">
                   <h3 className="text-lg font-semibold mb-4">
                     Предпросмотр сниппетов
                   </h3>
@@ -478,12 +478,12 @@ export default function SeoSettingsManagement() {
                 <div className="space-y-6">
                   {/* Универсальный сниппет */}
                   <div className="space-y-4">
-                    <div className="flex items-start gap-3 bg-white rounded p-3 max-w-[600px] mx-auto min-h-[60px] border border-[#e3e3e3] shadow-sm">
+                    <div className="flex items-start gap-3 rounded p-3 max-w-[600px] mx-auto min-h-[60px] border border-[#e3e3e3] shadow-sm bg-background dark:bg-[#202124] dark:border-[#333]">
                       {/* Фавикон */}
                       <img
                         src="/favicon.ico"
                         alt="favicon"
-                        className="w-6 h-6 rounded bg-white object-contain mt-1 border border-[#e3e3e3]"
+                        className="w-6 h-6 rounded bg-background object-contain mt-1 border border-[#e3e3e3] dark:border-[#333]"
                         style={{ background: "#fff" }}
                         onError={(e) =>
                           (e.currentTarget.style.display = "none")
@@ -492,7 +492,7 @@ export default function SeoSettingsManagement() {
                       {/* Контент */}
                       <div className="flex-1 min-w-0">
                         <div
-                          className="text-[18px] font-bold text-[#1967d2] leading-tight mb-1 break-words"
+                          className="text-[18px] font-bold leading-tight mb-1 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
                           style={{ wordBreak: "break-word" }}
                         >
                           {truncateWithEllipsis(
@@ -500,12 +500,12 @@ export default function SeoSettingsManagement() {
                             70
                           )}
                         </div>
-                        <div className="text-[15px] font-bold text-[#5f6368] mb-1 truncate">
+                        <div className="text-[15px] font-bold mb-1 truncate text-[#202124] dark:text-[#8ab4a5]">
                           {formPreview.google.url
                             .replace(/^https?:\/\//, "")
                             .replace(/\/$/, "")}
                         </div>
-                        <div className="text-[#222] text-[15px] leading-snug break-words">
+                        <div className="text-[15px] leading-snug break-words text-foreground dark:text-[#bdc1c6]">
                           {renderDescription(
                             truncateWithEllipsis(
                               formPreview.google.description ||
@@ -681,14 +681,14 @@ export default function SeoSettingsManagement() {
               </TabsList>
 
               <TabsContent value="google" className="space-y-4">
-                <div className="border rounded-lg p-4 bg-white">
-                  <div className="text-sm text-gray-500 mb-2">
+                <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
+                  <div className="text-sm mb-2 text-[#202124] dark:text-[#8ab4a5]">
                     {preview.google.url}
                   </div>
-                  <div className="text-blue-600 text-lg font-medium mb-1">
+                  <div className="text-lg font-medium mb-1 text-[#1a0dab] dark:text-[#8ab4f8]">
                     {preview.google.title}
                   </div>
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-gray-700 dark:text-[#bdc1c6]">
                     {preview.google.description}
                   </div>
                   <div className="flex gap-2 mt-2">
@@ -715,14 +715,14 @@ export default function SeoSettingsManagement() {
               </TabsContent>
 
               <TabsContent value="yandex" className="space-y-4">
-                <div className="border rounded-lg p-4 bg-white">
-                  <div className="text-sm text-gray-500 mb-2">
+                <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
+                  <div className="text-sm mb-2 text-[#202124] dark:text-[#8ab4a5]">
                     {preview.yandex.url}
                   </div>
-                  <div className="text-blue-600 text-lg font-medium mb-1">
+                  <div className="text-lg font-medium mb-1 text-[#1a0dab] dark:text-[#8ab4f8]">
                     {preview.yandex.title}
                   </div>
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-gray-700 dark:text-[#bdc1c6]">
                     {preview.yandex.description}
                   </div>
                   <div className="flex gap-2 mt-2">
@@ -749,7 +749,7 @@ export default function SeoSettingsManagement() {
               </TabsContent>
 
               <TabsContent value="og" className="space-y-4">
-                <div className="border rounded-lg p-4 bg-white">
+                <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
                   {preview.og.image && (
                     <img
                       src={preview.og.image}
@@ -757,13 +757,13 @@ export default function SeoSettingsManagement() {
                       className="w-full h-32 object-cover rounded mb-3"
                     />
                   )}
-                  <div className="text-sm text-gray-500 mb-2">
+                  <div className="text-sm mb-2 text-[#202124] dark:text-[#8ab4a5]">
                     {preview.og.url}
                   </div>
-                  <div className="text-blue-600 text-lg font-medium mb-1">
+                  <div className="text-lg font-medium mb-1 text-[#1a0dab] dark:text-[#8ab4f8]">
                     {preview.og.title || "Заголовок страницы"}
                   </div>
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-gray-700 dark:text-[#bdc1c6]">
                     {preview.og.description || "Описание страницы"}
                   </div>
                 </div>
