@@ -541,7 +541,7 @@ export default function ProductManagement() {
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
             <div className="space-y-4">
-              {formData.importantCharacteristics?.map((char, index) => {
+              {(formData.importantCharacteristics || []).map((char, index) => {
                 // Ensure characteristic object exists and has all required properties
                 const safeChar = char || {
                   value: "",
@@ -555,14 +555,14 @@ export default function ProductManagement() {
                       <h4 className="font-medium">
                         Характеристика {index + 1}
                       </h4>
-                      {formData.importantCharacteristics.length > 1 && (
+                      {(formData.importantCharacteristics || []).length > 1 && (
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
                           onClick={() => {
                             const updated = [
-                              ...formData.importantCharacteristics,
+                              ...(formData.importantCharacteristics || []),
                             ];
                             updated.splice(index, 1);
                             setFormData({
@@ -622,12 +622,14 @@ export default function ProductManagement() {
                   </div>
                 );
               })}
-              {formData.importantCharacteristics.length < 3 && (
+              {(formData.importantCharacteristics || []).length < 3 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    const updated = [...formData.importantCharacteristics];
+                    const updated = [
+                      ...(formData.importantCharacteristics || []),
+                    ];
                     updated.push({
                       value: "",
                       unit: { text: "" },
@@ -650,7 +652,7 @@ export default function ProductManagement() {
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
             <div className="space-y-4">
-              {formData.advantages?.map((advantage, index) => {
+              {(formData.advantages || []).map((advantage, index) => {
                 // Ensure advantage object exists and has all required properties
                 const safeAdvantage = advantage || {
                   label: "",
@@ -663,15 +665,17 @@ export default function ProductManagement() {
                   <div key={index} className="p-6 border-2 rounded-lg">
                     <div className="flex justify-between items-center mb-4">
                       <h4 className="font-medium">Преимущество {index + 1}</h4>
-                      {formData.advantages.length > 3 && (
+                      {(formData.advantages || []).length > 3 && (
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
                           onClick={() => {
-                            const updated = [...formData.advantages];
+                            const updated = [...(formData.advantages || [])];
                             updated.splice(index, 1);
-                            const updatedImages = [...formData.advantageImages];
+                            const updatedImages = [
+                              ...(formData.advantageImages || []),
+                            ];
                             updatedImages.splice(index, 1);
                             setFormData({
                               ...formData,
@@ -713,14 +717,14 @@ export default function ProductManagement() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              const updated = [...formData.advantages];
+                              const updated = [...(formData.advantages || [])];
                               updated[index] = {
                                 ...updated[index],
                                 image: file.name,
                               };
 
                               const updatedImages = [
-                                ...formData.advantageImages,
+                                ...(formData.advantageImages || []),
                               ];
                               updatedImages[index] = file;
 
@@ -736,9 +740,9 @@ export default function ProductManagement() {
                           <div className="mt-2 relative">
                             <img
                               src={
-                                formData.advantageImages[index]
+                                (formData.advantageImages || [])[index]
                                   ? URL.createObjectURL(
-                                      formData.advantageImages[index]
+                                      (formData.advantageImages || [])[index]
                                     )
                                   : editingProduct?.advantageImageUrls?.[
                                       index
@@ -747,13 +751,13 @@ export default function ProductManagement() {
                               alt={`Advantage ${index + 1}`}
                               className="w-32 aspect-[16/9] object-cover rounded"
                             />
-                            {formData.advantageImages[index] && (
+                            {(formData.advantageImages || [])[index] && (
                               <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                 Новое
                               </span>
                             )}
                             {editingProduct?.advantageImageUrls?.[index] &&
-                              !formData.advantageImages[index] && (
+                              !(formData.advantageImages || [])[index] && (
                                 <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                   Текущее
                                 </span>
@@ -779,19 +783,19 @@ export default function ProductManagement() {
                   </div>
                 );
               })}
-              {formData.advantages.length < 5 && (
+              {(formData.advantages || []).length < 5 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    const updated = [...formData.advantages];
+                    const updated = [...(formData.advantages || [])];
                     updated.push({
                       label: "",
                       icon: "",
                       image: "",
                       description: "",
                     });
-                    const updatedImages = [...formData.advantageImages];
+                    const updatedImages = [...(formData.advantageImages || [])];
                     updatedImages.push(null as any);
                     setFormData({
                       ...formData,
@@ -815,24 +819,26 @@ export default function ProductManagement() {
                 Простое описание
               </Label>
               <div className="space-y-3">
-                {formData.simpleDescription?.items?.map((item, index) => {
-                  const safeItem = item || { text: "" };
-                  return (
-                    <div key={index} className="flex gap-2">
-                      <div className="flex-shrink-0 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium">
-                        {index + 1}
+                {(formData.simpleDescription?.items || []).map(
+                  (item, index) => {
+                    const safeItem = item || { text: "" };
+                    return (
+                      <div key={index} className="flex gap-2">
+                        <div className="flex-shrink-0 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium">
+                          {index + 1}
+                        </div>
+                        <Textarea
+                          placeholder={`Пункт ${index + 1}`}
+                          value={safeItem.text || ""}
+                          onChange={(e) =>
+                            updateSimpleDescription(index, e.target.value)
+                          }
+                          rows={2}
+                        />
                       </div>
-                      <Textarea
-                        placeholder={`Пункт ${index + 1}`}
-                        value={safeItem.text || ""}
-                        onChange={(e) =>
-                          updateSimpleDescription(index, e.target.value)
-                        }
-                        rows={2}
-                      />
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
               </div>
             </div>
 
@@ -841,72 +847,78 @@ export default function ProductManagement() {
                 Детальное описание
               </Label>
               <div className="space-y-4">
-                {formData.detailedDescription?.items?.map((item, index) => {
-                  const safeItem = item || { title: "", description: "" };
-                  return (
-                    <div key={index} className="p-6 border-2 rounded-lg">
-                      <div className="flex justify-between items-center mb-4">
-                        <h4 className="font-medium">Пункт {index + 1}</h4>
-                        {formData.detailedDescription.items.length > 4 && (
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => {
-                              const updated = [
-                                ...formData.detailedDescription.items,
-                              ];
-                              updated.splice(index, 1);
-                              setFormData({
-                                ...formData,
-                                detailedDescription: { items: updated },
-                              });
-                            }}
-                          >
-                            Удалить
-                          </Button>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label className="block mb-2">Заголовок</Label>
-                          <Input
-                            placeholder="Заголовок"
-                            value={safeItem.title || ""}
-                            onChange={(e) =>
-                              updateDetailedDescription(
-                                index,
-                                "title",
-                                e.target.value
-                              )
-                            }
-                          />
+                {(formData.detailedDescription?.items || []).map(
+                  (item, index) => {
+                    const safeItem = item || { title: "", description: "" };
+                    return (
+                      <div key={index} className="p-6 border-2 rounded-lg">
+                        <div className="flex justify-between items-center mb-4">
+                          <h4 className="font-medium">Пункт {index + 1}</h4>
+                          {(formData.detailedDescription?.items || []).length >
+                            4 && (
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                const updated = [
+                                  ...(formData.detailedDescription?.items ||
+                                    []),
+                                ];
+                                updated.splice(index, 1);
+                                setFormData({
+                                  ...formData,
+                                  detailedDescription: { items: updated },
+                                });
+                              }}
+                            >
+                              Удалить
+                            </Button>
+                          )}
                         </div>
-                        <div>
-                          <Label className="block mb-2">Описание</Label>
-                          <Textarea
-                            placeholder="Описание"
-                            value={safeItem.description || ""}
-                            onChange={(e) =>
-                              updateDetailedDescription(
-                                index,
-                                "description",
-                                e.target.value
-                              )
-                            }
-                            rows={3}
-                          />
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Label className="block mb-2">Заголовок</Label>
+                            <Input
+                              placeholder="Заголовок"
+                              value={safeItem.title || ""}
+                              onChange={(e) =>
+                                updateDetailedDescription(
+                                  index,
+                                  "title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label className="block mb-2">Описание</Label>
+                            <Textarea
+                              placeholder="Описание"
+                              value={safeItem.description || ""}
+                              onChange={(e) =>
+                                updateDetailedDescription(
+                                  index,
+                                  "description",
+                                  e.target.value
+                                )
+                              }
+                              rows={3}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-                {formData.detailedDescription.items.length < 10 && (
+                    );
+                  }
+                )}
+                {(formData.detailedDescription?.items || []).length < 10 && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const updated = [...formData.detailedDescription.items];
+                      const updated = [
+                        ...(formData.detailedDescription?.items || []),
+                      ];
                       updated.push({
                         title: "",
                         description: "",
