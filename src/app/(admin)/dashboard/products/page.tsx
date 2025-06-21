@@ -37,6 +37,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select";
+import { IPortfolioItem } from "@/shared/types/portfolio.types";
+import portfolioService from "@/services/portfolio.service";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/shadcn/command";
+import IconPicker from "@/components/ui/IconPicker";
 
 const productCategories = [
   {
@@ -73,6 +85,7 @@ const categoryLabelMap = new Map(
 export default function ProductManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
+  const [model3dFile, setModel3dFile] = useState<File | null>(null);
   const [deletePopoverOpen, setDeletePopoverOpen] = useState<string | null>(
     null
   );
@@ -80,7 +93,7 @@ export default function ProductManagement() {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState<
-    CreateProductData & { advantageImages: File[] }
+    CreateProductData & { advantageImages: File[]; portfolioItems: string[] }
   >({
     category: "",
     name: "",
@@ -124,6 +137,7 @@ export default function ProductManagement() {
       ],
     },
     advantageImages: [],
+    portfolioItems: [],
   });
 
   const { data: products = [], isLoading: isLoadingProducts } = useQuery({
@@ -133,6 +147,16 @@ export default function ProductManagement() {
       return data;
     },
   });
+
+  const { data: portfolioItems = [], isLoading: isLoadingPortfolio } = useQuery(
+    {
+      queryKey: ["portfolio"],
+      queryFn: async () => {
+        const { data } = await portfolioService.fetchAll();
+        return data;
+      },
+    }
+  );
 
   const createMutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -220,8 +244,10 @@ export default function ProductManagement() {
         ],
       },
       advantageImages: [],
+      portfolioItems: [],
     });
     setEditingProduct(null);
+    setModel3dFile(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -244,6 +270,10 @@ export default function ProductManagement() {
       "detailedDescription",
       JSON.stringify(formData.detailedDescription)
     );
+    formDataToSend.append(
+      "portfolioItems",
+      JSON.stringify(formData.portfolioItems)
+    );
 
     // Добавляем файлы из отдельных инпутов преимуществ
     formData.advantageImages.forEach((file, index) => {
@@ -251,6 +281,10 @@ export default function ProductManagement() {
         formDataToSend.append("advantageImages", file);
       }
     });
+
+    if (model3dFile) {
+      formDataToSend.append("model_3d", model3dFile);
+    }
 
     if (editingProduct) {
       updateMutation.mutate({ id: editingProduct.id, data: formDataToSend });
@@ -275,7 +309,11 @@ export default function ProductManagement() {
       simpleDescription: product.simpleDescription,
       detailedDescription: product.detailedDescription,
       advantageImages: [],
+      portfolioItems: product.portfolioItems.map(
+        (item: IPortfolioItem) => item.id
+      ),
     });
+    setModel3dFile(null);
     setIsDialogOpen(true);
   };
 
@@ -326,7 +364,7 @@ export default function ProductManagement() {
     });
   };
 
-  if (isLoadingProducts) {
+  if (isLoadingProducts || isLoadingPortfolio) {
     return <div>Загрузка...</div>;
   }
 
@@ -357,6 +395,33 @@ export default function ProductManagement() {
               }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <Label htmlFor="model_3d" className="block mb-2">
+                    3D Модель (.glb)
+                  </Label>
+                  <Input
+                    id="model_3d"
+                    type="file"
+                    accept=".glb"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        setModel3dFile(e.target.files[0]);
+                      }
+                    }}
+                  />
+                  {editingProduct?.model_3d_url && !model3dFile && (
+                    <div className="mt-2 text-sm text-gray-500">
+                      Текущая модель:{" "}
+                      {editingProduct.model_3d_url.split("/").pop()}
+                    </div>
+                  )}
+                  {model3dFile && (
+                    <div className="mt-2 text-sm text-green-600">
+                      Новая модель: {model3dFile.name}
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="category" className="block mb-2">
@@ -410,7 +475,7 @@ export default function ProductManagement() {
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold">
+                  <Label className="text-lg font-semibold block mb-4">
                     Важные характеристики
                   </Label>
                   <div className="space-y-6">
@@ -517,7 +582,9 @@ export default function ProductManagement() {
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold">Преимущества</Label>
+                  <Label className="text-lg font-semibold block mb-4">
+                    Преимущества
+                  </Label>
                   <div className="space-y-6">
                     {formData.advantages.map((advantage, index) => (
                       <div
@@ -559,11 +626,10 @@ export default function ProductManagement() {
                           </div>
                           <div>
                             <Label className="block mb-2">Иконка</Label>
-                            <Input
-                              placeholder="Путь к иконке"
+                            <IconPicker
                               value={advantage.icon}
-                              onChange={(e) =>
-                                updateAdvantage(index, "icon", e.target.value)
+                              onChange={(value) =>
+                                updateAdvantage(index, "icon", value)
                               }
                             />
                           </div>
@@ -684,7 +750,7 @@ export default function ProductManagement() {
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold">
+                  <Label className="text-lg font-semibold block mb-4">
                     Детальное описание
                   </Label>
                   <div className="space-y-6">
@@ -769,6 +835,99 @@ export default function ProductManagement() {
                       </Button>
                     )}
                   </div>
+                </div>
+
+                <div>
+                  <Label className="block mb-2">
+                    Связанные проекты портфолио
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className="w-full justify-between"
+                      >
+                        <span className="truncate">
+                          {formData.portfolioItems.length > 0
+                            ? `Выбрано: ${formData.portfolioItems.length}`
+                            : "Выберите проекты..."}
+                        </span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                      <Command>
+                        <CommandInput placeholder="Поиск проектов..." />
+                        <CommandEmpty>Ничего не найдено.</CommandEmpty>
+                        <CommandGroup className="max-h-64 overflow-y-auto">
+                          {portfolioItems.map((item: IPortfolioItem) => (
+                            <CommandItem
+                              key={item.id}
+                              value={item.name}
+                              onSelect={() => {
+                                const selected =
+                                  formData.portfolioItems.includes(item.id);
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  portfolioItems: selected
+                                    ? prev.portfolioItems.filter(
+                                        (id) => id !== item.id
+                                      )
+                                    : [...prev.portfolioItems, item.id],
+                                }));
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  formData.portfolioItems.includes(item.id)
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {item.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  {formData.portfolioItems.length > 0 && (
+                    <div className="mt-4">
+                      <Label>Выбранные проекты</Label>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {formData.portfolioItems.map((itemId) => {
+                          const item = portfolioItems.find(
+                            (p: IPortfolioItem) => p.id === itemId
+                          );
+                          if (!item) return null;
+                          return (
+                            <div
+                              key={item.id}
+                              className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1 text-sm"
+                            >
+                              <span>{item.name}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    portfolioItems: prev.portfolioItems.filter(
+                                      (id) => id !== item.id
+                                    ),
+                                  }));
+                                }}
+                                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex justify-end space-x-2">

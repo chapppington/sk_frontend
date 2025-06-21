@@ -65,6 +65,7 @@ export interface IProduct {
   detailedDescription: DetailedDescription;
   advantageImages?: string[];
   advantageImageUrls?: string[];
+  model_3d_url?: string;
   portfolioItems: IPortfolioItem[];
   createdAt: string;
   updatedAt: string;
