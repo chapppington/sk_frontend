@@ -59,6 +59,8 @@ export interface IProduct {
   category: string;
   name: string;
   description: string;
+  previewImage?: string;
+  previewImageUrl?: string;
   importantCharacteristics: ImportantCharacteristic[];
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
@@ -87,6 +89,7 @@ export interface CreateProductData {
   category: string;
   name: string;
   description: string;
+  previewImage?: string;
   importantCharacteristics: ImportantCharacteristic[];
   advantages: Advantage[];
   simpleDescription: SimpleDescription;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useEffect, Fragment } from "react";
 import { Button } from "@/components/ui/shadcn/button";
 import {
   Table,
@@ -56,6 +56,8 @@ import {
   CommandItem,
 } from "@/components/ui/shadcn/command";
 import IconPicker from "@/components/ui/IconPicker";
+import { BACKEND_MAIN } from "@/constants";
+import Image from "next/image";
 
 const productCategories = [
   {
@@ -110,6 +112,7 @@ export default function ProductManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
   const [model3dFile, setModel3dFile] = useState<File | null>(null);
+  const [previewImageFile, setPreviewImageFile] = useState<File | null>(null);
   const [deletePopoverOpen, setDeletePopoverOpen] = useState<string | null>(
     null
   );
@@ -117,12 +120,27 @@ export default function ProductManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Memoized URL for preview image to prevent unnecessary re-renders
+  const previewImageUrl = useMemo(() => {
+    return previewImageFile ? URL.createObjectURL(previewImageFile) : null;
+  }, [previewImageFile]);
+
+  // Cleanup object URL when component unmounts or file changes
+  useEffect(() => {
+    return () => {
+      if (previewImageUrl) {
+        URL.revokeObjectURL(previewImageUrl);
+      }
+    };
+  }, [previewImageUrl]);
+
   const [formData, setFormData] = useState<
     CreateProductData & { advantageImages: File[]; portfolioItems: string[] }
   >({
     category: "",
     name: "",
     description: "",
+    previewImage: "",
     importantCharacteristics: [
       {
         value: "",
@@ -249,6 +267,7 @@ export default function ProductManagement() {
       category: "",
       name: "",
       description: "",
+      previewImage: "",
       importantCharacteristics: [
         { value: "", unit: { text: "" }, description: "" },
       ],
@@ -273,6 +292,7 @@ export default function ProductManagement() {
     });
     setEditingProduct(null);
     setModel3dFile(null);
+    setPreviewImageFile(null);
     setCurrentStep(1);
   };
 
@@ -308,6 +328,12 @@ export default function ProductManagement() {
       }
     });
 
+    // Добавляем превью изображение
+    if (previewImageFile) {
+      formDataToSend.append("previewImage", previewImageFile);
+    }
+
+    // Добавляем 3D модель
     if (model3dFile) {
       formDataToSend.append("model_3d", model3dFile);
     }
@@ -330,6 +356,7 @@ export default function ProductManagement() {
       category: product.category || "",
       name: product.name || "",
       description: product.description || "",
+      previewImage: product.previewImage || "",
       importantCharacteristics: (product.importantCharacteristics || [])
         .filter(Boolean)
         .map((char) => ({
@@ -373,6 +400,7 @@ export default function ProductManagement() {
         [],
     });
     setModel3dFile(null);
+    setPreviewImageFile(null);
     setCurrentStep(1);
     setIsDialogOpen(true);
   };
@@ -554,6 +582,53 @@ export default function ProductManagement() {
                 required
                 rows={4}
               />
+            </div>
+
+            <div>
+              <Label htmlFor="previewImage" className="block mb-2">
+                Превью изображение
+              </Label>
+              <Input
+                id="previewImage"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setPreviewImageFile(e.target.files[0]);
+                  }
+                }}
+                required={!editingProduct}
+              />
+              {editingProduct?.previewImageUrl && !previewImageFile && (
+                <div className="mt-2">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Текущее изображение:
+                  </p>
+                  <div className="relative w-32 h-32">
+                    <Image
+                      src={`${BACKEND_MAIN}${editingProduct.previewImageUrl}`}
+                      alt="Current preview image"
+                      fill
+                      className="object-cover rounded-md"
+                    />
+                  </div>
+                </div>
+              )}
+              {previewImageFile && (
+                <div className="mt-2">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Новое изображение:
+                  </p>
+                  <div className="relative w-32 h-32">
+                    <Image
+                      src={previewImageUrl!}
+                      alt="New preview image"
+                      fill
+                      className="object-cover rounded-md"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -1183,34 +1258,41 @@ export default function ProductManagement() {
 
             {/* Progress Bar */}
             <div className="px-6 py-4 border-b flex-shrink-0">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center w-full mb-4">
                 {steps.map((step, index) => (
-                  <div key={step.id} className="flex items-center">
-                    <div
+                  <Fragment key={step.id}>
+                    <button
+                      onClick={() => setCurrentStep(step.id)}
                       className={cn(
-                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border-2",
+                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border-2 flex-shrink-0 transition-colors duration-200 relative group",
                         currentStep > step.id
                           ? "bg-green-500 border-green-500 text-white"
                           : currentStep === step.id
-                          ? "bg-blue-500 border-blue-500 text-white"
-                          : "bg-gray-100 border-gray-300 text-gray-500"
+                          ? "bg-blue-500 border-blue-500 text-white cursor-default"
+                          : "bg-gray-100 border-gray-300 text-gray-500 hover:border-gray-400"
                       )}
+                      disabled={currentStep === step.id}
                     >
                       {currentStep > step.id ? (
                         <Check className="w-4 h-4" />
                       ) : (
                         step.id
                       )}
-                    </div>
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                        {step.title}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+                      </div>
+                    </button>
                     {index < steps.length - 1 && (
                       <div
                         className={cn(
-                          "w-16 h-0.5 mx-2",
+                          "flex-1 h-0.5 mx-2 transition-colors duration-200",
                           currentStep > step.id ? "bg-green-500" : "bg-gray-300"
                         )}
                       />
                     )}
-                  </div>
+                  </Fragment>
                 ))}
               </div>
               <div className="flex items-center justify-between">
@@ -1295,6 +1377,7 @@ export default function ProductManagement() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Превью</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
               <TableHead>Описание</TableHead>
@@ -1304,19 +1387,35 @@ export default function ProductManagement() {
           <TableBody>
             {isLoadingProducts ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center">
+                <TableCell colSpan={5} className="text-center">
                   Загрузка...
                 </TableCell>
               </TableRow>
             ) : products.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center">
+                <TableCell colSpan={5} className="text-center">
                   Нет товаров
                 </TableCell>
               </TableRow>
             ) : (
               products.map((product: IProduct) => (
                 <TableRow key={product.id}>
+                  <TableCell>
+                    {product.previewImageUrl ? (
+                      <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
+                        <Image
+                          src={`${BACKEND_MAIN}${product.previewImageUrl}`}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center border">
+                        <span className="text-xs text-gray-500">Нет фото</span>
+                      </div>
+                    )}
+                  </TableCell>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>
                     {categoryLabelMap.get(product.category) || product.category}
