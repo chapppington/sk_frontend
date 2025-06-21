@@ -1,10 +1,5 @@
 "use client";
 
-// TODO: Fix controlled/uncontrolled input warnings when switching between form steps
-// This is a known issue with React form state management in multi-step forms
-// Current workaround: All form inputs are properly initialized with empty strings
-// but React still detects state changes during step transitions
-
 import { useState } from "react";
 import { Button } from "@/components/ui/shadcn/button";
 import {
@@ -602,10 +597,10 @@ export default function ProductManagement() {
                 .filter(Boolean)
                 .map((char, index) => {
                   // Ensure characteristic object exists and has all required properties
-                  const safeChar = char || {
-                    value: "",
-                    unit: { text: "" },
-                    description: "",
+                  const safeChar = {
+                    value: char?.value || "",
+                    unit: { text: char?.unit?.text || "" },
+                    description: char?.description || "",
                   };
 
                   return (
@@ -644,7 +639,7 @@ export default function ProductManagement() {
                           <Label className="block mb-2">Значение</Label>
                           <Input
                             placeholder="Значение"
-                            value={safeChar.value || ""}
+                            value={safeChar.value}
                             onChange={(e) =>
                               updateImportantCharacteristic(
                                 index,
@@ -660,7 +655,7 @@ export default function ProductManagement() {
                           </Label>
                           <Input
                             placeholder="Единица измерения"
-                            value={safeChar.unit?.text || ""}
+                            value={safeChar.unit.text}
                             onChange={(e) =>
                               updateImportantCharacteristic(
                                 index,
@@ -674,7 +669,7 @@ export default function ProductManagement() {
                           <Label className="block mb-2">Описание</Label>
                           <Input
                             placeholder="Описание"
-                            value={safeChar.description || ""}
+                            value={safeChar.description}
                             onChange={(e) =>
                               updateImportantCharacteristic(
                                 index,
@@ -726,11 +721,11 @@ export default function ProductManagement() {
                 .filter(Boolean)
                 .map((advantage, index) => {
                   // Ensure advantage object exists and has all required properties
-                  const safeAdvantage = advantage || {
-                    label: "",
-                    icon: "",
-                    image: "",
-                    description: "",
+                  const safeAdvantage = {
+                    label: advantage?.label || "",
+                    icon: advantage?.icon || "",
+                    image: advantage?.image || "",
+                    description: advantage?.description || "",
                   };
 
                   return (
@@ -779,7 +774,7 @@ export default function ProductManagement() {
                           <Label className="block mb-2">Название</Label>
                           <Input
                             placeholder="Название преимущества"
-                            value={safeAdvantage.label || ""}
+                            value={safeAdvantage.label}
                             onChange={(e) =>
                               updateAdvantage(index, "label", e.target.value)
                             }
@@ -788,7 +783,7 @@ export default function ProductManagement() {
                         <div>
                           <Label className="block mb-2">Иконка</Label>
                           <IconPicker
-                            value={safeAdvantage.icon || ""}
+                            value={safeAdvantage.icon}
                             onChange={(value) =>
                               updateAdvantage(index, "icon", value)
                             }
@@ -872,7 +867,7 @@ export default function ProductManagement() {
                           <Label>Описание</Label>
                           <Textarea
                             placeholder="Описание преимущества"
-                            value={safeAdvantage.description || ""}
+                            value={safeAdvantage.description}
                             onChange={(e) =>
                               updateAdvantage(
                                 index,
@@ -936,7 +931,9 @@ export default function ProductManagement() {
               <div className="space-y-3">
                 {(formData.simpleDescription?.items || []).map(
                   (item, index) => {
-                    const safeItem = item || { text: "" };
+                    const safeItem = {
+                      text: item?.text || "",
+                    };
                     return (
                       <div key={index} className="flex gap-2">
                         <div className="flex-shrink-0 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium">
@@ -944,7 +941,7 @@ export default function ProductManagement() {
                         </div>
                         <Textarea
                           placeholder={`Пункт ${index + 1}`}
-                          value={safeItem.text || ""}
+                          value={safeItem.text}
                           onChange={(e) =>
                             updateSimpleDescription(index, e.target.value)
                           }
@@ -964,7 +961,10 @@ export default function ProductManagement() {
               <div className="space-y-4">
                 {(formData.detailedDescription?.items || []).map(
                   (item, index) => {
-                    const safeItem = item || { title: "", description: "" };
+                    const safeItem = {
+                      title: item?.title || "",
+                      description: item?.description || "",
+                    };
                     return (
                       <div key={index} className="p-6 border-2 rounded-lg">
                         <div className="flex justify-between items-center mb-4">
@@ -998,7 +998,7 @@ export default function ProductManagement() {
                             <Label className="block mb-2">Заголовок</Label>
                             <Input
                               placeholder="Заголовок"
-                              value={safeItem.title || ""}
+                              value={safeItem.title}
                               onChange={(e) =>
                                 updateDetailedDescription(
                                   index,
@@ -1012,7 +1012,7 @@ export default function ProductManagement() {
                             <Label className="block mb-2">Описание</Label>
                             <Textarea
                               placeholder="Описание"
-                              value={safeItem.description || ""}
+                              value={safeItem.description}
                               onChange={(e) =>
                                 updateDetailedDescription(
                                   index,
@@ -1258,7 +1258,11 @@ export default function ProductManagement() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form
+                key={`step-${currentStep}`}
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
                 {renderStepContent()}
               </form>
             </div>
