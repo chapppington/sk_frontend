@@ -1,5 +1,10 @@
 "use client";
 
+// TODO: Fix controlled/uncontrolled input warnings when switching between form steps
+// This is a known issue with React form state management in multi-step forms
+// Current workaround: All form inputs are properly initialized with empty strings
+// but React still detects state changes during step transitions
+
 import { useState } from "react";
 import { Button } from "@/components/ui/shadcn/button";
 import {
@@ -330,14 +335,14 @@ export default function ProductManagement() {
       category: product.category || "",
       name: product.name || "",
       description: product.description || "",
-      importantCharacteristics: product.importantCharacteristics?.map(
-        (char) => ({
+      importantCharacteristics: (product.importantCharacteristics || [])
+        .filter(Boolean)
+        .map((char) => ({
           value: char.value || "",
           unit: { text: char.unit?.text || "" },
           description: char.description || "",
-        })
-      ) || [{ value: "", unit: { text: "" }, description: "" }],
-      advantages: product.advantages?.map((adv) => ({
+        })) || [{ value: "", unit: { text: "" }, description: "" }],
+      advantages: (product.advantages || []).filter(Boolean).map((adv) => ({
         label: adv.label || "",
         icon: adv.icon || "",
         image: adv.image || "",
@@ -348,15 +353,19 @@ export default function ProductManagement() {
         { label: "", icon: "", image: "", description: "" },
       ],
       simpleDescription: {
-        items: product.simpleDescription?.items?.map((item) => ({
-          text: item.text || "",
-        })) || [{ text: "" }, { text: "" }, { text: "" }],
+        items: (product.simpleDescription?.items || [])
+          .filter(Boolean)
+          .map((item) => ({
+            text: item.text || "",
+          })) || [{ text: "" }, { text: "" }, { text: "" }],
       },
       detailedDescription: {
-        items: product.detailedDescription?.items?.map((item) => ({
-          title: item.title || "",
-          description: item.description || "",
-        })) || [
+        items: (product.detailedDescription?.items || [])
+          .filter(Boolean)
+          .map((item) => ({
+            title: item.title || "",
+            description: item.description || "",
+          })) || [
           { title: "", description: "" },
           { title: "", description: "" },
           { title: "", description: "" },
@@ -365,7 +374,8 @@ export default function ProductManagement() {
       },
       advantageImages: [],
       portfolioItems:
-        product.portfolioItems?.map((item: IPortfolioItem) => item.id) || [],
+        (product.portfolioItems || []).map((item: IPortfolioItem) => item.id) ||
+        [],
     });
     setModel3dFile(null);
     setCurrentStep(1);
@@ -394,7 +404,21 @@ export default function ProductManagement() {
     field: string,
     value: string
   ) => {
-    const updated = [...formData.importantCharacteristics];
+    // Ensure importantCharacteristics array exists and filter out any undefined values
+    const currentCharacteristics = (
+      formData.importantCharacteristics || []
+    ).filter(Boolean);
+    const updated = [...currentCharacteristics];
+
+    // Ensure the characteristic object at this index exists
+    if (!updated[index]) {
+      updated[index] = {
+        value: "",
+        unit: { text: "" },
+        description: "",
+      };
+    }
+
     if (field === "unit") {
       updated[index] = {
         ...updated[index],
@@ -410,7 +434,20 @@ export default function ProductManagement() {
   };
 
   const updateAdvantage = (index: number, field: string, value: string) => {
-    const updated = [...formData.advantages];
+    // Ensure advantages array exists and filter out any undefined values
+    const currentAdvantages = (formData.advantages || []).filter(Boolean);
+    const updated = [...currentAdvantages];
+
+    // Ensure the advantage object at this index exists
+    if (!updated[index]) {
+      updated[index] = {
+        label: "",
+        icon: "",
+        image: "",
+        description: "",
+      };
+    }
+
     updated[index] = {
       ...updated[index],
       [field]: value || "",
@@ -419,7 +456,17 @@ export default function ProductManagement() {
   };
 
   const updateSimpleDescription = (index: number, value: string) => {
-    const updated = [...formData.simpleDescription.items];
+    // Ensure simpleDescription.items array exists and filter out any undefined values
+    const currentItems = (formData.simpleDescription?.items || []).filter(
+      Boolean
+    );
+    const updated = [...currentItems];
+
+    // Ensure the item at this index exists
+    if (!updated[index]) {
+      updated[index] = { text: "" };
+    }
+
     updated[index] = { text: value || "" };
     setFormData({
       ...formData,
@@ -432,7 +479,17 @@ export default function ProductManagement() {
     field: string,
     value: string
   ) => {
-    const updated = [...formData.detailedDescription.items];
+    // Ensure detailedDescription.items array exists and filter out any undefined values
+    const currentItems = (formData.detailedDescription?.items || []).filter(
+      Boolean
+    );
+    const updated = [...currentItems];
+
+    // Ensure the item at this index exists
+    if (!updated[index]) {
+      updated[index] = { title: "", description: "" };
+    }
+
     updated[index] = {
       ...updated[index],
       [field]: value || "",
@@ -541,103 +598,116 @@ export default function ProductManagement() {
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
             <div className="space-y-4">
-              {(formData.importantCharacteristics || []).map((char, index) => {
-                // Ensure characteristic object exists and has all required properties
-                const safeChar = char || {
-                  value: "",
-                  unit: { text: "" },
-                  description: "",
-                };
+              {(formData.importantCharacteristics || [])
+                .filter(Boolean)
+                .map((char, index) => {
+                  // Ensure characteristic object exists and has all required properties
+                  const safeChar = char || {
+                    value: "",
+                    unit: { text: "" },
+                    description: "",
+                  };
 
-                return (
-                  <div key={index} className="p-6 border-2 rounded-lg">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-medium">
-                        Характеристика {index + 1}
-                      </h4>
-                      {(formData.importantCharacteristics || []).length > 1 && (
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => {
-                            const updated = [
-                              ...(formData.importantCharacteristics || []),
-                            ];
-                            updated.splice(index, 1);
-                            setFormData({
-                              ...formData,
-                              importantCharacteristics: updated,
-                            });
-                          }}
-                        >
-                          Удалить
-                        </Button>
-                      )}
+                  return (
+                    <div key={index} className="p-6 border-2 rounded-lg">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="font-medium">
+                          Характеристика {index + 1}
+                        </h4>
+                        {(formData.importantCharacteristics || []).filter(
+                          Boolean
+                        ).length > 1 && (
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              const currentChars = (
+                                formData.importantCharacteristics || []
+                              ).filter(Boolean);
+                              const updated = [...currentChars];
+                              updated.splice(index, 1);
+                              // Ensure no undefined values remain
+                              const cleanUpdated = updated.filter(Boolean);
+                              setFormData({
+                                ...formData,
+                                importantCharacteristics: cleanUpdated,
+                              });
+                            }}
+                          >
+                            Удалить
+                          </Button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <Label className="block mb-2">Значение</Label>
+                          <Input
+                            placeholder="Значение"
+                            value={safeChar.value || ""}
+                            onChange={(e) =>
+                              updateImportantCharacteristic(
+                                index,
+                                "value",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Label className="block mb-2">
+                            Единица измерения
+                          </Label>
+                          <Input
+                            placeholder="Единица измерения"
+                            value={safeChar.unit?.text || ""}
+                            onChange={(e) =>
+                              updateImportantCharacteristic(
+                                index,
+                                "unit",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Label className="block mb-2">Описание</Label>
+                          <Input
+                            placeholder="Описание"
+                            value={safeChar.description || ""}
+                            onChange={(e) =>
+                              updateImportantCharacteristic(
+                                index,
+                                "description",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <Label className="block mb-2">Значение</Label>
-                        <Input
-                          placeholder="Значение"
-                          value={safeChar.value || ""}
-                          onChange={(e) =>
-                            updateImportantCharacteristic(
-                              index,
-                              "value",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label className="block mb-2">Единица измерения</Label>
-                        <Input
-                          placeholder="Единица измерения"
-                          value={safeChar.unit?.text || ""}
-                          onChange={(e) =>
-                            updateImportantCharacteristic(
-                              index,
-                              "unit",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label className="block mb-2">Описание</Label>
-                        <Input
-                          placeholder="Описание"
-                          value={safeChar.description || ""}
-                          onChange={(e) =>
-                            updateImportantCharacteristic(
-                              index,
-                              "description",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-              {(formData.importantCharacteristics || []).length < 3 && (
+                  );
+                })}
+              {(formData.importantCharacteristics || []).filter(Boolean)
+                .length < 3 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    const updated = [
-                      ...(formData.importantCharacteristics || []),
-                    ];
+                    const currentChars = (
+                      formData.importantCharacteristics || []
+                    ).filter(Boolean);
+                    const updated = [...currentChars];
                     updated.push({
                       value: "",
                       unit: { text: "" },
                       description: "",
                     });
+                    // Ensure no undefined values remain
+                    const cleanUpdated = updated.filter(Boolean);
                     setFormData({
                       ...formData,
-                      importantCharacteristics: updated,
+                      importantCharacteristics: cleanUpdated,
                     });
                   }}
                 >
@@ -652,155 +722,200 @@ export default function ProductManagement() {
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
             <div className="space-y-4">
-              {(formData.advantages || []).map((advantage, index) => {
-                // Ensure advantage object exists and has all required properties
-                const safeAdvantage = advantage || {
-                  label: "",
-                  icon: "",
-                  image: "",
-                  description: "",
-                };
+              {(formData.advantages || [])
+                .filter(Boolean)
+                .map((advantage, index) => {
+                  // Ensure advantage object exists and has all required properties
+                  const safeAdvantage = advantage || {
+                    label: "",
+                    icon: "",
+                    image: "",
+                    description: "",
+                  };
 
-                return (
-                  <div key={index} className="p-6 border-2 rounded-lg">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-medium">Преимущество {index + 1}</h4>
-                      {(formData.advantages || []).length > 3 && (
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => {
-                            const updated = [...(formData.advantages || [])];
-                            updated.splice(index, 1);
-                            const updatedImages = [
-                              ...(formData.advantageImages || []),
-                            ];
-                            updatedImages.splice(index, 1);
-                            setFormData({
-                              ...formData,
-                              advantages: updated,
-                              advantageImages: updatedImages,
-                            });
-                          }}
-                        >
-                          Удалить
-                        </Button>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label className="block mb-2">Название</Label>
-                        <Input
-                          placeholder="Название преимущества"
-                          value={safeAdvantage.label || ""}
-                          onChange={(e) =>
-                            updateAdvantage(index, "label", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label className="block mb-2">Иконка</Label>
-                        <IconPicker
-                          value={safeAdvantage.icon || ""}
-                          onChange={(value) =>
-                            updateAdvantage(index, "icon", value)
-                          }
-                        />
-                      </div>
-                      <div className="col-span-2">
-                        <Label className="block mb-2">Изображение</Label>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              const updated = [...(formData.advantages || [])];
-                              updated[index] = {
-                                ...updated[index],
-                                image: file.name,
-                              };
+                  return (
+                    <div key={index} className="p-6 border-2 rounded-lg">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="font-medium">
+                          Преимущество {index + 1}
+                        </h4>
+                        {(formData.advantages || []).filter(Boolean).length >
+                          3 && (
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              const currentAdvantages = (
+                                formData.advantages || []
+                              ).filter(Boolean);
+                              const updated = [...currentAdvantages];
+                              updated.splice(index, 1);
+                              // Ensure no undefined values remain
+                              const cleanUpdated = updated.filter(Boolean);
 
-                              const updatedImages = [
-                                ...(formData.advantageImages || []),
-                              ];
-                              updatedImages[index] = file;
+                              const currentImages = (
+                                formData.advantageImages || []
+                              ).filter(Boolean);
+                              const updatedImages = [...currentImages];
+                              updatedImages.splice(index, 1);
+                              // Ensure no undefined values remain
+                              const cleanUpdatedImages =
+                                updatedImages.filter(Boolean);
 
                               setFormData({
                                 ...formData,
-                                advantages: updated,
-                                advantageImages: updatedImages,
+                                advantages: cleanUpdated,
+                                advantageImages: cleanUpdatedImages,
                               });
-                            }
-                          }}
-                        />
-                        {safeAdvantage.image && (
-                          <div className="mt-2 relative">
-                            <img
-                              src={
-                                (formData.advantageImages || [])[index]
-                                  ? URL.createObjectURL(
-                                      (formData.advantageImages || [])[index]
-                                    )
-                                  : editingProduct?.advantageImageUrls?.[
-                                      index
-                                    ] || safeAdvantage.image
-                              }
-                              alt={`Advantage ${index + 1}`}
-                              className="w-32 aspect-[16/9] object-cover rounded"
-                            />
-                            {(formData.advantageImages || [])[index] && (
-                              <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                Новое
-                              </span>
-                            )}
-                            {editingProduct?.advantageImageUrls?.[index] &&
-                              !(formData.advantageImages || [])[index] && (
-                                <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                  Текущее
-                                </span>
-                              )}
-                          </div>
+                            }}
+                          >
+                            Удалить
+                          </Button>
                         )}
                       </div>
-                      <div className="col-span-2">
-                        <Label>Описание</Label>
-                        <Textarea
-                          placeholder="Описание преимущества"
-                          value={safeAdvantage.description || ""}
-                          onChange={(e) =>
-                            updateAdvantage(
-                              index,
-                              "description",
-                              e.target.value
-                            )
-                          }
-                        />
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="block mb-2">Название</Label>
+                          <Input
+                            placeholder="Название преимущества"
+                            value={safeAdvantage.label || ""}
+                            onChange={(e) =>
+                              updateAdvantage(index, "label", e.target.value)
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Label className="block mb-2">Иконка</Label>
+                          <IconPicker
+                            value={safeAdvantage.icon || ""}
+                            onChange={(value) =>
+                              updateAdvantage(index, "icon", value)
+                            }
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <Label className="block mb-2">Изображение</Label>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const currentAdvantages = (
+                                  formData.advantages || []
+                                ).filter(Boolean);
+                                const updated = [...currentAdvantages];
+                                updated[index] = {
+                                  ...updated[index],
+                                  image: file.name,
+                                };
+
+                                const currentImages = (
+                                  formData.advantageImages || []
+                                ).filter(Boolean);
+                                const updatedImages = [...currentImages];
+                                updatedImages[index] = file;
+
+                                // Ensure no undefined values remain
+                                const cleanUpdated = updated.filter(Boolean);
+                                const cleanUpdatedImages =
+                                  updatedImages.filter(Boolean);
+
+                                setFormData({
+                                  ...formData,
+                                  advantages: cleanUpdated,
+                                  advantageImages: cleanUpdatedImages,
+                                });
+                              }
+                            }}
+                          />
+                          {safeAdvantage.image && (
+                            <div className="mt-2 relative">
+                              <img
+                                src={
+                                  (formData.advantageImages || []).filter(
+                                    Boolean
+                                  )[index]
+                                    ? URL.createObjectURL(
+                                        (formData.advantageImages || []).filter(
+                                          Boolean
+                                        )[index]
+                                      )
+                                    : editingProduct?.advantageImageUrls?.[
+                                        index
+                                      ] || safeAdvantage.image
+                                }
+                                alt={`Advantage ${index + 1}`}
+                                className="w-32 aspect-[16/9] object-cover rounded"
+                              />
+                              {(formData.advantageImages || []).filter(Boolean)[
+                                index
+                              ] && (
+                                <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                  Новое
+                                </span>
+                              )}
+                              {editingProduct?.advantageImageUrls?.[index] &&
+                                !(formData.advantageImages || []).filter(
+                                  Boolean
+                                )[index] && (
+                                  <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                    Текущее
+                                  </span>
+                                )}
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-span-2">
+                          <Label>Описание</Label>
+                          <Textarea
+                            placeholder="Описание преимущества"
+                            value={safeAdvantage.description || ""}
+                            onChange={(e) =>
+                              updateAdvantage(
+                                index,
+                                "description",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-              {(formData.advantages || []).length < 5 && (
+                  );
+                })}
+              {(formData.advantages || []).filter(Boolean).length < 5 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    const updated = [...(formData.advantages || [])];
+                    const currentAdvantages = (
+                      formData.advantages || []
+                    ).filter(Boolean);
+                    const updated = [...currentAdvantages];
                     updated.push({
                       label: "",
                       icon: "",
                       image: "",
                       description: "",
                     });
-                    const updatedImages = [...(formData.advantageImages || [])];
+
+                    const currentImages = (
+                      formData.advantageImages || []
+                    ).filter(Boolean);
+                    const updatedImages = [...currentImages];
                     updatedImages.push(null as any);
+
+                    // Ensure no undefined values remain
+                    const cleanUpdated = updated.filter(Boolean);
+                    const cleanUpdatedImages = updatedImages.filter(Boolean);
+
                     setFormData({
                       ...formData,
-                      advantages: updated,
-                      advantageImages: updatedImages,
+                      advantages: cleanUpdated,
+                      advantageImages: cleanUpdatedImages,
                     });
                   }}
                 >
@@ -861,14 +976,16 @@ export default function ProductManagement() {
                               variant="destructive"
                               size="sm"
                               onClick={() => {
-                                const updated = [
-                                  ...(formData.detailedDescription?.items ||
-                                    []),
-                                ];
+                                const currentItems = (
+                                  formData.detailedDescription?.items || []
+                                ).filter(Boolean);
+                                const updated = [...currentItems];
                                 updated.splice(index, 1);
+                                // Ensure no undefined values remain
+                                const cleanUpdated = updated.filter(Boolean);
                                 setFormData({
                                   ...formData,
-                                  detailedDescription: { items: updated },
+                                  detailedDescription: { items: cleanUpdated },
                                 });
                               }}
                             >
@@ -916,16 +1033,19 @@ export default function ProductManagement() {
                     type="button"
                     variant="outline"
                     onClick={() => {
-                      const updated = [
-                        ...(formData.detailedDescription?.items || []),
-                      ];
+                      const currentItems = (
+                        formData.detailedDescription?.items || []
+                      ).filter(Boolean);
+                      const updated = [...currentItems];
                       updated.push({
                         title: "",
                         description: "",
                       });
+                      // Ensure no undefined values remain
+                      const cleanUpdated = updated.filter(Boolean);
                       setFormData({
                         ...formData,
-                        detailedDescription: { items: updated },
+                        detailedDescription: { items: cleanUpdated },
                       });
                     }}
                   >
