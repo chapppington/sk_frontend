@@ -25,7 +25,14 @@ import {
 import { Input } from "@/components/ui/shadcn/input";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Plus,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+} from "lucide-react";
 import productService from "@/services/product.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { IProduct, CreateProductData } from "@/shared/types/product.types";
@@ -39,7 +46,7 @@ import {
 } from "@/components/ui/shadcn/select";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import portfolioService from "@/services/portfolio.service";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check as CheckIcon, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -82,6 +89,23 @@ const categoryLabelMap = new Map(
   productCategories.map((cat) => [cat.value, cat.label])
 );
 
+const steps = [
+  {
+    id: 1,
+    title: "Основная информация",
+    description: "Название, категория, описание",
+  },
+  { id: 2, title: "3D Модель", description: "Загрузка 3D модели" },
+  {
+    id: 3,
+    title: "Характеристики",
+    description: "Важные характеристики товара",
+  },
+  { id: 4, title: "Преимущества", description: "Преимущества и особенности" },
+  { id: 5, title: "Описания", description: "Простое и детальное описание" },
+  { id: 6, title: "Портфолио", description: "Связанные проекты" },
+];
+
 export default function ProductManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
@@ -89,6 +113,7 @@ export default function ProductManagement() {
   const [deletePopoverOpen, setDeletePopoverOpen] = useState<string | null>(
     null
   );
+  const [currentStep, setCurrentStep] = useState(1);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -248,6 +273,7 @@ export default function ProductManagement() {
     });
     setEditingProduct(null);
     setModel3dFile(null);
+    setCurrentStep(1);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -301,25 +327,66 @@ export default function ProductManagement() {
   const handleEdit = (product: IProduct) => {
     setEditingProduct(product);
     setFormData({
-      category: product.category,
-      name: product.name,
-      description: product.description,
-      importantCharacteristics: product.importantCharacteristics,
-      advantages: product.advantages,
-      simpleDescription: product.simpleDescription,
-      detailedDescription: product.detailedDescription,
+      category: product.category || "",
+      name: product.name || "",
+      description: product.description || "",
+      importantCharacteristics: product.importantCharacteristics?.map(
+        (char) => ({
+          value: char.value || "",
+          unit: { text: char.unit?.text || "" },
+          description: char.description || "",
+        })
+      ) || [{ value: "", unit: { text: "" }, description: "" }],
+      advantages: product.advantages?.map((adv) => ({
+        label: adv.label || "",
+        icon: adv.icon || "",
+        image: adv.image || "",
+        description: adv.description || "",
+      })) || [
+        { label: "", icon: "", image: "", description: "" },
+        { label: "", icon: "", image: "", description: "" },
+        { label: "", icon: "", image: "", description: "" },
+      ],
+      simpleDescription: {
+        items: product.simpleDescription?.items?.map((item) => ({
+          text: item.text || "",
+        })) || [{ text: "" }, { text: "" }, { text: "" }],
+      },
+      detailedDescription: {
+        items: product.detailedDescription?.items?.map((item) => ({
+          title: item.title || "",
+          description: item.description || "",
+        })) || [
+          { title: "", description: "" },
+          { title: "", description: "" },
+          { title: "", description: "" },
+          { title: "", description: "" },
+        ],
+      },
       advantageImages: [],
-      portfolioItems: product.portfolioItems.map(
-        (item: IPortfolioItem) => item.id
-      ),
+      portfolioItems:
+        product.portfolioItems?.map((item: IPortfolioItem) => item.id) || [],
     });
     setModel3dFile(null);
+    setCurrentStep(1);
     setIsDialogOpen(true);
   };
 
   const handleAddNew = () => {
     resetForm();
     setIsDialogOpen(true);
+  };
+
+  const nextStep = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   const updateImportantCharacteristic = (
@@ -329,22 +396,31 @@ export default function ProductManagement() {
   ) => {
     const updated = [...formData.importantCharacteristics];
     if (field === "unit") {
-      updated[index] = { ...updated[index], unit: { text: value } };
+      updated[index] = {
+        ...updated[index],
+        unit: { text: value || "" },
+      };
     } else {
-      updated[index] = { ...updated[index], [field]: value };
+      updated[index] = {
+        ...updated[index],
+        [field]: value || "",
+      };
     }
     setFormData({ ...formData, importantCharacteristics: updated });
   };
 
   const updateAdvantage = (index: number, field: string, value: string) => {
     const updated = [...formData.advantages];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = {
+      ...updated[index],
+      [field]: value || "",
+    };
     setFormData({ ...formData, advantages: updated });
   };
 
   const updateSimpleDescription = (index: number, value: string) => {
     const updated = [...formData.simpleDescription.items];
-    updated[index] = { text: value };
+    updated[index] = { text: value || "" };
     setFormData({
       ...formData,
       simpleDescription: { items: updated },
@@ -357,11 +433,598 @@ export default function ProductManagement() {
     value: string
   ) => {
     const updated = [...formData.detailedDescription.items];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = {
+      ...updated[index],
+      [field]: value || "",
+    };
     setFormData({
       ...formData,
       detailedDescription: { items: updated },
     });
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="category" className="block mb-2">
+                  Категория
+                </Label>
+                <Select
+                  value={formData.category || ""}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, category: value || "" })
+                  }
+                >
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Выберите категорию" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {productCategories.map((cat) => (
+                      <SelectItem key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="name" className="block mb-2">
+                  Название
+                </Label>
+                <Input
+                  id="name"
+                  value={formData.name || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value || "" })
+                  }
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="description" className="block mb-2">
+                Описание
+              </Label>
+              <Textarea
+                id="description"
+                value={formData.description || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    description: e.target.value || "",
+                  })
+                }
+                required
+                rows={4}
+              />
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div>
+              <Label htmlFor="model_3d" className="block mb-2">
+                3D Модель (.glb)
+              </Label>
+              <Input
+                id="model_3d"
+                type="file"
+                accept=".glb"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setModel3dFile(e.target.files[0]);
+                  }
+                }}
+              />
+              {editingProduct?.model_3d_url && !model3dFile && (
+                <div className="mt-2 text-sm text-gray-500">
+                  Текущая модель: {editingProduct.model_3d_url.split("/").pop()}
+                </div>
+              )}
+              {model3dFile && (
+                <div className="mt-2 text-sm text-green-600">
+                  Новая модель: {model3dFile.name}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div className="space-y-4">
+              {formData.importantCharacteristics?.map((char, index) => {
+                // Ensure characteristic object exists and has all required properties
+                const safeChar = char || {
+                  value: "",
+                  unit: { text: "" },
+                  description: "",
+                };
+
+                return (
+                  <div key={index} className="p-6 border-2 rounded-lg">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-medium">
+                        Характеристика {index + 1}
+                      </h4>
+                      {formData.importantCharacteristics.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const updated = [
+                              ...formData.importantCharacteristics,
+                            ];
+                            updated.splice(index, 1);
+                            setFormData({
+                              ...formData,
+                              importantCharacteristics: updated,
+                            });
+                          }}
+                        >
+                          Удалить
+                        </Button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="block mb-2">Значение</Label>
+                        <Input
+                          placeholder="Значение"
+                          value={safeChar.value || ""}
+                          onChange={(e) =>
+                            updateImportantCharacteristic(
+                              index,
+                              "value",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label className="block mb-2">Единица измерения</Label>
+                        <Input
+                          placeholder="Единица измерения"
+                          value={safeChar.unit?.text || ""}
+                          onChange={(e) =>
+                            updateImportantCharacteristic(
+                              index,
+                              "unit",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label className="block mb-2">Описание</Label>
+                        <Input
+                          placeholder="Описание"
+                          value={safeChar.description || ""}
+                          onChange={(e) =>
+                            updateImportantCharacteristic(
+                              index,
+                              "description",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              {formData.importantCharacteristics.length < 3 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const updated = [...formData.importantCharacteristics];
+                    updated.push({
+                      value: "",
+                      unit: { text: "" },
+                      description: "",
+                    });
+                    setFormData({
+                      ...formData,
+                      importantCharacteristics: updated,
+                    });
+                  }}
+                >
+                  + Добавить характеристику
+                </Button>
+              )}
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div className="space-y-4">
+              {formData.advantages?.map((advantage, index) => {
+                // Ensure advantage object exists and has all required properties
+                const safeAdvantage = advantage || {
+                  label: "",
+                  icon: "",
+                  image: "",
+                  description: "",
+                };
+
+                return (
+                  <div key={index} className="p-6 border-2 rounded-lg">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-medium">Преимущество {index + 1}</h4>
+                      {formData.advantages.length > 3 && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const updated = [...formData.advantages];
+                            updated.splice(index, 1);
+                            const updatedImages = [...formData.advantageImages];
+                            updatedImages.splice(index, 1);
+                            setFormData({
+                              ...formData,
+                              advantages: updated,
+                              advantageImages: updatedImages,
+                            });
+                          }}
+                        >
+                          Удалить
+                        </Button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="block mb-2">Название</Label>
+                        <Input
+                          placeholder="Название преимущества"
+                          value={safeAdvantage.label || ""}
+                          onChange={(e) =>
+                            updateAdvantage(index, "label", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <Label className="block mb-2">Иконка</Label>
+                        <IconPicker
+                          value={safeAdvantage.icon || ""}
+                          onChange={(value) =>
+                            updateAdvantage(index, "icon", value)
+                          }
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <Label className="block mb-2">Изображение</Label>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const updated = [...formData.advantages];
+                              updated[index] = {
+                                ...updated[index],
+                                image: file.name,
+                              };
+
+                              const updatedImages = [
+                                ...formData.advantageImages,
+                              ];
+                              updatedImages[index] = file;
+
+                              setFormData({
+                                ...formData,
+                                advantages: updated,
+                                advantageImages: updatedImages,
+                              });
+                            }
+                          }}
+                        />
+                        {safeAdvantage.image && (
+                          <div className="mt-2 relative">
+                            <img
+                              src={
+                                formData.advantageImages[index]
+                                  ? URL.createObjectURL(
+                                      formData.advantageImages[index]
+                                    )
+                                  : editingProduct?.advantageImageUrls?.[
+                                      index
+                                    ] || safeAdvantage.image
+                              }
+                              alt={`Advantage ${index + 1}`}
+                              className="w-32 aspect-[16/9] object-cover rounded"
+                            />
+                            {formData.advantageImages[index] && (
+                              <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                Новое
+                              </span>
+                            )}
+                            {editingProduct?.advantageImageUrls?.[index] &&
+                              !formData.advantageImages[index] && (
+                                <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                                  Текущее
+                                </span>
+                              )}
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-span-2">
+                        <Label>Описание</Label>
+                        <Textarea
+                          placeholder="Описание преимущества"
+                          value={safeAdvantage.description || ""}
+                          onChange={(e) =>
+                            updateAdvantage(
+                              index,
+                              "description",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              {formData.advantages.length < 5 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const updated = [...formData.advantages];
+                    updated.push({
+                      label: "",
+                      icon: "",
+                      image: "",
+                      description: "",
+                    });
+                    const updatedImages = [...formData.advantageImages];
+                    updatedImages.push(null as any);
+                    setFormData({
+                      ...formData,
+                      advantages: updated,
+                      advantageImages: updatedImages,
+                    });
+                  }}
+                >
+                  + Добавить преимущество
+                </Button>
+              )}
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-8" onWheel={(e) => e.stopPropagation()}>
+            <div>
+              <Label className="text-lg font-semibold block mb-4">
+                Простое описание
+              </Label>
+              <div className="space-y-3">
+                {formData.simpleDescription?.items?.map((item, index) => {
+                  const safeItem = item || { text: "" };
+                  return (
+                    <div key={index} className="flex gap-2">
+                      <div className="flex-shrink-0 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium">
+                        {index + 1}
+                      </div>
+                      <Textarea
+                        placeholder={`Пункт ${index + 1}`}
+                        value={safeItem.text || ""}
+                        onChange={(e) =>
+                          updateSimpleDescription(index, e.target.value)
+                        }
+                        rows={2}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <Label className="text-lg font-semibold block mb-4">
+                Детальное описание
+              </Label>
+              <div className="space-y-4">
+                {formData.detailedDescription?.items?.map((item, index) => {
+                  const safeItem = item || { title: "", description: "" };
+                  return (
+                    <div key={index} className="p-6 border-2 rounded-lg">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="font-medium">Пункт {index + 1}</h4>
+                        {formData.detailedDescription.items.length > 4 && (
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              const updated = [
+                                ...formData.detailedDescription.items,
+                              ];
+                              updated.splice(index, 1);
+                              setFormData({
+                                ...formData,
+                                detailedDescription: { items: updated },
+                              });
+                            }}
+                          >
+                            Удалить
+                          </Button>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="block mb-2">Заголовок</Label>
+                          <Input
+                            placeholder="Заголовок"
+                            value={safeItem.title || ""}
+                            onChange={(e) =>
+                              updateDetailedDescription(
+                                index,
+                                "title",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Label className="block mb-2">Описание</Label>
+                          <Textarea
+                            placeholder="Описание"
+                            value={safeItem.description || ""}
+                            onChange={(e) =>
+                              updateDetailedDescription(
+                                index,
+                                "description",
+                                e.target.value
+                              )
+                            }
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                {formData.detailedDescription.items.length < 10 && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      const updated = [...formData.detailedDescription.items];
+                      updated.push({
+                        title: "",
+                        description: "",
+                      });
+                      setFormData({
+                        ...formData,
+                        detailedDescription: { items: updated },
+                      });
+                    }}
+                  >
+                    + Добавить пункт
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div>
+              <Label className="block mb-2">Связанные проекты портфолио</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className="w-full justify-between"
+                  >
+                    <span className="truncate">
+                      {formData.portfolioItems.length > 0
+                        ? `Выбрано: ${formData.portfolioItems.length}`
+                        : "Выберите проекты..."}
+                    </span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                  <Command>
+                    <CommandInput placeholder="Поиск проектов..." />
+                    <CommandEmpty>Ничего не найдено.</CommandEmpty>
+                    <CommandGroup className="max-h-64 overflow-y-auto">
+                      {portfolioItems.map((item: IPortfolioItem) => (
+                        <CommandItem
+                          key={item.id}
+                          value={item.name}
+                          onSelect={() => {
+                            const selected = formData.portfolioItems.includes(
+                              item.id
+                            );
+                            setFormData((prev) => ({
+                              ...prev,
+                              portfolioItems: selected
+                                ? prev.portfolioItems.filter(
+                                    (id) => id !== item.id
+                                  )
+                                : [...prev.portfolioItems, item.id],
+                            }));
+                          }}
+                        >
+                          <CheckIcon
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              formData.portfolioItems.includes(item.id)
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {item.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              {formData.portfolioItems.length > 0 && (
+                <div className="mt-4">
+                  <Label>Выбранные проекты</Label>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {formData.portfolioItems.map((itemId) => {
+                      const item = portfolioItems.find(
+                        (p: IPortfolioItem) => p.id === itemId
+                      );
+                      if (!item) return null;
+                      return (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1 text-sm"
+                        >
+                          <span>{item.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                portfolioItems: prev.portfolioItems.filter(
+                                  (id) => id !== item.id
+                                ),
+                              }));
+                            }}
+                            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
   };
 
   if (isLoadingProducts || isLoadingPortfolio) {
@@ -379,575 +1042,114 @@ export default function ProductManagement() {
               Добавить товар
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl h-[90vh] p-0">
-            <DialogHeader className="px-6 pt-6">
+          <DialogContent className="max-w-4xl max-h-[90vh] p-0 flex flex-col">
+            <DialogHeader className="px-6 pt-6 flex-shrink-0">
               <DialogTitle>
                 {editingProduct ? "Редактировать товар" : "Создать товар"}
               </DialogTitle>
             </DialogHeader>
-            <div
-              className="h-[calc(90vh-80px)] overflow-y-auto px-6 pb-6"
-              onWheel={(e) => {
-                e.stopPropagation();
-                const container = e.currentTarget;
-                const delta = e.deltaY;
-                container.scrollTop += delta;
-              }}
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Label htmlFor="model_3d" className="block mb-2">
-                    3D Модель (.glb)
-                  </Label>
-                  <Input
-                    id="model_3d"
-                    type="file"
-                    accept=".glb"
-                    onChange={(e) => {
-                      if (e.target.files) {
-                        setModel3dFile(e.target.files[0]);
-                      }
-                    }}
-                  />
-                  {editingProduct?.model_3d_url && !model3dFile && (
-                    <div className="mt-2 text-sm text-gray-500">
-                      Текущая модель:{" "}
-                      {editingProduct.model_3d_url.split("/").pop()}
-                    </div>
-                  )}
-                  {model3dFile && (
-                    <div className="mt-2 text-sm text-green-600">
-                      Новая модель: {model3dFile.name}
-                    </div>
-                  )}
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="category" className="block mb-2">
-                      Категория
-                    </Label>
-                    <Select
-                      value={formData.category}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, category: value })
-                      }
+            {/* Progress Bar */}
+            <div className="px-6 py-4 border-b flex-shrink-0">
+              <div className="flex items-center justify-between mb-4">
+                {steps.map((step, index) => (
+                  <div key={step.id} className="flex items-center">
+                    <div
+                      className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border-2",
+                        currentStep > step.id
+                          ? "bg-green-500 border-green-500 text-white"
+                          : currentStep === step.id
+                          ? "bg-blue-500 border-blue-500 text-white"
+                          : "bg-gray-100 border-gray-300 text-gray-500"
+                      )}
                     >
-                      <SelectTrigger id="category">
-                        <SelectValue placeholder="Выберите категорию" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {productCategories.map((cat) => (
-                          <SelectItem key={cat.value} value={cat.value}>
-                            {cat.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="block mb-2">
-                      Название
-                    </Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="description" className="block mb-2">
-                    Описание
-                  </Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-lg font-semibold block mb-4">
-                    Важные характеристики
-                  </Label>
-                  <div className="space-y-6">
-                    {formData.importantCharacteristics.map((char, index) => (
-                      <div
-                        key={index}
-                        className="p-6 border rounded-lg bg-gray-50/50"
-                      >
-                        <div className="flex justify-between items-center mb-4">
-                          <h4 className="font-medium">
-                            Характеристика {index + 1}
-                          </h4>
-                          {formData.importantCharacteristics.length > 1 && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const updated = [
-                                  ...formData.importantCharacteristics,
-                                ];
-                                updated.splice(index, 1);
-                                setFormData({
-                                  ...formData,
-                                  importantCharacteristics: updated,
-                                });
-                              }}
-                            >
-                              Удалить
-                            </Button>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-3 gap-4">
-                          <div>
-                            <Label className="block mb-2">Значение</Label>
-                            <Input
-                              placeholder="Значение"
-                              value={char.value}
-                              onChange={(e) =>
-                                updateImportantCharacteristic(
-                                  index,
-                                  "value",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                          <div>
-                            <Label className="block mb-2">
-                              Единица измерения
-                            </Label>
-                            <Input
-                              placeholder="Единица измерения"
-                              value={char.unit?.text || ""}
-                              onChange={(e) =>
-                                updateImportantCharacteristic(
-                                  index,
-                                  "unit",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                          <div>
-                            <Label className="block mb-2">Описание</Label>
-                            <Input
-                              placeholder="Описание"
-                              value={char.description}
-                              onChange={(e) =>
-                                updateImportantCharacteristic(
-                                  index,
-                                  "description",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {formData.importantCharacteristics.length < 3 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          const updated = [
-                            ...formData.importantCharacteristics,
-                          ];
-                          updated.push({
-                            value: "",
-                            unit: { text: "" },
-                            description: "",
-                          });
-                          setFormData({
-                            ...formData,
-                            importantCharacteristics: updated,
-                          });
-                        }}
-                      >
-                        + Добавить характеристику
-                      </Button>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-lg font-semibold block mb-4">
-                    Преимущества
-                  </Label>
-                  <div className="space-y-6">
-                    {formData.advantages.map((advantage, index) => (
-                      <div
-                        key={index}
-                        className="p-6 border rounded-lg bg-gray-50/50"
-                      >
-                        <div className="flex justify-between items-center mb-4">
-                          <h4 className="font-medium">
-                            Преимущество {index + 1}
-                          </h4>
-                          {formData.advantages.length > 3 && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const updated = [...formData.advantages];
-                                updated.splice(index, 1);
-                                setFormData({
-                                  ...formData,
-                                  advantages: updated,
-                                });
-                              }}
-                            >
-                              Удалить
-                            </Button>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label className="block mb-2">Название</Label>
-                            <Input
-                              placeholder="Название преимущества"
-                              value={advantage.label}
-                              onChange={(e) =>
-                                updateAdvantage(index, "label", e.target.value)
-                              }
-                            />
-                          </div>
-                          <div>
-                            <Label className="block mb-2">Иконка</Label>
-                            <IconPicker
-                              value={advantage.icon}
-                              onChange={(value) =>
-                                updateAdvantage(index, "icon", value)
-                              }
-                            />
-                          </div>
-                          <div className="col-span-2">
-                            <Label className="block mb-2">Изображение</Label>
-                            <Input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  const updated = [...formData.advantages];
-                                  updated[index] = {
-                                    ...updated[index],
-                                    image: file.name,
-                                  };
-                                  setFormData({
-                                    ...formData,
-                                    advantages: updated,
-                                  });
-
-                                  // Добавляем файл в advantageImages
-                                  const updatedImages = [
-                                    ...formData.advantageImages,
-                                  ];
-                                  updatedImages[index] = file;
-                                  setFormData({
-                                    ...formData,
-                                    advantages: updated,
-                                    advantageImages: updatedImages,
-                                  });
-                                }
-                              }}
-                            />
-                            {advantage.image && (
-                              <div className="mt-2 relative">
-                                <img
-                                  src={
-                                    formData.advantageImages[index]
-                                      ? URL.createObjectURL(
-                                          formData.advantageImages[index]
-                                        )
-                                      : editingProduct?.advantageImageUrls?.[
-                                          index
-                                        ] || advantage.image
-                                  }
-                                  alt={`Advantage ${index + 1}`}
-                                  className="w-32 aspect-[16/9] object-cover rounded"
-                                />
-                                {formData.advantageImages[index] && (
-                                  <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                    Новое
-                                  </span>
-                                )}
-                                {editingProduct?.advantageImageUrls?.[index] &&
-                                  !formData.advantageImages[index] && (
-                                    <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                      Текущее
-                                    </span>
-                                  )}
-                              </div>
-                            )}
-                          </div>
-                          <div className="col-span-2">
-                            <Label>Описание</Label>
-                            <Textarea
-                              placeholder="Описание преимущества"
-                              value={advantage.description}
-                              onChange={(e) =>
-                                updateAdvantage(
-                                  index,
-                                  "description",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {formData.advantages.length < 5 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          const updated = [...formData.advantages];
-                          updated.push({
-                            label: "",
-                            icon: "",
-                            image: "",
-                            description: "",
-                          });
-                          setFormData({ ...formData, advantages: updated });
-                        }}
-                      >
-                        + Добавить преимущество
-                      </Button>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-lg font-semibold block mb-4">
-                    Простое описание
-                  </Label>
-                  <div className="space-y-2">
-                    {formData.simpleDescription.items.map((item, index) => (
-                      <Textarea
-                        key={index}
-                        placeholder={`Пункт ${index + 1}`}
-                        value={item.text}
-                        onChange={(e) =>
-                          updateSimpleDescription(index, e.target.value)
-                        }
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-lg font-semibold block mb-4">
-                    Детальное описание
-                  </Label>
-                  <div className="space-y-6">
-                    {formData.detailedDescription.items.map((item, index) => (
-                      <div
-                        key={index}
-                        className="p-6 border rounded-lg bg-gray-50/50"
-                      >
-                        <div className="flex justify-between items-center mb-4">
-                          <h4 className="font-medium">Пункт {index + 1}</h4>
-                          {formData.detailedDescription.items.length > 4 && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                const updated = [
-                                  ...formData.detailedDescription.items,
-                                ];
-                                updated.splice(index, 1);
-                                setFormData({
-                                  ...formData,
-                                  detailedDescription: { items: updated },
-                                });
-                              }}
-                            >
-                              Удалить
-                            </Button>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label className="block mb-2">Заголовок</Label>
-                            <Input
-                              placeholder="Заголовок"
-                              value={item.title}
-                              onChange={(e) =>
-                                updateDetailedDescription(
-                                  index,
-                                  "title",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                          <div>
-                            <Label className="block mb-2">Описание</Label>
-                            <Textarea
-                              placeholder="Описание"
-                              value={item.description}
-                              onChange={(e) =>
-                                updateDetailedDescription(
-                                  index,
-                                  "description",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    {formData.detailedDescription.items.length < 10 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                          const updated = [
-                            ...formData.detailedDescription.items,
-                          ];
-                          updated.push({
-                            title: "",
-                            description: "",
-                          });
-                          setFormData({
-                            ...formData,
-                            detailedDescription: { items: updated },
-                          });
-                        }}
-                      >
-                        + Добавить пункт
-                      </Button>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="block mb-2">
-                    Связанные проекты портфолио
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className="w-full justify-between"
-                      >
-                        <span className="truncate">
-                          {formData.portfolioItems.length > 0
-                            ? `Выбрано: ${formData.portfolioItems.length}`
-                            : "Выберите проекты..."}
-                        </span>
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                      <Command>
-                        <CommandInput placeholder="Поиск проектов..." />
-                        <CommandEmpty>Ничего не найдено.</CommandEmpty>
-                        <CommandGroup className="max-h-64 overflow-y-auto">
-                          {portfolioItems.map((item: IPortfolioItem) => (
-                            <CommandItem
-                              key={item.id}
-                              value={item.name}
-                              onSelect={() => {
-                                const selected =
-                                  formData.portfolioItems.includes(item.id);
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  portfolioItems: selected
-                                    ? prev.portfolioItems.filter(
-                                        (id) => id !== item.id
-                                      )
-                                    : [...prev.portfolioItems, item.id],
-                                }));
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  formData.portfolioItems.includes(item.id)
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {item.name}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  {formData.portfolioItems.length > 0 && (
-                    <div className="mt-4">
-                      <Label>Выбранные проекты</Label>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {formData.portfolioItems.map((itemId) => {
-                          const item = portfolioItems.find(
-                            (p: IPortfolioItem) => p.id === itemId
-                          );
-                          if (!item) return null;
-                          return (
-                            <div
-                              key={item.id}
-                              className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1 text-sm"
-                            >
-                              <span>{item.name}</span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    portfolioItems: prev.portfolioItems.filter(
-                                      (id) => id !== item.id
-                                    ),
-                                  }));
-                                }}
-                                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                              >
-                                &times;
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
+                      {currentStep > step.id ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        step.id
+                      )}
                     </div>
-                  )}
+                    {index < steps.length - 1 && (
+                      <div
+                        className={cn(
+                          "w-16 h-0.5 mx-2",
+                          currentStep > step.id ? "bg-green-500" : "bg-gray-300"
+                        )}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-center flex-1">
+                  <h3 className="font-medium text-lg">
+                    {steps[currentStep - 1].title}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    {steps[currentStep - 1].description}
+                  </p>
                 </div>
 
-                <div className="flex justify-end space-x-2">
+                {/* Navigation buttons in upper section */}
+                <div className="flex gap-2 ml-4">
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => setIsDialogOpen(false)}
+                    size="sm"
+                    onClick={prevStep}
+                    disabled={currentStep === 1}
                   >
-                    Отмена
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Назад
                   </Button>
-                  <Button
-                    type="submit"
-                    disabled={
-                      createMutation.isPending || updateMutation.isPending
-                    }
-                  >
-                    {editingProduct ? "Обновить" : "Создать"}
-                  </Button>
+
+                  {currentStep < steps.length ? (
+                    <Button type="button" size="sm" onClick={nextStep}>
+                      Далее
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={
+                        createMutation.isPending || updateMutation.isPending
+                      }
+                      onClick={handleSubmit}
+                    >
+                      {editingProduct ? "Обновить" : "Создать"}
+                    </Button>
+                  )}
                 </div>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {renderStepContent()}
               </form>
+            </div>
+
+            {/* Bottom action buttons */}
+            <div className="px-6 py-4 border-t flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                Отмена
+              </Button>
+
+              {editingProduct && (
+                <Button
+                  type="submit"
+                  disabled={updateMutation.isPending}
+                  onClick={handleSubmit}
+                >
+                  Завершить обновление
+                </Button>
+              )}
             </div>
           </DialogContent>
         </Dialog>

@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/shadcn/popover";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronDown, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 import IconRenderer, { getAvailableIcons } from "@/shared/utils/iconRenderer";
 
@@ -24,7 +24,7 @@ interface IconPickerProps {
 export default function IconPicker({
   value,
   onChange,
-  placeholder = "Выберите иконку",
+  placeholder = "Нажмите для выбора иконки",
 }: IconPickerProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,7 @@ export default function IconPicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="flex-1 justify-between"
+            className="flex-1 justify-between hover:bg-accent hover:text-accent-foreground transition-colors"
             type="button"
           >
             <div className="flex items-center gap-2">
@@ -50,9 +50,18 @@ export default function IconPicker({
                   <span>{value}</span>
                 </>
               ) : (
-                <span className="text-muted-foreground">{placeholder}</span>
+                <>
+                  <Palette className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">{placeholder}</span>
+                </>
               )}
             </div>
+            <ChevronDown
+              className={cn(
+                "w-4 h-4 text-muted-foreground transition-transform duration-200",
+                isOpen && "rotate-180"
+              )}
+            />
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -93,7 +102,7 @@ export default function IconPicker({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "h-12 w-12 p-0 flex items-center justify-center",
+                    "h-12 w-12 p-0 flex items-center justify-center hover:bg-accent transition-colors",
                     value === iconName && "bg-primary text-primary-foreground"
                   )}
                   onClick={(e) => {
