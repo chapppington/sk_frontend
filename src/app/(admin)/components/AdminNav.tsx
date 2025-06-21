@@ -55,6 +55,12 @@ export function AdminNav() {
             Портфолио
           </Link>
           <Link
+            href="/dashboard/products"
+            className="text-sm font-medium hover:text-primary"
+          >
+            Товары
+          </Link>
+          <Link
             href="/dashboard/vacancy"
             className="text-sm font-medium hover:text-primary"
           >
