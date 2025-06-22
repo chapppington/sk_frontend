@@ -58,38 +58,10 @@ import {
 import IconPicker from "@/components/ui/IconPicker";
 import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
-
-const productCategories = [
-  {
-    value: "commercial_metering_and_sectionalizing_points",
-    label:
-      "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
-  },
-  {
-    value: "complete_transformer_substations",
-    label: "Комплектные трансформаторные подстанции",
-  },
-  {
-    value: "complete_switchgears",
-    label: "Комплектные распределительные устройства",
-  },
-  {
-    value: "low_voltage_complete_devices",
-    label: "Низковольтные комплектные устройства",
-  },
-  {
-    value: "power_quality_improvement",
-    label: "Улучшение качества электроэнергии",
-  },
-  {
-    value: "power_plants_and_installations",
-    label: "Электростанции и установки",
-  },
-];
-
-const categoryLabelMap = new Map(
-  productCategories.map((cat) => [cat.value, cat.label])
-);
+import {
+  productCategories,
+  getCategoryLabel,
+} from "@/shared/utils/categoryMapping";
 
 const steps = [
   {
@@ -1381,9 +1353,7 @@ export default function ProductManagement() {
                     )}
                   </TableCell>
                   <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell>
-                    {categoryLabelMap.get(product.category) || product.category}
-                  </TableCell>
+                  <TableCell>{getCategoryLabel(product.category)}</TableCell>
                   <TableCell className="max-w-xs truncate">
                     {product.description.length > 100
                       ? product.description.slice(0, 100) + "..."

@@ -3,6 +3,7 @@
 import { PagesConfig } from "@/config/pages.config";
 import { IProduct } from "@/shared/types/product.types";
 import { BACKEND_MAIN } from "@/constants";
+import { getCategoryLabel } from "@/shared/utils/categoryMapping";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -20,6 +21,8 @@ interface FirstScreenProps {
 }
 
 const FirstScreen = ({ product }: FirstScreenProps) => {
+  const categoryLabel = getCategoryLabel(product.category);
+  
   return (
     <header className="flex flex-col justify-between pb-12 md:pb-24">
       {/* Main Content */}
@@ -35,14 +38,14 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
               { label: "Главная", href: "/", current: false },
               { label: "Каталог", href: "/catalog", current: false },
               {
-                label: product.category,
+                label: categoryLabel,
                 href: `/catalog/${product.category.toLowerCase()}`,
                 current: false,
               },
             ]}
           />
           <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
-            {product.category}
+            {categoryLabel}
           </span>
           <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
             {product.name}
