@@ -1,9 +1,16 @@
 "use client";
 
+import { IProduct } from "@/shared/types/product.types";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 
-const QuestionnaireButtonsScreen = () => {
+interface QuestionnaireButtonsScreenProps {
+  product: IProduct;
+}
+
+const QuestionnaireButtonsScreen = ({
+  product,
+}: QuestionnaireButtonsScreenProps) => {
   return (
     <CustomContainer>
       <div className="w-full flex gap-4">

@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { FC, useState, useRef, useMemo } from "react";
+import { IProduct } from "@/shared/types/product.types";
+import { BACKEND_MAIN } from "@/constants";
 
 import "swiper/css";
 import "swiper/css/thumbs";
@@ -14,13 +16,14 @@ import MainButton from "@/components/ui/MainButton";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 
-import { slides } from "./mock_data";
-import styles from "./styles.module.css";
+interface SliderSectionProps {
+  product: IProduct;
+}
 
-const SliderSection: FC = () => {
+const SliderSection: FC<SliderSectionProps> = ({ product }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
-  const totalSlides = slides.length;
+  const totalSlides = product.portfolioItems.length;
   const mainSwiperRef = useRef<SwiperType | null>(null);
   const thumbsSwiperRef = useRef<SwiperType | null>(null);
 
@@ -123,12 +126,12 @@ const SliderSection: FC = () => {
                 }
               }}
             >
-              {slides.map((slide) => (
+              {product.portfolioItems.map((slide) => (
                 <SwiperSlide key={slide.id}>
                   <div className="relative h-[600px] w-full overflow-hidden rounded-lg">
                     <Image
-                      src={slide.image}
-                      alt={slide.title}
+                      src={`${BACKEND_MAIN}/uploads/portfolio/${slide.poster}`}
+                      alt={slide.name}
                       fill
                       style={{ objectFit: "cover" }}
                       priority
@@ -148,7 +151,7 @@ const SliderSection: FC = () => {
 
                       <div className="w-full">
                         <h3 className="text-4xl text-white font-normal mb-2 w-3/5">
-                          {slide.title}
+                          {slide.name}
                         </h3>
                         <div className="flex items-center justify-between mt-6">
                           <p className="text-white/80 w-3/5">
@@ -156,7 +159,7 @@ const SliderSection: FC = () => {
                           </p>
                           <MainButton
                             text="Смотреть кейс"
-                            href={`/portfolio/${slide.id}`}
+                            href={`/portfolio/${slide.slug}`}
                           />
                         </div>
                       </div>
@@ -185,20 +188,20 @@ const SliderSection: FC = () => {
                 loop={true}
                 speed={300}
               >
-                {slides.map((slide) => (
+                {product.portfolioItems.map((slide) => (
                   <SwiperSlide key={`thumb-${slide.id}`}>
                     <div className="group h-full cursor-pointer">
                       <div className="relative h-[190px] overflow-hidden rounded-lg">
                         <Image
-                          src={slide.image}
-                          alt={slide.title}
+                          src={`${BACKEND_MAIN}/uploads/portfolio/${slide.poster}`}
+                          alt={slide.name}
                           fill
                           className="object-cover opacity-50 group-hover:opacity-80 transition-opacity"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                         <div className="absolute bottom-3 left-3 right-3">
                           <h4 className="text-white text-sm font-medium line-clamp-2">
-                            {slide.title}
+                            {slide.name}
                           </h4>
                         </div>
                       </div>
@@ -210,59 +213,60 @@ const SliderSection: FC = () => {
           </div>
         </div>
 
-        {/* Controls Section */}
-        <div className="flex items-center mt-8">
-          {/* Slide Counter */}
-          <div className="mr-6 text-white text-2xl font-light">
-            {currentSlide}/{totalSlides}
+        {/* Progress Indicators */}
+        <div className="flex items-center justify-center mt-8">
+          <div className="flex items-center gap-1 w-60 h-10">
+            {indicatorBars}
           </div>
+        </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center space-x-3 mr-8">
-            <button
-              className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors"
-              onClick={handlePrev}
+        {/* Navigation Buttons */}
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <button
+            onClick={handlePrev}
+            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M15 19l-7-7 7-7"
-                ></path>
-              </svg>
-            </button>
-            <button
-              className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-white/60 transition-colors"
-              onClick={handleNext}
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M9 5l7 7-7 7"
-                ></path>
-              </svg>
-            </button>
-          </div>
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
-          {/* Original Slider Indicators */}
-          <div className="flex-1 relative hidden md:block">
-            <div id="slider-indicators" className={styles.sliderIndicators}>
-              {indicatorBars}
-            </div>
-          </div>
+          <span className="text-white text-sm">
+            {currentSlide} / {totalSlides}
+          </span>
+
+          <button
+            onClick={handleNext}
+            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 18L15 12L9 6"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </CustomContainer>
     </section>

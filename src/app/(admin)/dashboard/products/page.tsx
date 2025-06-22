@@ -121,7 +121,7 @@ export default function ProductManagement() {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState<
-    CreateProductData & { advantageImages: File[]; portfolioItems: string[] }
+    CreateProductData & { portfolioItems: string[] }
   >({
     category: "",
     name: "",
@@ -165,7 +165,6 @@ export default function ProductManagement() {
         { title: "", description: "" },
       ],
     },
-    advantageImages: [],
     portfolioItems: [],
   });
 
@@ -174,21 +173,14 @@ export default function ProductManagement() {
     return previewImageFile ? URL.createObjectURL(previewImageFile) : null;
   }, [previewImageFile]);
 
-  const advantageImageUrls = useMemo(() => {
-    return (formData.advantageImages || [])
-      .filter(Boolean)
-      .map((file) => URL.createObjectURL(file));
-  }, [formData.advantageImages]);
-
   // Cleanup object URL when component unmounts or file changes
   useEffect(() => {
     return () => {
       if (previewImageUrl) {
         URL.revokeObjectURL(previewImageUrl);
       }
-      advantageImageUrls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [previewImageUrl, advantageImageUrls]);
+  }, [previewImageUrl]);
 
   const { data: products = [], isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
@@ -294,7 +286,6 @@ export default function ProductManagement() {
           { title: "", description: "" },
         ],
       },
-      advantageImages: [],
       portfolioItems: [],
     });
     setEditingProduct(null);
@@ -314,7 +305,21 @@ export default function ProductManagement() {
       "importantCharacteristics",
       JSON.stringify(formData.importantCharacteristics)
     );
-    formDataToSend.append("advantages", JSON.stringify(formData.advantages));
+
+    // Обрабатываем advantages - извлекаем файлы и сохраняем имена
+    const processedAdvantages = formData.advantages.map((advantage, index) => {
+      if (advantage.image instanceof File) {
+        // Если это файл, добавляем его в FormData с индексом
+        formDataToSend.append(`advantageImages_${index}`, advantage.image);
+        return {
+          ...advantage,
+          image: `__FILE_${index}__`, // Временно сохраняем маркер файла
+        };
+      }
+      return advantage;
+    });
+
+    formDataToSend.append("advantages", JSON.stringify(processedAdvantages));
     formDataToSend.append(
       "simpleDescription",
       JSON.stringify(formData.simpleDescription)
@@ -327,13 +332,6 @@ export default function ProductManagement() {
       "portfolioItems",
       JSON.stringify(formData.portfolioItems)
     );
-
-    // Добавляем файлы из отдельных инпутов преимуществ
-    formData.advantageImages.forEach((file, index) => {
-      if (file) {
-        formDataToSend.append("advantageImages", file);
-      }
-    });
 
     // Добавляем превью изображение
     if (previewImageFile) {
@@ -401,7 +399,6 @@ export default function ProductManagement() {
           { title: "", description: "" },
         ],
       },
-      advantageImages: [],
       portfolioItems:
         (product.portfolioItems || []).map((item: IPortfolioItem) => item.id) ||
         [],
@@ -828,21 +825,9 @@ export default function ProductManagement() {
                               ];
                               updatedAdvantages.splice(index, 1);
 
-                              const updatedImages = [
-                                ...(formData.advantageImages || []),
-                              ];
-                              // Убедимся, что массивы имеют одинаковую длину перед удалением
-                              while (
-                                updatedImages.length < updatedAdvantages.length
-                              ) {
-                                updatedImages.push(null as any);
-                              }
-                              updatedImages.splice(index, 1);
-
                               setFormData({
                                 ...formData,
                                 advantages: updatedAdvantages,
-                                advantageImages: updatedImages,
                               });
                             }}
                           >
@@ -883,68 +868,45 @@ export default function ProductManagement() {
                                 const updatedAdvantages = [
                                   ...(formData.advantages || []),
                                 ];
-                                const updatedImages = [
-                                  ...(formData.advantageImages || []),
-                                ];
 
-                                // Убедимся, что массивы имеют одинаковую длину, заполняя "дыры" в images
-                                while (
-                                  updatedImages.length <
-                                  updatedAdvantages.length
-                                ) {
-                                  updatedImages.push(null as any);
-                                }
-
-                                // Обновляем имя файла в основном массиве преимуществ
-                                if (updatedAdvantages[index]) {
-                                  updatedAdvantages[index] = {
-                                    ...updatedAdvantages[index],
-                                    image: file.name,
-                                  };
-                                }
-
-                                // Заменяем файл по конкретному индексу
-                                updatedImages[index] = file;
+                                // Обновляем файл в массиве преимуществ
+                                updatedAdvantages[index] = {
+                                  ...updatedAdvantages[index],
+                                  image: file,
+                                };
 
                                 setFormData({
                                   ...formData,
                                   advantages: updatedAdvantages,
-                                  advantageImages: updatedImages,
                                 });
                               }
                             }}
                           />
                           {safeAdvantage.image && (
                             <div className="mt-2 relative w-32 aspect-[16/9] rounded-md overflow-hidden">
-                              {advantageImageUrls[index] ? (
+                              {typeof safeAdvantage.image === "object" ? (
                                 <Image
-                                  src={advantageImageUrls[index]}
+                                  src={URL.createObjectURL(safeAdvantage.image)}
                                   alt={`Новое преимущество ${index + 1}`}
                                   fill
                                   className="object-cover"
                                 />
-                              ) : editingProduct?.advantageImageUrls?.[
-                                  index
-                                ] ? (
+                              ) : editingProduct?.advantages?.[index]?.image ? (
                                 <Image
-                                  src={`${BACKEND_MAIN}${editingProduct.advantageImageUrls[index]}`}
+                                  src={`${BACKEND_MAIN}/uploads/products/${editingProduct.advantages[index].image}`}
                                   alt={`Текущее преимущество ${index + 1}`}
                                   fill
                                   className="object-cover"
                                 />
                               ) : null}
 
-                              {(formData.advantageImages || []).filter(Boolean)[
-                                index
-                              ] && (
+                              {typeof safeAdvantage.image === "object" && (
                                 <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                   Новое
                                 </span>
                               )}
-                              {editingProduct?.advantageImageUrls?.[index] &&
-                                !(formData.advantageImages || []).filter(
-                                  Boolean
-                                )[index] && (
+                              {editingProduct?.advantages?.[index]?.image &&
+                                typeof safeAdvantage.image === "string" && (
                                   <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                     Текущее
                                   </span>
@@ -985,16 +947,9 @@ export default function ProductManagement() {
                       description: "",
                     });
 
-                    const updatedImages = [
-                      ...(formData.advantageImages || []).filter(Boolean),
-                    ];
-                    // Добавляем null, чтобы сохранить соответствие индексов
-                    updatedImages.push(null as any);
-
                     setFormData({
                       ...formData,
                       advantages: updatedAdvantages,
-                      advantageImages: updatedImages,
                     });
                   }}
                 >

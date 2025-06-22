@@ -22,6 +22,10 @@ const productService = {
     return instance.get(`/products/${id}`);
   },
 
+  fetchBySlug: (slug: string) => {
+    return instance.get(`/products/slug/${slug}`);
+  },
+
   create: (formData: FormData) => {
     return instance.post("/products", formData, {
       headers: {

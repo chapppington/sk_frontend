@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { IProduct } from "@/shared/types/product.types";
 
 import BracketsText from "@/components/ui/BracketsText";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -9,7 +10,11 @@ import AnimatedText from "@/components/ui/AnimatedText";
 import styles from "./styles.module.css";
 import { stats } from "./mock_data";
 
-const NumbersSection = () => {
+interface NumbersSectionProps {
+  product: IProduct;
+}
+
+const NumbersSection = ({ product }: NumbersSectionProps) => {
   return (
     <section className="w-full text-white py-24 px-4">
       <div className="max-w-5xl mx-auto text-center">

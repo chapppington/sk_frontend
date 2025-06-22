@@ -2,11 +2,11 @@
 
 import { useState, useRef, FC } from "react";
 import { useLenis } from "lenis/react";
+import { IProduct } from "@/shared/types/product.types";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { Tabs, TabContent } from "@/components/ui/Tabs";
-import { mockTabData } from "./mock_data";
 
 import {
   useLeftContentAnimation,
@@ -16,7 +16,11 @@ import DownloadButton from "./components/DownloadButton";
 import DescriptionList from "./components/DescriptionList";
 import CharacteristicsGrid from "./components/CharacteristicsGrid";
 
-const TabsSection: FC = () => {
+interface TabsSectionProps {
+  product: IProduct;
+}
+
+const TabsSection: FC<TabsSectionProps> = ({ product }) => {
   const [activeTab, setActiveTab] = useState("description");
   const rightContentRef = useRef<HTMLDivElement>(null);
   const leftContentRef = useRef<HTMLDivElement>(null);
@@ -32,14 +36,9 @@ const TabsSection: FC = () => {
 
   const LeftContent = () => (
     <div ref={leftContentRef}>
-      <GradientHeading className="mb-6">
-        Пункт автоматического регулирования напряжения (ПАРН)
-      </GradientHeading>
+      <GradientHeading className="mb-6">{product.name}</GradientHeading>
 
-      <p className="text-white/70 text-lg">
-        — это устройство, предназначенное для обеспечения стабильного и
-        безопасного уровня напряжения в электрических сетях.
-      </p>
+      <p className="text-white/70 text-lg">{product.description}</p>
 
       <div className="mt-8">
         <DownloadButton />
@@ -57,7 +56,7 @@ const TabsSection: FC = () => {
                 <LeftContent />
 
                 <DescriptionList
-                  items={mockTabData.description.items}
+                  items={product.simpleDescription.items}
                   listItemsRef={listItemsRef}
                   rightContentRef={rightContentRef}
                 />
@@ -68,7 +67,7 @@ const TabsSection: FC = () => {
                 <LeftContent />
 
                 <CharacteristicsGrid
-                  items={mockTabData.characteristics.items}
+                  items={product.detailedDescription.items}
                   listItemsRef={listItemsRef}
                   rightContentRef={rightContentRef}
                 />

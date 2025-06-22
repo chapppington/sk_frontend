@@ -7,7 +7,7 @@ export interface ImportantCharacteristic {
 export interface Advantage {
   label: string;
   icon: string;
-  image: string;
+  image: string | File;
   description: string;
 }
 
@@ -65,8 +65,6 @@ export interface IProduct {
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
   detailedDescription: DetailedDescription;
-  advantageImages?: string[];
-  advantageImageUrls?: string[];
   model_3d_url?: string;
   portfolioItems: IPortfolioItem[];
   createdAt: string;

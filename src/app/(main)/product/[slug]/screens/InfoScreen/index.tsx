@@ -2,6 +2,9 @@
 
 import { FC, useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { IProduct } from "@/shared/types/product.types";
+import { BACKEND_MAIN } from "@/constants";
+import IconRenderer from "@/shared/utils/iconRenderer";
 
 import gsap from "gsap";
 
@@ -10,12 +13,26 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import AnimatedText from "@/components/ui/AnimatedText";
 import CategoryButton from "@/components/ui/CategoryButton";
 
-import { features } from "./mock_data";
+interface InfoScreenProps {
+  product: IProduct;
+}
 
-const InfoScreen: FC = () => {
+const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
   const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
   const [previousFeatureIndex, setPreviousFeatureIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  // Отладочная информация
+  console.log("Product data:", {
+    advantages: product.advantages,
+  });
+
+  // Проверяем конкретные индексы
+  console.log("Active feature data:", {
+    index: activeFeatureIndex,
+    advantage: product.advantages[activeFeatureIndex],
+    hasImage: !!product.advantages[activeFeatureIndex]?.image,
+  });
 
   const activeImageRef = useRef<HTMLDivElement>(null);
   const previousImageRef = useRef<HTMLDivElement>(null);
@@ -92,14 +109,14 @@ const InfoScreen: FC = () => {
             </h1>
           </AnimatedText>
           <div className="flex flex-col gap-3 mt-2">
-            {features.map((feature, idx) => (
+            {product.advantages.map((feature, idx) => (
               <CategoryButton
                 key={idx}
                 onClick={() => handleFeatureChange(idx)}
                 isActive={idx === activeFeatureIndex}
                 className="flex items-center w-auto self-start"
               >
-                <Image src={`/${feature.icon}`} alt="" width={24} height={24} />
+                <IconRenderer iconName={feature.icon} className="w-6 h-6" />
                 <span className="text-base ml-4">{feature.label}</span>
               </CategoryButton>
             ))}
@@ -112,48 +129,53 @@ const InfoScreen: FC = () => {
             className="relative w-full h-full flex-1"
           >
             {/* Previous Image (behind) */}
-            {previousFeatureIndex !== activeFeatureIndex && (
+            {previousFeatureIndex !== activeFeatureIndex &&
+              product.advantages[previousFeatureIndex]?.image && (
+                <div
+                  ref={previousImageRef}
+                  className="w-full h-full absolute inset-0 z-0"
+                >
+                  <Image
+                    src={`${BACKEND_MAIN}/uploads/products/${product.advantages[previousFeatureIndex].image}`}
+                    alt={product.advantages[previousFeatureIndex].label}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/50 rounded-lg" />
+                </div>
+              )}
+
+            {/* Active Image (on top) */}
+            {product.advantages[activeFeatureIndex]?.image && (
               <div
-                ref={previousImageRef}
-                className="w-full h-full absolute inset-0 z-0"
+                ref={activeImageRef}
+                className="w-full h-full absolute inset-0 z-10"
               >
                 <Image
-                  src={features[previousFeatureIndex].image}
-                  alt={features[previousFeatureIndex].label}
+                  src={`${BACKEND_MAIN}/uploads/products/${product.advantages[activeFeatureIndex].image}`}
+                  alt={product.advantages[activeFeatureIndex].label}
                   fill
                   className="object-cover rounded-lg"
+                  priority
                 />
-                <div className="absolute inset-0 bg-black/50 rounded-lg" />
+                <div className="absolute inset-0 bg-black/30 rounded-lg" />
               </div>
             )}
 
-            {/* Active Image (on top) */}
-            <div
-              ref={activeImageRef}
-              className="w-full h-full absolute inset-0 z-10"
-            >
-              <Image
-                src={features[activeFeatureIndex].image}
-                alt={features[activeFeatureIndex].label}
-                fill
-                className="object-cover rounded-lg"
-                priority
-              />
-              <div className="absolute inset-0 bg-black/30 rounded-lg" />
-            </div>
-
-            <div
-              ref={textContainerRef}
-              className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20"
-            >
-              <AnimatedText
-                key={activeFeatureIndex}
-                delay={0}
-                animateOnScroll={false}
+            {product.advantages[activeFeatureIndex]?.image && (
+              <div
+                ref={textContainerRef}
+                className="absolute bottom-4 right-4 bg-black/80 text-white font-light rounded-lg p-6 max-w-md shadow-lg z-20"
               >
-                <p>{features[activeFeatureIndex].description}</p>
-              </AnimatedText>
-            </div>
+                <AnimatedText
+                  key={activeFeatureIndex}
+                  delay={0}
+                  animateOnScroll={false}
+                >
+                  <p>{product.advantages[activeFeatureIndex].description}</p>
+                </AnimatedText>
+              </div>
+            )}
           </div>
         </div>
       </CustomContainer>
