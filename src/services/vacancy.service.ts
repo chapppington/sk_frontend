@@ -1,11 +1,11 @@
-import { instance } from "@/api/axios";
+import { instance, axiosClassic } from "@/api/axios";
 import type { IVacancy } from "@/shared/types/vacancy.types";
 
 class VacancyService {
   private _BASE_URL = "/vacancy";
 
   async fetchAll() {
-    return instance.get<IVacancy[]>(this._BASE_URL);
+    return axiosClassic.get<IVacancy[]>(this._BASE_URL);
   }
 
   async create(data: Partial<IVacancy>) {

@@ -1,11 +1,11 @@
-import { instance } from "@/api/axios";
+import { instance, axiosClassic } from "@/api/axios";
 import type { INews } from "@/shared/types/news.types";
 
 class NewsService {
   private _BASE_URL = "/news";
 
   async fetchAll() {
-    return instance.get<INews[]>(this._BASE_URL);
+    return axiosClassic.get<INews[]>(this._BASE_URL);
   }
 
   async create(data: FormData) {

@@ -1,12 +1,12 @@
-import { instance } from "@/api/axios";
+import { instance, axiosClassic } from "@/api/axios";
 
 const portfolioService = {
   fetchAll: () => {
-    return instance.get("/portfolio");
+    return axiosClassic.get("/portfolio");
   },
 
   fetchOne: (slug: string) => {
-    return instance.get(`/portfolio/slug/${slug}`);
+    return axiosClassic.get(`/portfolio/slug/${slug}`);
   },
 
   create: (formData: FormData) => {

@@ -1,8 +1,8 @@
-import { instance } from "@/api/axios";
+import { instance, axiosClassic } from "@/api/axios";
 
 const productService = {
   fetchAll: () => {
-    return instance.get("/products");
+    return axiosClassic.get("/products");
   },
 
   fetchCatalog: (category?: string, page: number = 1, limit: number = 10) => {
@@ -11,19 +11,19 @@ const productService = {
     params.append("page", page.toString());
     params.append("limit", limit.toString());
 
-    return instance.get(`/products/catalog?${params.toString()}`);
+    return axiosClassic.get(`/products/catalog?${params.toString()}`);
   },
 
   fetchByCategory: (category: string) => {
-    return instance.get(`/products/category/${category}`);
+    return axiosClassic.get(`/products/category/${category}`);
   },
 
   fetchOne: (id: string) => {
-    return instance.get(`/products/${id}`);
+    return axiosClassic.get(`/products/${id}`);
   },
 
   fetchBySlug: (slug: string) => {
-    return instance.get(`/products/slug/${slug}`);
+    return axiosClassic.get(`/products/slug/${slug}`);
   },
 
   create: (formData: FormData) => {

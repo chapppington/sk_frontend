@@ -1,4 +1,4 @@
-import { instance } from "@/api/axios";
+import { instance, axiosClassic } from "@/api/axios";
 
 export interface SeoSettings {
   id: string;
@@ -60,18 +60,18 @@ export interface SeoPreview {
 
 class SeoSettingsService {
   async getAll(): Promise<SeoSettings[]> {
-    const response = await instance.get("/site-seo-settings");
+    const response = await axiosClassic.get("/site-seo-settings");
     return response.data;
   }
 
   async getById(id: string): Promise<SeoSettings> {
-    const response = await instance.get(`/site-seo-settings/${id}`);
+    const response = await axiosClassic.get(`/site-seo-settings/${id}`);
     return response.data;
   }
 
   async getByPagePath(pagePath: string): Promise<SeoSettings | null> {
     try {
-      const response = await instance.get(
+      const response = await axiosClassic.get(
         `/site-seo-settings/page/${pagePath}`
       );
       return response.data;
@@ -95,7 +95,7 @@ class SeoSettingsService {
   }
 
   async getPreview(id: string): Promise<SeoPreview> {
-    const response = await instance.get(`/site-seo-settings/${id}/preview`);
+    const response = await axiosClassic.get(`/site-seo-settings/${id}/preview`);
     return response.data;
   }
 }
