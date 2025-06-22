@@ -7,10 +7,11 @@ import { useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import gsap from "gsap";
 import { Power4 } from "gsap/all";
+import { BACKEND_MAIN } from "@/constants";
 
 import React from "react";
 
-export default function TempScene({ isHovered }) {
+export default function TempScene({ isHovered, modelUrl }) {
   const cameraRef = useRef();
   const timelineRef = useRef(null);
   const customShader = WfMid2();
@@ -18,13 +19,16 @@ export default function TempScene({ isHovered }) {
   const scene = new THREE.Scene();
   const isFirstRender = useRef(true);
 
-  const gltf22 = useLoader(GLTFLoader, "/Scene/parn.glb", (loader) => {
+  // Use the provided modelUrl with backend prefix or fallback to the default path
+  const modelPath = modelUrl ? `${BACKEND_MAIN}${modelUrl}` : "/Scene/parn.glb";
+
+  const gltf22 = useLoader(GLTFLoader, modelPath, (loader) => {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderConfig({ type: "js" });
     dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
     loader.setDRACOLoader(dracoLoader);
   });
-  
+
   useEffect(() => {
     if (gltf22) {
       // Центрируем камеру на модели
@@ -40,13 +44,11 @@ export default function TempScene({ isHovered }) {
     }
   }, [gltf22, customShader]);
 
-
   useFrame(({ clock }) => {
     // const progress = Math.min(1, clock.getElapsedTime()/5)
     // customShader.uniforms.uProgress.value = progress;
     // console.log(cameraRef.current.position);
     customShader.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
-    
   });
   useEffect(() => {
     if (isFirstRender.current) {
@@ -139,12 +141,7 @@ export default function TempScene({ isHovered }) {
       />
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
-      <primitive
-        object={gltf22.scene}
-        ref={modelRef}
-        
-        
-      ></primitive>
+      <primitive object={gltf22.scene} ref={modelRef}></primitive>
     </>
   );
 }

@@ -25,7 +25,7 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
       {/* Main Content */}
       <CustomContainer className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
         <div className="w-full lg:w-1/2 flex items-center justify-center">
-          <ProductScene />
+          <ProductScene modelUrl={product.model_3d_url} />
         </div>
         <div className="w-full lg:w-1/2">
           <Breadcrumbs

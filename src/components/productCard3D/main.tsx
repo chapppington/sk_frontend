@@ -5,10 +5,13 @@ import { useState, useCallback, useRef, useEffect } from "react";
 
 const TempScene = dynamic(() => import("./features/Scene"), { ssr: false });
 
-function ProductScene() {
+interface ProductSceneProps {
+  modelUrl?: string;
+}
+
+function ProductScene({ modelUrl }: ProductSceneProps) {
   const canvasRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
- 
 
   const handlePointerEnter = useCallback(() => {
     setIsHovered(true);
@@ -35,7 +38,7 @@ function ProductScene() {
           far: 1000,
         }}
       >
-        <TempScene isHovered={isHovered} />
+        <TempScene isHovered={isHovered} modelUrl={modelUrl} />
       </Canvas>
     </div>
   );
