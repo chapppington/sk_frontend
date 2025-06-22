@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FC, useState, useRef, useMemo } from "react";
+import { FC, useState, useRef } from "react";
 import { IProduct } from "@/shared/types/product.types";
 import { BACKEND_MAIN } from "@/constants";
 
@@ -15,6 +15,7 @@ import { FreeMode, Thumbs } from "swiper/modules";
 import MainButton from "@/components/ui/MainButton";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
+import { NavigationButton } from "@/components/ui/NavigationButton";
 
 interface SliderSectionProps {
   product: IProduct;
@@ -26,6 +27,7 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
   const totalSlides = product.portfolioItems.length;
   const mainSwiperRef = useRef<SwiperType | null>(null);
   const thumbsSwiperRef = useRef<SwiperType | null>(null);
+  const sliderId = "product-slider";
 
   // Custom navigation handlers
   const handleNext = () => {
@@ -40,45 +42,18 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
     }
   };
 
-  // Generate indicator bars (fixed implementation that won't cause stack overflow)
-  const indicatorBars = useMemo(() => {
-    const indicatorCount = 60;
-    return Array.from({ length: indicatorCount }).map((_, index) => {
-      // Calculate active position
-      const totalPositions = indicatorCount - 5;
-      const progress =
-        totalSlides > 1 ? (currentSlide - 1) / (totalSlides - 1) : 0;
-      const position = Math.min(
-        Math.floor(progress * totalPositions),
-        totalPositions
-      );
-
-      let height = "6px";
-      if (index >= position && index < position + 5) {
-        const relativePos = index - position;
-        if (relativePos === 2) {
-          height = "40px";
-        } else if (relativePos === 1 || relativePos === 3) {
-          height = "20px";
-        } else {
-          height = "4px";
-        }
+  // Handle slide change
+  const handleSlideChange = (swiper: SwiperType) => {
+    try {
+      // Handle looped slides by using realIndex
+      const newSlide = (swiper.realIndex % totalSlides) + 1;
+      if (newSlide !== currentSlide) {
+        setCurrentSlide(newSlide);
       }
-
-      return (
-        <div
-          key={index}
-          className="slider-indicator-bar transition-all duration-300 flex-1"
-          style={{
-            height,
-            maxWidth: "1px",
-            width: "1px",
-            backgroundColor: "white",
-          }}
-        />
-      );
-    });
-  }, [currentSlide, totalSlides]);
+    } catch (err) {
+      console.error("Error in main slider change:", err);
+    }
+  };
 
   return (
     <section className="bg-transparent py-24 relative">
@@ -114,17 +89,7 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
               onSwiper={(swiper) => {
                 mainSwiperRef.current = swiper;
               }}
-              onSlideChange={(swiper) => {
-                try {
-                  // Handle looped slides by using realIndex
-                  const newSlide = (swiper.realIndex % totalSlides) + 1;
-                  if (newSlide !== currentSlide) {
-                    setCurrentSlide(newSlide);
-                  }
-                } catch (err) {
-                  console.error("Error in main slider change:", err);
-                }
-              }}
+              onSlideChange={handleSlideChange}
             >
               {product.portfolioItems.map((slide) => (
                 <SwiperSlide key={slide.id}>
@@ -213,60 +178,23 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Progress Indicators */}
-        <div className="flex items-center justify-center mt-8">
-          <div className="flex items-center gap-1 w-60 h-10">
-            {indicatorBars}
-          </div>
-        </div>
-
-        {/* Navigation Buttons */}
-        <div className="flex items-center justify-center gap-4 mt-6">
-          <button
+        {/* Navigation Controls */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <NavigationButton
+            direction="prev"
+            sliderId={sliderId}
             onClick={handlePrev}
-            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 18L9 12L15 6"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          />
 
           <span className="text-white text-sm">
             {currentSlide} / {totalSlides}
           </span>
 
-          <button
+          <NavigationButton
+            direction="next"
+            sliderId={sliderId}
             onClick={handleNext}
-            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 18L15 12L9 6"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          />
         </div>
       </CustomContainer>
     </section>
