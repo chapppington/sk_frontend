@@ -65,21 +65,6 @@ export default function Scene() {
       loader.setDRACOLoader(dracoLoader);
     }
   );
-  const [build_b, build_c, build_d, build_e] = useLoader(
-    GLTFLoader,
-    [
-      "/Scene/buildings/build_b.glb",
-      "/Scene/buildings/build_c.glb",
-      "/Scene/buildings/build_d.glb",
-      "/Scene/buildings/build_e.glb",
-    ],
-    (loader) => {
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderConfig({ type: "js" });
-      dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
-      loader.setDRACOLoader(dracoLoader);
-    }
-  );
 
   console.log(main.scene);
   console.log(terrain);
@@ -222,83 +207,41 @@ export default function Scene() {
   useEffect(() => {
     logo.scene.traverse((node) => {
       node.material = customShaderTest2;
-
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
     });
   }, [gltf, customShaderTest2]);
   useEffect(() => {
     env.scene.traverse((node) => {
       node.material = worldMaterial;
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
     });
   }, [env, worldMaterial]);
-  // useEffect(() => {
-  //   terrain.scene.traverse((node) => {
-  //     node.material = customShaderTest2
-
-  //     // mesh.position.copy(node.position);
-  //     // mesh.rotation.copy(node.rotation);
-  //     // mesh.scale.copy(node.scale);
-  //     // scene.add(mesh);
-  //   });
-  // }, [terrain,customShaderTest]);
   useEffect(() => {
     road.scene.traverse((node) => {
       node.material = customShaderTest2;
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
+      
     });
   }, [road, customShaderTest2]);
   useEffect(() => {
     cars.scene.traverse((node) => {
       node.material = customShaderTest2;
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
+      
     });
   }, [cars, customShaderTest2]);
   useEffect(() => {
     wallsOut.scene.traverse((node) => {
       node.material = customShaderTest2;
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
+      
     });
   }, [wallsOut, customShaderTest2]);
-  useEffect(() => {
-    invisible.scene.traverse((node) => {
-      node.material = basicMaterial;
-      node.renderOrder = 2;
-
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
-    });
-  }, [invisible, basicMaterial]);
   useEffect(() => {
     lenta.scene.traverse((node) => {
       node.material = lentaMaterial;
       
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
+      
     });
   }, [lenta,lentaMaterial]);
   useEffect(() => {
@@ -306,10 +249,7 @@ export default function Scene() {
       node.material = lentaMaterial;
       
 
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
+      
     });
   }, [lenta2,lentaMaterial]);
   const uniforms = {
@@ -329,82 +269,12 @@ export default function Scene() {
   scene.add(main.scene);
   scene.add(terrain.scene);
   scene.add(wallsOut.scene);
-  // scene.add(invisible.scene);
   scene.add(lenta.scene);
   scene.add(lenta2.scene);
   scene.add(main_static.scene);
   
 
-  //   const particles = {};
-  //   particles.geometry = new THREE.BufferGeometry();
-  //   const positions = new Float32Array(5000 * 3);
-  //   for(let i = 0; i < 5000; i++) {
-  //     positions[i * 3] = (Math.random() - 0.5) * 500;      //x
-  //     positions[i * 3 + 1] = (Math.random() - 0.5) * 150;  //y
-  //     positions[i * 3 + 2] = (Math.random() - 0.5) * 1000;  //z
-  // }
-  //   particles.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-  //   particles.material = new THREE.ShaderMaterial({
-  //     transparent: true,
-  //             uniforms:
-  //             {
-  //                 uColor: { value: new THREE.Color(0xffe600) },
-  //                 uAlpha: { value: 1 },
-  //                 uTime: { value: 0 },
-  //                 uWind: { value:  - 0.0008 } // - 0.0008
-  //             },
-  //             vertexShader: `
-  //     #define M_PI 3.1415926535897932384626433832795
-
-  //     uniform float uTime;
-  //     uniform float uWind;
-
-  //     varying float vAlpha;
-
-  //     highp float random(vec2 co)
-  //     {
-  //         highp float a = 12.9898;
-  //         highp float b = 78.233;
-  //         highp float c = 43758.5453;
-  //         highp float dt = dot(co.xy, vec2(a, b));
-  //         highp float sn = mod(dt, M_PI);
-
-  //         return fract(sin(sn) * c);
-  //     }
-
-  //     void main()
-  //     {
-  //         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-  //         float windEffect = uWind * (random(modelPosition.yz) + 0.5);
-  //         modelPosition.x += uTime * windEffect * 10.0;
-  //         modelPosition.y += sin(modelPosition.x * 0.1 + uTime) * 0.5;
-  //         vec4 viewPosition = viewMatrix * modelPosition;
-  //         float distance = distance(vec4(0.0, 0.0, 0.0, 0.0), viewPosition);
-
-  //         gl_PointSize = 1.0 - clamp((distance - 1.0) * 0.5, 0.0, 2.0);
-  //         gl_Position = projectionMatrix * viewPosition;
-
-  //         vAlpha = 1.0 - clamp(distance * 0.5 / 100.0, 0.0, 1.0);
-  //     }
-  // `,
-  //             fragmentShader: `
-  //                 uniform vec3 uColor;
-  //                 uniform float uAlpha;
-
-  //                 varying float vAlpha;
-
-  //                 void main()
-  //                 {
-  //                     gl_FragColor = vec4(uColor, vAlpha * uAlpha);
-  //                     // gl_FragColor = vec4(uColor, 1.0);
-  //                 }
-  //             `
-  //   })
-  //   particles.points = new THREE.Points(particles.geometry, particles.material);
-  //   particles.points.frustumCulled = false;
-  //   console.log(particles);
-  //   scene.add(particles.points);
+  
 
   useFrame(({ clock }) => {
     const progress = Math.min(1, clock.getElapsedTime() / 5);
@@ -523,15 +393,6 @@ export default function Scene() {
     <>
     
       <primitive object={scene} />
-
-      
-
-      {/* {main.scene.children.map((child, index) => {
-        return (
-          <primitive key={index} object={child} />
-        )
-      })} */}
-      
 
     
     </>
