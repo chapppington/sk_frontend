@@ -120,20 +120,6 @@ export default function ProductManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Memoized URL for preview image to prevent unnecessary re-renders
-  const previewImageUrl = useMemo(() => {
-    return previewImageFile ? URL.createObjectURL(previewImageFile) : null;
-  }, [previewImageFile]);
-
-  // Cleanup object URL when component unmounts or file changes
-  useEffect(() => {
-    return () => {
-      if (previewImageUrl) {
-        URL.revokeObjectURL(previewImageUrl);
-      }
-    };
-  }, [previewImageUrl]);
-
   const [formData, setFormData] = useState<
     CreateProductData & { advantageImages: File[]; portfolioItems: string[] }
   >({
@@ -182,6 +168,27 @@ export default function ProductManagement() {
     advantageImages: [],
     portfolioItems: [],
   });
+
+  // Memoized URL for preview image to prevent unnecessary re-renders
+  const previewImageUrl = useMemo(() => {
+    return previewImageFile ? URL.createObjectURL(previewImageFile) : null;
+  }, [previewImageFile]);
+
+  const advantageImageUrls = useMemo(() => {
+    return (formData.advantageImages || [])
+      .filter(Boolean)
+      .map((file) => URL.createObjectURL(file));
+  }, [formData.advantageImages]);
+
+  // Cleanup object URL when component unmounts or file changes
+  useEffect(() => {
+    return () => {
+      if (previewImageUrl) {
+        URL.revokeObjectURL(previewImageUrl);
+      }
+      advantageImageUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previewImageUrl, advantageImageUrls]);
 
   const { data: products = [], isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products"],
@@ -711,6 +718,20 @@ export default function ProductManagement() {
                       </div>
                       <div className="grid grid-cols-3 gap-4">
                         <div>
+                          <Label className="block mb-2">Описание</Label>
+                          <Input
+                            placeholder="Описание"
+                            value={safeChar.description}
+                            onChange={(e) =>
+                              updateImportantCharacteristic(
+                                index,
+                                "description",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
                           <Label className="block mb-2">Значение</Label>
                           <Input
                             placeholder="Значение"
@@ -735,20 +756,6 @@ export default function ProductManagement() {
                               updateImportantCharacteristic(
                                 index,
                                 "unit",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                        <div>
-                          <Label className="block mb-2">Описание</Label>
-                          <Input
-                            placeholder="Описание"
-                            value={safeChar.description}
-                            onChange={(e) =>
-                              updateImportantCharacteristic(
-                                index,
-                                "description",
                                 e.target.value
                               )
                             }
@@ -816,27 +823,26 @@ export default function ProductManagement() {
                             variant="destructive"
                             size="sm"
                             onClick={() => {
-                              const currentAdvantages = (
-                                formData.advantages || []
-                              ).filter(Boolean);
-                              const updated = [...currentAdvantages];
-                              updated.splice(index, 1);
-                              // Ensure no undefined values remain
-                              const cleanUpdated = updated.filter(Boolean);
+                              const updatedAdvantages = [
+                                ...(formData.advantages || []),
+                              ];
+                              updatedAdvantages.splice(index, 1);
 
-                              const currentImages = (
-                                formData.advantageImages || []
-                              ).filter(Boolean);
-                              const updatedImages = [...currentImages];
+                              const updatedImages = [
+                                ...(formData.advantageImages || []),
+                              ];
+                              // Убедимся, что массивы имеют одинаковую длину перед удалением
+                              while (
+                                updatedImages.length < updatedAdvantages.length
+                              ) {
+                                updatedImages.push(null as any);
+                              }
                               updatedImages.splice(index, 1);
-                              // Ensure no undefined values remain
-                              const cleanUpdatedImages =
-                                updatedImages.filter(Boolean);
 
                               setFormData({
                                 ...formData,
-                                advantages: cleanUpdated,
-                                advantageImages: cleanUpdatedImages,
+                                advantages: updatedAdvantages,
+                                advantageImages: updatedImages,
                               });
                             }}
                           >
@@ -873,53 +879,61 @@ export default function ProductManagement() {
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) {
-                                const currentAdvantages = (
-                                  formData.advantages || []
-                                ).filter(Boolean);
-                                const updated = [...currentAdvantages];
-                                updated[index] = {
-                                  ...updated[index],
-                                  image: file.name,
-                                };
+                                // Создаем копии текущих массивов, чтобы не изменять состояние напрямую
+                                const updatedAdvantages = [
+                                  ...(formData.advantages || []),
+                                ];
+                                const updatedImages = [
+                                  ...(formData.advantageImages || []),
+                                ];
 
-                                const currentImages = (
-                                  formData.advantageImages || []
-                                ).filter(Boolean);
-                                const updatedImages = [...currentImages];
+                                // Убедимся, что массивы имеют одинаковую длину, заполняя "дыры" в images
+                                while (
+                                  updatedImages.length <
+                                  updatedAdvantages.length
+                                ) {
+                                  updatedImages.push(null as any);
+                                }
+
+                                // Обновляем имя файла в основном массиве преимуществ
+                                if (updatedAdvantages[index]) {
+                                  updatedAdvantages[index] = {
+                                    ...updatedAdvantages[index],
+                                    image: file.name,
+                                  };
+                                }
+
+                                // Заменяем файл по конкретному индексу
                                 updatedImages[index] = file;
-
-                                // Ensure no undefined values remain
-                                const cleanUpdated = updated.filter(Boolean);
-                                const cleanUpdatedImages =
-                                  updatedImages.filter(Boolean);
 
                                 setFormData({
                                   ...formData,
-                                  advantages: cleanUpdated,
-                                  advantageImages: cleanUpdatedImages,
+                                  advantages: updatedAdvantages,
+                                  advantageImages: updatedImages,
                                 });
                               }
                             }}
                           />
                           {safeAdvantage.image && (
-                            <div className="mt-2 relative">
-                              <img
-                                src={
-                                  (formData.advantageImages || []).filter(
-                                    Boolean
-                                  )[index]
-                                    ? URL.createObjectURL(
-                                        (formData.advantageImages || []).filter(
-                                          Boolean
-                                        )[index]
-                                      )
-                                    : editingProduct?.advantageImageUrls?.[
-                                        index
-                                      ] || safeAdvantage.image
-                                }
-                                alt={`Advantage ${index + 1}`}
-                                className="w-32 aspect-[16/9] object-cover rounded"
-                              />
+                            <div className="mt-2 relative w-32 aspect-[16/9] rounded-md overflow-hidden">
+                              {advantageImageUrls[index] ? (
+                                <Image
+                                  src={advantageImageUrls[index]}
+                                  alt={`Новое преимущество ${index + 1}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              ) : editingProduct?.advantageImageUrls?.[
+                                  index
+                                ] ? (
+                                <Image
+                                  src={`${BACKEND_MAIN}${editingProduct.advantageImageUrls[index]}`}
+                                  alt={`Текущее преимущество ${index + 1}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              ) : null}
+
                               {(formData.advantageImages || []).filter(Boolean)[
                                 index
                               ] && (
@@ -961,31 +975,26 @@ export default function ProductManagement() {
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    const currentAdvantages = (
-                      formData.advantages || []
-                    ).filter(Boolean);
-                    const updated = [...currentAdvantages];
-                    updated.push({
+                    const updatedAdvantages = [
+                      ...(formData.advantages || []).filter(Boolean),
+                    ];
+                    updatedAdvantages.push({
                       label: "",
                       icon: "",
                       image: "",
                       description: "",
                     });
 
-                    const currentImages = (
-                      formData.advantageImages || []
-                    ).filter(Boolean);
-                    const updatedImages = [...currentImages];
+                    const updatedImages = [
+                      ...(formData.advantageImages || []).filter(Boolean),
+                    ];
+                    // Добавляем null, чтобы сохранить соответствие индексов
                     updatedImages.push(null as any);
-
-                    // Ensure no undefined values remain
-                    const cleanUpdated = updated.filter(Boolean);
-                    const cleanUpdatedImages = updatedImages.filter(Boolean);
 
                     setFormData({
                       ...formData,
-                      advantages: cleanUpdated,
-                      advantageImages: cleanUpdatedImages,
+                      advantages: updatedAdvantages,
+                      advantageImages: updatedImages,
                     });
                   }}
                 >
