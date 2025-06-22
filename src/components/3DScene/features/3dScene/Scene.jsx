@@ -1,31 +1,45 @@
 import { useLoader } from "@react-three/fiber";
-import {
-  DRACOLoader,
-  GLTFLoader,
-  OBJLoader,
-} from "three/examples/jsm/Addons.js";
+import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef, useState } from "react";
-import Stats from "three/examples/jsm/libs/stats.module.js";
-import { useAnimations, Wireframe, MeshWobbleMaterial, useStencil, Mask, useMask } from "@react-three/drei";
+import { useEffect, useRef } from "react";
+import { useAnimations } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { WfThrough } from "./materials/WfThrough.jsx";
-import { WfFar } from "./materials/WfFar.jsx";
 import { WfMid } from "./materials/WfMid.jsx";
 import { WfMid2 } from "./materials/WfMid2.jsx";
 import { worldWireframe } from "./materials/worldWirframe.jsx";
 import gsap from "gsap";
-import { Power1, Power4 } from "gsap/all";
-import buildingsList from "@public/buildings.json";
+import { Power4 } from "gsap/all";
 import { BufferGeometryUtils } from "three/examples/jsm/Addons.js";
-import {basicWF} from "./materials/basicWF.jsx";
+import { basicWF } from "./materials/basicWF.jsx";
 
+// Utility function to merge geometries with the same material
+const mergeGeometriesWithMaterial = (scene, material) => {
+  const geometriesToMerge = [];
+
+  scene.traverse((node) => {
+    if (node.isMesh) {
+      const geometry = node.geometry.clone();
+      geometry.applyMatrix4(node.matrixWorld);
+      geometriesToMerge.push(geometry);
+      node.visible = false;
+    }
+  });
+
+  if (geometriesToMerge.length > 0) {
+    const mergedGeometry =
+      BufferGeometryUtils.mergeGeometries(geometriesToMerge);
+    const mergedMesh = new THREE.Mesh(mergedGeometry, material);
+    scene.add(mergedMesh);
+    return mergedMesh;
+  }
+  return null;
+};
 
 export default function Scene() {
   const isFirstRender = useRef(true);
-  
+
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
-  // TODO: Использовать маски для отрисовки конвейера из React Drei 
   const customShader = WfThrough();
   const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
@@ -33,30 +47,48 @@ export default function Scene() {
   const basicMaterial = basicWF();
   const scene = new THREE.Scene();
 
- 
-
-  // const mainShader = new WfMain({
-  //   wireframe: false,
-  //   сolor: new THREE.Vector3(0.502, 0.502, 0.502),
-  // });
-  // const geometry = new THREE.BoxGeometry(1,1,1);
-  // const material123 = new THREE.MeshBasicMaterial( { color: 0x00A300 } );
   const texture = useLoader(THREE.TextureLoader, "/Scene/testTexture.png");
-  const [terrain, gltf, env, cars, logo, road, main, wallsOut, invisible, lenta, lenta2, main_static] = useLoader(
+  // Optimize texture
+  useEffect(() => {
+    if (texture) {
+      texture.generateMipmaps = true;
+      texture.minFilter = THREE.LinearMipMapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.anisotropy = 16;
+      texture.needsUpdate = true;
+    }
+  }, [texture]);
+
+  const [
+    terrain,
+    gltf,
+    env,
+    cars,
+    logo,
+    road,
+    main,
+    wallsOut,
+    chairs,
+    lenta,
+    lenta2,
+    main_static,
+    road_cars
+  ] = useLoader(
     GLTFLoader,
     [
       "/Scene/buildings.glb",
       "/Scene/walls2.glb",
-      "/Scene/env.glb",
+      "/Scene/env_union.glb",
       "/Scene/cars.glb",
       "/Scene/logo.glb",
-      "/Scene/road.glb",
+      "/Scene/road_union.glb",
       "/Scene/main_active_mesh.glb",
       "/Scene/wallsOut.glb",
-      "/Scene/invisible.glb",
+      "/Scene/chairs_union.glb",
       "/Scene/lenta.glb",
       "/Scene/lenta2.glb",
-      "/Scene/main_static.glb",
+      "/Scene/main_union.glb",
+      "/Scene/road_cars.glb"
     ],
     (loader) => {
       const dracoLoader = new DRACOLoader();
@@ -70,19 +102,19 @@ export default function Scene() {
   console.log(terrain);
 
   const lentaMaterial = new THREE.ShaderMaterial({
-        transparent: true,
-        uniforms: {
-          uTexture: { value: texture },
-          uTime: { value: 0 }
-        },
-        vertexShader: `
+    transparent: true,
+    uniforms: {
+      uTexture: { value: texture },
+      uTime: { value: 0 },
+    },
+    vertexShader: `
           varying vec2 vUv;
           void main() {
             vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
           }
         `,
-        fragmentShader: `
+    fragmentShader: `
           uniform sampler2D uTexture;
           uniform float uTime;
           varying vec2 vUv;
@@ -93,48 +125,16 @@ export default function Scene() {
             vec4 texColor = texture2D(uTexture, uv);
             gl_FragColor = texColor;
           }
-        `
-      });
+        `,
+  });
   const materialASD = new THREE.MeshBasicMaterial({
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
-    opacity: 0.00,
-    side: THREE.DoubleSide,
+    opacity: 0.03,
+    side: THREE.FrontSide,
   });
 
-  // console.log(buildings);
-
-  // const instances = [];
-  // const dummy = new THREE.Object3D();
-  // const count = buildingsList.length;
-  // //Создание инстансов
-  // buildings.forEach((building, index) => {
-  //   const instanceCount = Math.floor(buildingsList.length/buildings.length);
-  //   const geometry = building.scene.children[0].geometry;
-  //   const material = building.scene.children[0].material;
-  //   const instanceMesh = new THREE.InstancedMesh(geometry, material, instanceCount);
-  //   scene.add(instanceMesh);
-  //   instances.push(instanceMesh);
-
-  // })
-  // // распределение инстансов по сцене
-  // const shuffledPositions = [...buildingsList].sort(() => Math.random() - 0.5);
-  // let positionIndex = 0;
-  // console.log(shuffledPositions);
-  // instances.forEach((instanceMesh, index) => {
-  //   for(let i =0;i<instanceMesh.count;i++){
-  //     if (positionIndex >= shuffledPositions.length) break;
-  //     const position = shuffledPositions[positionIndex].position;
-  //     dummy.position.set(position.x,position.y,position.z);
-  //     // dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
-  //     dummy.updateMatrix();
-  //     instanceMesh.setMatrixAt(i, dummy.matrix);
-  //     positionIndex++;
-  //   }
-  //   instanceMesh.instanceMatrix.needsUpdate = true;
-
-  // })
 
   useEffect(() => {
     // Массив для хранения геометрии
@@ -167,35 +167,18 @@ export default function Scene() {
     }
   }, [terrain, worldMaterial]);
 
-  // const renderer = new THREE.WebGLRenderer();
-  // let gl = renderer.getContext();
-  // let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-  // let vendor = "unk";
-  // let gpu = "unk";
-  // try {
-  //   vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-  //   gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-  // } catch (err) {}
-  // console.log(vendor, gpu);
-
-  // terrain.scene.position.set(0,-1000,0);
   //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
   // непрзрачно для обеих сторон
   useEffect(() => {
-      gltf.scene.traverse((node) => {
-        node.renderOrder = 1;     
-        node.material = basicMaterial;
-      });
+    gltf.scene.traverse((node) => {
+      node.renderOrder = 1;
+      node.material = basicMaterial;
+    });
   }, [gltf, basicMaterial]);
   useEffect(() => {
     main_static.scene.traverse((node) => {
       node.material = customShaderTest2;
       node.renderOrder = 2;
-
-      // mesh.position.copy(node.position);
-      // mesh.rotation.copy(node.rotation);
-      // mesh.scale.copy(node.scale);
-      // scene.add(mesh);
     });
   }, [main_static, customShaderTest2]);
   useEffect(() => {
@@ -212,56 +195,47 @@ export default function Scene() {
   useEffect(() => {
     env.scene.traverse((node) => {
       node.material = worldMaterial;
-
     });
   }, [env, worldMaterial]);
   useEffect(() => {
     road.scene.traverse((node) => {
-      node.material = customShaderTest2;
-
-      
+      node.material = worldMaterial;
     });
   }, [road, customShaderTest2]);
   useEffect(() => {
     cars.scene.traverse((node) => {
       node.material = customShaderTest2;
-
-      
     });
   }, [cars, customShaderTest2]);
   useEffect(() => {
     wallsOut.scene.traverse((node) => {
       node.material = customShaderTest2;
-
-      
     });
   }, [wallsOut, customShaderTest2]);
   useEffect(() => {
     lenta.scene.traverse((node) => {
       node.material = lentaMaterial;
-      
-
-      
     });
-  }, [lenta,lentaMaterial]);
+  }, [lenta, lentaMaterial]);
   useEffect(() => {
     lenta2.scene.traverse((node) => {
       node.material = lentaMaterial;
-      
-
-      
     });
-  }, [lenta2,lentaMaterial]);
-  const uniforms = {
-    uTexture: { value: texture},
-    uTime: { value: 0 }
-  }
+  }, [lenta2, lentaMaterial]);
+  useEffect(() => {
+    chairs.scene.traverse((node) => {
+      node.material = materialASD;
+      node.renderOrder = 2;
+    });
+  }, [chairs, materialASD]);
+  useEffect(()=>{
+    road_cars.scene.traverse((node)=>{
+      node.material = customShaderTest2;
+      node.renderOrder = 2;
+    })
+  },[road_cars, customShaderTest2])
 
-  invisible.scene.position.y = 6;
   scene.add(gltf.scene);
-  // Террейн выключен из-за ненадобности
-  // scene.add(terrain.scene);
-  // TODO: Изменить визуально сцену
   scene.add(env.scene);
   scene.add(cars.scene);
   scene.add(logo.scene);
@@ -272,37 +246,150 @@ export default function Scene() {
   scene.add(lenta.scene);
   scene.add(lenta2.scene);
   scene.add(main_static.scene);
-  
+  scene.add(chairs.scene);
+  scene.add(road_cars.scene);
 
-  
+  useEffect(() => {
+    // Setup frustum culling and optimization for all objects
+    const setupOptimizations = (sceneObject) => {
+      sceneObject.traverse((node) => {
+        if (node.isMesh) {
+          // Enable frustum culling
+          node.frustumCulled = true;
+
+          // Optimize geometry
+          if (node.geometry) {
+            node.geometry.computeBoundingSphere();
+            node.geometry.computeBoundingBox();
+          }
+
+          // Optimize materials
+          if (node.material) {
+            node.material.precision = "lowp"; // Use low precision for better performance
+          }
+        }
+      });
+    };
+
+    // Apply optimizations to all loaded models
+    [
+      terrain.scene,
+      gltf.scene,
+      env.scene,
+      cars.scene,
+      logo.scene,
+      road.scene,
+      main.scene,
+      wallsOut.scene,
+      chairs.scene,
+      lenta.scene,
+      lenta2.scene,
+      main_static.scene,
+      road_cars.scene
+    ].forEach(setupOptimizations);
+  }, [
+    terrain,
+    gltf,
+    env,
+    cars,
+    logo,
+    road,
+    main,
+    wallsOut,
+    chairs,
+    lenta,
+    lenta2,
+    main_static,
+  ]);
+
+  // Optimize frame updates
+  const lastUpdate = useRef(0);
+  const frameInterval = 1000 / 60; // Target 30 FPS for animations
 
   useFrame(({ clock }) => {
+    const currentTime = clock.getElapsedTime() * 1000;
+
+    // Skip frame if not enough time has passed
+    if (currentTime - lastUpdate.current < frameInterval) {
+      return;
+    }
+
+    lastUpdate.current = currentTime;
     const progress = Math.min(1, clock.getElapsedTime() / 5);
+
+    // Update shaders
     customShader.uniforms.uProgress.value = progress;
     customShader.uniforms.time.value = clock.getElapsedTime();
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     customShaderTest2.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     worldMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     lentaMaterial.uniforms.uTime.value = clock.getElapsedTime() * 10.2;
-    // particles.material.uniforms.uTime.value = clock.getElapsedTime()*1.2;
-    // particles.geometry.attributes.position.needsUpdate = true;
   });
+
   const mainAnimations = useAnimations(main.animations, main.scene);
-  const roadAnimations = useAnimations(road.animations, road.scene);
+  const roadAnimations = useAnimations(road_cars.animations, road_cars.scene);
   const carsAnimations = useAnimations(cars.animations, cars.scene);
 
   useEffect(() => {
-    // Play all animations
+    const handleVisibilityChange = () => {
+      const isVisible = !document.hidden;
+
+      // Handle main animations
+      mainAnimations.names.forEach((name) => {
+        const action = mainAnimations.actions[name];
+        if (isVisible) {
+          action.paused = false;
+        } else {
+          action.paused = true;
+        }
+      });
+
+      // Handle cars animations
+      carsAnimations.names.forEach((name) => {
+        const action = carsAnimations.actions[name];
+        if (isVisible) {
+          action.paused = false;
+        } else {
+          action.paused = true;
+        }
+      });
+
+      // Handle road animations
+      roadAnimations.names.forEach((name) => {
+        const action = roadAnimations.actions[name];
+        if (isVisible) {
+          action.paused = false;
+        } else {
+          action.paused = true;
+        }
+      });
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initial setup
     mainAnimations.names.forEach((name) => {
-      mainAnimations.actions[name].reset().play();
+      const action = mainAnimations.actions[name];
+      action.reset().play();
+      action.setEffectiveTimeScale(0.8); // Slightly slow down animations for performance
     });
+
     carsAnimations.names.forEach((name) => {
-      carsAnimations.actions[name].reset().play();
+      const action = carsAnimations.actions[name];
+      action.reset().play();
+      action.setEffectiveTimeScale(0.8);
     });
+
     roadAnimations.names.forEach((name) => {
-      roadAnimations.actions[name].reset().play();
+      const action = roadAnimations.actions[name];
+      action.reset().play();
+      action.setEffectiveTimeScale(0.8);
     });
-  }, [mainAnimations, carsAnimations]);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [mainAnimations, carsAnimations, roadAnimations]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -348,16 +435,6 @@ export default function Scene() {
           0.5
         )
         .to(
-          materialASD,
-          {
-            opacity: 0.03,
-            duration: 5,
-            delay: 3,
-            ease: Power4.easeOut,
-          },
-          0.5
-        )
-        .to(
           customShaderTest2.uniforms.uFluctuationFrequency,
           {
             value: 1,
@@ -376,25 +453,30 @@ export default function Scene() {
           6
         );
 
-      // .to(customShaderTest2.uniforms.uColor.value, {
-      //   x: 1, y: 1, z: 1,
-      //   duration: 2,
-      //   ease: Power1.easeOut
-
-      // },4.0);
-
       // Отмечаем, что первый рендер прошел
       isFirstRender.current = false;
     }
   }, [customShaderTest]);
-  
+
+  // Modify the useEffect for static objects to use geometry merging
+  useEffect(() => {
+    // Merge static objects that use worldMaterial
+    const staticObjects = [env.scene, road.scene];
+    staticObjects.forEach((obj) => {
+      mergeGeometriesWithMaterial(obj, worldMaterial);
+    });
+
+    // Merge static objects that use customShaderTest2
+    const staticObjectsShader2 = [wallsOut.scene, cars.scene];
+    staticObjectsShader2.forEach((obj) => {
+      const merged = mergeGeometriesWithMaterial(obj, customShaderTest2);
+      if (merged) merged.renderOrder = 2;
+    });
+  }, [env, road, wallsOut, cars, worldMaterial, customShaderTest2]);
 
   return (
     <>
-    
       <primitive object={scene} />
-
-    
     </>
   );
 }
