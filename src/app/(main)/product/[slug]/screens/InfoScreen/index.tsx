@@ -22,18 +22,6 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
   const [previousFeatureIndex, setPreviousFeatureIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Отладочная информация
-  console.log("Product data:", {
-    advantages: product.advantages,
-  });
-
-  // Проверяем конкретные индексы
-  console.log("Active feature data:", {
-    index: activeFeatureIndex,
-    advantage: product.advantages[activeFeatureIndex],
-    hasImage: !!product.advantages[activeFeatureIndex]?.image,
-  });
-
   const activeImageRef = useRef<HTMLDivElement>(null);
   const previousImageRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
