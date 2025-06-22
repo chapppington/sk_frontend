@@ -5,9 +5,8 @@ import {
   OBJLoader,
 } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Stats from "three/examples/jsm/libs/stats.module.js";
-// import {addBarycentricCoordinates} from "../../tools/geom.js";
 import { useAnimations, Wireframe, MeshWobbleMaterial, useStencil, Mask, useMask } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { WfThrough } from "./materials/WfThrough.jsx";
@@ -27,7 +26,6 @@ export default function Scene() {
   
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
   // TODO: Использовать маски для отрисовки конвейера из React Drei 
-
   const customShader = WfThrough();
   const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
@@ -53,7 +51,7 @@ export default function Scene() {
       "/Scene/cars.glb",
       "/Scene/logo.glb",
       "/Scene/road.glb",
-      "/Scene/main.glb",
+      "/Scene/main_active_mesh.glb",
       "/Scene/wallsOut.glb",
       "/Scene/invisible.glb",
       "/Scene/lenta.glb",
@@ -83,7 +81,7 @@ export default function Scene() {
     }
   );
 
-  console.log(gltf);
+  console.log(main.scene);
   console.log(terrain);
 
   const lentaMaterial = new THREE.ShaderMaterial({
@@ -113,37 +111,13 @@ export default function Scene() {
         `
       });
   const materialASD = new THREE.MeshBasicMaterial({
-    color: new THREE.Color("#0f0d1f"),
+    color: new THREE.Color("#ffffff"),
+    wireframe: true,
     transparent: true,
+    opacity: 0.00,
     side: THREE.DoubleSide,
   });
 
-  function addBarycentricCoordinates(bufferGeometry, removeEdge = false) {
-  const attrib = bufferGeometry.getIndex() || bufferGeometry.getAttribute('position');
-  const count = attrib.count / 3;
-  const barycentric = [];
-
-  // for each triangle in the geometry, add the barycentric coordinates
-  for (let i = 0; i < count; i++) {
-    const even = i % 2 === 0;
-    const Q = removeEdge ? 1 : 0;
-    if (even) {
-      barycentric.push(0, 0, 1, 0, 1, 0, 1, 0, Q);
-    } else {
-      barycentric.push(0, 1, 0, 0, 0, 1, 1, 0, Q);
-    }
-  }
-
-  // add the attribute to the geometry
-  const array = new Float32Array(barycentric);
-  const attribute = new THREE.BufferAttribute(array, 3);
-  bufferGeometry.setAttribute('barycentric', attribute);
-}
-
-
-
-
-  const buildings = [build_b, build_c, build_d, build_e];
   // console.log(buildings);
 
   // const instances = [];
@@ -222,7 +196,6 @@ export default function Scene() {
   // terrain.scene.position.set(0,-1000,0);
   //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
   // непрзрачно для обеих сторон
-  const stencil = useMask(1,true);
   useEffect(() => {
       gltf.scene.traverse((node) => {
         node.renderOrder = 1;     
@@ -240,6 +213,12 @@ export default function Scene() {
       // scene.add(mesh);
     });
   }, [main_static, customShaderTest2]);
+  useEffect(() => {
+    main.scene.traverse((node) => {
+      node.material = materialASD;
+      node.renderOrder = 2;
+    });
+  }, [main, materialASD]);
   useEffect(() => {
     logo.scene.traverse((node) => {
       node.material = customShaderTest2;
@@ -347,7 +326,7 @@ export default function Scene() {
   scene.add(cars.scene);
   scene.add(logo.scene);
   scene.add(road.scene);
-  // scene.add(main.scene);
+  scene.add(main.scene);
   scene.add(terrain.scene);
   scene.add(wallsOut.scene);
   // scene.add(invisible.scene);
@@ -499,6 +478,16 @@ export default function Scene() {
           0.5
         )
         .to(
+          materialASD,
+          {
+            opacity: 0.03,
+            duration: 5,
+            delay: 3,
+            ease: Power4.easeOut,
+          },
+          0.5
+        )
+        .to(
           customShaderTest2.uniforms.uFluctuationFrequency,
           {
             value: 1,
@@ -528,20 +517,20 @@ export default function Scene() {
       isFirstRender.current = false;
     }
   }, [customShaderTest]);
-  useEffect(() => {
-    if (isFirstRender.current) {
-      // Создаем timeline
-      const tl = gsap.timeline();
-
-      // Отмечаем, что первый рендер прошел
-      isFirstRender.current = false;
-    }
-  }, [customShaderTest2]);
+  
 
   return (
     <>
     
       <primitive object={scene} />
+
+      
+
+      {/* {main.scene.children.map((child, index) => {
+        return (
+          <primitive key={index} object={child} />
+        )
+      })} */}
       
 
     
