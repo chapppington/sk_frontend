@@ -8,6 +8,10 @@ class NewsService {
     return axiosClassic.get<INews[]>(this._BASE_URL);
   }
 
+  async fetchOne(slug: string) {
+    return axiosClassic.get<INews>(`${this._BASE_URL}/slug/${slug}`);
+  }
+
   async create(data: FormData) {
     return instance.post<INews>(this._BASE_URL, data, {
       headers: {

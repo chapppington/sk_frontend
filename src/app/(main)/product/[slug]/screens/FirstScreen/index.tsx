@@ -22,7 +22,7 @@ interface FirstScreenProps {
 
 const FirstScreen = ({ product }: FirstScreenProps) => {
   const categoryLabel = getCategoryLabel(product.category);
-  
+
   return (
     <header className="flex flex-col justify-between pb-12 md:pb-24">
       {/* Main Content */}

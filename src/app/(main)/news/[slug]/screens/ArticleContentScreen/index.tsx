@@ -11,12 +11,7 @@ import CircleIconButton from "@/components/ui/CircleIconButton";
 import { IArticleContentSectionProps } from "./types";
 
 export default function ArticleContentSection({
-  category,
-  title,
-  date,
-  readTime,
-  imageSrc,
-  content,
+  news,
 }: IArticleContentSectionProps) {
   return (
     <article className="max-w-[1000px] mx-auto mt-2">
@@ -35,37 +30,45 @@ export default function ArticleContentSection({
 
         {/* Category Tag */}
         <div className="mb-6 px-4 py-2 border border-white text-white text-sm rounded font-light">
-          <span>{category}</span>
+          <span>{news.category}</span>
         </div>
 
         {/* Article Title */}
         <div>
           <GradientHeading className="leading-tight mb-6">
-            {title}
+            {news.title}
           </GradientHeading>
         </div>
 
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
-          <span>{date}</span>
+          <span>
+            {new Date(news.createdAt).toLocaleDateString("ru-RU", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
           <span>•</span>
-          <span>{readTime}</span>
+          <span>{news.readingTime} мин</span>
         </div>
 
         {/* Featured Image */}
-        <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
-          <Image
-            src={imageSrc}
-            alt="Featured Image"
-            fill
-            className="object-cover rounded-lg"
-            priority
-          />
-        </div>
+        {news.imageUrl && (
+          <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
+            <Image
+              src={news.imageUrl}
+              alt="Featured Image"
+              fill
+              className="object-cover rounded-lg"
+              priority
+            />
+          </div>
+        )}
 
         {/* Article Content */}
         <div className="max-w-6xl mx-auto">
-          {content.map((paragraph, index) => (
+          {news.content.split("\n").map((paragraph: string, index: number) => (
             <p key={index} className="text-white/90 text-lg leading-loose mb-6">
               {paragraph}
             </p>

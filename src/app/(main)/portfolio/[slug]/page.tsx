@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next";
 import PortfolioDetails from "./PortfolioDetails";
-import { instance } from "@/api/axios";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
+import { API_URL } from "@/constants";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -11,9 +11,15 @@ export async function generateMetadata(
 
   try {
     // Получаем данные портфолио с сервера
-    const { data: portfolio } = await instance.get<IPortfolioItem>(
-      `/portfolio/slug/${slug}`
-    );
+    const response = await fetch(`${API_URL}/portfolio/slug/${slug}`, {
+      next: { revalidate: 3600 }, // Кэшируем на 1 час
+    });
+
+    if (!response.ok) {
+      throw new Error("Portfolio not found");
+    }
+
+    const portfolio: IPortfolioItem = await response.json();
 
     return {
       title: `${portfolio.name} | СибКомплект`,
