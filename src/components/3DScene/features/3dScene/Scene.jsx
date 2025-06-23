@@ -304,7 +304,7 @@ export default function Scene() {
 
   // Optimize frame updates
   const lastUpdate = useRef(0);
-  const frameInterval = 1000 / 60; // Target 30 FPS for animations
+  const frameInterval = 1000 / 60; // Target 60 FPS for animations
 
   useFrame(({ clock }) => {
     const currentTime = clock.getElapsedTime() * 1000;

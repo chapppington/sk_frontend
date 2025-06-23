@@ -21,7 +21,7 @@ function MainScene() {
             position: "absolute",
             top: 0,
           }}
-          camera={{ position: [0, 0, 10], fov: 70, near: 10.1, far: 10000 }}
+          camera={{ position: [0, 0, 10], fov: 70, near: 10.1, far: 5000 }}
           scene={{ background: new THREE.Color("#0f0d1f") }}
           gl={{
             antialias: true,

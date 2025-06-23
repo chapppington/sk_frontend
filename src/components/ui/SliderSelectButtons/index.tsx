@@ -4,8 +4,10 @@ import { useScrollOffset } from "@/components/ProductsSlider3D/features/ScrollPr
 import { gsap } from "gsap";
 import { ISectionHeaderProps } from "./types";
 import { Power4 } from "gsap/all";
+import { mockup } from "@/components/ProductsSlider3D/features/mockup";
+
 const SliderSelectButtons: FC<ISectionHeaderProps> = ({currentSlide,setCurrentSlide}) => {
-    const totalSlides = 7; // Set the total number of slides
+    const totalSlides = mockup.length;
     const {scrollOffset, setScrollOffset} = useScrollOffset();
     const tweenRef = useRef({ value: 0 });
     useEffect(() => {
