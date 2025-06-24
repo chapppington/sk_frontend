@@ -9,11 +9,12 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import ProductsSlider3D from "@/components/ProductsSlider3D/main";
 import { ScrollOffsetProvider} from "@/components/ProductsSlider3D/features/ScrollProviderOffset";
 import SliderSelectButtons from "@/components/ui/SliderSelectButtons";
+import { mockup } from "@/components/ProductsSlider3D/features/mockup";
 
 const FirstScreen: FC = () => {
   // Added state management for the counter
   const [currentSlide, setCurrentSlide] = useState(1);
-  const totalSlides = 7; // Set the total number of slides
+  const totalSlides = mockup.length; // Set the total number of slides
 
   // Generate indicator bars
   const indicatorBars = useMemo(() => {
@@ -77,7 +78,7 @@ const FirstScreen: FC = () => {
           </AnimatedText>
           {/* <div className="ml-8 border border-white/30 w-[1000px] h-[600px] hidden md:block" /> */}
        
-            <ProductsSlider3D/>
+            <ProductsSlider3D currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}/>
           
           
         </div>
@@ -107,7 +108,7 @@ const FirstScreen: FC = () => {
           </div>
 
           {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
-          <SliderSelectButtons/>
+          <SliderSelectButtons currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}/>
 
           {/* Column 3: Indicators (spans 6 cols) */}
           <div className="lg:col-span-6 hidden lg:block">
