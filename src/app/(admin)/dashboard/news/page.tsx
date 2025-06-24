@@ -358,7 +358,7 @@ export default function NewsManagement() {
                       {item.imageUrl && (
                         <div className="w-[160px] aspect-[16/9] relative">
                           <Image
-                            src={`${UPLOADS_URL}${item.imageUrl}`}
+                            src={`${UPLOADS_URL}/${item.imageUrl}`}
                             alt={item.title}
                             fill
                             className="object-cover rounded"
