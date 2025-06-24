@@ -1,2 +1,2 @@
-export const BACKEND_MAIN = "http://localhost:3001";
+export const BACKEND_MAIN = "https://testsk2.ru";
 export const API_URL = `${BACKEND_MAIN}/api`;
