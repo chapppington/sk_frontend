@@ -7,7 +7,7 @@ import { useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import gsap from "gsap";
 import { Power4 } from "gsap/all";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import React from "react";
 
@@ -20,7 +20,7 @@ export default function TempScene({ isHovered, modelUrl }) {
   const isFirstRender = useRef(true);
 
   // Use the provided modelUrl with backend prefix or fallback to the default path
-  const modelPath = modelUrl ? `${BACKEND_MAIN}${modelUrl}` : "/Scene/parn.glb";
+  const modelPath = modelUrl ? `${UPLOADS_URL}${modelUrl}` : "/Scene/parn.glb";
 
   const gltf22 = useLoader(GLTFLoader, modelPath, (loader) => {
     const dracoLoader = new DRACOLoader();

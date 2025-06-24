@@ -35,7 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Pencil, Trash2 } from "lucide-react";
 import newsService from "@/services/news.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import Image from "next/image";
 import type { INews } from "@/shared/types/news.types";
 
@@ -285,7 +285,7 @@ export default function NewsManagement() {
                       </p>
                       <div className="relative aspect-[16/9] w-[320px]">
                         <Image
-                          src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
+                          src={`${UPLOADS_URL}${editingNews.imageUrl}`}
                           alt="Current news image"
                           fill
                           className="object-cover rounded-md"
@@ -358,7 +358,7 @@ export default function NewsManagement() {
                       {item.imageUrl && (
                         <div className="w-[160px] aspect-[16/9] relative">
                           <Image
-                            src={`${BACKEND_MAIN}${item.imageUrl}`}
+                            src={`${UPLOADS_URL}${item.imageUrl}`}
                             alt={item.title}
                             fill
                             className="object-cover rounded"

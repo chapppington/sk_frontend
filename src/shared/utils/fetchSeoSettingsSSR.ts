@@ -1,7 +1,7 @@
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 export async function fetchSeoSettingsSSR(pagePath: string) {
-  const backendUrl = BACKEND_MAIN;
+  const backendUrl = UPLOADS_URL;
   try {
     const res = await fetch(
       `${backendUrl}/api/site-seo-settings/by-path?path=${encodeURIComponent(

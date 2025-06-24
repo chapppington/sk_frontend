@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { FC, useState, useRef } from "react";
 import { IProduct } from "@/shared/types/product.types";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import "swiper/css";
 import "swiper/css/thumbs";
@@ -95,7 +95,7 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
                 <SwiperSlide key={slide.id}>
                   <div className="relative h-[600px] w-full overflow-hidden rounded-lg">
                     <Image
-                      src={`${BACKEND_MAIN}/uploads/portfolio/${slide.poster}`}
+                      src={`${UPLOADS_URL}/uploads/portfolio/${slide.poster}`}
                       alt={slide.name}
                       fill
                       style={{ objectFit: "cover" }}
@@ -158,7 +158,7 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
                     <div className="group h-full cursor-pointer">
                       <div className="relative h-[190px] overflow-hidden rounded-lg">
                         <Image
-                          src={`${BACKEND_MAIN}/uploads/portfolio/${slide.poster}`}
+                          src={`${UPLOADS_URL}/uploads/portfolio/${slide.poster}`}
                           alt={slide.name}
                           fill
                           className="object-cover opacity-50 group-hover:opacity-80 transition-opacity"

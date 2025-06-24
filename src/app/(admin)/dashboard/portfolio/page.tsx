@@ -28,7 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Pencil, Trash2 } from "lucide-react";
 import portfolioService from "@/services/portfolio.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { Switch } from "@/components/ui/shadcn/switch";
 import { Label } from "@/components/ui/shadcn/label";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
@@ -398,7 +398,7 @@ export default function PortfolioManagement() {
                       {editingPortfolio?.poster && !formData.poster && (
                         <div className="relative">
                           <img
-                            src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.poster}`}
+                            src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.poster}`}
                             alt="Current poster"
                             className="w-32 aspect-[16/9] object-cover rounded"
                           />
@@ -444,7 +444,7 @@ export default function PortfolioManagement() {
                           !formData.solutionImages[index] && (
                             <div key={image} className="relative">
                               <img
-                                src={`${BACKEND_MAIN}/uploads/portfolio/${image}`}
+                                src={`${UPLOADS_URL}/uploads/portfolio/${image}`}
                                 alt={`Current solution image ${index + 1}`}
                                 className="w-32 aspect-[16/9] object-cover rounded"
                               />
@@ -489,7 +489,7 @@ export default function PortfolioManagement() {
                         !formData.previewVideo && (
                           <div className="relative">
                             <video
-                              src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.previewVideoPath}`}
+                              src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.previewVideoPath}`}
                               className="w-32 h-32 object-cover rounded"
                               controls
                             />
@@ -532,7 +532,7 @@ export default function PortfolioManagement() {
                         !formData.fullVideo && (
                           <div className="relative">
                             <video
-                              src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.fullVideoPath}`}
+                              src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.fullVideoPath}`}
                               className="w-32 h-32 object-cover rounded"
                               controls
                             />
@@ -631,7 +631,7 @@ export default function PortfolioManagement() {
                           !formData.reviewImage && (
                             <div className="relative">
                               <img
-                                src={`${BACKEND_MAIN}/uploads/portfolio/${editingPortfolio.reviewImage}`}
+                                src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.reviewImage}`}
                                 alt="Current review image"
                                 className="w-32 aspect-[16/9] object-cover rounded"
                               />
@@ -698,7 +698,7 @@ export default function PortfolioManagement() {
                     {item.poster && (
                       <div className="w-[160px] aspect-[16/9] relative">
                         <img
-                          src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                          src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
                           alt={item.name}
                           className="w-full h-full object-cover rounded"
                         />

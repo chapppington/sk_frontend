@@ -2,7 +2,7 @@
 
 import { PagesConfig } from "@/config/pages.config";
 import { IProduct } from "@/shared/types/product.types";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { getCategoryLabel } from "@/shared/utils/categoryMapping";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";

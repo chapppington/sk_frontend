@@ -3,7 +3,7 @@
 import { FC, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { IProduct } from "@/shared/types/product.types";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import IconRenderer from "@/shared/utils/iconRenderer";
 
 import gsap from "gsap";
@@ -124,7 +124,7 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
                   className="w-full h-full absolute inset-0 z-0"
                 >
                   <Image
-                    src={`${BACKEND_MAIN}/uploads/products/${product.advantages[previousFeatureIndex].image}`}
+                    src={`${UPLOADS_URL}/uploads/products/${product.advantages[previousFeatureIndex].image}`}
                     alt={product.advantages[previousFeatureIndex].label}
                     fill
                     className="object-cover rounded-lg"
@@ -140,7 +140,7 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
                 className="w-full h-full absolute inset-0 z-10"
               >
                 <Image
-                  src={`${BACKEND_MAIN}/uploads/products/${product.advantages[activeFeatureIndex].image}`}
+                  src={`${UPLOADS_URL}/uploads/products/${product.advantages[activeFeatureIndex].image}`}
                   alt={product.advantages[activeFeatureIndex].label}
                   fill
                   className="object-cover rounded-lg"

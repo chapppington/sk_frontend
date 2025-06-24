@@ -7,7 +7,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MediaPreview from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
 import VideoOverlay from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoOverlay";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 interface FirstScreenProps {
   portfolio: IPortfolioItem;
@@ -51,24 +51,24 @@ const FirstScreen = ({ portfolio }: FirstScreenProps) => {
             <MediaPreview
               src={
                 portfolio.previewVideoPath
-                  ? `${BACKEND_MAIN}/uploads/portfolio/${portfolio.previewVideoPath}`
+                  ? `${UPLOADS_URL}/uploads/portfolio/${portfolio.previewVideoPath}`
                   : "null"
               }
-              poster={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.poster}`}
+              poster={`${UPLOADS_URL}/uploads/portfolio/${portfolio.poster}`}
               onlyShowPoster={true}
             />
             <VideoOverlay
               videoSrc={
                 portfolio.previewVideoPath
-                  ? `${BACKEND_MAIN}/uploads/portfolio/${portfolio.previewVideoPath}`
+                  ? `${UPLOADS_URL}/uploads/portfolio/${portfolio.previewVideoPath}`
                   : "null"
               }
               fullVideoSrc={
                 portfolio.fullVideoPath
-                  ? `${BACKEND_MAIN}/uploads/portfolio/${portfolio.fullVideoPath}`
+                  ? `${UPLOADS_URL}/uploads/portfolio/${portfolio.fullVideoPath}`
                   : null
               }
-              posterSrc={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.poster}`}
+              posterSrc={`${UPLOADS_URL}/uploads/portfolio/${portfolio.poster}`}
             />
           </Suspense>
         </div>

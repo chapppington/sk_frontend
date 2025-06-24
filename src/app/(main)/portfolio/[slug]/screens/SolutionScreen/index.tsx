@@ -6,7 +6,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 interface Props {
   portfolio: IPortfolioItem;
@@ -41,7 +41,7 @@ export default function SolutionScreen({ portfolio }: Props) {
           <div className="flex-[1.3] min-w-0">
             {portfolio.solutionImages?.[0] && (
               <Image
-                src={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.solutionImages[0]}`}
+                src={`${UPLOADS_URL}/uploads/portfolio/${portfolio.solutionImages[0]}`}
                 alt="Solution image 1"
                 className="w-full h-[400px] object-cover"
                 width={800}
@@ -62,7 +62,7 @@ export default function SolutionScreen({ portfolio }: Props) {
           <div className="flex-[0.7] min-w-0">
             {portfolio.solutionImages?.[1] && (
               <Image
-                src={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.solutionImages[1]}`}
+                src={`${UPLOADS_URL}/uploads/portfolio/${portfolio.solutionImages[1]}`}
                 alt="Solution image 2"
                 className="w-full h-[400px] object-cover"
                 width={800}

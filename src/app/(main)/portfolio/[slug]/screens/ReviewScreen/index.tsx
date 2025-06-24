@@ -6,7 +6,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import BigFatCommaIcon from "@/shared/icons/BigFatCommaIcon";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 interface Props {
   portfolio: IPortfolioItem;
@@ -46,7 +46,7 @@ const ReviewScreen = ({ portfolio }: Props) => {
               <div className="w-16 h-16 rounded-full overflow-hidden">
                 <div className="w-full h-full">
                   <Image
-                    src={`${BACKEND_MAIN}/uploads/portfolio/${portfolio.reviewImage}`}
+                    src={`${UPLOADS_URL}/uploads/portfolio/${portfolio.reviewImage}`}
                     alt="avatar"
                     width={64}
                     height={64}

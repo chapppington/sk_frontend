@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { PagesConfig } from "@/config/pages.config";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -67,7 +67,7 @@ export default function ArticleContentSection({
         {news.imageUrl && (
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
-              src={`${BACKEND_MAIN}${news.imageUrl}`}
+              src={`${UPLOADS_URL}${news.imageUrl}`}
               alt="Featured Image"
               fill
               className="object-cover rounded-lg"

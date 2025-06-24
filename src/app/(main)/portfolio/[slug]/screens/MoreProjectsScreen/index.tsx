@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import portfolioService from "@/services/portfolio.service";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
@@ -63,7 +63,7 @@ const MoreProjectsScreen: FC = () => {
                     key={project.id}
                     slug={project.slug}
                     title={project.name}
-                    image={`${BACKEND_MAIN}/uploads/portfolio/${project.poster}`}
+                    image={`${UPLOADS_URL}/uploads/portfolio/${project.poster}`}
                     year={String(project.year)}
                   />
                 ))}
