@@ -9,7 +9,7 @@ class AuthTokenService {
 
   saveAccessToken(accessToken: string) {
     Cookies.set(AuthToken.ACCESS_TOKEN, accessToken, {
-      domain: "localhost",
+      domain: "testsk2.ru",
       sameSite: "strict",
       expires: 1,
     });
