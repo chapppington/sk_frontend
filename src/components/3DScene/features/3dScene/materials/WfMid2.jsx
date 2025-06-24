@@ -7,7 +7,7 @@ export function WfMid2() {
       return new THREE.ShaderMaterial({
         wireframe: false,
         transparent: true,
-        depthTest: true,
+        depthTest: false,
         depthWrite: false,
         side: THREE.FrontSide,
         blending: THREE.AdditiveBlending,
@@ -20,7 +20,7 @@ export function WfMid2() {
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
                 uRevealDistance: { value: 1000.0 },
 
-                uAlpha: { value: 0.03 },
+                uAlpha: { value: 0.13 },
 
                 uFluctuationFrequency: { value: 0.0 },
                 uFluctuationAmplitude: { value: 0.0 }

@@ -26,9 +26,9 @@ uniform float squeezeMin;
 uniform float squeezeMax;
 
 uniform vec3 stroke;
-uniform vec3 fill;
+// uniform vec3 fill;
 
-#include ./4d.glsl
+
 
 
 #define PI (3.141592653589793)
@@ -54,10 +54,7 @@ vec4 getStyledWireframe(vec3 barycentric) {
   float d = min(min(barycentric.x, barycentric.y), barycentric.z);
 
   // we can modify the distance field to create interesting effects & masking
-  float noiseOff = 0.0;
-  if (noiseA) noiseOff += snoise(vec4(vPosition.xyz * 0.01, time * 0.35)) * 0.1;
-  if (noiseB) noiseOff += snoise(vec4(vPosition.xyz * 80.0, time * 1.5)) * 0.01;
-  d += noiseOff;
+  
 
   // for dashed rendering, we can use this to get the 0 .. 1 value of the line length
   float positionAlong = max(barycentric.x, barycentric.y);
@@ -94,7 +91,7 @@ vec4 getStyledWireframe(vec3 barycentric) {
 
   // compute the anti-aliased stroke edge
   float edge = 1.0 - aastep(computedThickness, d);
-
+  vec3 fill = vec3(0.059, 0.051, 0.122);
   // now compute the final color of the mesh
   vec4 outColor = vec4(0.0);
   if (seeThrough) {
