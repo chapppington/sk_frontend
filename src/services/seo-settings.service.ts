@@ -95,7 +95,7 @@ class SeoSettingsService {
   }
 
   async getPreview(id: string): Promise<SeoPreview> {
-    const response = await axiosClassic.get(`/site-seo-settings/${id}/preview`);
+    const response = await instance.get(`/site-seo-settings/${id}/preview`);
     return response.data;
   }
 }

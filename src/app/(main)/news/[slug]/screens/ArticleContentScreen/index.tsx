@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { PagesConfig } from "@/config/pages.config";
+import { BACKEND_MAIN } from "@/constants";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -13,6 +14,15 @@ import { IArticleContentSectionProps } from "./types";
 export default function ArticleContentSection({
   news,
 }: IArticleContentSectionProps) {
+  // Добавляем маппер категорий
+  const categoryMap: Record<string, string> = {
+    all: "Все",
+    production: "Производство",
+    technology: "Технологии",
+    event: "События",
+    interview: "Интервью",
+  };
+
   return (
     <article className="max-w-[1000px] mx-auto mt-2">
       <CustomContainer className="flex flex-col items-start">
@@ -30,7 +40,7 @@ export default function ArticleContentSection({
 
         {/* Category Tag */}
         <div className="mb-6 px-4 py-2 border border-white text-white text-sm rounded font-light">
-          <span>{news.category}</span>
+          <span>{categoryMap[news.category] || news.category}</span>
         </div>
 
         {/* Article Title */}
@@ -57,7 +67,7 @@ export default function ArticleContentSection({
         {news.imageUrl && (
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
-              src={news.imageUrl}
+              src={`${BACKEND_MAIN}${news.imageUrl}`}
               alt="Featured Image"
               fill
               className="object-cover rounded-lg"

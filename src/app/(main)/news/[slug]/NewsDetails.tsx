@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import newsService from "@/services/news.service";
 import { INews } from "@/shared/types/news.types";
 import ArticleContentSection from "./screens/ArticleContentScreen";
+import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 
 const ContactUsScreen = dynamic(
   () => import("@/components/shared_screens/ContactUsScreen")
@@ -34,6 +35,7 @@ const NewsDetails = ({ slug }: Props) => {
   return (
     <main>
       <ArticleContentSection news={news} />
+      <ReadMoreScreen/>
       <ContactUsScreen />
     </main>
   );

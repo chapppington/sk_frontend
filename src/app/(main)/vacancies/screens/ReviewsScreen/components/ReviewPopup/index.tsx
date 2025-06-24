@@ -14,7 +14,7 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ review, isClosing, onClose }) => {
         onClick={onClose}
       ></div>
       <div
-        className={`bg-gray-900 rounded-xl p-4 sm:p-8 max-w-4xl w-full relative z-10 border border-white/20 ${
+        className={`bg-blue-950 rounded-xl p-4 sm:p-8 max-w-4xl w-full relative z-10 border border-white/20 ${
           isClosing ? "animate-scaleOut" : "animate-scaleIn"
         }`}
       >

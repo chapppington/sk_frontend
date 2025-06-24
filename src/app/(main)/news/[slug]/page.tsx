@@ -1,5 +1,6 @@
 import { Metadata, ResolvingMetadata } from "next";
 import NewsDetails from "./NewsDetails";
+import { API_URL } from "@/constants";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -8,12 +9,9 @@ export async function generateMetadata(
   const { slug } = await params;
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/news/slug/${slug}`,
-      {
-        next: { revalidate: 3600 },
-      }
-    );
+    const response = await fetch(`${API_URL}/news/slug/${slug}`, {
+      next: { revalidate: 3600 },
+    });
     if (!response.ok) {
       throw new Error("News not found");
     }
