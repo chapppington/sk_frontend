@@ -22,7 +22,7 @@ import {
 import newsService from "@/services/news.service";
 import { INews } from "@/shared/types/news.types";
 import { INewsItem } from "./types";
-import { UPLOADS_URL } from "@/constants";
+import { BACKEND_MAIN } from "@/constants";
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,7 +72,7 @@ const FirstScreen: FC = () => {
     title: item.title,
     description: item.shortContent || item.content.substring(0, 150) + "...",
     shortContent: item.shortContent,
-    image: item.imageUrl ? `${UPLOADS_URL}/${item.imageUrl}` : "/news_bg.webp",
+    image: item.imageUrl ? `${BACKEND_MAIN}${item.imageUrl}` : "/news_bg.webp",
     slug: item.slug,
   }));
 
