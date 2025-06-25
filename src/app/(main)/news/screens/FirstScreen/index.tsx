@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -18,7 +19,10 @@ import {
   useImageTransition,
 } from "./hooks/useNewsAnimations";
 
-import { newsItems } from "@/app/(main)/news/screens/FirstScreen/mock_data";
+import newsService from "@/services/news.service";
+import { INews } from "@/shared/types/news.types";
+import { INewsItem } from "./types";
+import { UPLOADS_URL } from "@/constants";
 
 const FirstScreen: FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -33,7 +37,49 @@ const FirstScreen: FC = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Use custom hooks for animations
+  // Fetch news from backend
+  const {
+    data: news = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["news"],
+    queryFn: async () => {
+      const { data } = await newsService.fetchAll();
+      return data;
+    },
+  });
+
+  // Category mapping
+  const categoryMap: Record<string, string> = {
+    all: "Все",
+    production: "Производство",
+    technology: "Технологии",
+    event: "События",
+    interview: "Интервью",
+  };
+
+  // Transform API data to match the expected format
+  const newsItems: INewsItem[] = news.map((item: INews) => ({
+    id: parseInt(item.id) || 0, // Fallback to 0 if parsing fails
+    category: categoryMap[item.category] || item.category,
+    date: new Date(item.createdAt).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    readTime: `${item.readingTime} мин`,
+    title: item.title,
+    description: item.shortContent || item.content.substring(0, 150) + "...",
+    shortContent: item.shortContent,
+    image: item.imageUrl ? `${UPLOADS_URL}/${item.imageUrl}` : "/news_bg.webp",
+    slug: item.slug,
+  }));
+
+  // Use custom hooks for animations only when data is loaded
+  const shouldRunAnimations = !isLoading && !error && newsItems.length > 0;
+
+  // Always call hooks to maintain order, but pass shouldRunAnimations flag
   useContentAnimation(
     {
       contentRef,
@@ -43,22 +89,53 @@ const FirstScreen: FC = () => {
       descriptionRef,
       buttonRef,
     },
-    currentIndex
+    currentIndex,
+    shouldRunAnimations
   );
 
-  useImageTransition(imageRefs, currentIndex, prevIndex);
+  useImageTransition(imageRefs, currentIndex, prevIndex, shouldRunAnimations);
 
   const handlePrev = () => {
+    if (!shouldRunAnimations) return;
     setPrevIndex(currentIndex);
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : newsItems.length - 1));
     setKey((prev) => prev + 1);
   };
 
   const handleNext = () => {
+    if (!shouldRunAnimations) return;
     setPrevIndex(currentIndex);
     setCurrentIndex((prev) => (prev < newsItems.length - 1 ? prev + 1 : 0));
     setKey((prev) => prev + 1);
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <header className="relative h-[100svh] overflow-hidden">
+        <div className="relative h-full bg-black/30">
+          <CustomContainer className="h-[100svh] flex flex-col justify-center items-center">
+            <div className="text-white text-xl">Загрузка новостей...</div>
+          </CustomContainer>
+        </div>
+      </header>
+    );
+  }
+
+  // Show error state
+  if (error || newsItems.length === 0) {
+    return (
+      <header className="relative h-[100svh] overflow-hidden">
+        <div className="relative h-full bg-black/30">
+          <CustomContainer className="h-[100svh] flex flex-col justify-center items-center">
+            <div className="text-white text-xl">
+              {error ? "Ошибка загрузки новостей" : "Новости не найдены"}
+            </div>
+          </CustomContainer>
+        </div>
+      </header>
+    );
+  }
 
   const currentNews = newsItems[currentIndex];
 
@@ -74,7 +151,7 @@ const FirstScreen: FC = () => {
       <div className="absolute inset-0 overflow-hidden select-none pointer-events-none">
         {newsItems.map((news, index) => (
           <div
-            key={news.id}
+            key={`news-${news.slug}-${index}`}
             className="absolute inset-0"
             style={{
               opacity: index === currentIndex ? 1 : 0,

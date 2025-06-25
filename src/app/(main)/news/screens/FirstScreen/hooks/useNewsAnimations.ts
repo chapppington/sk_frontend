@@ -12,9 +12,20 @@ interface AnimationRefs {
 
 export const useContentAnimation = (
   refs: AnimationRefs,
-  currentIndex: number
+  currentIndex: number,
+  shouldRun: boolean = true
 ) => {
   useEffect(() => {
+    // Don't run animations if shouldRun is false
+    if (!shouldRun) {
+      return;
+    }
+
+    // Check if GSAP is available and refs exist
+    if (typeof gsap === "undefined" || !gsap) {
+      return;
+    }
+
     const {
       contentRef,
       categoryRef,
@@ -23,6 +34,18 @@ export const useContentAnimation = (
       descriptionRef,
       buttonRef,
     } = refs;
+
+    // Check if all refs are available
+    if (
+      !contentRef.current ||
+      !categoryRef.current ||
+      !titleRef.current ||
+      !metaRef.current ||
+      !descriptionRef.current ||
+      !buttonRef.current
+    ) {
+      return;
+    }
 
     // Reset all elements to initial state with smaller y offset
     gsap.set(
@@ -94,15 +117,26 @@ export const useContentAnimation = (
     return () => {
       tl.kill();
     };
-  }, [currentIndex, refs]);
+  }, [currentIndex, refs, shouldRun]);
 };
 
 export const useImageTransition = (
   imageRefs: RefObject<(HTMLDivElement | null)[]>,
   currentIndex: number,
-  prevIndex: number
+  prevIndex: number,
+  shouldRun: boolean = true
 ) => {
   useEffect(() => {
+    // Don't run animations if shouldRun is false
+    if (!shouldRun) {
+      return;
+    }
+
+    // Check if GSAP is available
+    if (typeof gsap === "undefined" || !gsap) {
+      return;
+    }
+
     // Animate image transition
     if (imageRefs.current?.[currentIndex] && imageRefs.current?.[prevIndex]) {
       const currentImage = imageRefs.current[currentIndex];
@@ -136,5 +170,5 @@ export const useImageTransition = (
         imageTl.kill();
       };
     }
-  }, [currentIndex, prevIndex, imageRefs]);
+  }, [currentIndex, prevIndex, imageRefs, shouldRun]);
 };
