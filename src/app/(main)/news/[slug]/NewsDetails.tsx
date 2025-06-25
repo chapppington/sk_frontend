@@ -4,7 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import newsService from "@/services/news.service";
 import { INews } from "@/shared/types/news.types";
-import ArticleContentSection from "./screens/ArticleContentScreen";
+import ArticleContentSection, {
+  ArticleContentSectionSkeleton,
+} from "./screens/ArticleContentScreen";
 import ReadMoreScreen from "@/components/shared_screens/ReadMoreScreen";
 
 const ContactUsScreen = dynamic(
@@ -25,7 +27,7 @@ const NewsDetails = ({ slug }: Props) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ArticleContentSectionSkeleton />;
   }
 
   if (!news) {
@@ -35,7 +37,7 @@ const NewsDetails = ({ slug }: Props) => {
   return (
     <main>
       <ArticleContentSection news={news} />
-      <ReadMoreScreen/>
+      <ReadMoreScreen />
       <ContactUsScreen />
     </main>
   );

@@ -1,13 +1,99 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
+import { useQuery } from "@tanstack/react-query";
 import CustomContainer from "@/components/ui/CustomContainer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CustomSlider from "@/components/CustomSlider";
 import NewsSliderItem from "./components/NewsSliderItem";
-import { newsItems } from "./mock_data";
+import newsService from "@/services/news.service";
+import { INews } from "@/shared/types/news.types";
+import { INewsItem } from "./types";
+import { BACKEND_MAIN } from "@/constants";
 
 const ReadMoreScreen: FC = () => {
+  // Добавляем маппер категорий
+  const categoryMap: Record<string, string> = {
+    all: "Все",
+    production: "Производство",
+    technology: "Технологии",
+    event: "События",
+    interview: "Интервью",
+  };
+
+  const {
+    data: news = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["news"],
+    queryFn: async () => {
+      const { data } = await newsService.fetchAll();
+      return data;
+    },
+  });
+
+  // Transform API data to match the expected format
+  const transformedNews: INewsItem[] = news.map((item: INews) => ({
+    id: parseInt(item.id),
+    category: categoryMap[item.category] || item.category,
+    date: new Date(item.createdAt).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    readTime: `${item.readingTime} мин`,
+    title: item.title,
+    description: item.shortContent || item.content.substring(0, 150) + "...",
+    shortContent: item.shortContent,
+    image: `${BACKEND_MAIN}${item.imageUrl}` || "/news_bg.webp",
+    link: `/news/${item.slug}`,
+  }));
+
+  if (isLoading) {
+    return (
+      <section className="py-20">
+        <CustomContainer>
+          <SectionHeader
+            bracketsText="НОВОСТИ"
+            heading={<>Читайте также</>}
+            description="Будьте в курсе последних событий компании: важные обновления, достижения команды и интересные проекты, которые формируют наше будущее."
+            desktopOrder={{
+              bracketsText: 1,
+              heading: 2,
+              description: 3,
+            }}
+          />
+          <div className="flex justify-center items-center h-40">
+            <div className="text-gray-500">Загрузка новостей...</div>
+          </div>
+        </CustomContainer>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20">
+        <CustomContainer>
+          <SectionHeader
+            bracketsText="НОВОСТИ"
+            heading={<>Читайте также</>}
+            description="Будьте в курсе последних событий компании: важные обновления, достижения команды и интересные проекты, которые формируют наше будущее."
+            desktopOrder={{
+              bracketsText: 1,
+              heading: 2,
+              description: 3,
+            }}
+          />
+          <div className="flex justify-center items-center h-40">
+            <div className="text-red-500">Ошибка загрузки новостей</div>
+          </div>
+        </CustomContainer>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20">
       <CustomContainer>
@@ -40,7 +126,7 @@ const ReadMoreScreen: FC = () => {
             },
           }}
         >
-          {newsItems.map((item) => (
+          {transformedNews.map((item) => (
             <NewsSliderItem key={item.id} item={item} />
           ))}
         </CustomSlider>
