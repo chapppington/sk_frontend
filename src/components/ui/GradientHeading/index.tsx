@@ -13,12 +13,12 @@ const GradientHeading: FC<IGradientHeadingProps> = ({
   return (
     <h2
       ref={ref}
-      className={`${
-        className || ""
-      } text-2xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl laptop:text-5xl max-w-5xl`}
+      className={`${className || ""} max-w-5xl`}
       style={{ overflow: "hidden" }}
     >
-      <span className={styles.gradientHeading}>{children}</span>
+      <span className={`${styles.gradientHeading} ${styles.fluidHeading}`}>
+        {children}
+      </span>
     </h2>
   );
 };
