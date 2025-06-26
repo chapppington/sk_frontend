@@ -160,7 +160,7 @@ export default function ProductsSlider() {
           </div>
 
           <div className="w-full md:w-auto md:min-w-[500px] md:max-w-[500px] relative">
-            <div className="flex items-center justify-end h-[600px] absolute right-0 top-0 z-10">
+            <div className="flex items-center justify-end h-[400px] absolute right-0 top-0 z-10">
               <div
                 ref={indicatorsRef}
                 className="flex flex-col items-center justify-between h-full"
@@ -171,7 +171,7 @@ export default function ProductsSlider() {
             <Swiper
               modules={[Navigation, Autoplay]}
               direction="vertical"
-              slidesPerView={5}
+              slidesPerView={3}
               loop={true}
               autoplay={{
                 delay: 5000,
@@ -196,26 +196,26 @@ export default function ProductsSlider() {
                   }, 0);
                 }
               }}
-              className="h-[600px] w-full"
+              className="h-[400px] w-full"
               breakpoints={{
                 320: {
                   slidesPerView: 3,
                   spaceBetween: 10,
                 },
                 768: {
-                  slidesPerView: 4,
-                  spaceBetween: 15,
+                  slidesPerView: 3,
+                  spaceBetween: 10,
                 },
                 1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 20,
+                  slidesPerView: 3,
+                  
                 },
               }}
             >
               {products.map((product, index) => (
                 <SwiperSlide key={index}>
                   <div className="group h-full">
-                    <div className="relative pt-4 h-full">
+                    <div className="relative h-full">
                       <div className="flex items-center h-full">
                         <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0">
                           <Image
