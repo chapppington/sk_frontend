@@ -10,10 +10,13 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
 }
 
 /* Ensure gradient remains visible in animated lines */
 :global(.line) .gradientHeading {
   -webkit-text-fill-color: transparent !important;
+}
+
+.fluidHeading {
+  font-size: clamp(1.5rem, 2.5vw + 2.4px, 6rem);
 }
