@@ -14,7 +14,7 @@ const FirstScreen: FC = () => {
       <CustomContainer className="flex flex-col justify-between" fullHeight>
         <AnimatedText>
           <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
-            Производство промышленного электротехнического оборудования
+            Комплексные решения в сфере электроснабжения
           </GradientHeading>
         </AnimatedText>
 
@@ -24,15 +24,12 @@ const FirstScreen: FC = () => {
           <div className="flex flex-col justify-end max-w-full sm:max-w-md mb-[160px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
             <AnimatedText triggerStart="top 100%">
               <p className="text-sm sm:text-base md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-none">
-                Являясь всего лишь частью общей картины, тщательные исследования
-                конкурентов могут быть описаны максимально подробно.
+                Производственно - инжиниринговая компания полного цикла - от
+                разработки проекта до ввода в эксплуатацию
               </p>
             </AnimatedText>
             <div className="block md:hidden">
-              <MainButton
-                text="Связаться с отделом продаж"
-                size="sm"
-              />
+              <MainButton text="Связаться с отделом продаж" size="sm" />
             </div>
             <div className="hidden md:block">
               <MainButton text="Связаться с отделом продаж" />
@@ -45,12 +42,12 @@ const FirstScreen: FC = () => {
         transparent={true}
         stats={[
           {
-            value: "197",
-            description: "Крупнейших городов России и Казахстана",
+            value: "20+",
+            description: "лет на рынке электротехнического оборудования",
           },
           {
-            value: "197",
-            description: "Крупнейших городов России и Казахстана",
+            value: "600+",
+            description: "реализованных проектов",
           },
         ]}
       />
