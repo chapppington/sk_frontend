@@ -42,6 +42,7 @@ const FirstScreen: FC = () => {
       </CustomContainer>
 
       <BlackBoxWithStats
+        transparent={true}
         stats={[
           {
             value: "197",
