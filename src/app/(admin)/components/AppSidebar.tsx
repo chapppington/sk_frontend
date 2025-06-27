@@ -12,6 +12,9 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarTrigger,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/shadcn/sidebar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,8 +31,10 @@ import {
   Settings,
   Globe,
   LogOut,
+  ChevronDown,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 
 const navItems = [
   {
@@ -69,6 +74,16 @@ const navItems = [
   },
 ];
 
+const staticContentItems = [
+  { title: "Главная", url: "/dashboard/static/home" },
+  { title: "О компании", url: "/dashboard/static/about" },
+  { title: "О производстве", url: "/dashboard/static/production" },
+  { title: "Вакансии", url: "/dashboard/static/vacancies" },
+  { title: "Контакты", url: "/dashboard/static/contacts" },
+  { title: "Сертификаты", url: "/dashboard/static/certificates" },
+  { title: "Политика конфиденциальности", url: "/dashboard/static/privacy" },
+];
+
 export function AppSidebar() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -83,6 +98,7 @@ export function AppSidebar() {
   });
   const { theme, resolvedTheme } = useTheme();
   const isDark = theme === "dark" || resolvedTheme === "dark";
+  const [staticOpen, setStaticOpen] = useState(false);
 
   return (
     <Sidebar>
@@ -102,6 +118,38 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setStaticOpen((v) => !v)}>
+                  <span>Статичный контент</span>
+                  <ChevronDown
+                    className={`ml-auto transition-transform ${
+                      staticOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </SidebarMenuButton>
+                {staticOpen && (
+                  <SidebarMenuSub>
+                    {staticContentItems.map((item) => (
+                      <SidebarMenuSubItem key={item.title}>
+                        <SidebarMenuSubButton href={item.url} asChild>
+                          <Link
+                            href={item.url}
+                            className="whitespace-normal break-words"
+                          >
+                            {item.title}
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                )}
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Навигация</SidebarGroupLabel>
           <SidebarGroupContent>
