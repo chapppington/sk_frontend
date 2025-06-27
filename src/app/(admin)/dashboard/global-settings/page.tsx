@@ -61,12 +61,18 @@ export default function GlobalSettingsPage() {
     setSelectedFont(fontFamily || "");
   }, [fontFamily]);
 
-  function handleFontSelect(font: string) {
+  async function handleFontSelect(font: string) {
+    if (font === fontFamily) return;
     setSelectedFont(font);
-    setFontFamily(font);
-    setSaved(true);
-    toast({ title: "Шрифт применён", description: `Выбран: ${font}` });
-    setTimeout(() => setSaved(false), 1200);
+    setLoading(true);
+    try {
+      await setFontFamily(font);
+      setSaved(true);
+      toast({ title: "Шрифт применён", description: `Выбран: ${font}` });
+      setTimeout(() => setSaved(false), 1200);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
