@@ -29,6 +29,7 @@ import {
   Globe,
   LogOut,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const navItems = [
   {
@@ -80,12 +81,24 @@ export function AppSidebar() {
       queryClient.setQueryData(["new tokens"], null);
     },
   });
+  const { theme, resolvedTheme } = useTheme();
+  const isDark = theme === "dark" || resolvedTheme === "dark";
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center justify-center h-16 font-bold text-lg tracking-wide px-2">
-          <span>СибКомплект</span>
+        <div className="flex items-center justify-start h-16 px-2 gap-3">
+          <img
+            src={isDark ? "/светлый.svg" : "/цвет.svg"}
+            alt="Логотип"
+            className="h-8"
+          />
+          <div className="flex flex-col">
+            <span className="font-bold text-sm leading-tight">СИБКОМПЛЕКТ</span>
+            <span className="text-xs text-muted-foreground leading-tight mt-1">
+              Админ панель
+            </span>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
