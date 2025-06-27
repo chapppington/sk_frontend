@@ -18,5 +18,5 @@
 }
 
 .fluidHeading {
-  font-size: clamp(1.5rem, 2.5vw + 2.4px, 6rem);
+  font-size: clamp(1.5rem, 2.5vw + 5px, 6rem);
 }

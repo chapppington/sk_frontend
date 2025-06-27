@@ -34,8 +34,6 @@ export function AdminNav() {
     <nav className="w-full border-b py-4 bg-background text-foreground">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <h1 className="text-xl font-bold">Админ панель</h1>
-
           <Link
             href="/dashboard/profile"
             className="text-sm font-medium hover:text-primary"
@@ -71,6 +69,12 @@ export function AdminNav() {
             className="text-sm font-medium hover:text-primary"
           >
             SEO настройки
+          </Link>
+          <Link
+            href="/dashboard/global-settings"
+            className="text-sm font-medium hover:text-primary"
+          >
+            Глобальные настройки
           </Link>
         </div>
         <div className="flex items-center gap-2">
