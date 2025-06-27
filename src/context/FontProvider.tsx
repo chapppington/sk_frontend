@@ -6,6 +6,8 @@ import React, {
   useState,
   ReactNode,
 } from "react";
+import siteConfigService from "@/services/site-config.service";
+import { API_URL } from "@/constants";
 
 interface FontContextType {
   fontFamily: string;
@@ -21,31 +23,44 @@ export function FontProvider({ children }: { children: ReactNode }) {
   const [fontFamily, setFontFamilyState] = useState("");
 
   useEffect(() => {
-    // Инициализация из localStorage
-    const savedFont = localStorage.getItem("global-font-family") || "";
-    if (savedFont) {
-      setFontFamilyState(savedFont);
-      updateFont(savedFont);
-    }
-    // Подписка на кастомное событие и storage
-    const handler = () => {
-      const font = localStorage.getItem("global-font-family") || "";
+    // Fetch font from backend
+    siteConfigService.fetchConfig().then((res) => {
+      const font = res.data.fontFamily;
       setFontFamilyState(font);
       updateFont(font);
+    });
+
+    // SSE подписка на обновления шрифта
+    const sse = new EventSource(`${API_URL}/site-config/stream`);
+    sse.onopen = () => {
+      console.debug("[SSE] Connection opened");
     };
-    window.addEventListener("font-family-changed", handler);
-    window.addEventListener("storage", handler);
+    sse.onmessage = (event) => {
+      console.debug("[SSE] Message received:", event.data);
+      try {
+        const data = JSON.parse(event.data);
+        if (data.fontFamily) {
+          setFontFamilyState(data.fontFamily);
+          updateFont(data.fontFamily);
+        }
+      } catch (e) {
+        console.debug("[SSE] JSON parse error", e);
+      }
+    };
+    sse.onerror = (err) => {
+      console.debug("[SSE] Error", err);
+      // SSE может иногда падать, браузер переподключит автоматически
+    };
     return () => {
-      window.removeEventListener("font-family-changed", handler);
-      window.removeEventListener("storage", handler);
+      sse.close();
     };
   }, []);
 
-  const setFontFamily = (font: string) => {
+  const setFontFamily = async (font: string) => {
     setFontFamilyState(font);
-    localStorage.setItem("global-font-family", font);
     updateFont(font);
-    window.dispatchEvent(new Event("font-family-changed"));
+    // Update backend
+    await siteConfigService.updateFontFamily(font);
   };
 
   function updateFont(font: string) {
