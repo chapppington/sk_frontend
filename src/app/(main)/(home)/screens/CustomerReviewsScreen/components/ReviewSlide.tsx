@@ -4,10 +4,17 @@ interface ReviewSlideProps {
   company: string;
   title: string;
   jobTitle: string;
-  text: string;
+  image: string;
+  onClick: () => void;
 }
 
-const ReviewSlide = ({ company, title, jobTitle, text }: ReviewSlideProps) => {
+const ReviewSlide = ({
+  company,
+  title,
+  jobTitle,
+  image,
+  onClick,
+}: ReviewSlideProps) => {
   return (
     <div className="border border-white/20 p-10 backdrop-blur-sm h-full flex flex-col justify-around">
       <div className="flex items-center gap-4">
@@ -23,7 +30,12 @@ const ReviewSlide = ({ company, title, jobTitle, text }: ReviewSlideProps) => {
           <p className="text-white/60 text-sm">{jobTitle}</p>
         </div>
       </div>
-      <p className="text-white/60 text-sm mt-6">{text}</p>
+      <button
+        className="mt-6 px-4 py-2 bg-white/10 text-white rounded hover:bg-white/20 text-sm"
+        onClick={onClick}
+      >
+        Открыть отзыв (изображение)
+      </button>
     </div>
   );
 };
