@@ -77,7 +77,6 @@ export default function GlobalSettingsPage() {
 
   return (
     <div className="p-8 max-w-md">
-      <h1 className="text-2xl font-bold mb-4">Глобальные настройки</h1>
       <div className="mb-4">
         <label className="block mb-2 font-medium">
           Глобальный шрифт (Google Fonts)
