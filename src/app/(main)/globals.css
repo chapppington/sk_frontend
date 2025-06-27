@@ -4,7 +4,6 @@
 
 html,
 body {
-  font-family: "Inter", sans-serif;
   height: 100%;
   min-height: 100vh;
   scrollbar-width: none; /* For Firefox */
