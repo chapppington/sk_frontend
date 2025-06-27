@@ -87,7 +87,7 @@ function GoogleSnippet({
         className="text-[16px] font-bold leading-tight mt-1 mb-0.5 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
         style={{ wordBreak: "break-word" }}
       >
-        {truncateWithEllipsis(title || "Заголовок страницы", 70)}
+        {truncateWithEllipsis(title || "Заголовок страницы", 60)}
       </div>
       {/* Описание */}
       <div className="text-[13px] leading-snug break-words text-foreground dark:text-[#bdc1c6] mt-1">
@@ -133,7 +133,7 @@ function YandexSnippet({
           className="text-[16px] font-bold leading-tight mb-1 break-words text-[#1a0dab] dark:text-[#8ab4f8]"
           style={{ wordBreak: "break-word" }}
         >
-          {truncateWithEllipsis(title || "Заголовок страницы", 70)}
+          {truncateWithEllipsis(title || "Заголовок страницы", 60)}
         </div>
         {/* URL */}
         <div className="text-[13px] font-medium mb-1 text-[#4caf50] dark:text-[#bdc1c6]">
@@ -319,7 +319,7 @@ export default function SeoSettingsManagement() {
         url: `${baseUrl}${formData.pagePath}`,
         titleLength: formData.title.length,
         descriptionLength: formData.description.length,
-        titleStatus: formData.title.length <= 70 ? "good" : "warning",
+        titleStatus: formData.title.length <= 60 ? "good" : "warning",
         descriptionStatus:
           formData.description.length <= 160 ? "good" : "warning",
       },
@@ -329,7 +329,7 @@ export default function SeoSettingsManagement() {
         url: `${baseUrl}${formData.pagePath}`,
         titleLength: formData.title.length,
         descriptionLength: formData.description.length,
-        titleStatus: formData.title.length <= 70 ? "good" : "warning",
+        titleStatus: formData.title.length <= 60 ? "good" : "warning",
         descriptionStatus:
           formData.description.length <= 160 ? "good" : "warning",
       },
@@ -440,7 +440,7 @@ export default function SeoSettingsManagement() {
                   <div className="space-y-2">
                     <Label className="flex items-center gap-1">
                       Title
-                      <InfoIcon popoverContent="Title — основной SEO-заголовок страницы. Отображается в результатах поиска и во вкладке браузера. Рекомендуется до 70 символов." />
+                      <InfoIcon popoverContent="Title — основной SEO-заголовок страницы. Отображается в результатах поиска и во вкладке браузера. Рекомендуется до 60 символов." />
                     </Label>
                     <Input
                       value={formData.title}
@@ -451,8 +451,8 @@ export default function SeoSettingsManagement() {
                       required
                     />
                     <div className="text-sm text-gray-500">
-                      {formData.title.length}/70 символов
-                      {formData.title.length > 70 && (
+                      {formData.title.length}/60 символов
+                      {formData.title.length > 60 && (
                         <span className="text-red-500 ml-2">
                           Превышен лимит!
                         </span>
@@ -674,11 +674,11 @@ export default function SeoSettingsManagement() {
                       <div className="flex gap-1 mt-1">
                         <Badge
                           variant={
-                            item.title.length <= 70 ? "default" : "destructive"
+                            item.title.length <= 60 ? "default" : "destructive"
                           }
                           className="text-xs"
                         >
-                          {item.title.length}/70
+                          {item.title.length}/60
                         </Badge>
                       </div>
                     </TableCell>
@@ -808,7 +808,7 @@ export default function SeoSettingsManagement() {
                         : "destructive"
                     }
                   >
-                    Title: {preview.google.titleLength}/70
+                    Title: {preview.google.titleLength}/60
                   </Badge>
                   <Badge
                     variant={
@@ -838,7 +838,7 @@ export default function SeoSettingsManagement() {
                         : "destructive"
                     }
                   >
-                    Title: {preview.yandex.titleLength}/70
+                    Title: {preview.yandex.titleLength}/60
                   </Badge>
                   <Badge
                     variant={
