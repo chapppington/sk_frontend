@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import { MiniLoader } from "@/components/ui/MiniLoader";
+import { Button } from "@/components/ui/shadcn/button";
 import authService from "@/services/auth/auth.service";
 import {
   Home,
@@ -117,7 +118,7 @@ export function AppSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent onWheel={(e) => e.stopPropagation()}>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -170,17 +171,21 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="flex flex-col gap-2 p-4 border-t">
-          <ModeToggle />
-          <button
-            className="flex items-center gap-2 text-destructive hover:underline"
+          <Button
+            variant="destructive"
+            className="flex items-center gap-2"
             onClick={() => mutateLogout()}
             disabled={isLogoutPending}
           >
             {isLogoutPending ? <MiniLoader /> : <LogOut className="w-5 h-5" />}
             <span>Выйти</span>
-          </button>
+          </Button>
         </div>
       </SidebarFooter>
+      {/* Fixed theme toggle in top-right corner */}
+      <div className="fixed top-4 right-4 z-50">
+        <ModeToggle />
+      </div>
     </Sidebar>
   );
 }
