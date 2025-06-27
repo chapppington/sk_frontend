@@ -384,7 +384,6 @@ export default function SeoSettingsManagement() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Управление SEO настройками</h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={resetForm}>Добавить SEO настройки</Button>
@@ -783,7 +782,7 @@ export default function SeoSettingsManagement() {
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Предпросмотр SEO</DialogTitle>
+            {/* Убрать заголовок страницы (DialogTitle, "Предпросмотр SEO" и т.п.) если он дублирует хлебные крошки. Если есть основной h1 или явный заголовок страницы — убрать его. */}
           </DialogHeader>
           {preview && (
             <Tabs defaultValue="google" className="w-full">
