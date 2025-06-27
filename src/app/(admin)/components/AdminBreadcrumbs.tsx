@@ -77,19 +77,21 @@ const AdminBreadcrumbs = () => {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="flex items-center text-base text-white/80 whitespace-nowrap"
+      className="flex items-center text-base text-gray-700 dark:text-white/80 whitespace-nowrap"
     >
       {items.map((item, idx) => (
         <React.Fragment key={idx}>
-          {idx !== 0 && <ChevronRight className="mx-2 w-4 h-4 text-white/60" />}
+          {idx !== 0 && (
+            <ChevronRight className="mx-2 w-4 h-4 text-gray-500 dark:text-white/60" />
+          )}
           {item.current ? (
-            <span className="text-white font-medium whitespace-nowrap">
+            <span className="text-gray-900 dark:text-white font-medium whitespace-nowrap">
               {item.label}
             </span>
           ) : (
             <Link
               href={item.href}
-              className="hover:text-white transition-colors whitespace-nowrap"
+              className="hover:text-gray-900 dark:hover:text-white transition-colors whitespace-nowrap text-gray-600 dark:text-white/80"
             >
               {item.label}
             </Link>
