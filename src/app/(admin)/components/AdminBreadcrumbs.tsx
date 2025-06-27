@@ -13,7 +13,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   home: "Главная",
   "seo-settings": "SEO настройки",
   "global-settings": "Глобальные настройки",
-  static: "Статический контент",
+  static: "Статичный контент",
   dynamic: "Динамический контент",
   about: "О компании",
   production: "О производстве",
@@ -27,7 +27,7 @@ function toTitleCase(str: string) {
 }
 
 function getBreadcrumbLabel(seg: string, idx: number, arr: string[]) {
-  // Если это статический контент, показываем только конкретное название раздела
+  // Если это Статичный контент, показываем только конкретное название раздела
   if (arr.includes("static")) {
     return RUSSIAN_LABELS[seg] || toTitleCase(seg);
   }
