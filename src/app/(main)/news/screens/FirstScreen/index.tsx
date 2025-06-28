@@ -73,6 +73,7 @@ const FirstScreen: FC = () => {
     description: item.shortContent || item.content.substring(0, 150) + "...",
     shortContent: item.shortContent,
     image: item.imageUrl ? `${UPLOADS_URL}/${item.imageUrl}` : "/news_bg.webp",
+    alt: item.alt,
     slug: item.slug,
   }));
 
@@ -161,7 +162,7 @@ const FirstScreen: FC = () => {
           >
             <ParallaxImage
               src={news.image}
-              alt={news.title}
+              alt={news.alt || news.title}
               priority={index === 0}
               isMobile={isMobile}
             />

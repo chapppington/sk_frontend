@@ -6,6 +6,7 @@ export interface INews {
   content: string;
   createdAt: string;
   imageUrl?: string;
+  alt?: string;
   readingTime: number;
   shortContent?: string;
 }

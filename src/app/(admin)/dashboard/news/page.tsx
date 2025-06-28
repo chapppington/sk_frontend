@@ -63,6 +63,7 @@ export default function NewsManagement() {
     content: "",
     image: undefined as File | undefined,
     shortContent: "",
+    alt: "",
   });
 
   const { data: news = [], isLoading: isLoadingNews } = useQuery({
@@ -163,6 +164,7 @@ export default function NewsManagement() {
     formDataToSend.append("title", formData.title);
     formDataToSend.append("content", formData.content);
     formDataToSend.append("shortContent", formData.shortContent);
+    formDataToSend.append("alt", formData.alt);
     if (formData.image) {
       console.log("File being uploaded:", {
         name: formData.image.name,
@@ -192,6 +194,7 @@ export default function NewsManagement() {
       content: news.content,
       image: undefined,
       shortContent: news.shortContent || "",
+      alt: news.alt || "",
     });
     setIsDialogOpen(true);
   };
@@ -210,6 +213,7 @@ export default function NewsManagement() {
                   content: "",
                   image: undefined,
                   shortContent: "",
+                  alt: "",
                 });
               }}
             >
@@ -334,6 +338,22 @@ export default function NewsManagement() {
                   )}
                 </div>
 
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">
+                    Alt текст для SEO
+                  </label>
+                  <Input
+                    placeholder="Введите описание изображения для поисковых систем"
+                    value={formData.alt}
+                    onChange={(e) =>
+                      setFormData({ ...formData, alt: e.target.value })
+                    }
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Описание изображения для улучшения SEO и доступности
+                  </p>
+                </div>
+
                 <div className="flex justify-end space-x-2">
                   <Button
                     type="button"
@@ -383,7 +403,7 @@ export default function NewsManagement() {
                         <div className="w-[160px] aspect-[16/9] relative">
                           <Image
                             src={`${UPLOADS_URL}/${item.imageUrl}`}
-                            alt={item.title}
+                            alt={item.alt || item.title}
                             fill
                             className="object-cover rounded"
                           />
