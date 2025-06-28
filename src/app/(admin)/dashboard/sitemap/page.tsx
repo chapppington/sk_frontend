@@ -383,7 +383,7 @@ export default function SitemapPage() {
               <CardDescription>Управление картой сайта</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 <Button
                   onClick={handleRegenerate}
                   disabled={isRegenerating}
@@ -540,7 +540,10 @@ export default function SitemapPage() {
         {/* Static Routes Management Card */}
         <Card>
           <CardHeader>
-            <CardTitle>Управление статичными путями</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Settings className="w-5 h-5" />
+              Управление статичными путями
+            </CardTitle>
             <CardDescription>
               Добавляйте, редактируйте и удаляйте статичные страницы для sitemap
               с настройкой приоритетов
