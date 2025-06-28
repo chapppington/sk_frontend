@@ -629,7 +629,7 @@ export default function SitemapPage() {
                             onKeyPress={(e) =>
                               e.key === "Enter" && handleSaveEdit()
                             }
-                            className="bg-white dark:bg-gray-800 border border-input"
+                            className="bg-white dark:bg-black border border-input"
                           />
                         </div>
                         <div className="space-y-2">
@@ -640,7 +640,7 @@ export default function SitemapPage() {
                             value={editPriority}
                             onValueChange={setEditPriority}
                           >
-                            <SelectTrigger className="bg-white dark:bg-gray-800 border border-input">
+                            <SelectTrigger className="bg-white dark:bg-black border border-input">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -673,7 +673,7 @@ export default function SitemapPage() {
                             value={editChangeFreq}
                             onValueChange={setEditChangeFreq}
                           >
-                            <SelectTrigger className="bg-white dark:bg-gray-800 border border-input">
+                            <SelectTrigger className="bg-white dark:bg-black border border-input">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
