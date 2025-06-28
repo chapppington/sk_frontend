@@ -466,7 +466,7 @@ export default function SitemapPage() {
                               }
                               disabled={isUpdatingDynamicRoutes}
                             >
-                              <SelectTrigger>
+                              <SelectTrigger className="bg-background border border-input">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -513,7 +513,7 @@ export default function SitemapPage() {
                               }
                               disabled={isUpdatingDynamicRoutes}
                             >
-                              <SelectTrigger>
+                              <SelectTrigger className="bg-background border border-input">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -557,12 +557,13 @@ export default function SitemapPage() {
                     value={newRoute}
                     onChange={(e) => setNewRoute(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleAddRoute()}
+                    className="bg-background border border-input"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Приоритет</label>
                   <Select value={newPriority} onValueChange={setNewPriority}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-background border border-input">
                       <SelectValue placeholder="Приоритет" />
                     </SelectTrigger>
                     <SelectContent>
@@ -585,7 +586,7 @@ export default function SitemapPage() {
                     value={newChangeFreq}
                     onValueChange={setNewChangeFreq}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-background border border-input">
                       <SelectValue placeholder="Частота обновления" />
                     </SelectTrigger>
                     <SelectContent>
@@ -628,6 +629,7 @@ export default function SitemapPage() {
                             onKeyPress={(e) =>
                               e.key === "Enter" && handleSaveEdit()
                             }
+                            className="bg-white dark:bg-gray-800 border border-input"
                           />
                         </div>
                         <div className="space-y-2">
@@ -638,7 +640,7 @@ export default function SitemapPage() {
                             value={editPriority}
                             onValueChange={setEditPriority}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white dark:bg-gray-800 border border-input">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -671,7 +673,7 @@ export default function SitemapPage() {
                             value={editChangeFreq}
                             onValueChange={setEditChangeFreq}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white dark:bg-gray-800 border border-input">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
