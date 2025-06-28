@@ -21,7 +21,7 @@ const MainButton: FC<IMainButtonProps> = ({
   const divRef = useRef<HTMLDivElement | null>(null);
 
   const buttonContent = (
-    <div
+    <span
       className={`flex items-center ${
         fullWidth ? "justify-between w-full" : ""
       } ${styles.padding}`}
@@ -33,7 +33,7 @@ const MainButton: FC<IMainButtonProps> = ({
       >
         {text}
       </span>
-      <div
+      <span
         className={`${styles.iconContainer} ${
           transparent ? "bg-white" : "bg-black"
         } flex items-center justify-center ${styles.iconClipPathClass} ${
@@ -55,8 +55,8 @@ const MainButton: FC<IMainButtonProps> = ({
             d="M4.5 19.5l15-15 M19.5 19.5v-15 M4.5 4.5h15"
           />
         </svg>
-      </div>
-    </div>
+      </span>
+    </span>
   );
 
   const commonProps = {
