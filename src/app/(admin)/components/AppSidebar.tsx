@@ -11,15 +11,14 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarHeader,
-  SidebarTrigger,
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
+  useSidebar,
 } from "@/components/ui/shadcn/sidebar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ModeToggle } from "@/components/ui/ModeToggle";
 import { MiniLoader } from "@/components/ui/MiniLoader";
 import { Button } from "@/components/ui/shadcn/button";
 import authService from "@/services/auth/auth.service";
@@ -82,6 +81,8 @@ export function AppSidebar() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { setOpenMobile } = useSidebar();
+
   const { mutate: mutateLogout, isPending: isLogoutPending } = useMutation({
     mutationKey: ["logout"],
     mutationFn: () => authService.logout(),
@@ -122,6 +123,11 @@ export function AppSidebar() {
   const isDark = theme === "dark" || resolvedTheme === "dark";
   const [staticOpen, setStaticOpen] = useState(false);
 
+  // Функция для закрытия мобильного сайдбара
+  const handleMobileClose = () => {
+    setOpenMobile(false);
+  };
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -148,6 +154,7 @@ export function AppSidebar() {
                   <Link
                     href="/dashboard/profile"
                     className="flex items-center gap-3"
+                    onClick={handleMobileClose}
                   >
                     <Home className="w-5 h-5" />
                     <span>Профиль</span>
@@ -159,6 +166,7 @@ export function AppSidebar() {
                   <Link
                     href="/dashboard/global-settings"
                     className="flex items-center gap-3"
+                    onClick={handleMobileClose}
                   >
                     <Settings className="w-5 h-5" />
                     <span>Глобальные настройки</span>
@@ -188,6 +196,7 @@ export function AppSidebar() {
                           <Link
                             href={item.url}
                             className="whitespace-normal break-words"
+                            onClick={handleMobileClose}
                           >
                             {item.title}
                           </Link>
@@ -207,7 +216,11 @@ export function AppSidebar() {
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url} className="flex items-center gap-3">
+                    <Link
+                      href={item.url}
+                      className="flex items-center gap-3"
+                      onClick={handleMobileClose}
+                    >
                       <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </Link>
