@@ -49,8 +49,8 @@ const NewsSliderItem: FC<NewsSliderItemProps> = ({ item }) => {
             {/* Description and Button that appear on hover (desktop only) */}
             <div className="absolute bottom-6 left-6 right-6 hidden xl:block transform translate-y-16 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-0 group-hover:opacity-100">
               <p className="text-white/80 text-sm mb-6">
-                {item.description.length > 80
-                  ? `${item.description.slice(0, 80)}...`
+                {item.description.length > 70 
+                  ? `${item.description.slice(0, 70)}...`
                   : item.description}
               </p>
               <CircleIconButton text="Читать" />
