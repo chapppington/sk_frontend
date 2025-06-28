@@ -7,5 +7,6 @@ export interface INewsItem {
   description: string;
   shortContent?: string;
   image: string;
+  alt?: string;
   slug: string;
 }

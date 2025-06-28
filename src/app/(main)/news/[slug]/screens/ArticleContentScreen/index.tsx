@@ -68,7 +68,7 @@ export default function ArticleContentSection({
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
               src={`${BACKEND_MAIN}${news.imageUrl}`}
-              alt="Featured Image"
+              alt={news.alt || news.title}
               fill
               className="object-cover rounded-lg"
               priority
