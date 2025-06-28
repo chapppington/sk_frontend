@@ -3,9 +3,9 @@ import { FC } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import ParallaxImage from "@/components/ui/ParallaxImage";
+import MainButton from "@/components/ui/MainButton";
 import useIsMobile from "@/hooks/useIsMobile";
 
 const FirstScreen: FC = () => {
@@ -42,43 +42,39 @@ const FirstScreen: FC = () => {
 
         {/* Main Content */}
         <CustomContainer
-          className="flex flex-col justify-between pb-[150px] sm:pb-[260px] md:pb-[280px] lg:pb-8"
+          className="flex flex-col justify-between pb-[180px] sm:pb-[260px] md:pb-[300px] lg:pb-12"
           fullHeight
         >
-          <AnimatedText triggerStart="top 100%">
-            <GradientHeading className="2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16">
-              Производство
-              <br />
-              электрооборудования
-            </GradientHeading>
-          </AnimatedText>
+          <GradientHeading className="2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16">
+            Производство
+            <br />
+            электрооборудования
+          </GradientHeading>
           {/* Bottom Content */}
           <div className="flex z-10">
-            <AnimatedText triggerStart="top 100%">
-              {/* Bottom Left Text with Arrow */}
-              <div className="flex flex-col justify-end max-w-xl">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 md:mb-6">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                    />
-                  </svg>
-                </div>
-                <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
-                  Являясь всего лишь частью общей картины, тщательные
-                  исследования конкурентов могут быть описаны максимально
-                  подробно.
-                </p>
+            {/* Bottom Left Text with Arrow */}
+            <div className="flex flex-col justify-end max-w-xl">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 md:mb-6">
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  />
+                </svg>
               </div>
-            </AnimatedText>
+              <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
+                Являясь всего лишь частью общей картины, тщательные исследования
+                конкурентов могут быть описаны максимально подробно.
+              </p>
+              <MainButton text="Просмотр 3D тура" href="#" />
+            </div>
           </div>
         </CustomContainer>
 
