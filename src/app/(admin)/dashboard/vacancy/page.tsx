@@ -317,7 +317,7 @@ export default function VacancyManagement() {
       {isLoadingVacancies ? (
         <div>Загрузка...</div>
       ) : (
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -374,7 +374,7 @@ export default function VacancyManagement() {
                         </Button>
                         <Popover
                           open={deletePopoverOpen === item.id}
-                          onOpenChange={(open: boolean) =>
+                          onOpenChange={(open) =>
                             setDeletePopoverOpen(open ? item.id : null)
                           }
                         >
