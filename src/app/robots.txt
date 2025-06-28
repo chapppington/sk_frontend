@@ -11,4 +11,4 @@ Disallow: /api/
 
 Allow: /sitemap.xml
 
-Sitemap: https://sibkomplekt.ru/sitemap.xml
+Sitemap: https://testsk2.ru/sitemap.xml
