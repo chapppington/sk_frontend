@@ -6,7 +6,7 @@ import newsService from "@/services/news.service";
 import portfolioService from "@/services/portfolio.service";
 
 // Base URL for the site
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sibkomplekt.ru";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://testsk2.ru";
 
 // Static routes
 const staticRoutes = [
