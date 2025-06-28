@@ -5,7 +5,7 @@ class SitemapService {
     urlsCount?: number;
   }> {
     try {
-      const response = await fetch("/api/sitemap", {
+      const response = await fetch("/client_api/sitemap", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
