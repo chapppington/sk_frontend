@@ -1,0 +1,22 @@
+{
+  "dynamicRoutes": {
+    "products": {
+      "enabled": true,
+      "priority": 0.7,
+      "changeFreq": "monthly",
+      "description": "Страницы товаров (/product/{slug})"
+    },
+    "news": {
+      "enabled": true,
+      "priority": 0.6,
+      "changeFreq": "weekly",
+      "description": "Страницы новостей (/news/{slug})"
+    },
+    "portfolio": {
+      "enabled": true,
+      "priority": 0.7,
+      "changeFreq": "monthly",
+      "description": "Страницы портфолио (/portfolio/{slug})"
+    }
+  }
+}

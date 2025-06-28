@@ -1,0 +1,59 @@
+{
+  "routes": [
+    {
+      "route": "/",
+      "priority": 1,
+      "changeFreq": "daily"
+    },
+    {
+      "route": "/about",
+      "priority": 0.6,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/catalog",
+      "priority": 0.9,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/portfolio",
+      "priority": 0.8,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/news",
+      "priority": 0.7,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/certificates",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/vacancies",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/contacts",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/privacy",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/questionnaire",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    },
+    {
+      "route": "/production",
+      "priority": 0.5,
+      "changeFreq": "monthly"
+    }
+  ]
+}

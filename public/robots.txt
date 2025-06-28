@@ -1,2 +1,14 @@
 User-agent: *
-Disallow: / 
+Allow: /
+
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /auth/
+Disallow: /client_api/
+
+Disallow: /api/
+
+Allow: /sitemap.xml
+
+Sitemap: https://testsk2.ru/sitemap.xml
