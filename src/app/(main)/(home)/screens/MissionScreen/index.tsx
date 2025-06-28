@@ -18,28 +18,7 @@ const MissionScreen: FC = () => {
           <div></div>
 
           {/* Left Column - Content */}
-          <div
-            className="relative  rounded-2xl"
-            style={{
-              background: `
-                radial-gradient(
-                  ellipse at center,
-                  rgba(0, 0, 0, 0.8) 0%,
-                  rgba(0, 0, 0, 0.6) 40%,
-                  rgba(0, 0, 0, 0.4) 70%,
-                  rgba(0, 0, 0, 0.2) 100%
-                ),
-                linear-gradient(
-                  135deg,
-                  rgba(15, 15, 15, 0.9) 0%,
-                  rgba(25, 25, 25, 0.7) 25%,
-                  rgba(35, 35, 35, 0.5) 50%,
-                  rgba(25, 25, 25, 0.7) 75%,
-                  rgba(15, 15, 15, 0.9) 100%
-                )
-              `,
-            }}
-          >
+          <div className="relative  rounded-2xl">
             <BracketsText className="mb-4">МИССИЯ КОМПАНИИ</BracketsText>
 
             <GradientHeading className="z-10 mb-6">
