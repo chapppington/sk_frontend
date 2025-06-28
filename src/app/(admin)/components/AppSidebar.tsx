@@ -35,6 +35,8 @@ import {
   LogOut,
   ChevronDown,
   RefreshCw,
+  FileText,
+  Tag,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -60,9 +62,22 @@ const navItems = [
     url: "/dashboard/vacancy",
     icon: Users,
   },
+];
+
+const seoSettingsItems = [
   {
-    title: "SEO настройки",
+    title: "Мета теги",
     url: "/dashboard/seo-settings",
+    icon: Tag,
+  },
+  {
+    title: "Robots.txt",
+    url: "/dashboard/robots",
+    icon: FileText,
+  },
+  {
+    title: "Sitemap",
+    url: "/dashboard/sitemap",
     icon: Globe,
   },
 ];
@@ -93,32 +108,6 @@ export function AppSidebar() {
     },
   });
 
-  const { mutate: regenerateSitemap, isPending: isRegeneratingSitemap } =
-    useMutation({
-      mutationFn: () => sitemapService.regenerateSitemap(),
-      onSuccess: (result) => {
-        if (result.success) {
-          toast({
-            title: "Успех",
-            description: `Sitemap перегенерирован успешно. URL'ов: ${result.urlsCount}`,
-          });
-        } else {
-          toast({
-            title: "Ошибка",
-            description: "Не удалось перегенерировать sitemap",
-            variant: "destructive",
-          });
-        }
-      },
-      onError: () => {
-        toast({
-          title: "Ошибка",
-          description: "Не удалось перегенерировать sitemap",
-          variant: "destructive",
-        });
-      },
-    });
-
   const { theme, resolvedTheme } = useTheme();
   const isDark = theme === "dark" || resolvedTheme === "dark";
   const [staticOpen, setStaticOpen] = useState(false);
@@ -140,7 +129,7 @@ export function AppSidebar() {
           <div className="flex flex-col">
             <span className="font-bold text-sm leading-tight">СИБКОМПЛЕКТ</span>
             <span className="text-xs text-muted-foreground leading-tight mt-1">
-              Админ панель
+              Управление контентом
             </span>
           </div>
         </div>
@@ -230,22 +219,30 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>SEO настройки</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {seoSettingsItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      href={item.url}
+                      className="flex items-center gap-3"
+                      onClick={handleMobileClose}
+                    >
+                      <item.icon className="w-5 h-5" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <div className="flex flex-col gap-2 p-4 border-t">
-          <Button
-            variant="outline"
-            className="flex items-center gap-2"
-            onClick={() => regenerateSitemap()}
-            disabled={isRegeneratingSitemap}
-          >
-            {isRegeneratingSitemap ? (
-              <MiniLoader />
-            ) : (
-              <RefreshCw className="w-5 h-5" />
-            )}
-            <span>Обновить Sitemap</span>
-          </Button>
           <Button
             variant="destructive"
             className="flex items-center gap-2"
