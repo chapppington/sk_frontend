@@ -42,11 +42,6 @@ import { useState } from "react";
 
 const navItems = [
   {
-    title: "Профиль",
-    url: "/dashboard/profile",
-    icon: Home,
-  },
-  {
     title: "Новости",
     url: "/dashboard/news",
     icon: Newspaper,
@@ -70,11 +65,6 @@ const navItems = [
     title: "SEO настройки",
     url: "/dashboard/seo-settings",
     icon: Globe,
-  },
-  {
-    title: "Глобальные настройки",
-    url: "/dashboard/global-settings",
-    icon: Settings,
   },
 ];
 
@@ -154,6 +144,34 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link
+                    href="/dashboard/profile"
+                    className="flex items-center gap-3"
+                  >
+                    <Home className="w-5 h-5" />
+                    <span>Профиль</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link
+                    href="/dashboard/global-settings"
+                    className="flex items-center gap-3"
+                  >
+                    <Settings className="w-5 h-5" />
+                    <span>Глобальные настройки</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setStaticOpen((v) => !v)}>
                   <span>Статичный контент</span>
                   <ChevronDown
@@ -183,7 +201,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Навигация</SidebarGroupLabel>
+          <SidebarGroupLabel>Динамический контент</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/shadcn/button";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import sitemapService from "@/services/sitemap.service";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 export function ProfileInfo() {
@@ -47,44 +47,59 @@ export function ProfileInfo() {
 
   return (
     <div className="mt-10">
-      {user.avatarPath && (
-        <Image
-          src={user.avatarPath}
-          alt="Avatar"
-          width={70}
-          height={70}
-          className="rounded-xl mb-6"
-        />
-      )}
-      <h2 className="text-2xl font-bold">Hi, {user.name || "Anonym"}</h2>
-      <br />
-      <p className="text-lg">
-        Ваш email: {user.email}{" "}
-        <i>
-          ({user.verificationToken ? "Requires email verification" : "Verified"}
-          )
-        </i>
-      </p>
-      <br />
-      <p>Rights: {user.rights?.join(", ")}</p>
+      <div className="mb-8 p-6 border rounded-lg bg-muted/50">
+        <h3 className="text-lg font-semibold mb-4">Информация о профиле</h3>
+        {user.avatarPath && (
+          <Image
+            src={user.avatarPath}
+            alt="Avatar"
+            width={70}
+            height={70}
+            className="rounded-xl mb-6"
+          />
+        )}
+        <br />
+        <p className="text-lg">
+          Ваш email: {user.email}{" "}
+          <i>
+            (
+            {user.verificationToken
+              ? "Requires email verification"
+              : "Verified"}
+            )
+          </i>
+        </p>
+        <br />
+        <p>Rights: {user.rights?.join(", ")}</p>
+      </div>
 
       <div className="mt-8 p-6 border rounded-lg bg-muted/50">
         <h3 className="text-lg font-semibold mb-4">Управление сайтом</h3>
-        <Button
-          variant="outline"
-          className="flex items-center gap-2"
-          onClick={() => regenerateSitemap()}
-          disabled={isRegeneratingSitemap}
-        >
-          {isRegeneratingSitemap ? (
-            <MiniLoader />
-          ) : (
-            <RefreshCw className="w-5 h-5" />
-          )}
-          <span>Обновить Sitemap</span>
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2"
+            onClick={() => regenerateSitemap()}
+            disabled={isRegeneratingSitemap}
+          >
+            {isRegeneratingSitemap ? (
+              <MiniLoader />
+            ) : (
+              <RefreshCw className="w-5 h-5" />
+            )}
+            <span>Обновить Sitemap</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2"
+            onClick={() => window.open("/sitemap.xml", "_blank")}
+          >
+            <ExternalLink className="w-5 h-5" />
+            <span>Просмотреть Sitemap</span>
+          </Button>
+        </div>
         <p className="text-sm text-muted-foreground mt-2">
-          Перегенерирует sitemap.xml с актуальными данными сайта
+          Пересоздаст sitemap.xml с актуальными данными сайта
         </p>
       </div>
     </div>

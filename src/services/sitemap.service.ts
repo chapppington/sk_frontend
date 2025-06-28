@@ -1,5 +1,3 @@
-import { instance } from "@/api/axios";
-
 class SitemapService {
   async regenerateSitemap(): Promise<{
     success: boolean;
@@ -7,8 +5,19 @@ class SitemapService {
     urlsCount?: number;
   }> {
     try {
-      const response = await instance.post("/api/sitemap");
-      return response.data;
+      const response = await fetch("/api/sitemap", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
     } catch (error) {
       console.error("Error regenerating sitemap:", error);
       return {

@@ -14,7 +14,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   "seo-settings": "SEO настройки",
   "global-settings": "Глобальные настройки",
   static: "Статичный контент",
-  dynamic: "Динамический контент",
+  dynamic: "",
   about: "О компании",
   production: "О производстве",
   contacts: "Контакты",
@@ -34,7 +34,7 @@ function getBreadcrumbLabel(seg: string, idx: number, arr: string[]) {
 
   // Для первого уровня (idx === 0) показываем тип контента
   if (idx === 0) {
-    return "Динамический контент";
+    return "";
   }
 
   // Для второго уровня показываем конкретное название раздела
@@ -54,25 +54,32 @@ const AdminBreadcrumbs = () => {
   }
 
   // Build breadcrumb items
-  const items = pathSegments.map((seg, idx) => {
-    // Для статического контента генерируем href правильно
-    let href;
-    if (pathSegments.includes("static")) {
-      href =
-        "/admin/static/" +
-        pathSegments
-          .slice(pathSegments.indexOf("static") + 1, idx + 1)
-          .join("/");
-    } else {
-      href = "/admin/" + pathSegments.slice(0, idx + 1).join("/");
-    }
+  const items = pathSegments
+    .map((seg, idx) => {
+      // Для статического контента генерируем href правильно
+      let href;
+      if (pathSegments.includes("static")) {
+        href =
+          "/admin/static/" +
+          pathSegments
+            .slice(pathSegments.indexOf("static") + 1, idx + 1)
+            .join("/");
+      } else {
+        href = "/admin/" + pathSegments.slice(0, idx + 1).join("/");
+      }
 
-    return {
-      label: getBreadcrumbLabel(seg, idx, pathSegments),
-      href,
-      current: idx === pathSegments.length - 1,
-    };
-  });
+      return {
+        label: getBreadcrumbLabel(seg, idx, pathSegments),
+        href,
+        current: idx === pathSegments.length - 1,
+      };
+    })
+    .filter((item) => item.label !== ""); // Фильтруем пустые элементы
+
+  // Если нет элементов для отображения, не рендерим ничего
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <nav
@@ -81,7 +88,7 @@ const AdminBreadcrumbs = () => {
     >
       {items.map((item, idx) => (
         <React.Fragment key={idx}>
-          {idx !== 0 && (
+          {idx !== 0 && items.length > 1 && (
             <ChevronRight className="mx-2 w-4 h-4 text-gray-500 dark:text-white/60" />
           )}
           {item.current ? (
