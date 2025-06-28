@@ -23,6 +23,8 @@ import { ModeToggle } from "@/components/ui/ModeToggle";
 import { MiniLoader } from "@/components/ui/MiniLoader";
 import { Button } from "@/components/ui/shadcn/button";
 import authService from "@/services/auth/auth.service";
+import sitemapService from "@/services/sitemap.service";
+import { useToast } from "@/hooks/use-toast";
 import {
   Home,
   Newspaper,
@@ -33,6 +35,7 @@ import {
   Globe,
   LogOut,
   ChevronDown,
+  RefreshCw,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -88,6 +91,7 @@ const staticContentItems = [
 export function AppSidebar() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const { mutate: mutateLogout, isPending: isLogoutPending } = useMutation({
     mutationKey: ["logout"],
     mutationFn: () => authService.logout(),
@@ -97,6 +101,33 @@ export function AppSidebar() {
       queryClient.setQueryData(["new tokens"], null);
     },
   });
+
+  const { mutate: regenerateSitemap, isPending: isRegeneratingSitemap } =
+    useMutation({
+      mutationFn: () => sitemapService.regenerateSitemap(),
+      onSuccess: (result) => {
+        if (result.success) {
+          toast({
+            title: "Успех",
+            description: `Sitemap перегенерирован успешно. URL'ов: ${result.urlsCount}`,
+          });
+        } else {
+          toast({
+            title: "Ошибка",
+            description: "Не удалось перегенерировать sitemap",
+            variant: "destructive",
+          });
+        }
+      },
+      onError: () => {
+        toast({
+          title: "Ошибка",
+          description: "Не удалось перегенерировать sitemap",
+          variant: "destructive",
+        });
+      },
+    });
+
   const { theme, resolvedTheme } = useTheme();
   const isDark = theme === "dark" || resolvedTheme === "dark";
   const [staticOpen, setStaticOpen] = useState(false);
@@ -171,6 +202,19 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="flex flex-col gap-2 p-4 border-t">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2"
+            onClick={() => regenerateSitemap()}
+            disabled={isRegeneratingSitemap}
+          >
+            {isRegeneratingSitemap ? (
+              <MiniLoader />
+            ) : (
+              <RefreshCw className="w-5 h-5" />
+            )}
+            <span>Обновить Sitemap</span>
+          </Button>
           <Button
             variant="destructive"
             className="flex items-center gap-2"

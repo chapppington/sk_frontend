@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select";
+import sitemapService from "@/services/sitemap.service";
 
 const categoryMap = {
   hr: "Кадровый резерв",
@@ -70,10 +71,23 @@ export default function VacancyManagement() {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data: Partial<IVacancy>) => vacancyService.create(data),
-    onSuccess: () => {
+    mutationFn: async (data: Partial<IVacancy>) => {
+      return vacancyService.create(data);
+    },
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["vacancies"] });
-      toast({ title: "Успех", description: "Вакансия успешно создана" });
+
+      // Regenerate sitemap after creating vacancy
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
+      toast({
+        title: "Успех",
+        description: "Вакансия успешно создана",
+      });
       setIsDialogOpen(false);
     },
     onError: () => {
@@ -88,9 +102,20 @@ export default function VacancyManagement() {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<IVacancy> }) =>
       vacancyService.update(id, data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["vacancies"] });
-      toast({ title: "Успех", description: "Вакансия успешно обновлена" });
+
+      // Regenerate sitemap after updating vacancy
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
+      toast({
+        title: "Успех",
+        description: "Вакансия успешно обновлена",
+      });
       setIsDialogOpen(false);
     },
     onError: () => {
@@ -104,9 +129,20 @@ export default function VacancyManagement() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => vacancyService.delete(id),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["vacancies"] });
-      toast({ title: "Успех", description: "Вакансия успешно удалена" });
+
+      // Regenerate sitemap after deleting vacancy
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
+      toast({
+        title: "Успех",
+        description: "Вакансия успешно удалена",
+      });
     },
     onError: () => {
       toast({

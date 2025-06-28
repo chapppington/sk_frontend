@@ -32,6 +32,7 @@ import { BACKEND_MAIN } from "@/constants";
 import { Switch } from "@/components/ui/shadcn/switch";
 import { Label } from "@/components/ui/shadcn/label";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
+import sitemapService from "@/services/sitemap.service";
 
 export default function PortfolioManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -77,8 +78,16 @@ export default function PortfolioManagement() {
     mutationFn: async (formData: FormData) => {
       return portfolioService.create(formData);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
+
+      // Regenerate sitemap after creating portfolio item
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Проект успешно создан",
@@ -97,8 +106,16 @@ export default function PortfolioManagement() {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: FormData }) =>
       portfolioService.update(id, data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
+
+      // Regenerate sitemap after updating portfolio item
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Проект успешно обновлен",
@@ -116,8 +133,16 @@ export default function PortfolioManagement() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => portfolioService.delete(id),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
+
+      // Regenerate sitemap after deleting portfolio item
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Проект успешно удален",

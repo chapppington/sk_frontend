@@ -62,6 +62,7 @@ import {
   productCategories,
   getCategoryLabel,
 } from "@/shared/utils/categoryMapping";
+import sitemapService from "@/services/sitemap.service";
 
 const steps = [
   {
@@ -176,8 +177,16 @@ export default function ProductManagement() {
     mutationFn: async (formData: FormData) => {
       return productService.create(formData);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // Regenerate sitemap after creating product
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Товар успешно создан",
@@ -197,8 +206,16 @@ export default function ProductManagement() {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: FormData }) =>
       productService.update(id, data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // Regenerate sitemap after updating product
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Товар успешно обновлен",
@@ -217,8 +234,16 @@ export default function ProductManagement() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => productService.delete(id),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // Regenerate sitemap after deleting product
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Товар успешно удален",
