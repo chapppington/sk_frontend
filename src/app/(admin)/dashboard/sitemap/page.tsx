@@ -117,10 +117,6 @@ export default function SitemapPage() {
       ) => sitemapService.updateStaticRoutes(routes),
       onSuccess: async (result) => {
         if (result.success) {
-          toast({
-            title: "Успех",
-            description: "Статичные пути обновлены успешно",
-          });
           refetchRoutes();
           setNewRoute("");
           setNewPriority("0.5");
@@ -162,10 +158,6 @@ export default function SitemapPage() {
         sitemapService.updateDynamicRoutes(dynamicRoutes),
       onSuccess: async (result) => {
         if (result.success) {
-          toast({
-            title: "Успех",
-            description: "Динамические пути обновлены успешно",
-          });
           refetchDynamicRoutes();
 
           // Автоматически пересоздаем sitemap после обновления динамических путей
@@ -540,10 +532,7 @@ export default function SitemapPage() {
         {/* Static Routes Management Card */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5" />
-              Управление статичными путями
-            </CardTitle>
+            <CardTitle>Управление статичными путями</CardTitle>
             <CardDescription>
               Добавляйте, редактируйте и удаляйте статичные страницы для sitemap
               с настройкой приоритетов
