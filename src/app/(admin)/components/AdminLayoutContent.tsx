@@ -8,6 +8,8 @@ import {
   useSidebar,
 } from "@/components/ui/shadcn/sidebar";
 import AdminBreadcrumbs from "./AdminBreadcrumbs";
+import { ModeToggle } from "@/components/ui/ModeToggle";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AdminLayoutContent({
   children,
@@ -18,8 +20,16 @@ export function AdminLayoutContent({
 
   function BreadcrumbsWithSidebarPosition() {
     const sidebar = useSidebar();
+    const isMobile = useIsMobile();
+
     let left = "17rem";
     if (sidebar.state === "collapsed") left = "1rem";
+
+    // На мобильных устройствах кнопка всегда слева
+    if (isMobile) {
+      left = "1rem";
+    }
+
     return (
       <div
         className="absolute top-4 flex items-center gap-4 z-50 transition-[left] duration-200 ease-linear"
@@ -43,6 +53,10 @@ export function AdminLayoutContent({
             <main className="flex-1 flex flex-col bg-background text-foreground mt-10">
               <div className="container mx-auto px-6">{children}</div>
             </main>
+            {/* Fixed theme toggle in top-right corner */}
+            <div className="fixed top-4 right-4 z-50">
+              <ModeToggle />
+            </div>
           </div>
         </SidebarProvider>
       )}

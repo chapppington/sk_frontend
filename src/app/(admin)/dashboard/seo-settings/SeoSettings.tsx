@@ -639,7 +639,7 @@ export default function SeoSettingsManagement() {
       {isLoadingSeo ? (
         <div>Загрузка...</div>
       ) : (
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -667,40 +667,11 @@ export default function SeoSettingsManagement() {
                     <TableCell className="font-mono text-sm">
                       {item.pagePath}
                     </TableCell>
-                    <TableCell>
-                      <div className="max-w-xs truncate" title={item.title}>
-                        {item.title}
-                      </div>
-                      <div className="flex gap-1 mt-1">
-                        <Badge
-                          variant={
-                            item.title.length <= 60 ? "default" : "destructive"
-                          }
-                          className="text-xs"
-                        >
-                          {item.title.length}/60
-                        </Badge>
-                      </div>
+                    <TableCell className="max-w-xs truncate">
+                      {item.title}
                     </TableCell>
-                    <TableCell>
-                      <div
-                        className="max-w-xs truncate"
-                        title={item.description}
-                      >
-                        {item.description}
-                      </div>
-                      <div className="flex gap-1 mt-1">
-                        <Badge
-                          variant={
-                            item.description.length <= 160
-                              ? "default"
-                              : "destructive"
-                          }
-                          className="text-xs"
-                        >
-                          {item.description.length}/160
-                        </Badge>
-                      </div>
+                    <TableCell className="max-w-xs truncate">
+                      {item.description}
                     </TableCell>
                     <TableCell>
                       <Badge
