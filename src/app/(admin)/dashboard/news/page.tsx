@@ -38,6 +38,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { UPLOADS_URL } from "@/constants";
 import Image from "next/image";
 import type { INews } from "@/shared/types/news.types";
+import sitemapService from "@/services/sitemap.service";
 
 const categoryMap: Record<string, string> = {
   all: "Все",
@@ -76,8 +77,16 @@ export default function NewsManagement() {
     mutationFn: async (formData: FormData) => {
       return newsService.create(formData);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
+
+      // Regenerate sitemap after creating news
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Новость успешно создана",
@@ -96,8 +105,16 @@ export default function NewsManagement() {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: FormData }) =>
       newsService.update(id, data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
+
+      // Regenerate sitemap after updating news
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Новость успешно обновлена",
@@ -115,8 +132,16 @@ export default function NewsManagement() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => newsService.delete(id),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });
+
+      // Regenerate sitemap after deleting news
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
       toast({
         title: "Успех",
         description: "Новость успешно удалена",
