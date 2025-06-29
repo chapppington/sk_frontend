@@ -229,7 +229,7 @@ export default function StaticRoutesManager({
                           onKeyPress={(e) =>
                             e.key === "Enter" && handleSaveEdit()
                           }
-                          className="bg-black dark:bg-black border border-input"
+                          className="bg-white dark:bg-black border border-input"
                         />
                       </div>
                       <div className="space-y-2">
@@ -238,7 +238,7 @@ export default function StaticRoutesManager({
                           value={editPriority}
                           onValueChange={setEditPriority}
                         >
-                          <SelectTrigger className="bg-black dark:bg-black border border-input">
+                          <SelectTrigger className="bg-white dark:bg-black border border-input">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -271,7 +271,7 @@ export default function StaticRoutesManager({
                           value={editChangeFreq}
                           onValueChange={setEditChangeFreq}
                         >
-                          <SelectTrigger className="bg-black dark:bg-black border border-input">
+                          <SelectTrigger className="bg-white dark:bg-black border border-input">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
