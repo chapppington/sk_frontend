@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Label } from "@/components/ui/shadcn/label";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, FileSpreadsheet, AlertCircle, Download } from "lucide-react";
-import { IProduct, CreateProductData } from "@/shared/types/product.types";
+import { CreateProductData } from "@/shared/types/product.types";
 
 interface ExcelImportDialogProps {
   isOpen: boolean;
@@ -529,8 +529,7 @@ export default function ExcelImportDialog({
             Импорт товаров из Excel
           </DialogTitle>
           <DialogDescription>
-            Загрузите Excel файл с данными товаров. Обязательные колонки:
-            category, name, description. Остальные колонки опциональны.
+            Загрузите Excel файл с данными товаров.
           </DialogDescription>
         </DialogHeader>
 
@@ -564,67 +563,6 @@ export default function ExcelImportDialog({
                   <Download className="w-4 h-4 mr-2" />
                   Скачать пример
                 </Button>
-              </div>
-            </div>
-
-            {/* Instructions */}
-            <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
-              <h4 className="font-medium text-gray-900 mb-2">
-                Структура Excel файла:
-              </h4>
-              <div className="text-sm text-gray-700 space-y-1">
-                <p>
-                  <strong>Каждый товар на отдельном листе</strong> - названия
-                  листов должны быть уникальными
-                </p>
-                <p>
-                  <strong>Обязательные поля:</strong> Категория, Название
-                  товара, Описание
-                </p>
-                <p>
-                  <strong>Характеристики:</strong> До 3 характеристик с
-                  значением, единицей измерения и описанием
-                </p>
-                <p>
-                  <strong>Преимущества:</strong> До 5 преимуществ с названием и
-                  описанием
-                </p>
-                <p>
-                  <strong>Простое описание:</strong> До 3 пунктов
-                </p>
-                <p>
-                  <strong>Детальное описание:</strong> До 16 разделов с
-                  заголовком и текстом
-                </p>
-                <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
-                  <p className="text-blue-800 font-medium">💡 Особенности:</p>
-                  <ul className="text-blue-700 text-xs mt-1 space-y-1">
-                    <li>
-                      • <strong>Каждый товар на отдельном листе</strong> -
-                      удобно для заполнения
-                    </li>
-                    <li>
-                      • <strong>Русские подписи полей</strong> - понятно любому
-                      пользователю
-                    </li>
-                    <li>
-                      • <strong>Простая структура</strong> - только 2 колонки:
-                      Поле и Значение
-                    </li>
-                    <li>
-                      • <strong>Готовые примеры</strong> - скачайте файл и
-                      заполните по образцу
-                    </li>
-                    <li>
-                      • <strong>Умный импорт</strong> - существующие товары с
-                      таким же названием будут обновлены
-                    </li>
-                    <li>
-                      • <strong>Безопасность связей</strong> - привязанные
-                      проекты не затрагиваются при импорте
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
 
