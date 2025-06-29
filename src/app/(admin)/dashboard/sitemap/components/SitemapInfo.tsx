@@ -5,21 +5,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/shadcn/card";
-import { FileText } from "lucide-react";
+import { Button } from "@/components/ui/shadcn/button";
+import { FileText, ExternalLink } from "lucide-react";
 
 interface SitemapInfoProps {
   sitemapData: any;
+  onViewSitemap: () => void;
 }
 
-export default function SitemapInfo({ sitemapData }: SitemapInfoProps) {
+export default function SitemapInfo({
+  sitemapData,
+  onViewSitemap,
+}: SitemapInfoProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <FileText className="w-5 h-5" />
-          Информация о Sitemap
-        </CardTitle>
-        <CardDescription>Текущее состояние карты сайта</CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Информация о Sitemap
+            </CardTitle>
+            <CardDescription>Текущее состояние карты сайта</CardDescription>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onViewSitemap}
+            className="flex items-center gap-2"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Просмотреть sitemap.xml
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

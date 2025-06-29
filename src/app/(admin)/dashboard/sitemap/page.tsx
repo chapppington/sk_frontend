@@ -12,7 +12,6 @@ import {
 import DynamicRoutesManager from "./components/DynamicRoutesManager";
 import StaticRoutesManager from "./components/StaticRoutesManager";
 import SitemapInfo from "./components/SitemapInfo";
-import SitemapActions from "./components/SitemapActions";
 import { HelpDialog } from "./components/HelpDialog";
 
 export default function SitemapPage() {
@@ -86,35 +85,39 @@ export default function SitemapPage() {
       </div>
 
       <div className="grid gap-6">
-        {/* Top row: Sitemap Info and Actions */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Sitemap Info Component */}
-          <SitemapInfo sitemapData={sitemapData} />
-
-          {/* Sitemap Actions Component */}
-          <SitemapActions
-            isRegenerating={isRegenerating}
-            onRegenerate={handleRegenerate}
-            onViewSitemap={handleViewSitemap}
-          />
-        </div>
+        {/* Sitemap Info Component */}
+        <SitemapInfo
+          sitemapData={sitemapData}
+          onViewSitemap={handleViewSitemap}
+        />
 
         {/* Tabs for Routes Management */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Управление путями в sitemap.xml</h3>
+              <h3 className="text-lg font-semibold">
+                Управление путями в sitemap.xml
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Выберите тип путей для настройки: динамические (автоматически создаваемые) или статичные (постоянные страницы)
+                Выберите тип путей для настройки: динамические (автоматически
+                создаваемые) или статичные (постоянные страницы)
               </p>
             </div>
           </div>
-          
-          <Tabs defaultValue="dynamic" className="w-full">
+
+          <Tabs defaultValue="static" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="dynamic">Динамические пути</TabsTrigger>
               <TabsTrigger value="static">Статичные пути</TabsTrigger>
+              <TabsTrigger value="dynamic">Динамические пути</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="static" className="space-y-4">
+              <StaticRoutesManager
+                staticRoutesData={staticRoutesData}
+                isUpdatingRoutes={isUpdatingRoutes}
+                onUpdateRoutes={updateStaticRoutes}
+              />
+            </TabsContent>
 
             <TabsContent value="dynamic" className="space-y-4">
               <DynamicRoutesManager
@@ -122,14 +125,6 @@ export default function SitemapPage() {
                 isUpdatingDynamicRoutes={isUpdatingDynamicRoutes}
                 onToggle={handleDynamicRouteToggle}
                 onUpdate={handleDynamicRouteUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="static" className="space-y-4">
-              <StaticRoutesManager
-                staticRoutesData={staticRoutesData}
-                isUpdatingRoutes={isUpdatingRoutes}
-                onUpdateRoutes={updateStaticRoutes}
               />
             </TabsContent>
           </Tabs>
