@@ -25,7 +25,7 @@ import {
 import { Input } from "@/components/ui/shadcn/input";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import vacancyService from "@/services/vacancy.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { IVacancy } from "@/shared/types/vacancy.types";
@@ -50,6 +50,9 @@ export default function VacancyManagement() {
   const [editingVacancy, setEditingVacancy] = useState<IVacancy | null>(null);
   const [deletePopoverOpen, setDeletePopoverOpen] = useState<string | null>(
     null
+  );
+  const [expandedRequirements, setExpandedRequirements] = useState<Set<string>>(
+    new Set()
   );
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -190,6 +193,64 @@ export default function VacancyManagement() {
       salary: vacancy.salary.toString(),
     });
     setIsDialogOpen(true);
+  };
+
+  const toggleRequirements = (vacancyId: string) => {
+    const newExpanded = new Set(expandedRequirements);
+    if (newExpanded.has(vacancyId)) {
+      newExpanded.delete(vacancyId);
+    } else {
+      newExpanded.add(vacancyId);
+    }
+    setExpandedRequirements(newExpanded);
+  };
+
+  const renderRequirements = (requirements: string[], vacancyId: string) => {
+    const isExpanded = expandedRequirements.has(vacancyId);
+
+    if (requirements.length === 0) {
+      return <span className="text-gray-400 text-sm">Нет требований</span>;
+    }
+
+    if (!isExpanded) {
+      return (
+        <div>
+          <div className="text-xs text-gray-500">
+            Требований: {requirements.length}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 px-2 text-xs mt-1"
+            onClick={() => toggleRequirements(vacancyId)}
+          >
+            <ChevronDown className="h-3 w-3 mr-1" />
+            Показать
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <ul className="list-disc pl-4">
+          {requirements.map((req, idx) => (
+            <li key={idx} className="text-sm">
+              {req}
+            </li>
+          ))}
+        </ul>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-6 px-2 text-xs mt-1"
+          onClick={() => toggleRequirements(vacancyId)}
+        >
+          <ChevronUp className="h-3 w-3 mr-1" />
+          Скрыть
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -346,16 +407,14 @@ export default function VacancyManagement() {
                     </TableCell>
                     <TableCell>{item.title}</TableCell>
                     <TableCell>
-                      <ul className="list-disc pl-4">
-                        {item.requirements.map((req, idx) => (
-                          <li key={idx}>{req}</li>
-                        ))}
-                      </ul>
+                      {renderRequirements(item.requirements, item.id)}
                     </TableCell>
                     <TableCell>
                       <ul className="list-disc pl-4">
                         {item.experience.map((exp, idx) => (
-                          <li key={idx}>{exp}</li>
+                          <li key={idx} className="text-sm">
+                            {exp}
+                          </li>
                         ))}
                       </ul>
                     </TableCell>

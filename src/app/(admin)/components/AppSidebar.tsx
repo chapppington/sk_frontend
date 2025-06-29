@@ -158,7 +158,7 @@ export function AppSidebar() {
                     onClick={handleMobileClose}
                   >
                     <Settings className="w-5 h-5" />
-                    <span>Глобальные настройки</span>
+                    <span>Настройки шрифта</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

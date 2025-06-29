@@ -74,7 +74,7 @@ export function AdminNav() {
             href="/dashboard/global-settings"
             className="text-sm font-medium hover:text-primary"
           >
-            Глобальные настройки
+            Настройки шрифта
           </Link>
         </div>
         <div className="flex items-center gap-2">

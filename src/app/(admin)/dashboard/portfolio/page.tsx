@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/shadcn/button";
 import {
   Table,
@@ -694,7 +695,7 @@ export default function PortfolioManagement() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[160px]">Постер</TableHead>
+              <TableHead className="w-[100px]">Постер</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Год</TableHead>
               <TableHead>Описание</TableHead>
@@ -720,11 +721,12 @@ export default function PortfolioManagement() {
                 <TableRow key={item.id}>
                   <TableCell>
                     {item.poster && (
-                      <div className="w-[160px] aspect-[16/9] relative">
-                        <img
-                          src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
+                      <div className="w-[100px] h-[60px] relative">
+                        <Image
+                          src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
                           alt={item.name}
-                          className="w-full h-full object-cover rounded"
+                          fill
+                          className="object-cover rounded"
                         />
                       </div>
                     )}
