@@ -53,6 +53,9 @@ export default function VacancyManagement() {
   const [expandedRequirements, setExpandedRequirements] = useState<Set<string>>(
     new Set()
   );
+  const [expandedExperience, setExpandedExperience] = useState<Set<string>>(
+    new Set()
+  );
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -199,6 +202,16 @@ export default function VacancyManagement() {
     setExpandedRequirements(newExpanded);
   };
 
+  const toggleExperience = (vacancyId: string) => {
+    const newExpanded = new Set(expandedExperience);
+    if (newExpanded.has(vacancyId)) {
+      newExpanded.delete(vacancyId);
+    } else {
+      newExpanded.add(vacancyId);
+    }
+    setExpandedExperience(newExpanded);
+  };
+
   const addRequirement = () => {
     if (formData.requirements.length < 5) {
       setFormData({
@@ -268,7 +281,7 @@ export default function VacancyManagement() {
       return (
         <div>
           <div className="text-xs text-gray-500">
-            Требований: {requirements.length}
+            Элементов: {requirements.length}
           </div>
           <Button
             variant="ghost"
@@ -297,6 +310,54 @@ export default function VacancyManagement() {
           size="sm"
           className="h-6 px-2 text-xs mt-1"
           onClick={() => toggleRequirements(vacancyId)}
+        >
+          <ChevronUp className="h-3 w-3 mr-1" />
+          Скрыть
+        </Button>
+      </div>
+    );
+  };
+
+  const renderExperience = (experience: string[], vacancyId: string) => {
+    const isExpanded = expandedExperience.has(vacancyId);
+
+    if (experience.length === 0) {
+      return <span className="text-gray-400 text-sm">Нет опыта</span>;
+    }
+
+    if (!isExpanded) {
+      return (
+        <div>
+          <div className="text-xs text-gray-500">
+            Элементов: {experience.length}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 px-2 text-xs mt-1"
+            onClick={() => toggleExperience(vacancyId)}
+          >
+            <ChevronDown className="h-3 w-3 mr-1" />
+            Показать
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <ul className="list-disc pl-4">
+          {experience.map((exp, idx) => (
+            <li key={idx} className="text-sm">
+              {exp}
+            </li>
+          ))}
+        </ul>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-6 px-2 text-xs mt-1"
+          onClick={() => toggleExperience(vacancyId)}
         >
           <ChevronUp className="h-3 w-3 mr-1" />
           Скрыть
@@ -524,13 +585,7 @@ export default function VacancyManagement() {
                       {renderRequirements(item.requirements, item.id)}
                     </TableCell>
                     <TableCell>
-                      <ul className="list-disc pl-4">
-                        {item.experience.map((exp, idx) => (
-                          <li key={idx} className="text-sm">
-                            {exp}
-                          </li>
-                        ))}
-                      </ul>
+                      {renderExperience(item.experience, item.id)}
                     </TableCell>
                     <TableCell>{item.salary}</TableCell>
                     <TableCell>
