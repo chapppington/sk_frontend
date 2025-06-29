@@ -106,7 +106,6 @@ const FirstScreen: FC = () => {
               />
             </div>
           </div>
-
           {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
           <SliderSelectButtons currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}/>
 
