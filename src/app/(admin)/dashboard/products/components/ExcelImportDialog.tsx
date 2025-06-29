@@ -547,7 +547,7 @@ export default function ExcelImportDialog({
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-blue-900">
+                  <h4 className="font-medium text-sm text-blue-900">
                     Нужен пример файла?
                   </h4>
                   <p className="text-sm text-blue-700">
@@ -577,7 +577,7 @@ export default function ExcelImportDialog({
                   onChange={handleFileChange}
                   className="flex-1"
                 />
-                <Upload className="w-4 h-4 text-muted-foreground" />
+                
               </div>
             </div>
 
