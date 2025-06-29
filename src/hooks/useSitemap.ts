@@ -70,10 +70,6 @@ export const useSitemap = () => {
       ) => sitemapService.updateStaticRoutes(routes),
       onSuccess: async (result) => {
         if (result.success) {
-          toast({
-            title: "Успех",
-            description: "Статичные пути обновлены успешно",
-          });
           refetchRoutes();
 
           // Автоматически пересоздаем sitemap после обновления статических путей
@@ -112,10 +108,6 @@ export const useSitemap = () => {
         sitemapService.updateDynamicRoutes(dynamicRoutes),
       onSuccess: async (result) => {
         if (result.success) {
-          toast({
-            title: "Успех",
-            description: "Динамические пути обновлены успешно",
-          });
           refetchDynamicRoutes();
 
           // Автоматически пересоздаем sitemap после обновления динамических путей
