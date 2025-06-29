@@ -12,7 +12,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   vacancies: "Вакансии",
   home: "Главная",
   "seo-settings": "SEO настройки",
-  "global-settings": "Глобальные настройки",
+  "global-settings": "Настройки шрифта",
   static: "Статичный контент",
   dynamic: "",
   about: "О компании",

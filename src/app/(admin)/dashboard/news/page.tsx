@@ -41,7 +41,6 @@ import type { INews } from "@/shared/types/news.types";
 import sitemapService from "@/services/sitemap.service";
 
 const categoryMap: Record<string, string> = {
-  all: "Все",
   production: "Производство",
   technology: "Технологии",
   event: "События",
@@ -58,7 +57,7 @@ export default function NewsManagement() {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
-    category: "all",
+    category: "production",
     title: "",
     content: "",
     image: undefined as File | undefined,
@@ -208,7 +207,7 @@ export default function NewsManagement() {
               onClick={() => {
                 setEditingNews(null);
                 setFormData({
-                  category: "all",
+                  category: "production",
                   title: "",
                   content: "",
                   image: undefined,
@@ -248,7 +247,6 @@ export default function NewsManagement() {
                       <SelectValue placeholder="Выберите категорию" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">Все</SelectItem>
                       <SelectItem value="production">Производство</SelectItem>
                       <SelectItem value="technology">Технологии</SelectItem>
                       <SelectItem value="event">События</SelectItem>
@@ -379,7 +377,7 @@ export default function NewsManagement() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[160px]">Изображение</TableHead>
+                <TableHead className="w-[100px]">Изображение</TableHead>
                 <TableHead>Категория</TableHead>
                 <TableHead>Заголовок</TableHead>
                 <TableHead>Краткое содержание</TableHead>
@@ -400,7 +398,7 @@ export default function NewsManagement() {
                   <TableRow key={item.id}>
                     <TableCell>
                       {item.imageUrl && (
-                        <div className="w-[160px] aspect-[16/9] relative">
+                        <div className="w-[100px] h-[60px] relative">
                           <Image
                             src={`${BACKEND_MAIN}${item.imageUrl}`}
                             alt={item.alt || item.title}
