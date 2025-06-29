@@ -1,0 +1,1 @@
+export { useSeoSettings } from "./useSeoSettings";
