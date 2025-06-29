@@ -57,7 +57,7 @@ export function HelpDialog({ isOpen, onOpenChange }: HelpDialogProps) {
                   <strong>Важно:</strong> Эти настройки предназначены только для{" "}
                   <strong>статичных страниц</strong> (например: /about,
                   /contacts, /catalog). Для страниц товаров
-                  (/products/[product-name]), новостей (/news/[news-name]),
+                  (/products/[product-name]), новостей (/news/[article-name]),
                   проектов портфолио (/portfolio/[project-name]) SEO
                   настраивается в карточке самой сущности.
                 </p>

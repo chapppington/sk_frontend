@@ -64,7 +64,7 @@ export function SeoSettingsTable({
           {seoSettings.length === 0 ? (
             <TableRow>
               <TableCell colSpan={6} className="text-center">
-                Нет настроек мета тегов
+                Нет наборов мета тегов
               </TableCell>
             </TableRow>
           ) : (
@@ -119,7 +119,7 @@ export function SeoSettingsTable({
                       <PopoverContent className="w-80">
                         <div className="space-y-4">
                           <p className="text-sm">
-                            Вы уверены, что хотите удалить эти настройки мета
+                            Вы уверены, что хотите удалить этот набор мета
                             тегов?
                           </p>
                           <div className="flex justify-end space-x-2">

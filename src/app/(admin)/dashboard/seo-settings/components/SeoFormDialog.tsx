@@ -56,8 +56,8 @@ export function SeoFormDialog({
         <DialogHeader className="px-6 pt-6">
           <DialogTitle>
             {editingSeo
-              ? "Редактировать настройки мета тегов"
-              : "Новые настройки мета тегов"}
+              ? "Редактировать набор мета тегов"
+              : "Новый набор мета тегов"}
           </DialogTitle>
         </DialogHeader>
         <div className="flex h-[calc(90vh-80px)]">

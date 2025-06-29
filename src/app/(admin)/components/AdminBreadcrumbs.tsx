@@ -11,7 +11,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   vacancy: "Вакансии",
   vacancies: "Вакансии",
   home: "Главная",
-  "seo-settings": "Настройки мета тегов",
+  "seo-settings": "Наборы мета тегов",
   "global-settings": "Настройки шрифта",
   static: "Статичный контент",
   dynamic: "",
