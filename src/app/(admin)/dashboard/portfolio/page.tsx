@@ -723,7 +723,7 @@ export default function PortfolioManagement() {
                     {item.poster && (
                       <div className="w-[100px] h-[60px] relative">
                         <Image
-                          src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                          src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
                           alt={item.name}
                           fill
                           className="object-cover rounded"
