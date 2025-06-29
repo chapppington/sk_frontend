@@ -133,6 +133,52 @@ export const useProducts = (options?: UseProductsOptions) => {
     },
   });
 
+  // Мутация массового импорта товаров
+  const importMutation = useMutation({
+    mutationFn: async (products: CreateProductData[]) => {
+      return productService.importFromExcel(products);
+    },
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // Regenerate sitemap after importing products
+      try {
+        await sitemapService.regenerateSitemap();
+      } catch (error) {
+        console.error("Failed to regenerate sitemap:", error);
+      }
+
+      // Показываем детальную информацию о результате импорта
+      const { created = 0, updated = 0 } = data.data || {};
+      let description = "Товары успешно импортированы";
+
+      if (created > 0 && updated > 0) {
+        description = `Создано ${created} новых товаров, обновлено ${updated} существующих товаров`;
+      } else if (created > 0) {
+        description = `Создано ${created} новых товаров`;
+      } else if (updated > 0) {
+        description = `Обновлено ${updated} существующих товаров`;
+      }
+
+      toast({
+        title: "Успех",
+        description,
+      });
+
+      // Вызываем callback функции
+      options?.onSuccess?.();
+      options?.onReset?.();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Ошибка",
+        description:
+          error?.response?.data?.message || "Не удалось импортировать товары",
+        variant: "destructive",
+      });
+    },
+  });
+
   return {
     // Данные
     products,
@@ -150,6 +196,7 @@ export const useProducts = (options?: UseProductsOptions) => {
     createMutation,
     updateMutation,
     deleteMutation,
+    importMutation,
 
     // Утилиты
     queryClient,
