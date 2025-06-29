@@ -3,12 +3,17 @@
 import { useState } from "react";
 import { useSitemap } from "@/hooks/useSitemap";
 import { MiniLoader } from "@/components/ui/MiniLoader";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/shadcn/tabs";
 import DynamicRoutesManager from "./components/DynamicRoutesManager";
 import StaticRoutesManager from "./components/StaticRoutesManager";
 import SitemapInfo from "./components/SitemapInfo";
 import SitemapActions from "./components/SitemapActions";
 import { HelpDialog } from "./components/HelpDialog";
-import SitemapExplanation from "./components/SitemapExplanation";
 
 export default function SitemapPage() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -80,9 +85,6 @@ export default function SitemapPage() {
         <HelpDialog isOpen={isHelpOpen} onOpenChange={setIsHelpOpen} />
       </div>
 
-      {/* Explanatory section */}
-      <SitemapExplanation />
-
       <div className="grid gap-6">
         {/* Top row: Sitemap Info and Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -97,20 +99,41 @@ export default function SitemapPage() {
           />
         </div>
 
-        {/* Dynamic Routes Management Component */}
-        <DynamicRoutesManager
-          dynamicRoutesData={dynamicRoutesData}
-          isUpdatingDynamicRoutes={isUpdatingDynamicRoutes}
-          onToggle={handleDynamicRouteToggle}
-          onUpdate={handleDynamicRouteUpdate}
-        />
+        {/* Tabs for Routes Management */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold">Управление путями в sitemap.xml</h3>
+              <p className="text-sm text-muted-foreground">
+                Выберите тип путей для настройки: динамические (автоматически создаваемые) или статичные (постоянные страницы)
+              </p>
+            </div>
+          </div>
+          
+          <Tabs defaultValue="dynamic" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="dynamic">Динамические пути</TabsTrigger>
+              <TabsTrigger value="static">Статичные пути</TabsTrigger>
+            </TabsList>
 
-        {/* Static Routes Management Component */}
-        <StaticRoutesManager
-          staticRoutesData={staticRoutesData}
-          isUpdatingRoutes={isUpdatingRoutes}
-          onUpdateRoutes={updateStaticRoutes}
-        />
+            <TabsContent value="dynamic" className="space-y-4">
+              <DynamicRoutesManager
+                dynamicRoutesData={dynamicRoutesData}
+                isUpdatingDynamicRoutes={isUpdatingDynamicRoutes}
+                onToggle={handleDynamicRouteToggle}
+                onUpdate={handleDynamicRouteUpdate}
+              />
+            </TabsContent>
+
+            <TabsContent value="static" className="space-y-4">
+              <StaticRoutesManager
+                staticRoutesData={staticRoutesData}
+                isUpdatingRoutes={isUpdatingRoutes}
+                onUpdateRoutes={updateStaticRoutes}
+              />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

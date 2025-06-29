@@ -38,6 +38,53 @@ export function HelpDialog({ isOpen, onOpenChange }: HelpDialogProps) {
               container.scrollTop += delta;
             }}
           >
+            <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-3">
+                Что мы редактируем в Sitemap
+              </h3>
+
+              <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
+                Здесь вы управляете файлом sitemap.xml — списком всех страниц
+                сайта для поисковых систем. Любые изменения автоматически
+                обновляют sitemap.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                    📄 Статичные пути
+                  </h4>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    Постоянные страницы сайта: главная (/), о компании (/about),
+                    контакты (/contacts). Когда вы добавляете новый статичный
+                    путь — он сразу появляется в sitemap.xml.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                    🔄 Динамические пути
+                  </h4>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    Страницы, которые создаются автоматически: товары
+                    (/product/название), новости (/news/заголовок), проекты
+                    (/portfolio/название). Включаете тип контента — все страницы
+                    этого типа попадают в sitemap.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 mt-4">
+                <p className="text-sm text-blue-800 dark:text-blue-200">
+                  <strong>💡 Как это работает:</strong> Добавили новый статичный
+                  путь /services — он появится в sitemap. Включили товары в
+                  динамических путях — все страницы товаров автоматически
+                  попадут в sitemap. Изменили приоритет — поисковики будут
+                  знать, какие страницы важнее.
+                </p>
+              </div>
+            </div>
+
             <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
               <p className="text-amber-700 dark:text-amber-300 text-sm">
                 <strong>Важно:</strong> Sitemap автоматически обновляется при
