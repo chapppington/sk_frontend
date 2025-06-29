@@ -8,6 +8,7 @@ import StaticRoutesManager from "./components/StaticRoutesManager";
 import SitemapInfo from "./components/SitemapInfo";
 import SitemapActions from "./components/SitemapActions";
 import { HelpDialog } from "./components/HelpDialog";
+import SitemapExplanation from "./components/SitemapExplanation";
 
 export default function SitemapPage() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -78,6 +79,9 @@ export default function SitemapPage() {
       <div className="flex justify-start mb-6">
         <HelpDialog isOpen={isHelpOpen} onOpenChange={setIsHelpOpen} />
       </div>
+
+      {/* Explanatory section */}
+      <SitemapExplanation />
 
       <div className="grid gap-6">
         {/* Top row: Sitemap Info and Actions */}

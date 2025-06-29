@@ -42,60 +42,28 @@ import {
   Phone,
   Award,
   Shield,
+  Package,
+  Bot,
+  Map,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 
-const navItems = [
-  {
-    title: "Новости",
-    url: "/dashboard/news",
-    icon: Newspaper,
-  },
-  {
-    title: "Портфолио",
-    url: "/dashboard/portfolio",
-    icon: Briefcase,
-  },
-  {
-    title: "Товары",
-    url: "/dashboard/products",
-    icon: Box,
-  },
-  {
-    title: "Вакансии",
-    url: "/dashboard/vacancy",
-    icon: Users,
-  },
-];
-
-const seoSettingsItems = [
-  {
-    title: "Мета теги",
-    url: "/dashboard/seo-settings",
-    icon: Tag,
-  },
-  {
-    title: "Robots.txt",
-    url: "/dashboard/robots",
-    icon: FileText,
-  },
-  {
-    title: "Sitemap",
-    url: "/dashboard/sitemap",
-    icon: Globe,
-  },
+/**
+ * Синхронизированная структура разделов и подпунктов с профилем
+ */
+const dynamicContentItems = [
+  { title: "Новости", url: "/dashboard/news", icon: Newspaper },
+  { title: "Товары", url: "/dashboard/products", icon: Package },
+  { title: "Вакансии", url: "/dashboard/vacancy", icon: Users },
+  { title: "Портфолио", url: "/dashboard/portfolio", icon: Briefcase },
 ];
 
 const staticContentItems = [
   { title: "Главная", url: "/dashboard/static/home", icon: Home },
   { title: "О компании", url: "/dashboard/static/about", icon: Building },
-  {
-    title: "О производстве",
-    url: "/dashboard/static/production",
-    icon: Factory,
-  },
-  { title: "Вакансии", url: "/dashboard/static/vacancies", icon: Briefcase },
+  { title: "Производство", url: "/dashboard/static/production", icon: Factory },
+  { title: "Вакансии", url: "/dashboard/static/vacancies", icon: Users },
   { title: "Контакты", url: "/dashboard/static/contacts", icon: Phone },
   { title: "Сертификаты", url: "/dashboard/static/certificates", icon: Award },
   {
@@ -103,6 +71,16 @@ const staticContentItems = [
     url: "/dashboard/static/privacy",
     icon: Shield,
   },
+];
+
+const seoSettingsItems = [
+  {
+    title: "Мета-теги страниц",
+    url: "/dashboard/seo-settings",
+    icon: FileText,
+  },
+  { title: "Robots.txt", url: "/dashboard/robots", icon: Bot },
+  { title: "Sitemap.xml", url: "/dashboard/sitemap", icon: Map },
 ];
 
 export function AppSidebar() {
@@ -217,7 +195,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Динамический контент</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
+              {dynamicContentItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link

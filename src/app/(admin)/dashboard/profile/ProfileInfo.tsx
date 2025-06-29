@@ -62,8 +62,8 @@ export function ProfileInfo() {
       subItems: [
         { name: "Новости", href: "/dashboard/news", icon: Newspaper },
         { name: "Товары", href: "/dashboard/products", icon: Package },
-        { name: "Вакансии", href: "/dashboard/vacancy", icon: Briefcase },
-        { name: "Портфолио", href: "/dashboard/portfolio", icon: Users },
+        { name: "Вакансии", href: "/dashboard/vacancy", icon: Users },
+        { name: "Портфолио", href: "/dashboard/portfolio", icon: Briefcase },
       ],
     },
     {
@@ -79,6 +79,11 @@ export function ProfileInfo() {
           name: "Производство",
           href: "/dashboard/static/production",
           icon: Factory,
+        },
+        {
+          name: "Вакансии",
+          href: "/dashboard/static/vacancies",
+          icon: Users,
         },
         { name: "Контакты", href: "/dashboard/static/contacts", icon: Phone },
         {
