@@ -1,4 +1,5 @@
 import { instance, axiosClassic } from "@/api/axios";
+import { CreateProductData } from "@/shared/types/product.types";
 
 const productService = {
   fetchAll: () => {
@@ -44,6 +45,11 @@ const productService = {
 
   delete: (id: string) => {
     return instance.delete(`/products/${id}`);
+  },
+
+  // Массовый импорт товаров
+  importFromExcel: (products: CreateProductData[]) => {
+    return instance.post("/products/import", { products });
   },
 
   connectPortfolioItem: (productId: string, portfolioItemId: string) => {
