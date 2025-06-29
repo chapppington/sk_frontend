@@ -55,28 +55,6 @@ const getStaticRoutes = (): Array<{
   return defaultStaticRoutes;
 };
 
-// Function to save static routes to config file
-const saveStaticRoutes = (
-  routes: Array<{ route: string; priority: number; changeFreq: string }>
-): void => {
-  try {
-    const dataDir = join(process.cwd(), "data");
-    if (!existsSync(dataDir)) {
-      require("fs").mkdirSync(dataDir, { recursive: true });
-    }
-
-    const config = { routes };
-    writeFileSync(
-      staticRoutesConfigPath,
-      JSON.stringify(config, null, 2),
-      "utf8"
-    );
-  } catch (error) {
-    console.error("Error saving static routes config:", error);
-    throw error;
-  }
-};
-
 // Priority and change frequency for different types of pages
 const getPriority = (path: string): number => {
   if (path === "") return 1.0; // Home page
