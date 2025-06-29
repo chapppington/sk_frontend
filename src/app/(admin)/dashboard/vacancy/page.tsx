@@ -23,9 +23,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/shadcn/popover";
 import { Input } from "@/components/ui/shadcn/input";
-import { Textarea } from "@/components/ui/shadcn/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Pencil, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { Pencil, Trash2, ChevronDown, ChevronUp, Plus, X } from "lucide-react";
 import vacancyService from "@/services/vacancy.service";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { IVacancy } from "@/shared/types/vacancy.types";
@@ -60,8 +59,8 @@ export default function VacancyManagement() {
   const [formData, setFormData] = useState({
     category: "hr",
     title: "",
-    requirements: "",
-    experience: "",
+    requirements: [""],
+    experience: [""],
     salary: "",
   });
 
@@ -161,14 +160,8 @@ export default function VacancyManagement() {
     const dataToSend = {
       category: formData.category,
       title: formData.title,
-      requirements: formData.requirements
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      experience: formData.experience
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      requirements: formData.requirements.filter(Boolean),
+      experience: formData.experience.filter(Boolean),
       salary: Number(formData.salary),
     };
     if (editingVacancy) {
@@ -188,8 +181,9 @@ export default function VacancyManagement() {
     setFormData({
       category: vacancy.category,
       title: vacancy.title,
-      requirements: vacancy.requirements.join("\n"),
-      experience: vacancy.experience.join("\n"),
+      requirements:
+        vacancy.requirements.length > 0 ? vacancy.requirements : [""],
+      experience: vacancy.experience.length > 0 ? vacancy.experience : [""],
       salary: vacancy.salary.toString(),
     });
     setIsDialogOpen(true);
@@ -203,6 +197,64 @@ export default function VacancyManagement() {
       newExpanded.add(vacancyId);
     }
     setExpandedRequirements(newExpanded);
+  };
+
+  const addRequirement = () => {
+    if (formData.requirements.length < 5) {
+      setFormData({
+        ...formData,
+        requirements: [...formData.requirements, ""],
+      });
+    }
+  };
+
+  const removeRequirement = (index: number) => {
+    if (formData.requirements.length > 1) {
+      const newRequirements = formData.requirements.filter(
+        (_, i) => i !== index
+      );
+      setFormData({
+        ...formData,
+        requirements: newRequirements,
+      });
+    }
+  };
+
+  const updateRequirement = (index: number, value: string) => {
+    const newRequirements = [...formData.requirements];
+    newRequirements[index] = value;
+    setFormData({
+      ...formData,
+      requirements: newRequirements,
+    });
+  };
+
+  const addExperience = () => {
+    if (formData.experience.length < 2) {
+      setFormData({
+        ...formData,
+        experience: [...formData.experience, ""],
+      });
+    }
+  };
+
+  const removeExperience = (index: number) => {
+    if (formData.experience.length > 1) {
+      const newExperience = formData.experience.filter((_, i) => i !== index);
+      setFormData({
+        ...formData,
+        experience: newExperience,
+      });
+    }
+  };
+
+  const updateExperience = (index: number, value: string) => {
+    const newExperience = [...formData.experience];
+    newExperience[index] = value;
+    setFormData({
+      ...formData,
+      experience: newExperience,
+    });
   };
 
   const renderRequirements = (requirements: string[], vacancyId: string) => {
@@ -264,8 +316,8 @@ export default function VacancyManagement() {
                 setFormData({
                   category: "hr",
                   title: "",
-                  requirements: "",
-                  experience: "",
+                  requirements: [""],
+                  experience: [""],
                   salary: "",
                 });
               }}
@@ -322,30 +374,92 @@ export default function VacancyManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">
-                    Требования (по одному на строку)
-                  </label>
-                  <Textarea
-                    placeholder="Введите требования"
-                    value={formData.requirements}
-                    onChange={(e) =>
-                      setFormData({ ...formData, requirements: e.target.value })
-                    }
-                    className="min-h-[80px]"
-                  />
+                  <label className="text-sm font-medium">Требования</label>
+                  <div className="space-y-2">
+                    {formData.requirements.map((requirement, index) => (
+                      <div key={index} className="flex gap-2 items-center">
+                        <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600 shrink-0">
+                          {index + 1}
+                        </div>
+                        <Input
+                          placeholder={`Требование ${index + 1}`}
+                          value={requirement}
+                          onChange={(e) =>
+                            updateRequirement(index, e.target.value)
+                          }
+                          className="flex-1"
+                        />
+                        {formData.requirements.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => removeRequirement(index)}
+                            className="shrink-0"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addRequirement}
+                      className="w-full"
+                      disabled={formData.requirements.length >= 5}
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {formData.requirements.length >= 5
+                        ? "Достигнут лимит требований (максимум 5)"
+                        : "Добавить требование"}
+                    </Button>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">
-                    Опыт (по одному на строку)
-                  </label>
-                  <Textarea
-                    placeholder="Введите опыт"
-                    value={formData.experience}
-                    onChange={(e) =>
-                      setFormData({ ...formData, experience: e.target.value })
-                    }
-                    className="min-h-[80px]"
-                  />
+                  <label className="text-sm font-medium">Опыт</label>
+                  <div className="space-y-2">
+                    {formData.experience.map((exp, index) => (
+                      <div key={index} className="flex gap-2 items-center">
+                        <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600 shrink-0">
+                          {index + 1}
+                        </div>
+                        <Input
+                          placeholder={`Опыт ${index + 1}`}
+                          value={exp}
+                          onChange={(e) =>
+                            updateExperience(index, e.target.value)
+                          }
+                          className="flex-1"
+                        />
+                        {formData.experience.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => removeExperience(index)}
+                            className="shrink-0"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addExperience}
+                      className="w-full"
+                      disabled={formData.experience.length >= 2}
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {formData.experience.length >= 2
+                        ? "Достигнут лимит опыта (максимум 2)"
+                        : "Добавить опыт"}
+                    </Button>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Зарплата</label>
