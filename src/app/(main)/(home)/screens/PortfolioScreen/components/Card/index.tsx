@@ -9,6 +9,7 @@ const PortfolioCard: FC<CardProps> = ({
   description,
   imageUrl,
   alt,
+  slug,
   hasMarquee,
   isIntroCard,
   isLastCard,
@@ -70,7 +71,7 @@ const PortfolioCard: FC<CardProps> = ({
             <p className="paragraph">{description}</p>
             <MainButton
               text="Смотреть кейс"
-              href="/portfolio"
+              href={slug ? `/portfolio/${slug}` : "/portfolio"}
               transparent={true}
             />
           </div>

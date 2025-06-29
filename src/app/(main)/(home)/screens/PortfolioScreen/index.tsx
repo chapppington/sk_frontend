@@ -31,6 +31,7 @@ const PortfolioCardsScreen = () => {
         ? `${BACKEND_MAIN}/uploads/portfolio/${item.poster}`
         : "/news_bg.webp",
       alt: item.name,
+      slug: item.slug,
       hasMarquee: index === 0, // Только первый элемент имеет marquee
     }));
 
