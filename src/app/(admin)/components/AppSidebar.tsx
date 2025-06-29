@@ -37,6 +37,11 @@ import {
   RefreshCw,
   FileText,
   Tag,
+  Building,
+  Factory,
+  Phone,
+  Award,
+  Shield,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -83,13 +88,21 @@ const seoSettingsItems = [
 ];
 
 const staticContentItems = [
-  { title: "Главная", url: "/dashboard/static/home" },
-  { title: "О компании", url: "/dashboard/static/about" },
-  { title: "О производстве", url: "/dashboard/static/production" },
-  { title: "Вакансии", url: "/dashboard/static/vacancies" },
-  { title: "Контакты", url: "/dashboard/static/contacts" },
-  { title: "Сертификаты", url: "/dashboard/static/certificates" },
-  { title: "Политика конфиденциальности", url: "/dashboard/static/privacy" },
+  { title: "Главная", url: "/dashboard/static/home", icon: Home },
+  { title: "О компании", url: "/dashboard/static/about", icon: Building },
+  {
+    title: "О производстве",
+    url: "/dashboard/static/production",
+    icon: Factory,
+  },
+  { title: "Вакансии", url: "/dashboard/static/vacancies", icon: Briefcase },
+  { title: "Контакты", url: "/dashboard/static/contacts", icon: Phone },
+  { title: "Сертификаты", url: "/dashboard/static/certificates", icon: Award },
+  {
+    title: "Политика конфиденциальности",
+    url: "/dashboard/static/privacy",
+    icon: Shield,
+  },
 ];
 
 export function AppSidebar() {
@@ -170,6 +183,7 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => setStaticOpen((v) => !v)}>
+                  <FileText className="w-5 h-5 mr-2" />
                   <span>Статичный контент</span>
                   <ChevronDown
                     className={`ml-auto transition-transform ${
@@ -184,9 +198,10 @@ export function AppSidebar() {
                         <SidebarMenuSubButton href={item.url} asChild>
                           <Link
                             href={item.url}
-                            className="whitespace-normal break-words"
+                            className="whitespace-normal break-words flex items-center gap-2"
                             onClick={handleMobileClose}
                           >
+                            <item.icon className="w-4 h-4" />
                             {item.title}
                           </Link>
                         </SidebarMenuSubButton>
