@@ -48,8 +48,8 @@ const FirstScreen: FC = () => {
         className="[&>div>div]:!grid-cols-2 [&>div>div]:md:!grid-cols-3"
         stats={[
           {
-            value: "7",
-            description: "лет гарантии",
+            value: "7 лет",
+            description: "максимальный срок гарантии",
           },
           {
             value: "600+",
