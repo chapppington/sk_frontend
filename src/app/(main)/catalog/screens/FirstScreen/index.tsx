@@ -71,6 +71,7 @@ const FirstScreen: FC = () => {
           <div className="pt-8 sm:pt-12 md:pt-16 flex items-start relative">
             <GradientHeading
               className={`${styles.fluidHeadingMain} 2xl:text-6xl z-10 `}
+              level={1}
             >
               Оборудование для надежного электроснабжения
             </GradientHeading>

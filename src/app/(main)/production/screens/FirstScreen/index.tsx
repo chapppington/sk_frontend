@@ -48,6 +48,7 @@ const FirstScreen: FC = () => {
         >
           <GradientHeading
             className={`${styles.fluidHeadingMain} 2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16`}
+            level={1}
           >
             Собственное производство
             <br />
