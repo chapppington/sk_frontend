@@ -5,7 +5,7 @@ import PortfolioCards from "./components/Cards";
 import portfolioService from "@/services/portfolio.service";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import { CardProps } from "./components/Card/types";
-import { BACKEND_MAIN } from "@/constants";
+import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
 import "./styles.css";
 
 const PortfolioCardsScreen = () => {
@@ -28,7 +28,7 @@ const PortfolioCardsScreen = () => {
       title: item.name,
       description: item.description,
       imageUrl: item.poster
-        ? `${BACKEND_MAIN}/uploads/portfolio/${item.poster}`
+        ? `${UPLOADS_URL}/uploads/portfolio/${item.poster}`
         : "/news_bg.webp",
       alt: item.name,
       slug: item.slug,
