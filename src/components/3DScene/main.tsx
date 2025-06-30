@@ -1,13 +1,19 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { AdaptiveDpr } from "@react-three/drei";
-import Scene from "@/components/3DScene/features/3dScene/Scene";
+// import Scene from "@/components/3DScene/features/3dScene/Scene";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
-
+import { AdaptiveDpr, AdaptiveEvents, Preload, PerformanceMonitor } from "@react-three/drei";
+import { CameraProvider } from "./features/CameraContext";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+const TempScene = dynamic(() => import("./features/3dScene/Scene"), { ssr: false });
 const MainScene = React.memo(() => {
+  const [dpr, setDpr] = useState(2)
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
   // Мемоизируем настройки Canvas
   const canvasSettings = useMemo(
     () => ({
@@ -40,23 +46,68 @@ const MainScene = React.memo(() => {
     []
   );
 
+  // Cleanup function to properly dispose of WebGL context
+  const cleanupWebGL = useCallback(() => {
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext('webgl2') || canvasRef.current.getContext('webgl');
+      if (context) {
+        // Очищаем все ресурсы WebGL
+        const loseContext = context.getExtension('WEBGL_lose_context');
+        if (loseContext) {
+          loseContext.loseContext();
+        }
+        
+        // Очищаем canvas
+        context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+        
+        // Удаляем все атрибуты canvas
+        canvasRef.current.width = 1;
+        canvasRef.current.height = 1;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Cleanup on unmount
+    return () => {
+      cleanupWebGL();
+    };
+  }, [cleanupWebGL]);
+
   return (
     <div className="app-container fixed z-[-10]">
       <div className="canvas-container pointer-events-auto">
+        
         <Canvas
+          ref={canvasRef}
           style={canvasSettings.style}
           camera={canvasSettings.camera}
           scene={canvasSettings.scene}
           gl={canvasSettings.gl}
-          dpr={canvasSettings.dpr}
+          dpr={dpr}
         >
-          {/* <AdaptiveDpr pixelated /> */}
-          <Scene />
+          {/* Монитор производительности для адаптивного качества */}
+          <PerformanceMonitor factor={1} onChange={({ factor }) => setDpr(Math.floor(0.5 + 1.5 * factor))} />
+            {/* Адаптивное качество рендеринга */}
+          {/* Оптимизация событий при низком FPS */}
+          <AdaptiveEvents />
+          
+          {/* Предзагрузка ресурсов */}
+          <Preload all />
+          
+          <CameraProvider>
+            <Suspense fallback={null}>
+              <TempScene />
+            </Suspense>
+          </CameraProvider>
           <Camera3D />
         </Canvas>
+        
       </div>
     </div>
   );
 });
+
+MainScene.displayName = 'MainScene';
 
 export default MainScene;

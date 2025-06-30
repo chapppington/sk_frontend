@@ -21,7 +21,7 @@ export function worldWireframe() {
                 uRevealPosition: { value: new THREE.Vector3(1, 1, 1) },
                 uRevealDistance: { value: 1000.0 },
 
-                uAlpha: { value: 0.03 },
+                uAlpha: { value: 0.05 },
 
                 uFluctuationFrequency: { value: 1.0 },
                 uFluctuationAmplitude: { value: 1.0 }

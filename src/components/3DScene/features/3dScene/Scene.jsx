@@ -3,15 +3,18 @@ import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { useAnimations } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { WfThrough } from "./materials/WfThrough.jsx";
 import { WfMid } from "./materials/WfMid.jsx";
 import { WfMid2 } from "./materials/WfMid2.jsx";
+import { WfCars } from "./materials/WfCars.jsx";
+import { WfLogo } from "./materials/WfLogo.jsx";
 import { worldWireframe } from "./materials/worldWirframe.jsx";
 import gsap from "gsap";
 import { Power4 } from "gsap/all";
 import { BufferGeometryUtils } from "three/examples/jsm/Addons.js";
 import { basicWF } from "./materials/basicWF.jsx";
+import { createLentaMaterial } from './materials/lentaMaterial';
 
 // TODO: Добавить мемоизацию для всех материалов
 // TODO: Добавить в контекст камеры useMemo
@@ -41,17 +44,21 @@ const mergeGeometriesWithMaterial = (scene, material) => {
 
 export default function Scene() {
   const isFirstRender = useRef(true);
-  const { camera } = useThree();
+  const scene = new THREE.Scene();
+  const lastUpdate = useRef(0);
+  const frameInterval = 1000 / 60; // Target 60 FPS for animations
 
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
   const customShader = WfThrough();
   const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
+  const carsMaterial = WfCars();
+  const logoMaterial = WfLogo();
   const worldMaterial = worldWireframe();
   const basicMaterial = basicWF();
-  const scene = new THREE.Scene();
 
   const texture = useLoader(THREE.TextureLoader, "/Scene/testTexture.png");
+
   // Optimize texture
   useEffect(() => {
     if (texture) {
@@ -104,39 +111,14 @@ export default function Scene() {
 
   console.log(main.scene);
   console.log(terrain);
-  const fadeinMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms: {
-      uTexture: { value: texture },
-      uTime: { value: 0 },
-    },
-  });
-  const lentaMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms: {
-      uTexture: { value: texture },
-      uTime: { value: 0 },
-    },
-    vertexShader: `
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `,
-    fragmentShader: `
-          uniform sampler2D uTexture;
-          uniform float uTime;
-          varying vec2 vUv;
-
-          void main() {
-            vec2 uv = vUv;
-            uv.y = mod(-uv.y + uTime * 0.1, 1.0); 
-            vec4 texColor = texture2D(uTexture, uv);
-            gl_FragColor = texColor;
-          }
-        `,
-  });
+  // const fadeinMaterial = new THREE.ShaderMaterial({
+  //   transparent: true,
+  //   uniforms: {
+  //     uTexture: { value: texture },
+  //     uTime: { value: 0 },
+  //   },
+  // });
+  const lentaMaterial = createLentaMaterial(texture);
   const materialASD = new THREE.MeshBasicMaterial({
     color: new THREE.Color("#ffffff"),
     wireframe: true,
@@ -174,6 +156,7 @@ export default function Scene() {
       terrain.scene.add(mergedLines);
       console.log(mergedLines);
     }
+
   }, [terrain, worldMaterial]);
 
   //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
@@ -198,9 +181,10 @@ export default function Scene() {
   }, [main, materialASD]);
   useEffect(() => {
     logo.scene.traverse((node) => {
-      node.material = customShaderTest2;
+      node.material = logoMaterial;
+      node.renderOrder = 1;
     });
-  }, [gltf, customShaderTest2]);
+  }, [logo, logoMaterial]);
   useEffect(() => {
     env.scene.traverse((node) => {
       node.material = worldMaterial;
@@ -213,24 +197,20 @@ export default function Scene() {
   }, [road, customShaderTest2]);
   useEffect(() => {
     cars.scene.traverse((node) => {
-      node.material = customShaderTest2;
+      node.material = carsMaterial;
       node.renderOrder = 1;
     });
-  }, [cars, customShaderTest2]);
+  }, [cars, carsMaterial]);
   useEffect(() => {
     wallsOut.scene.traverse((node) => {
       node.material = customShaderTest2;
     });
   }, [wallsOut, customShaderTest2]);
   useEffect(() => {
-    lenta.scene.traverse((node) => {
-      node.material = lentaMaterial;
-    });
+    lenta.scene.children[0].material = lentaMaterial;
   }, [lenta, lentaMaterial]);
   useEffect(() => {
-    lenta2.scene.traverse((node) => {
-      node.material = lentaMaterial;
-    });
+    lenta2.scene.children[0].material = lentaMaterial;
   }, [lenta2, lentaMaterial]);
   useEffect(() => {
     chairs.scene.traverse((node) => {
@@ -240,10 +220,10 @@ export default function Scene() {
   }, [chairs, materialASD]);
   useEffect(() => {
     road_cars.scene.traverse((node) => {
-      node.material = customShaderTest2;
+      node.material = carsMaterial;
       node.renderOrder = 1;
     });
-  }, [road_cars, customShaderTest2]);
+  }, [road_cars, carsMaterial]);
 
   scene.add(gltf.scene);
   scene.add(env.scene);
@@ -311,28 +291,19 @@ export default function Scene() {
     lenta2,
     main_static,
     road_cars,
-    camera,
   ]);
 
-  // Optimize frame updates
-  const lastUpdate = useRef(0);
-  const frameInterval = 1000 / 60; // Target 60 FPS for animations
-
-  useFrame(({ clock }) => {
+  useFrame(({ clock, camera }) => {
     const currentTime = clock.getElapsedTime() * 1000;
 
-    // Skip frame if not enough time has passed
     if (currentTime - lastUpdate.current < frameInterval) {
       return;
     }
 
-    // Check distance for main scene
     if (main && main.scene) {
       const mainPosition = new THREE.Vector3();
       main.scene.getWorldPosition(mainPosition);
-      // TODO: Засунутуь константу в useEffect и добавить плавное появление
       const distanceToCamera = camera.position.distanceTo(mainPosition);
-      // Переместить в существующий useEffect
       main.scene.traverse((node) => {
         if (node.isMesh) {
           node.visible = distanceToCamera <= 500;
@@ -348,6 +319,8 @@ export default function Scene() {
     customShader.uniforms.time.value = clock.getElapsedTime();
     customShaderTest.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     customShaderTest2.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    carsMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
+    logoMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     worldMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     lentaMaterial.uniforms.uTime.value = clock.getElapsedTime() * 10.2;
   });
@@ -359,7 +332,7 @@ export default function Scene() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       const isVisible = !document.hidden;
-
+      
       // Handle main animations
       mainAnimations.names.forEach((name) => {
         const action = mainAnimations.actions[name];
@@ -413,7 +386,7 @@ export default function Scene() {
     });
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      // document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [mainAnimations, carsAnimations, roadAnimations]);
 
@@ -430,6 +403,43 @@ export default function Scene() {
         },
         0
       );
+      tl.to(carsMaterial.uniforms.uRevealDistance,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+      tl.to(logoMaterial.uniforms.uRevealDistance,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+      tl.to(logoMaterial.uniforms.uFluctuationFrequency,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+      tl.to(logoMaterial.uniforms.uFluctuationAmplitude,
+        {
+          value: 1,
+          duration: 1.5,
+          delay: 0,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+
       tl.to(
         worldMaterial.uniforms.uRevealDistance,
         {
@@ -499,6 +509,14 @@ export default function Scene() {
       if (merged) merged.renderOrder = 2;
     });
   }, [env, road, wallsOut, cars, worldMaterial, customShaderTest2]);
+
+  // Очистка при размонтировании
+  useEffect(() => {
+    return () => {
+      
+      
+    };
+  }, []);
 
   return (
     <>
