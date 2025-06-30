@@ -47,7 +47,10 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
           <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
             {categoryLabel}
           </span>
-          <GradientHeading className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl">
+          <GradientHeading
+            className="mb-4 md:mb-8 text-2xl md:text-3xl lg:text-4xl"
+            level={1}
+          >
             {product.name}
           </GradientHeading>
           <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6 md:mb-10">

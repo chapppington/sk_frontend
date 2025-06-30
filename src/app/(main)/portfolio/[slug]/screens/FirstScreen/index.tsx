@@ -30,7 +30,7 @@ const FirstScreen = ({ portfolio }: FirstScreenProps) => {
         {/* Headings and Description */}
         <div className="flex flex-col lg:flex-row lg:justify-between gap-10 my-12">
           <div>
-            <GradientHeading className="mb-2 2xl:text-5xl">
+            <GradientHeading className="mb-2 2xl:text-5xl" level={1}>
               {portfolio.name}
             </GradientHeading>
           </div>

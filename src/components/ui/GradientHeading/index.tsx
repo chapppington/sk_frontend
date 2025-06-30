@@ -1,17 +1,17 @@
 "use client";
 
-import { FC } from "react";
+import { FC, forwardRef } from "react";
+import React from "react";
 
 import { IGradientHeadingProps } from "@/components/ui/GradientHeading/types";
 import styles from "./styles.module.css";
 
-const GradientHeading: FC<IGradientHeadingProps> = ({
-  children,
-  className,
-  ref,
-}: IGradientHeadingProps) => {
-  return (
-    <h2 ref={ref} className={`max-w-5xl`} style={{ overflow: "hidden" }}>
+const GradientHeading = forwardRef<HTMLHeadingElement, IGradientHeadingProps>(
+  ({ children, className, level = 2 }, ref) => {
+    const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
+    return React.createElement(
+      HeadingTag,
+      { ref, className: "max-w-5xl", style: { overflow: "hidden" } },
       <span
         className={`
           ${styles.gradientHeading}
@@ -21,8 +21,8 @@ const GradientHeading: FC<IGradientHeadingProps> = ({
       >
         {children}
       </span>
-    </h2>
-  );
-};
+    );
+  }
+);
 
 export default GradientHeading;

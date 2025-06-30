@@ -46,6 +46,7 @@ const FirstScreen: FC = () => {
         <AnimatedText triggerStart="top 100%">
           <GradientHeading
             className={`${styles.fluidHeadingMain} max-w-4xl pt-16 z-10`}
+            level={1}
           >
             Показываем новые горизонты, превосходящие ожидания
           </GradientHeading>
