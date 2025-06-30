@@ -7,12 +7,13 @@ import { useLenis } from "lenis/react";
 import { IContactFormData, ContactFormVariant } from "./types";
 import VacancyForm from "./VacancyForm";
 import QuestionnaireForm from "./QuestionnaireForm";
+import DefaultForm from "./DefaultForm";
 
 interface ContactFormProps {
   variant?: ContactFormVariant;
 }
 
-const ContactForm: FC<ContactFormProps> = ({ variant = "vacancy" }) => {
+const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
   const lenis = useLenis();
   const {
     register,
@@ -45,8 +46,18 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "vacancy" }) => {
       watch={watch}
       onSubmit={onSubmit}
     />
-  ) : (
+  ) : variant === "questionnaire" ? (
     <QuestionnaireForm
+      register={register}
+      handleSubmit={handleSubmit}
+      errors={errors}
+      setError={setError}
+      clearErrors={clearErrors}
+      watch={watch}
+      onSubmit={onSubmit}
+    />
+  ) : (
+    <DefaultForm
       register={register}
       handleSubmit={handleSubmit}
       errors={errors}
