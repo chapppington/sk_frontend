@@ -24,10 +24,27 @@ const FirstScreen: FC = () => {
               разработки проекта до ввода в эксплуатацию
             </p>
             <div className="block md:hidden">
-              <MainButton text="Связаться с отделом продаж" size="sm" />
+              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                <MainButton text="Связаться с отделом продаж" size="sm" />
+                <MainButton
+                  text="Обработка металла"
+                  size="sm"
+                  transparent
+                  href="https://metalsibkomplekt.ru"
+                  external={true}
+                />
+              </div>
             </div>
             <div className="hidden md:block">
-              <MainButton text="Связаться с отделом продаж" />
+              <div className="flex gap-4 mt-4">
+                <MainButton text="Связаться с отделом продаж" />
+                <MainButton
+                  text="Обработка металла"
+                  transparent
+                  href="https://metalsibkomplekt.ru"
+                  external={true}
+                />
+              </div>
             </div>
           </div>
         </div>

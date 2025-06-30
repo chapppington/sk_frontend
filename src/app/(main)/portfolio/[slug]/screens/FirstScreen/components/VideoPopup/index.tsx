@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, FC } from "react";
+import { createPortal } from "react-dom";
 
 import MediaPreview from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoWrapper";
 import { IVideoPopupProps } from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoPopup/types";
@@ -35,10 +36,10 @@ const VideoPopup: FC<IVideoPopupProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
       ref={overlayRef}
-      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fadeIn"
+      className="fixed inset-0 bg-black/80 z-[99999] flex items-center justify-center p-4 animate-fadeIn"
       onClick={onClose}
     >
       <div
@@ -46,7 +47,7 @@ const VideoPopup: FC<IVideoPopupProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-black/80 hover:bg-black/90 transition-colors z-10"
+          className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 transition-colors z-10"
           onClick={onClose}
         >
           <svg
@@ -66,7 +67,8 @@ const VideoPopup: FC<IVideoPopupProps> = ({
         </button>
         <MediaPreview src={videoSrc} poster={posterSrc} />
       </div>
-    </div>
+    </div>,
+    typeof window !== "undefined" ? document.body : (null as any)
   );
 };
 

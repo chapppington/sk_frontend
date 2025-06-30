@@ -21,6 +21,27 @@ const MediaPreview: FC<IVideoWrapperProps> = ({
     );
   }
 
+  // Проверяем, является ли src embed/iframe ссылкой (rutube, youtube, vimeo и т.д.)
+  const isEmbed =
+    src.includes("rutube.ru/play/embed/") ||
+    src.includes("youtube.com/embed/") ||
+    src.includes("player.vimeo.com/");
+
+  if (isEmbed) {
+    return (
+      <iframe
+        src={src}
+        width="100%"
+        height="100%"
+        allow="clipboard-write; autoplay"
+        allowFullScreen
+        frameBorder="0"
+        className="w-full h-full object-cover rounded-xl"
+        title="Embedded Video"
+      />
+    );
+  }
+
   return (
     <video
       ref={videoRef}
