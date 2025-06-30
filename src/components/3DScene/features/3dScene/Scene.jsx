@@ -3,7 +3,7 @@ import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { useAnimations } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { WfThrough } from "./materials/WfThrough.jsx";
 import { WfMid } from "./materials/WfMid.jsx";
 import { WfMid2 } from "./materials/WfMid2.jsx";
@@ -12,6 +12,9 @@ import gsap from "gsap";
 import { Power4 } from "gsap/all";
 import { BufferGeometryUtils } from "three/examples/jsm/Addons.js";
 import { basicWF } from "./materials/basicWF.jsx";
+
+// TODO: Добавить мемоизацию для всех материалов
+// TODO: Добавить в контекст камеры useMemo
 
 // Utility function to merge geometries with the same material
 const mergeGeometriesWithMaterial = (scene, material) => {
@@ -38,6 +41,7 @@ const mergeGeometriesWithMaterial = (scene, material) => {
 
 export default function Scene() {
   const isFirstRender = useRef(true);
+  const { camera } = useThree();
 
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
   const customShader = WfThrough();
@@ -82,7 +86,7 @@ export default function Scene() {
       "/Scene/cars.glb",
       "/Scene/logo.glb",
       "/Scene/road_union.glb",
-      "/Scene/main_active_mesh.glb",
+      "/Scene/main_active.glb",
       "/Scene/wallsOut.glb",
       "/Scene/chairs_union.glb",
       "/Scene/lenta.glb",
@@ -100,7 +104,13 @@ export default function Scene() {
 
   console.log(main.scene);
   console.log(terrain);
-
+  const fadeinMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    uniforms: {
+      uTexture: { value: texture },
+      uTime: { value: 0 },
+    },
+  });
   const lentaMaterial = new THREE.ShaderMaterial({
     transparent: true,
     uniforms: {
@@ -204,6 +214,7 @@ export default function Scene() {
   useEffect(() => {
     cars.scene.traverse((node) => {
       node.material = customShaderTest2;
+      node.renderOrder = 1;
     });
   }, [cars, customShaderTest2]);
   useEffect(() => {
@@ -230,7 +241,7 @@ export default function Scene() {
   useEffect(() => {
     road_cars.scene.traverse((node) => {
       node.material = customShaderTest2;
-      node.renderOrder = 2;
+      node.renderOrder = 1;
     });
   }, [road_cars, customShaderTest2]);
 
@@ -313,6 +324,20 @@ export default function Scene() {
     // Skip frame if not enough time has passed
     if (currentTime - lastUpdate.current < frameInterval) {
       return;
+    }
+
+    // Check distance for main scene
+    if (main && main.scene) {
+      const mainPosition = new THREE.Vector3();
+      main.scene.getWorldPosition(mainPosition);
+      // TODO: Засунутуь константу в useEffect и добавить плавное появление
+      const distanceToCamera = camera.position.distanceTo(mainPosition);
+      // Переместить в существующий useEffect
+      main.scene.traverse((node) => {
+        if (node.isMesh) {
+          node.visible = distanceToCamera <= 500;
+        }
+      });
     }
 
     lastUpdate.current = currentTime;
