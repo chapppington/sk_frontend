@@ -15,6 +15,7 @@ const MainButton: FC<IMainButtonProps> = ({
   disableRedirect = false,
   transparent = false,
   fullWidth = false,
+  external = false,
 }) => {
   const styles = sizeStyles[size];
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
@@ -77,6 +78,20 @@ const MainButton: FC<IMainButtonProps> = ({
       <div ref={divRef} {...commonProps}>
         {buttonContent}
       </div>
+    );
+  }
+
+  if (external) {
+    return (
+      <a
+        ref={anchorRef}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...commonProps}
+      >
+        {buttonContent}
+      </a>
     );
   }
 

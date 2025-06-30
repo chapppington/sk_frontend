@@ -9,4 +9,5 @@ export interface IMainButtonProps {
   disableRedirect?: boolean;
   transparent?: boolean;
   fullWidth?: boolean;
+  external?: boolean;
 }
