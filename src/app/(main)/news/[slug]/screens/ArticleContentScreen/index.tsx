@@ -1,8 +1,9 @@
+
 "use client";
 
 import Image from "next/image";
 import { PagesConfig } from "@/config/pages.config";
-import { UPLOADS_URL } from "@/constants";
+import { BACKEND_MAIN } from "@/constants";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
@@ -67,8 +68,8 @@ export default function ArticleContentSection({
         {news.imageUrl && (
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
-              src={`${UPLOADS_URL}${news.imageUrl}`}
-              alt={news.alt || news.title}
+              src={`${BACKEND_MAIN}${news.imageUrl}`}
+              alt={news.alt || news.title} 
               fill
               className="object-cover rounded-lg"
               priority
@@ -91,6 +92,45 @@ export default function ArticleContentSection({
               text="Вернуться ко всем новостям"
             />
           </div>
+        </div>
+      </CustomContainer>
+    </article>
+  );
+}
+
+export function ArticleContentSectionSkeleton() {
+  return (
+    <article className="max-w-[1000px] mx-auto mt-28">
+      <CustomContainer className="flex flex-col items-start">
+        {/* Breadcrumbs Skeleton */}
+        <div className="mb-12 w-48 h-6 bg-white/10 rounded animate-pulse" />
+
+        {/* Category Tag Skeleton */}
+        <div className="mb-6 px-8 py-3 bg-white/10 rounded w-32 h-8 animate-pulse" />
+
+        {/* Article Title Skeleton */}
+        <div className="mb-6 w-3/4 h-10 bg-white/20 rounded animate-pulse" />
+
+        {/* Meta Information Skeleton */}
+        <div className="flex items-center space-x-4 mb-8">
+          <div className="w-24 h-5 bg-white/10 rounded animate-pulse" />
+          <div className="w-4 h-4 bg-white/10 rounded-full animate-pulse" />
+          <div className="w-16 h-5 bg-white/10 rounded animate-pulse" />
+        </div>
+
+        {/* Featured Image Skeleton */}
+        <div className="relative aspect-[16/9] mb-12 w-full bg-white/10 rounded-lg animate-pulse" />
+
+        {/* Article Content Skeleton */}
+        <div className="max-w-6xl mx-auto w-full">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="w-full h-6 bg-white/10 rounded mb-6 animate-pulse"
+            />
+          ))}
+          {/* Return to News Button Skeleton */}
+          <div className="mt-12 w-56 h-12 bg-white/10 rounded-full animate-pulse" />
         </div>
       </CustomContainer>
     </article>
