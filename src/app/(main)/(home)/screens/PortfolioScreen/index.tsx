@@ -124,7 +124,7 @@ const PortfolioSection = () => {
               }}
             >
               <Image
-                src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
                 alt={item.name}
                 fill
                 className="object-cover"
