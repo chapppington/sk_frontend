@@ -9,33 +9,36 @@ import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
 
 const MainScene = React.memo(() => {
   // Мемоизируем настройки Canvas
-  const canvasSettings = useMemo(() => ({
-    style: {
-      height: "100vh",
-      width: "100vw",
-      position: "absolute" as const,
-      top: 0,
-    },
-    camera: { 
-      position: [0, 0, 10] as [number, number, number],
-      fov: 70,
-      near: 10.1,
-      far: 5000 
-    },
-    gl: {
-      antialias: true,
-      powerPreference: "high-performance" as const,
-      stencil: false,
-      depth: false,
-      outputColorSpace: THREE.SRGBColorSpace,
-      alpha: true,
-      logarithmicDepthBuffer: true,
-    },
-    dpr: [1, 2] as [number, number],
-    scene: { 
-      background: new THREE.Color("#0f0d1f") 
-    }
-  }), []);
+  const canvasSettings = useMemo(
+    () => ({
+      style: {
+        height: "100vh",
+        width: "100vw",
+        position: "absolute" as const,
+        top: 0,
+      },
+      camera: {
+        position: [0, 0, 10] as [number, number, number],
+        fov: 70,
+        near: 10.1,
+        far: 5000,
+      },
+      gl: {
+        antialias: true,
+        powerPreference: "high-performance" as const,
+        stencil: false,
+        depth: false,
+        outputColorSpace: THREE.SRGBColorSpace,
+        alpha: true,
+        logarithmicDepthBuffer: true,
+      },
+      dpr: [1, 2] as [number, number],
+      scene: {
+        background: new THREE.Color("#121f54"),
+      },
+    }),
+    []
+  );
 
   return (
     <div className="app-container fixed z-[-10]">
