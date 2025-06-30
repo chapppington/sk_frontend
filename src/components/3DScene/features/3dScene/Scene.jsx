@@ -299,6 +299,8 @@ export default function Scene() {
     lenta,
     lenta2,
     main_static,
+    road_cars,
+    camera,
   ]);
 
   // Optimize frame updates
@@ -475,6 +477,7 @@ export default function Scene() {
 
   return (
     <>
+      <ambientLight intensity={0.7} />
       <primitive object={scene} />
     </>
   );
