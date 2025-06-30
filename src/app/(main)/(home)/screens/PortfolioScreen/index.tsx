@@ -18,7 +18,7 @@ import AnimatedText from "@/components/ui/AnimatedText";
 
 import { PagesConfig } from "@/config/pages.config";
 import portfolioService from "@/services/portfolio.service";
-import { BACKEND_MAIN } from "@/constants";
+import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 const indicatorCount = 40;
@@ -217,7 +217,7 @@ const PortfolioSection = () => {
                   <div className="cursor-pointer group relative h-full">
                     <div className="relative h-full overflow-hidden rounded-lg shadow-lg">
                       <Image
-                        src={`${BACKEND_MAIN}/uploads/portfolio/${item.poster}`}
+                        src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
                         alt={item.name}
                         fill
                         className="object-cover"
