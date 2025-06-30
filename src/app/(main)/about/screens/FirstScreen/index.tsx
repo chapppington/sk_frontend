@@ -66,7 +66,7 @@ const FirstScreen: FC = () => {
           {/* Bottom Content */}
           <div className="flex z-10">
             {/* Bottom Left Text with Arrow */}
-            <div className="flex flex-col justify-end max-w-xl">
+            <div className="flex flex-col justify-end 2xl:max-w-2xl">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 md:mb-6">
                 <svg
                   className="w-6 h-6 text-white"
@@ -82,16 +82,33 @@ const FirstScreen: FC = () => {
                   />
                 </svg>
               </div>
-              <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
-                Являясь всего лишь частью общей картины, тщательные исследования
-                конкурентов могут быть описаны максимально подробно.
+              <p className="text-sm md:text-md laptop:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[700px]">
+                Мы начинали с амбициозной идеи, а сегодня реализуем комплексные
+                проекты по всей стране. За нашими решениями стоит команда
+                инженеров, конструкторов, менеджеров и управленцев, для которых
+                каждый проект — это вызов и возможность расти вместе с клиентом.
               </p>
-              <MainButton
-                text="Смотреть видео о компании"
-                onClick={() => setVideoOpen(true)}
-                className="mt-6 w-fit"
-                disableRedirect
-              />
+              <div className="block md:hidden">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <MainButton
+                    text="Смотреть видео о компании"
+                    onClick={() => setVideoOpen(true)}
+                    size="sm"
+                    className="w-fit"
+                    disableRedirect
+                  />
+                </div>
+              </div>
+              <div className="hidden md:block">
+                <div className="flex gap-4 mt-4">
+                  <MainButton
+                    text="Смотреть видео о компании"
+                    onClick={() => setVideoOpen(true)}
+                    className="w-fit"
+                    disableRedirect
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </CustomContainer>
