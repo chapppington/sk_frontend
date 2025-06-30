@@ -7,6 +7,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
+import styles from "@/components/ui/GradientHeading/styles.module.css";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import useIsMobile from "@/hooks/useIsMobile";
 
@@ -43,7 +44,9 @@ const FirstScreen: FC = () => {
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
         <AnimatedText triggerStart="top 100%">
-          <GradientHeading className="max-w-4xl pt-16 z-10">
+          <GradientHeading
+            className={`${styles.fluidHeadingMain} max-w-4xl pt-16 z-10`}
+          >
             Показываем новые горизонты, превосходящие ожидания
           </GradientHeading>
         </AnimatedText>

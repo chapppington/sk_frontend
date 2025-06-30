@@ -7,6 +7,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
+import styles from "@/components/ui/GradientHeading/styles.module.css";
 import useIsMobile from "@/hooks/useIsMobile";
 import MainButton from "@/components/ui/MainButton";
 import VideoPopup from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoPopup";
@@ -56,7 +57,9 @@ const FirstScreen: FC = () => {
           className="flex flex-col justify-between pb-[180px] sm:pb-[260px] md:pb-[300px] lg:pb-12"
           fullHeight
         >
-          <GradientHeading className="2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16">
+          <GradientHeading
+            className={`${styles.fluidHeadingMain} z-10 pt-8 sm:pt-12 md:pt-16`}
+          >
             О компании
             <br />и нашей команде
           </GradientHeading>

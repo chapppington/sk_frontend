@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
+import styles from "@/components/ui/GradientHeading/styles.module.css";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import MainButton from "@/components/ui/MainButton";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -45,10 +46,12 @@ const FirstScreen: FC = () => {
           className="flex flex-col justify-between pb-[180px] sm:pb-[260px] md:pb-[300px] lg:pb-12"
           fullHeight
         >
-          <GradientHeading className="2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16">
-            Производство
+          <GradientHeading
+            className={`${styles.fluidHeadingMain} 2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16`}
+          >
+            Собственное производство
             <br />
-            электрооборудования
+            полного цикла
           </GradientHeading>
           {/* Bottom Content */}
           <div className="flex z-10">
@@ -70,8 +73,8 @@ const FirstScreen: FC = () => {
                 </svg>
               </div>
               <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
-                Являясь всего лишь частью общей картины, тщательные исследования
-                конкурентов могут быть описаны максимально подробно.
+                Инженерные решения для сложных технических задач и любых условий
+                эксплуатации
               </p>
               <MainButton text="Просмотр 3D тура" href="#" />
             </div>
