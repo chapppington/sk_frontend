@@ -4,12 +4,12 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MainButton from "@/components/ui/MainButton";
 import { FC, useState, useMemo } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
-import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import ProductsSlider3D from "@/components/ProductsSlider3D/main";
-import { ScrollOffsetProvider} from "@/components/ProductsSlider3D/features/ScrollProviderOffset";
+import { ScrollOffsetProvider } from "@/components/ProductsSlider3D/features/ScrollProviderOffset";
 import SliderSelectButtons from "@/components/ui/SliderSelectButtons";
 import { mockup } from "@/components/ProductsSlider3D/features/mockup";
+import styles from "@/components/ui/GradientHeading/styles.module.css";
 
 const FirstScreen: FC = () => {
   // Added state management for the counter
@@ -58,100 +58,95 @@ const FirstScreen: FC = () => {
 
   return (
     <ScrollOffsetProvider>
-    <header className="relative max-h-[100svh]">
-      <Breadcrumbs
-        items={[
-          { label: "Главная", href: "/", current: false },
-          { label: "Каталог", href: "/catalog", current: true },
-        ]}
-      />
+      <header className="relative max-h-[100svh]">
+        <Breadcrumbs
+          items={[
+            { label: "Главная", href: "/", current: false },
+            { label: "Каталог", href: "/catalog", current: true },
+          ]}
+        />
 
-      {/* Main Content */}
-      <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <div className="pt-8 sm:pt-12 md:pt-16 flex items-start">
-          <AnimatedText>
-            <GradientHeading className="2xl:text-6xl z-10">
-              Каталог
-              <br />
-              продукции
-            </GradientHeading>
-          </AnimatedText>
-          {/* <div className="ml-8 border border-white/30 w-[1000px] h-[600px] hidden md:block" /> */}
-       
-            <ProductsSlider3D currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}/>
-          
-          
-        </div>
-
-        {/* Bottom Content - Three-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-end mt-auto mb-8">
-          {/* Column 1: Text with Button (spans 4 cols) */}
-          <div className="lg:col-span-4 flex flex-col justify-end mb-8 lg:mb-0">
-            <AnimatedText triggerStart="top 100%">
-              <p className="text-sm sm:text-base md:text-lg text-white/70">
-                Являясь всего лишь частью общей картины, тщательные исследования
-                конкурентов могут быть описаны максимально подробно.
-              </p>
-            </AnimatedText>
-            <div className="block md:hidden mt-4">
-              <MainButton
-                text="Связаться с отделом продаж"
-                size="sm"
-              />
-            </div>
-            <div className="hidden md:block mt-4">
-              <MainButton
-                text="Связаться с отделом продаж"
-                size="md"
-              />
-            </div>
-          </div>
-          {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
-          <SliderSelectButtons currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}/>
-
-          {/* Column 3: Indicators (spans 6 cols) */}
-          <div className="lg:col-span-6 hidden lg:block">
-            <div
-              id="slider-indicators-container"
-              className="h-12 flex items-center"
+        {/* Main Content */}
+        <CustomContainer className="flex flex-col justify-between" fullHeight>
+          <div className="pt-8 sm:pt-12 md:pt-16 flex items-start relative">
+            <GradientHeading
+              className={`${styles.fluidHeadingMain} 2xl:text-6xl z-10 `}
             >
+              Оборудование для надежного электроснабжения
+            </GradientHeading>
+
+            <ProductsSlider3D
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+              absolute
+            />
+          </div>
+
+          {/* Bottom Content - Three-column layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-end mt-auto mb-8">
+            {/* Column 1: Text with Button (spans 4 cols) */}
+            <div className="lg:col-span-4 flex flex-col justify-end mb-8 lg:mb-0">
+              <p className="text-sm sm:text-base md:text-lg text-white/70">
+                Высокотехнологичные решения, которые работают стабильно,
+                безопасно и бесперебойно
+              </p>
+              <div className="block md:hidden mt-4">
+                <MainButton text="Связаться с отделом продаж" size="sm" />
+              </div>
+              <div className="hidden md:block mt-4">
+                <MainButton text="Связаться с отделом продаж" size="md" />
+              </div>
+            </div>
+
+            {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
+            <SliderSelectButtons
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+            />
+
+            {/* Column 3: Indicators (spans 6 cols) */}
+            <div className="lg:col-span-6 hidden lg:block">
               <div
-                id="slider-indicators"
-                className="flex items-center justify-between w-full"
+                id="slider-indicators-container"
+                className="h-12 flex items-center"
               >
-                {indicatorBars}
+                <div
+                  id="slider-indicators"
+                  className="flex items-center justify-between w-full"
+                >
+                  {indicatorBars}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </CustomContainer>
+        </CustomContainer>
 
-      <style jsx global>{`
-        #slider-indicators-container {
-          height: 48px;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-        }
+        <style jsx global>{`
+          #slider-indicators-container {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+          }
 
-        #slider-indicators {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          height: 40px;
-        }
+          #slider-indicators {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 40px;
+          }
 
-        .slider-indicator-bar {
-          height: 4px;
-          background-color: white;
-          transition: all 0.3s ease;
-          flex: 1;
-          max-width: 1px;
-          width: 1px;
-        }
-      `}</style>
-    </header>
+          .slider-indicator-bar {
+            height: 4px;
+            background-color: white;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 1px;
+            width: 1px;
+          }
+        `}</style>
+      </header>
     </ScrollOffsetProvider>
   );
 };
