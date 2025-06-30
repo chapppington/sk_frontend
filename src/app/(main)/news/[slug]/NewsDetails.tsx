@@ -12,7 +12,7 @@ const ContactUsScreen = dynamic(
 );
 
 interface Props {
-  slug: string;
+  slug: string; 
 }
 
 const NewsDetails = ({ slug }: Props) => {

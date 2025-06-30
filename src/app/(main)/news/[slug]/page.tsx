@@ -13,7 +13,7 @@ export async function generateMetadata(
       next: { revalidate: 3600 },
     });
     if (!response.ok) {
-      throw new Error("News not found");
+      throw new Error("News not found"); 
     }
     const news = await response.json();
     return {
