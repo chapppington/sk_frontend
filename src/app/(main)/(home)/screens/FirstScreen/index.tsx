@@ -5,13 +5,14 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
+import styles from "@/components/ui/GradientHeading/styles.module.css";
 
 const FirstScreen: FC = () => {
   return (
     <header className="relative min-h-screen pt-32">
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <GradientHeading className="2xl:text-6xl z-10 pt-8 sm:pt-12 md:pt-16">
+        <GradientHeading className={`${styles.fluidHeadingMain} z-10 pt-8 sm:pt-12 md:pt-16`}>
           Комплексные решения в сфере электроснабжения
         </GradientHeading>
 
@@ -25,25 +26,12 @@ const FirstScreen: FC = () => {
             </p>
             <div className="block md:hidden">
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <MainButton text="Связаться с отделом продаж" size="sm" />
-                <MainButton
-                  text="Обработка металла"
-                  size="sm"
-                  transparent
-                  href="https://metalsibkomplekt.ru"
-                  external={true}
-                />
+                <MainButton text="Связаться с клиентским менеджером" size="sm" />
               </div>
             </div>
             <div className="hidden md:block">
               <div className="flex gap-4 mt-4">
-                <MainButton text="Связаться с отделом продаж" />
-                <MainButton
-                  text="Обработка металла"
-                  transparent
-                  href="https://metalsibkomplekt.ru"
-                  external={true}
-                />
+                <MainButton text="Связаться с клиентским менеджером" />
               </div>
             </div>
           </div>

@@ -20,3 +20,9 @@
 .fluidHeading {
   font-size: clamp(1.5rem, 2.5vw + 5px, 6rem);
 }
+
+@media (min-width: 1600px) {
+  .fluidHeadingMain {
+    font-size: clamp(1.5rem, 3.5vw, 8rem);
+  }
+}
