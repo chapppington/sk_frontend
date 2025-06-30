@@ -52,7 +52,7 @@ export default function VacanciesPage() {
       <AdvantagesScreen />
       <ReviewsScreen />
       <FaqScreen />
-      <ContactUsScreen />
+      <ContactUsScreen variant="vacancy" />
     </main>
   );
 }
