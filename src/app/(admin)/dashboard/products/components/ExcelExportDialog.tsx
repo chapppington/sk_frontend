@@ -39,197 +39,144 @@ export default function ExcelExportDialog({
       return;
     }
 
-    const wb = XLSX.utils.book_new();
-    const usedSheetNames = new Set();
+    // Русские заголовки для пользователя
+    const headersRu = [
+      "ID",
+      "Категория",
+      "Название товара",
+      "Описание",
+      // Характеристики (3)
+      "Характеристика 1 - Значение",
+      "Характеристика 1 - Единица измерения",
+      "Характеристика 1 - Описание",
+      "Характеристика 2 - Значение",
+      "Характеристика 2 - Единица измерения",
+      "Характеристика 2 - Описание",
+      "Характеристика 3 - Значение",
+      "Характеристика 3 - Единица измерения",
+      "Характеристика 3 - Описание",
+      // Преимущества (5)
+      "Преимущество 1 - Название",
+      "Преимущество 1 - Описание",
+      "Преимущество 2 - Название",
+      "Преимущество 2 - Описание",
+      "Преимущество 3 - Название",
+      "Преимущество 3 - Описание",
+      "Преимущество 4 - Название",
+      "Преимущество 4 - Описание",
+      "Преимущество 5 - Название",
+      "Преимущество 5 - Описание",
+      // Простое описание (3)
+      "Простое описание - Пункт 1",
+      "Простое описание - Пункт 2",
+      "Простое описание - Пункт 3",
+      // Детальное описание (16)
+      ...Array.from({ length: 16 }, (_, i) => [
+        `Детальное описание - Заголовок ${i + 1}`,
+        `Детальное описание - Текст ${i + 1}`,
+      ]).flat(),
+    ];
 
-    products.forEach((product, index) => {
-      const productData = [
-        { field: "Категория", value: product.category || "" },
-        { field: "Название товара", value: product.name || "" },
-        { field: "Описание", value: product.description || "" },
-        { field: "", value: "" },
-      ];
+    // Формируем заголовки
+    const headers = [
+      "id",
+      "category",
+      "name",
+      "description",
+      // Характеристики (3)
+      "char_1_value",
+      "char_1_unit",
+      "char_1_desc",
+      "char_2_value",
+      "char_2_unit",
+      "char_2_desc",
+      "char_3_value",
+      "char_3_unit",
+      "char_3_desc",
+      // Преимущества (5)
+      "adv_1_label",
+      "adv_1_desc",
+      "adv_2_label",
+      "adv_2_desc",
+      "adv_3_label",
+      "adv_3_desc",
+      "adv_4_label",
+      "adv_4_desc",
+      "adv_5_label",
+      "adv_5_desc",
+      // Простое описание (3)
+      "simple_1",
+      "simple_2",
+      "simple_3",
+      // Детальное описание (16)
+      ...Array.from({ length: 16 }, (_, i) => [
+        `detailed_${i + 1}_title`,
+        `detailed_${i + 1}_desc`,
+      ]).flat(),
+    ];
 
-      // Добавляем характеристики
-      if (
-        product.importantCharacteristics &&
-        product.importantCharacteristics.length > 0
-      ) {
-        product.importantCharacteristics.forEach((char, charIndex) => {
-          if (charIndex < 3) {
-            // Максимум 3 характеристики
-            productData.push(
-              {
-                field: `Характеристика ${charIndex + 1} - Значение`,
-                value: char.value || "",
-              },
-              {
-                field: `Характеристика ${charIndex + 1} - Единица измерения`,
-                value:
-                  typeof char.unit === "string"
-                    ? char.unit
-                    : char.unit?.text || "",
-              },
-              {
-                field: `Характеристика ${charIndex + 1} - Описание`,
-                value: char.description || "",
-              },
-              { field: "", value: "" }
-            );
-          }
-        });
+    // Формируем строки
+    const rows = products.map((product) => {
+      const row: { [key: string]: string } = {
+        id: product.id || "",
+        category: product.category || "",
+        name: product.name || "",
+        description: product.description || "",
+      };
+      // Характеристики
+      for (let i = 0; i < 3; i++) {
+        const char = product.importantCharacteristics?.[i] || {};
+        row[`char_${i + 1}_value`] = char.value || "";
+        row[`char_${i + 1}_unit`] =
+          typeof char.unit === "string" ? char.unit : char.unit?.text || "";
+        row[`char_${i + 1}_desc`] = char.description || "";
       }
-
-      // Добавляем пустые характеристики если их меньше 3
-      const existingChars = product.importantCharacteristics?.length || 0;
-      for (let i = existingChars; i < 3; i++) {
-        productData.push(
-          { field: `Характеристика ${i + 1} - Значение`, value: "" },
-          { field: `Характеристика ${i + 1} - Единица измерения`, value: "" },
-          { field: `Характеристика ${i + 1} - Описание`, value: "" },
-          { field: "", value: "" }
-        );
+      // Преимущества
+      for (let i = 0; i < 5; i++) {
+        const adv = product.advantages?.[i] || {};
+        row[`adv_${i + 1}_label`] = adv.label || "";
+        row[`adv_${i + 1}_desc`] = adv.description || "";
       }
-
-      // Добавляем преимущества
-      if (product.advantages && product.advantages.length > 0) {
-        product.advantages.forEach((advantage, advIndex) => {
-          if (advIndex < 5) {
-            // Максимум 5 преимуществ
-            productData.push(
-              {
-                field: `Преимущество ${advIndex + 1} - Название`,
-                value: advantage.label || "",
-              },
-              {
-                field: `Преимущество ${advIndex + 1} - Описание`,
-                value: advantage.description || "",
-              },
-              { field: "", value: "" }
-            );
-          }
-        });
+      // Простое описание
+      for (let i = 0; i < 3; i++) {
+        row[`simple_${i + 1}`] =
+          product.simpleDescription?.items?.[i]?.text || "";
       }
-
-      // Добавляем пустые преимущества если их меньше 5
-      const existingAdvs = product.advantages?.length || 0;
-      for (let i = existingAdvs; i < 5; i++) {
-        productData.push(
-          { field: `Преимущество ${i + 1} - Название`, value: "" },
-          { field: `Преимущество ${i + 1} - Описание`, value: "" },
-          { field: "", value: "" }
-        );
+      // Детальное описание (16)
+      for (let i = 0; i < 16; i++) {
+        row[`detailed_${i + 1}_title`] =
+          product.detailedDescription?.items?.[i]?.title || "";
+        row[`detailed_${i + 1}_desc`] =
+          product.detailedDescription?.items?.[i]?.description || "";
       }
-
-      // Добавляем простое описание
-      if (
-        product.simpleDescription &&
-        product.simpleDescription.items &&
-        product.simpleDescription.items.length > 0
-      ) {
-        product.simpleDescription.items.forEach((item, itemIndex) => {
-          if (itemIndex < 3) {
-            // Максимум 3 пункта
-            productData.push({
-              field: `Простое описание - Пункт ${itemIndex + 1}`,
-              value: item.text || "",
-            });
-          }
-        });
-      }
-
-      // Добавляем пустые пункты простого описания если их меньше 3
-      const existingSimple = product.simpleDescription?.items?.length || 0;
-      for (let i = existingSimple; i < 3; i++) {
-        productData.push({
-          field: `Простое описание - Пункт ${i + 1}`,
-          value: "",
-        });
-      }
-
-      productData.push({ field: "", value: "" });
-
-      // Добавляем детальное описание
-      if (
-        product.detailedDescription &&
-        product.detailedDescription.items &&
-        product.detailedDescription.items.length > 0
-      ) {
-        product.detailedDescription.items.forEach((section, sectionIndex) => {
-          if (sectionIndex < 16) {
-            // Максимум 16 разделов
-            productData.push(
-              {
-                field: `Детальное описание - Заголовок ${sectionIndex + 1}`,
-                value: section.title || "",
-              },
-              {
-                field: `Детальное описание - Текст ${sectionIndex + 1}`,
-                value: section.description || "",
-              },
-              { field: "", value: "" }
-            );
-          }
-        });
-      }
-
-      // Добавляем пустые разделы детального описания если их меньше 16
-      const existingDetailed = product.detailedDescription?.items?.length || 0;
-      for (let i = existingDetailed; i < 16; i++) {
-        productData.push(
-          { field: `Детальное описание - Заголовок ${i + 1}`, value: "" },
-          { field: `Детальное описание - Текст ${i + 1}`, value: "" },
-          { field: "", value: "" }
-        );
-      }
-
-      const productWs = XLSX.utils.json_to_sheet(productData);
-
-      // Устанавливаем ширину колонок
-      productWs["!cols"] = [
-        { width: 35 }, // Поле
-        { width: 25 }, // Значение
-      ];
-
-      // Генерируем уникальное название листа
-      let sheetName = product.name
-        ? product.name.substring(0, 25) // Оставляем больше места для ID
-        : `Товар_${index + 1}`;
-
-      // Добавляем уникальный идентификатор к названию листа
-      sheetName = `${sheetName}_${index + 1}`;
-
-      // Проверяем, что название не превышает 31 символ
-      if (sheetName.length > 31) {
-        sheetName = sheetName.substring(0, 31);
-      }
-
-      // Проверяем уникальность названия листа
-      let counter = 1;
-      let finalSheetName = sheetName;
-      while (usedSheetNames.has(finalSheetName)) {
-        const suffix = `_${counter}`;
-        finalSheetName = sheetName.substring(0, 31 - suffix.length) + suffix;
-        counter++;
-      }
-
-      usedSheetNames.add(finalSheetName);
-
-      XLSX.utils.book_append_sheet(wb, productWs, finalSheetName);
+      return row;
     });
 
-    // Создаем имя файла с текущей датой
+    // Создаем worksheet
+    const ws = XLSX.utils.json_to_sheet([
+      headers.reduce<{ [key: string]: string }>((acc, h, i) => {
+        acc[h] = headersRu[i] || h;
+        return acc;
+      }, {}),
+      ...rows,
+    ]);
+    // Устанавливаем ширину колонок
+    ws["!cols"] = headers.map(() => ({ width: 20 }));
+
+    // Создаем workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Товары");
+
+    // Имя файла
     const now = new Date();
     const dateStr = now.toISOString().split("T")[0];
     const fileName = `товары_экспорт_${dateStr}.xlsx`;
-
     XLSX.writeFile(wb, fileName);
 
     toast({
       title: "Экспорт завершен",
       description: `Экспортировано ${products.length} товаров в файл ${fileName}`,
     });
-
     onClose();
   };
 

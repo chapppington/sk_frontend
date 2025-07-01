@@ -350,154 +350,74 @@ export default function ExcelImportDialog({
       try {
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
         const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
         const parsedProducts: CreateProductData[] = [];
-
-        // Проходим по всем листам, кроме "Категории"
-        workbook.SheetNames.forEach((sheetName, sheetIndex) => {
-          if (sheetName === "Категории") return; // Пропускаем лист с категориями
-
-          const worksheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(worksheet) as any[];
-
-          if (jsonData.length === 0) return;
-
-          try {
-            // Создаем объект для сбора данных товара
-            const productData: any = {
-              category: "",
-              name: "",
-              description: "",
-              importantCharacteristics: [],
-              advantages: [],
-              simpleDescription: { items: [] },
-              detailedDescription: { items: [] },
-            };
-
-            // Парсим данные из листа
-            jsonData.forEach((row: any) => {
-              const field = row.field || "";
-              const value = row.value || "";
-
-              // Основные поля
-              if (field === "Категория") {
-                // Найти категорию по name или id и взять slug
-                const found = productCategories.find(
-                  (cat) =>
-                    cat.name === value || cat.id === value || cat.slug === value
-                );
-                productData.category = found ? found.slug : "";
-              }
-              if (field === "Название товара") productData.name = value;
-              if (field === "Описание") productData.description = value;
-
-              // Характеристики
-              if (
-                field.includes("Характеристика") &&
-                field.includes("Значение") &&
-                value
-              ) {
-                const charIndex = field.match(/\d+/)?.[0];
-                if (charIndex) {
-                  const unitField = `Характеристика ${charIndex} - Единица измерения`;
-                  const descField = `Характеристика ${charIndex} - Описание`;
-
-                  const unit =
-                    jsonData.find((r: any) => r.field === unitField)?.value ||
-                    "";
-                  const description =
-                    jsonData.find((r: any) => r.field === descField)?.value ||
-                    "";
-
-                  if (description) {
-                    productData.importantCharacteristics.push({
-                      value,
-                      unit: unit ? { text: unit } : undefined,
-                      description,
-                    });
-                  }
-                }
-              }
-
-              // Преимущества
-              if (
-                field.includes("Преимущество") &&
-                field.includes("Название") &&
-                value
-              ) {
-                const advIndex = field.match(/\d+/)?.[0];
-                if (advIndex) {
-                  const descField = `Преимущество ${advIndex} - Описание`;
-                  const description =
-                    jsonData.find((r: any) => r.field === descField)?.value ||
-                    "";
-
-                  if (description) {
-                    productData.advantages.push({
-                      label: value,
-                      icon: "", // Пустая иконка
-                      image: "", // Пустое изображение
-                      description,
-                    });
-                  }
-                }
-              }
-
-              // Простое описание
-              if (
-                field.includes("Простое описание") &&
-                field.includes("Пункт") &&
-                value
-              ) {
-                productData.simpleDescription.items.push({ text: value });
-              }
-
-              // Детальное описание
-              if (
-                field.includes("Детальное описание") &&
-                field.includes("Заголовок") &&
-                value
-              ) {
-                const detIndex = field.match(/\d+/)?.[0];
-                if (detIndex) {
-                  const textField = `Детальное описание - Текст ${detIndex}`;
-                  const text =
-                    jsonData.find((r: any) => r.field === textField)?.value ||
-                    "";
-
-                  if (text) {
-                    productData.detailedDescription.items.push({
-                      title: value,
-                      description: text,
-                    });
-                  }
-                }
-              }
-            });
-
-            // Проверяем обязательные поля
-            if (
-              productData.category &&
-              productData.name &&
-              productData.description
-            ) {
-              parsedProducts.push(productData);
-            } else {
-              console.warn(
-                `Лист "${sheetName}" пропущен: отсутствуют обязательные поля`
-              );
+        jsonData.forEach((row: any, index: number) => {
+          // Пропускаем только второй (системный) ряд с русскими заголовками
+          if (index === 0) return;
+          const productData: any = {
+            id: row.id || undefined,
+            category: row.category || "",
+            name: row.name || "",
+            description: row.description || "",
+            importantCharacteristics: [],
+            advantages: [],
+            simpleDescription: { items: [] },
+            detailedDescription: { items: [] },
+          };
+          // Характеристики
+          for (let i = 0; i < 3; i++) {
+            const value = row[`char_${i + 1}_value`] || "";
+            const unit = row[`char_${i + 1}_unit`] || "";
+            const desc = row[`char_${i + 1}_desc`] || "";
+            if (value || unit || desc) {
+              productData.importantCharacteristics.push({
+                value,
+                unit: unit ? { text: unit } : undefined,
+                description: desc,
+              });
             }
-          } catch (parseError) {
-            console.error(
-              `Ошибка при парсинге листа "${sheetName}":`,
-              parseError
-            );
-            setErrors((prev) => [
-              ...prev,
-              `Ошибка в листе "${sheetName}": ${parseError}`,
-            ]);
+          }
+          // Преимущества
+          for (let i = 0; i < 5; i++) {
+            const label = row[`adv_${i + 1}_label`] || "";
+            const description = row[`adv_${i + 1}_desc`] || "";
+            if (label || description) {
+              productData.advantages.push({
+                label,
+                icon: "",
+                image: "",
+                description,
+              });
+            }
+          }
+          // Простое описание
+          for (let i = 0; i < 3; i++) {
+            const text = row[`simple_${i + 1}`] || "";
+            if (text) productData.simpleDescription.items.push({ text });
+          }
+          // Детальное описание (16)
+          for (let i = 0; i < 16; i++) {
+            const title = row[`detailed_${i + 1}_title`] || "";
+            const description = row[`detailed_${i + 1}_desc`] || "";
+            if (title || description) {
+              productData.detailedDescription.items.push({
+                title,
+                description,
+              });
+            }
+          }
+          // Проверяем обязательные поля
+          if (
+            productData.category &&
+            productData.name &&
+            productData.description
+          ) {
+            parsedProducts.push(productData);
           }
         });
-
         setPreviewData(parsedProducts);
         setErrors([]);
       } catch (error) {
