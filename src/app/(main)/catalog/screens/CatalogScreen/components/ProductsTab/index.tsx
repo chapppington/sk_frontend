@@ -5,6 +5,10 @@ import { useLenis } from "lenis/react";
 import { useSearchParams, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useQuery } from "@tanstack/react-query";
+import productService from "@/services/product.service";
+import { IProduct, ProductCatalogResponse } from "@/shared/types/product.types";
+import { BACKEND_MAIN } from "@/constants";
 
 import CategoryButton from "@/components/ui/CategoryButton";
 import Pagination from "@/components/ui/Pagination";
@@ -13,7 +17,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import { SearchIcon } from "@/shared/icons/SearchIcon";
 import ProductCard from "../ProductCard";
 
-import { productCategories, products } from "../../mock_data";
+import { productCategories } from "@/shared/utils/categoryMapping";
 import { ProductsTabProps } from "./types";
 
 const ProductsTab: FC<ProductsTabProps> = ({
@@ -27,7 +31,11 @@ const ProductsTab: FC<ProductsTabProps> = ({
 
   // Initialize state from URL params
   const [activeCategory, setActiveCategory] = useState(
-    searchParams.get("category") || "all"
+    (() => {
+      const param = searchParams.get("category");
+      const found = productCategories.find((cat) => cat.slug === param);
+      return found ? found.slug : "all";
+    })()
   );
   const [currentPage, setCurrentPage] = useState(
     Number(searchParams.get("page")) || 1
@@ -40,7 +48,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
 
   // Update URL when state changes
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
     if (activeCategory !== "all") {
       params.set("category", activeCategory);
     } else {
@@ -58,28 +66,60 @@ const ProductsTab: FC<ProductsTabProps> = ({
     }
     const newUrl = `${pathname}?${params.toString()}`;
     window.history.pushState({}, "", newUrl);
-  }, [
-    activeCategory,
-    debouncedSearchQuery,
-    currentPage,
-    pathname,
-    searchParams,
-  ]);
+  }, [activeCategory, debouncedSearchQuery, currentPage, pathname]);
 
   const itemsPerPage = 6;
-  const filteredProducts = products.filter(
-    (product) =>
-      (debouncedSearchQuery
-        ? true
-        : activeCategory === "all" || product.category === activeCategory) &&
-      product.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-  );
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const currentProducts = filteredProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // Получаем параметры для запроса
+  const apiCategory = activeCategory === "all" ? undefined : activeCategory;
+  const apiPage = currentPage;
+  const apiLimit = itemsPerPage;
+
+  // React Query для получения товаров
+  const { data, isLoading, isError, refetch } = useQuery<
+    ProductCatalogResponse,
+    Error
+  >({
+    queryKey: [
+      "products-catalog",
+      apiCategory,
+      apiPage,
+      apiLimit,
+      debouncedSearchQuery,
+    ],
+    queryFn: async () => {
+      // fetchCatalog не поддерживает поиск, если нужно — доработать на бэке
+      const { data } = await productService.fetchCatalog(
+        apiCategory,
+        apiPage,
+        apiLimit
+      );
+      // Фильтрация по поиску на клиенте, если нет поддержки на бэке
+      if (debouncedSearchQuery) {
+        const filtered = data.products.filter((product: IProduct) =>
+          product.name
+            .toLowerCase()
+            .includes(debouncedSearchQuery.toLowerCase())
+        );
+        return {
+          ...data,
+          products: filtered,
+          pagination: {
+            ...data.pagination,
+            total: filtered.length,
+            totalPages: Math.ceil(filtered.length / apiLimit),
+          },
+        };
+      }
+      return data;
+    },
+  });
+
+  // Обработка пагинации и продуктов
+  const totalPages =
+    (data as ProductCatalogResponse | undefined)?.pagination?.totalPages || 1;
+  const currentProducts =
+    (data as ProductCatalogResponse | undefined)?.products || [];
 
   // Reset page when category or search changes
   useEffect(() => {
@@ -132,7 +172,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
 
   // GSAP animations for no results
   useEffect(() => {
-    if (noResultsRef.current && filteredProducts.length === 0) {
+    if (noResultsRef.current && currentProducts.length === 0) {
       gsap.fromTo(
         noResultsRef.current,
         { opacity: 0, y: 20 },
@@ -149,7 +189,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
         }
       );
     }
-  }, [filteredProducts.length]);
+  }, [currentProducts.length]);
 
   // Effect to handle dropdown open/close and resize Lenis
   useEffect(() => {
@@ -165,10 +205,10 @@ const ProductsTab: FC<ProductsTabProps> = ({
       <div className="hidden xl:flex xl:w-[400px] flex-col gap-2">
         {productCategories.map((category) => (
           <CategoryButton
-            key={category.id}
-            isActive={activeCategory === category.id}
+            key={category.slug}
+            isActive={activeCategory === category.slug}
             onClick={() => {
-              setActiveCategory(category.id);
+              setActiveCategory(category.slug);
               setIsDropdownOpen(false);
               setSearchQuery("");
             }}
@@ -188,7 +228,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
         />
 
         <div className="hidden xl:flex justify-start mb-6">
-          {totalPages > 1 && filteredProducts.length > 0 && (
+          {totalPages > 1 && currentProducts.length > 0 && (
             <div ref={paginationRef}>
               <Pagination
                 currentPage={currentPage}
@@ -199,18 +239,30 @@ const ProductsTab: FC<ProductsTabProps> = ({
           )}
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[200px]">
+            Загрузка...
+          </div>
+        ) : isError ? (
+          <div className="flex justify-center items-center min-h-[200px] text-red-500">
+            Ошибка загрузки товаров
+          </div>
+        ) : currentProducts.length > 0 ? (
           <div
             ref={productsGridRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           >
-            {currentProducts.map((product) => (
+            {currentProducts.map((product: IProduct) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
-                slug={product.slug}
-                title={product.title}
-                image={product.image}
+                slug={"slug" in product ? (product as any).slug : product.id}
+                title={product.name}
+                image={
+                  product.previewImageUrl
+                    ? `${BACKEND_MAIN}${product.previewImageUrl}`
+                    : product.previewImage || "/transformer.webp"
+                }
               />
             ))}
           </div>
