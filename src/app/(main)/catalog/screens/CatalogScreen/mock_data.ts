@@ -1,15 +1,31 @@
 // Sample data structure
 export const productCategories = [
-  { id: "all", name: "Вся продукция" },
-  { id: "kts", name: "Комплектные трансформаторные подстанции" },
-  { id: "nku", name: "Низковольтные комплектные устройства" },
-  { id: "quality", name: "Улучшение качества электроэнергии" },
+  { id: "all", name: "Вся продукция", slug: "all" },
+  {
+    id: "kts",
+    name: "Комплектные трансформаторные подстанции",
+    slug: "komplektnye-transformatornye-podstancii",
+  },
+  {
+    id: "kru",
+    name: "Распределительные устройства высокого напряжения 6(10) кВ",
+    slug: "raspredelitelnye-ustroystva-vysokogo-napryazheniya-6-10-kv",
+  },
+  {
+    id: "nku",
+    name: "Распределительные устройства низкого напряжения 0,4 кВ",
+    slug: "raspredelitelnye-ustroystva-nizkogo-napryazheniya-04-kv",
+  },
   {
     id: "accounting",
     name: "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
+    slug: "punkty-ucheta-i-sekcionirovaniya-vle",
   },
-  { id: "stations", name: "Электростанции и установки" },
-  { id: "kru", name: "Комплектные распределительные устройства" },
+  {
+    id: "stations",
+    name: "Электростанции и установки",
+    slug: "elektrostancii-i-ustanovki",
+  },
 ];
 
 export const products = [

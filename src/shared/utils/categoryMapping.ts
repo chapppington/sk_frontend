@@ -1,46 +1,46 @@
 export const productCategories = [
+  { id: "all", name: "Вся продукция", slug: "all" },
   {
-    value: "commercial_metering_and_sectionalizing_points",
-    label:
-      "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
+    id: "kts",
+    name: "Комплектные трансформаторные подстанции",
+    slug: "komplektnye-transformatornye-podstancii",
   },
   {
-    value: "complete_transformer_substations",
-    label: "Комплектные трансформаторные подстанции",
+    id: "kru",
+    name: "Распределительные устройства высокого напряжения 6(10) кВ",
+    slug: "raspredelitelnye-ustroystva-vysokogo-napryazheniya-6-10-kv",
   },
   {
-    value: "complete_switchgears",
-    label: "Комплектные распределительные устройства",
+    id: "nku",
+    name: "Распределительные устройства низкого напряжения 0,4 кВ",
+    slug: "raspredelitelnye-ustroystva-nizkogo-napryazheniya-04-kv",
   },
   {
-    value: "low_voltage_complete_devices",
-    label: "Низковольтные комплектные устройства",
+    id: "accounting",
+    name: "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
+    slug: "punkty-ucheta-i-sekcionirovaniya-vle",
   },
   {
-    value: "power_quality_improvement",
-    label: "Улучшение качества электроэнергии",
-  },
-  {
-    value: "power_plants_and_installations",
-    label: "Электростанции и установки",
+    id: "stations",
+    name: "Электростанции и установки",
+    slug: "elektrostancii-i-ustanovki",
   },
 ];
 
 // Маппинг для коротких ID категорий из mock_data
 export const shortCategoryMap = new Map([
   ["kts", "Комплектные трансформаторные подстанции"],
-  ["nku", "Низковольтные комплектные устройства"],
-  ["quality", "Улучшение качества электроэнергии"],
+  ["kru", "Распределительные устройства высокого напряжения 6(10) кВ"],
+  ["nku", "Распределительные устройства низкого напряжения 0,4 кВ"],
   [
     "accounting",
     "Пункты коммерческого учёта и секционирования воздушных линий электропередач",
   ],
   ["stations", "Электростанции и установки"],
-  ["kru", "Комплектные распределительные устройства"],
 ]);
 
 export const categoryLabelMap = new Map(
-  productCategories.map((cat) => [cat.value, cat.label])
+  productCategories.map((cat) => [cat.slug, cat.name])
 );
 
 export const getCategoryLabel = (categoryValue: string): string => {
