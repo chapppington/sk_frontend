@@ -40,6 +40,7 @@ import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
 import { productCategories } from "@/shared/utils/categoryMapping";
 import { useProducts } from "../hooks/useProducts";
+import { UPLOADS_URL } from "@/constants";
 
 const steps = [
   {
@@ -491,7 +492,7 @@ export default function ProductFormDialog({
                   </p>
                   <div className="relative w-32 h-32">
                     <Image
-                      src={`${BACKEND_MAIN}${editingProduct.previewImageUrl}`}
+                      src={`${UPLOADS_URL}${editingProduct.previewImageUrl}`}
                       alt="Current preview image"
                       fill
                       className="object-cover rounded-md"
@@ -774,7 +775,7 @@ export default function ProductFormDialog({
                                 />
                               ) : editingProduct?.advantages?.[index]?.image ? (
                                 <Image
-                                  src={`${BACKEND_MAIN}/uploads/products/${editingProduct.advantages[index].image}`}
+                                  src={`${UPLOADS_URL}/uploads/products/${editingProduct.advantages[index].image}`}
                                   alt={`Текущее преимущество ${index + 1}`}
                                   fill
                                   className="object-cover"

@@ -16,6 +16,7 @@ import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
 import { getCategoryLabel } from "@/shared/utils/categoryMapping";
 import { DeleteProductPopover } from "./index";
+import { UPLOADS_URL } from "@/constants";
 
 interface ProductsTableProps {
   products: IProduct[];
@@ -110,7 +111,7 @@ export default function ProductsTable({
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
                     <Image
-                      src={`${BACKEND_MAIN}${product.previewImageUrl}`}
+                      src={`${UPLOADS_URL}${product.previewImageUrl}`}
                       alt={product.name}
                       fill
                       className="object-cover"
