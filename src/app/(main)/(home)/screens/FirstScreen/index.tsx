@@ -46,20 +46,23 @@ const FirstScreen: FC = () => {
 
       <BlackBoxWithStats
         transparent={true}
-        className="[&>div>div]:!grid-cols-2 [&>div>div]:md:!grid-cols-3"
+        
         stats={[
           {
-            value: "7 лет",
-            description: "максимальный срок гарантии",
+            value: "20+",
+            description: "лет на рынке электрооборудования",
+            showOnMobile: true,
           },
           {
             value: "600+",
             description: "реализованных проектов",
+            showOnMobile: false,
           },
           {
-            value: "20+",
-            description: "лет на рынке электрооборудования",
-          },
+            value: "7 лет",
+            description: "максимальный срок гарантии",
+            showOnMobile: true,
+          }
         ]}
       />
     </header>

@@ -43,14 +43,13 @@ const FirstScreen: FC = () => {
 
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
-        <AnimatedText triggerStart="top 100%">
-          <GradientHeading
-            className={`${styles.fluidHeadingMain} max-w-4xl pt-16 z-10`}
-            level={1}
-          >
-            Показываем новые горизонты, превосходящие ожидания
-          </GradientHeading>
-        </AnimatedText>
+        <GradientHeading
+          className={`${styles.fluidHeadingMain} max-w-4xl pt-16`}
+          style={{ zIndex: 10 }}
+          level={1}
+        >
+          Показываем новые горизонты, превосходящие ожидания
+        </GradientHeading>
 
         {/* Bottom Content */}
         <div className="flex z-10 mb-[150px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
@@ -71,28 +70,34 @@ const FirstScreen: FC = () => {
                 />
               </svg>
             </div>
-            <AnimatedText triggerStart="top 100%">
-              <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
-                Компания «СибКомплект» — это сплочённая команда профессионалов
-                своего дела. Наши знания и опыт позволяют решать задачи любой
-                сложности по обеспечению потребностей качественным и надежным
-                электротехническим оборудованием.
-              </p>
-            </AnimatedText>
+            <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
+              Компания «СибКомплект» — это сплочённая команда профессионалов
+              своего дела. Наши знания и опыт позволяют решать задачи любой
+              сложности по обеспечению потребностей качественным и надежным
+              электротехническим оборудованием.
+            </p>
           </div>
         </div>
       </CustomContainer>
 
       <BlackBoxWithStats
         className="z-[5]"
+        transparent={true}
         stats={[
           {
-            value: "90+",
-            description: "Количество сотрудников в штате",
+            value: "200+",
+            description: "часов ежегодного обучения сотрудников",
+            showOnMobile: false,
           },
           {
             value: "4.7 NPS",
             description: "Индекс потребительской лояльности",
+            showOnMobile: true,
+          },
+          {
+            value: "85%",
+            description: "сотрудников работают в компании более 2 лет",
+            showOnMobile: true,
           },
         ]}
       />

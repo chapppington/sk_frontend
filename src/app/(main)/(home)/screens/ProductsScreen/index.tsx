@@ -13,13 +13,15 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { NavigationButton } from "@/components/ui/NavigationButton";
+import AnimatedText from "@/components/ui/AnimatedText";
 
-import { brands, products } from "./mock_data";
+import { products } from "./mock_data";
 
 export default function ProductsSlider() {
   const swiperRef = useRef<any>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
   const [showButton, setShowButton] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const updateProductsIndicators = (swiper: any) => {
     if (!swiper || !swiper.slides) return;
@@ -112,34 +114,25 @@ export default function ProductsSlider() {
             className="flex-1 flex flex-col justify-end"
             style={{ transform: "translateZ(0)" }}
           >
-            <GradientHeading className="mb-6">
-              Низковольтные
-              <br /> комплектные устройства
-            </GradientHeading>
+            <AnimatedText
+              animateOnScroll={false}
+              delay={0.1}
+              key={currentIndex}
+            >
+              <GradientHeading className="mb-6">
+                {products[currentIndex].title}
+              </GradientHeading>
+            </AnimatedText>
 
-            <div className="flex flex-wrap items-center gap-4 mb-8">
-              <span className="text-white/60 text-sm">
-                Бренды оборудования:
-              </span>
-              <div className="flex flex-wrap gap-6">
-                {brands.map((brand, index) => (
-                  <Image
-                    key={index}
-                    src={brand.image}
-                    alt={brand.name}
-                    width={70}
-                    height={50}
-                    className="h-5 opacity-40 hover:opacity-80 transition-opacity"
-                    style={{ width: "auto" }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <p className="text-white/60 text-lg mb-4 max-w-2xl">
-              Как уже неоднократно упомянуто, действия представителей оппозиции
-              объявлены нарушающими общечеловеческие нормы этики и морали.
-            </p>
+            <AnimatedText
+              animateOnScroll={false}
+              delay={0.2}
+              key={"desc-" + currentIndex}
+            >
+              <p className="text-white/60 text-lg mb-4 max-w-lg">
+                {products[currentIndex].description}
+              </p>
+            </AnimatedText>
 
             {showButton && <MainButton text="Узнать больше" />}
 
@@ -173,10 +166,7 @@ export default function ProductsSlider() {
               direction="vertical"
               slidesPerView={3}
               loop={true}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-              }}
+              autoplay={false}
               navigation={{
                 nextEl: ".slider-next-products",
                 prevEl: ".slider-prev-products",
@@ -184,6 +174,7 @@ export default function ProductsSlider() {
               onSlideChange={(swiper) => {
                 if (swiper) {
                   updateProductsIndicators(swiper);
+                  setCurrentIndex(swiper.realIndex % products.length);
                 }
               }}
               onInit={(swiper) => {
@@ -192,6 +183,7 @@ export default function ProductsSlider() {
                   setTimeout(() => {
                     if (swiperRef.current) {
                       updateProductsIndicators(swiper);
+                      setCurrentIndex(swiper.realIndex % products.length);
                     }
                   }, 0);
                 }
@@ -208,28 +200,25 @@ export default function ProductsSlider() {
                 },
                 1024: {
                   slidesPerView: 3,
-                  
                 },
               }}
             >
               {products.map((product, index) => (
                 <SwiperSlide key={index}>
-                  <div className="group h-full">
-                    <div className="relative h-full">
-                      <div className="flex items-center h-full">
-                        <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0">
-                          <Image
-                            src={product.image}
-                            alt={product.title}
-                            fill
-                            sizes="(max-width: 768px) 60px, 80px"
-                            className="object-contain opacity-20"
-                          />
-                        </div>
-                        <h3 className="text-base md:text-xl text-white font-light ml-4 md:ml-6 line-clamp-2">
-                          {product.title}
-                        </h3>
+                  <div className="group h-full flex items-center">
+                    <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
+                      <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg">
+                        <Image
+                          src={product.image}
+                          alt={product.title}
+                          fill
+                          sizes="(max-width: 768px) 60px, 80px"
+                          className="object-contain"
+                        />
                       </div>
+                      <h3 className="text-base md:text-xl text-white font-light ml-4 md:ml-6 line-clamp-2 text-left">
+                        {product.title}
+                      </h3>
                     </div>
                   </div>
                 </SwiperSlide>
