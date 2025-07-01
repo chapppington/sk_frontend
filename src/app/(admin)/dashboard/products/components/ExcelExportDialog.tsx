@@ -189,8 +189,8 @@ export default function ExcelExportDialog({
             Экспорт товаров в Excel
           </DialogTitle>
           <DialogDescription>
-            Экспортируйте все товары в Excel файл для редактирования или
-            резервного копирования.
+            Все товары будут экспортированы на один лист, каждая строка —
+            отдельный товар.
           </DialogDescription>
         </DialogHeader>
 
