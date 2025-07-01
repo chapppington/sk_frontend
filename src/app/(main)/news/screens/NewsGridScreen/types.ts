@@ -11,6 +11,8 @@ export type NewsItem = {
   readTime: string;
   slug: string;
   description: string;
+  image?: string;
+  alt?: string;
 };
 
 export type SortOption = "new" | "old";

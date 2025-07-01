@@ -4,6 +4,9 @@ import { FC, useCallback, useRef, useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 import { useSearchParams, usePathname } from "next/navigation";
 import gsap from "gsap";
+import { useQuery } from "@tanstack/react-query";
+import newsService from "@/services/news.service";
+import { BACKEND_MAIN } from "@/constants";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
@@ -18,6 +21,14 @@ import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 import type { SortOption, QueryParams } from "./types";
 import { sampleNews, categories } from "./mock_data";
 import { parseRussianDate, createQueryString } from "./utils";
+
+const categoryMap: Record<string, string> = {
+  all: "Все",
+  production: "Производство",
+  technology: "Технологии",
+  event: "События",
+  interview: "Интервью",
+};
 
 const NewsGrid: FC = () => {
   const lenis = useLenis();
@@ -36,7 +47,42 @@ const NewsGrid: FC = () => {
   const newsGridRef = useRef<HTMLDivElement>(null);
   const noResultsRef = useRef<HTMLDivElement>(null);
 
-  const filteredNews = sampleNews
+  // Fetch news from backend
+  const {
+    data: backendNews = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["news"],
+    queryFn: async () => {
+      const { data } = await newsService.fetchAll();
+      return data;
+    },
+  });
+
+  // Transform API data to match the expected format
+  const backendNewsItems = backendNews.map((item: any) => ({
+    id: parseInt(item.id) || 0,
+    category: categoryMap[item.category] || item.category,
+    date: new Date(item.createdAt).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    readTime: `${item.readingTime} мин`,
+    title: item.title,
+    description: item.shortContent || item.content?.substring(0, 150) + "...",
+    shortContent: item.shortContent,
+    image: item.imageUrl ? `${BACKEND_MAIN}${item.imageUrl}` : "/news_bg.webp",
+    alt: item.alt,
+    slug: item.slug,
+  }));
+
+  // Use backend data if available, otherwise fallback to mock
+  const allNews =
+    !error && backendNewsItems.length > 0 ? backendNewsItems : sampleNews;
+
+  const filteredNews = allNews
     .filter(
       (news) =>
         selectedCategorySlug === "all" || news.category === selectedCategory
@@ -142,6 +188,15 @@ const NewsGrid: FC = () => {
     { value: "old", label: "Дате публикации (старые)" },
   ];
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="py-20 min-h-[60vh] flex items-center justify-center bg-black">
+        <div className="text-white text-xl">Загрузка новостей...</div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 relative">
       {/* Bottom Gradient */}
@@ -208,13 +263,15 @@ const NewsGrid: FC = () => {
           >
             {currentNews.map((news) => (
               <NewsGridItem
-                key={news.id}
+                key={`${news.id}-${news.slug}`}
                 id={news.id}
                 slug={news.slug}
                 title={news.title}
                 description={news.description}
                 date={news.date}
                 readTime={news.readTime}
+                image={news.image}
+                alt={news.alt}
               />
             ))}
           </div>
