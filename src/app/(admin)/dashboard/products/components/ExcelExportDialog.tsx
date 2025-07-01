@@ -221,7 +221,7 @@ export default function ExcelExportDialog({
               </div>
               <p className="text-sm text-blue-700 mt-1">
                 Будет экспортировано <strong>{products.length}</strong> товаров.
-                Каждый товар будет на отдельном листе.
+                
               </p>
             </div>
           )}
