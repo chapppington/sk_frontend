@@ -87,12 +87,19 @@ const FirstScreen: FC = () => {
           className="z-[5]"
           stats={[
             {
-              value: "197",
-              description: "Крупнейших городов России и Казахстана",
+              value: "7776 м²",
+              description: "собственная производственная площадка",
+              showOnMobile: true
             },
             {
-              value: "197",
-              description: "Крупнейших городов России и Казахстана",
+              value: "90%",
+              description: "оборудования — современные станки с ЧПУ",
+              showOnMobile: true
+            },
+            {
+              value: "от 7 дней",
+              description: "срок сборки типового оборудования",
+              showOnMobile: false
             },
           ]}
         />

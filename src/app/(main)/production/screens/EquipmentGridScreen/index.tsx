@@ -76,7 +76,7 @@ const EquipmentGridScreen: FC = () => {
         </div>
 
         {/* Partners Logo Grid */}
-        <LogoGrid partners={partners} />
+        {/* <LogoGrid partners={partners} /> */}
       </CustomContainer>
     </section>
   );
