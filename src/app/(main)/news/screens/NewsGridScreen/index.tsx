@@ -6,7 +6,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useQuery } from "@tanstack/react-query";
 import newsService from "@/services/news.service";
-import { BACKEND_MAIN } from "@/constants";
+import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
@@ -73,7 +73,7 @@ const NewsGrid: FC = () => {
     title: item.title,
     description: item.shortContent || item.content?.substring(0, 150) + "...",
     shortContent: item.shortContent,
-    image: item.imageUrl ? `${BACKEND_MAIN}${item.imageUrl}` : "/news_bg.webp",
+    image: item.imageUrl ? `${UPLOADS_URL}${item.imageUrl}` : "/news_bg.webp",
     alt: item.alt,
     slug: item.slug,
   }));
