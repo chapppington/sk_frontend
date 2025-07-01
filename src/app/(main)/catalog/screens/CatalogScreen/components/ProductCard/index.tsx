@@ -8,13 +8,13 @@ const ProductCard: FC<ProductCardProps> = ({ id, slug, title, image }) => {
   return (
     <div className="flex flex-col group">
       <TransitionLink href={`/product/${slug}`} className="block">
-        <div className="bg-white rounded-xl overflow-hidden mb-4">
+        <div className="bg-white rounded-xl overflow-hidden mb-4 aspect-square w-full flex items-center justify-center">
           <Image
             width={300}
             height={300}
             src={image}
             alt={title}
-            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="space-y-4">
