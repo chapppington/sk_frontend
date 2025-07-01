@@ -10,6 +10,8 @@ interface NewsGridItemProps {
   description: string;
   date: string;
   readTime: string;
+  image?: string;
+  alt?: string;
 }
 
 const NewsGridItem: FC<NewsGridItemProps> = ({
@@ -19,6 +21,8 @@ const NewsGridItem: FC<NewsGridItemProps> = ({
   description,
   date,
   readTime,
+  image = "/news_bg.webp",
+  alt = "Новость",
 }) => {
   return (
     <article
@@ -29,8 +33,8 @@ const NewsGridItem: FC<NewsGridItemProps> = ({
       <TransitionLink href={`/news/${slug}`} className="block">
         <div className="relative w-full h-56 mb-4 overflow-hidden rounded-lg aspect-[4/3]">
           <Image
-            src="/news_bg.webp"
-            alt={title}
+            src={image}
+            alt={alt || title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
           />
