@@ -12,6 +12,10 @@ import YandexMapContainer from "@/components/ui/YandexMapContainer";
 import PhoneIcon from "@/shared/icons/PhoneIcon";
 import EmailIcon from "@/shared/icons/EmailIcon";
 import LocationIcon from "@/shared/icons/LocationIcon";
+import {
+  contactBlocks,
+  companyAddress,
+} from "@/components/shared_screens/Footer/mock_data";
 
 const Contacts: FC = () => {
   return (
@@ -63,41 +67,28 @@ const Contacts: FC = () => {
             {/* Right Column - Contact Information */}
             <div className="space-y-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Sales Department */}
-                <div>
-                  <h3 className="text-white/80 mb-4">• Отдел продаж</h3>
-                  <div className="flex items-center mb-3">
-                    <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="tel:88809900000" className="text-white">
-                      8 (880) 990-00-00
-                    </a>
+                {contactBlocks.map((block, idx) => (
+                  <div key={block.title + idx}>
+                    <h3 className="text-white/80 mb-4">• {block.title}</h3>
+                    {block.phone && (
+                      <div className="flex items-center mb-3">
+                        <PhoneIcon className="w-4 h-4 text-white mr-2" />
+                        <a
+                          href={`tel:${block.phoneRaw}`}
+                          className="text-white"
+                        >
+                          {block.phone}
+                        </a>
+                      </div>
+                    )}
+                    <div className="flex items-center">
+                      <EmailIcon className="w-4 h-4 text-white mr-2" />
+                      <a href={`mailto:${block.email}`} className="text-white">
+                        {block.email}
+                      </a>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <EmailIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="mailto:test@mail.ru" className="text-white">
-                      test@mail.ru
-                    </a>
-                  </div>
-                </div>
-
-                {/* Design Department */}
-                <div>
-                  <h3 className="text-white/80 mb-4">
-                    • Конструкторский отдел
-                  </h3>
-                  <div className="flex items-center mb-3">
-                    <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="tel:88809900000" className="text-white">
-                      8 (880) 990-00-00
-                    </a>
-                  </div>
-                  <div className="flex items-center">
-                    <EmailIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="mailto:test@mail.ru" className="text-white">
-                      test@mail.ru
-                    </a>
-                  </div>
-                </div>
+                ))}
               </div>
 
               {/* Address */}
@@ -105,7 +96,7 @@ const Contacts: FC = () => {
                 <h3 className="text-white/80 mb-4">• Адрес</h3>
                 <div className="flex items-center mb-4">
                   <LocationIcon className="w-4 h-4 text-white mr-2" />
-                  <span className="text-white">ул. Арбат, 26, Москва</span>
+                  <span className="text-white">{companyAddress}</span>
                 </div>
                 <YandexMapContainer height="300px" />
               </div>
