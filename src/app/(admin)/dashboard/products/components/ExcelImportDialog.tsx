@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/shadcn/label";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, FileSpreadsheet, AlertCircle, Download } from "lucide-react";
 import { CreateProductData } from "@/shared/types/product.types";
+import { productCategories } from "@/shared/utils/categoryMapping";
 
 interface ExcelImportDialogProps {
   isOpen: boolean;
@@ -378,7 +379,14 @@ export default function ExcelImportDialog({
               const value = row.value || "";
 
               // Основные поля
-              if (field === "Категория") productData.category = value;
+              if (field === "Категория") {
+                // Найти категорию по name или id и взять slug
+                const found = productCategories.find(
+                  (cat) =>
+                    cat.name === value || cat.id === value || cat.slug === value
+                );
+                productData.category = found ? found.slug : "";
+              }
               if (field === "Название товара") productData.name = value;
               if (field === "Описание") productData.description = value;
 
@@ -577,7 +585,6 @@ export default function ExcelImportDialog({
                   onChange={handleFileChange}
                   className="flex-1"
                 />
-                
               </div>
             </div>
 
