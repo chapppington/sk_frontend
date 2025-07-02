@@ -7,9 +7,10 @@ import { useState } from "react";
 
 export const categoryMap: Record<string, string> = {
   production: "Производство",
-  technology: "Технологии",
-  event: "События",
-  interview: "Интервью",
+  developments: "Разработки",
+  useful: "Полезное",
+  events: "События",
+  projects: "Наши проекты",
 };
 
 export function useNewsManagement() {
