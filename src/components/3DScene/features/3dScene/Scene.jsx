@@ -87,7 +87,7 @@ export default function Scene() {
   ] = useLoader(
     GLTFLoader,
     [
-      "/Scene/buildings.glb",
+      "/Scene/buildings_union.glb",
       "/Scene/walls2.glb",
       "/Scene/env_union.glb",
       "/Scene/cars.glb",
@@ -128,34 +128,35 @@ export default function Scene() {
   });
 
   useEffect(() => {
+    terrain.scene.children[0].material = worldMaterial;
     // Массив для хранения геометрии
-    const geometriesToMerge = [];
+    // const geometriesToMerge = [];
 
-    terrain.scene.traverse((node) => {
-      if (node.isLineSegments) {
-        // Клонируем геометрию с учетом мировой матрицы
-        const geometry = node.geometry.clone();
-        geometry.applyMatrix4(node.matrixWorld);
-        geometriesToMerge.push(geometry);
+    // terrain.scene.traverse((node) => {
+    //   if (node.isLineSegments) {
+    //     // Клонируем геометрию с учетом мировой матрицы
+    //     const geometry = node.geometry.clone();
+    //     geometry.applyMatrix4(node.matrixWorld);
+    //     geometriesToMerge.push(geometry);
 
-        // Делаем исходный объект невидимым
-        node.visible = false;
-        node.renderOrder = 2;
-      }
-    });
+    //     // Делаем исходный объект невидимым
+    //     node.visible = false;
+    //     node.renderOrder = 2;
+    //   }
+    // });
 
-    if (geometriesToMerge.length > 0) {
-      // Объединяем все геометрии в одну
-      const mergedGeometry =
-        BufferGeometryUtils.mergeGeometries(geometriesToMerge);
+    // if (geometriesToMerge.length > 0) {
+    //   // Объединяем все геометрии в одну
+    //   const mergedGeometry =
+    //     BufferGeometryUtils.mergeGeometries(geometriesToMerge);
 
-      // Создаем один большой LineSegments объект
-      const mergedLines = new THREE.LineSegments(mergedGeometry, worldMaterial);
+    //   // Создаем один большой LineSegments объект
+    //   const mergedLines = new THREE.LineSegments(mergedGeometry, worldMaterial);
 
-      // Добавляем объединенный объект в сцену
-      terrain.scene.add(mergedLines);
-      console.log(mergedLines);
-    }
+    //   // Добавляем объединенный объект в сцену
+    //   terrain.scene.add(mergedLines);
+    //   console.log(mergedLines);
+    // }
 
   }, [terrain, worldMaterial]);
 
