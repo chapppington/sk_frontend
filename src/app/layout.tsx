@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
+import { WebGLProvider } from "@/components/ui/BackgroundGradient/WebGLContext";
 
 export const metadata: Metadata = {
   title: "СибКомплект",
@@ -19,8 +20,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head />
       <body>
-        <Providers>{children}</Providers>
+        <WebGLProvider>
+          <Providers>{children}</Providers>
+        </WebGLProvider>
       </body>
     </html>
   );
