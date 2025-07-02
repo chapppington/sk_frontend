@@ -48,11 +48,11 @@ const AboutPage: FC = () => {
   return (
     <main>
       <FirstScreen />
-      <HistoryScreen />
-      <OwnerCommentScreen />
-      <TeamScreen />
-      <ReviewScreen />
-      <LogoGridScreen />
+      {/* <HistoryScreen /> */}
+      {/* <OwnerCommentScreen /> */}
+      {/* <TeamScreen /> */}
+      {/* <ReviewScreen /> */}
+      {/* <LogoGridScreen /> */}
       <ReadMoreScreen />
       <ContactUsScreen />
     </main>

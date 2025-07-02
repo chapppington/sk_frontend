@@ -83,11 +83,10 @@ const FirstScreen: FC = () => {
                   />
                 </svg>
               </div>
-              <p className="text-sm md:text-md laptop:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[700px]">
-                Мы начинали с амбициозной идеи, а сегодня реализуем комплексные
-                проекты по всей стране. За нашими решениями стоит команда
-                инженеров, конструкторов, менеджеров и управленцев, для которых
-                каждый проект — это вызов и возможность расти вместе с клиентом.
+              <p className="text-sm md:text-md laptop:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
+                Превращаем амбициозные идеи в эффективные решения по всей России
+                и Дальнему Востоку. Наша команда экспертов создаёт проекты, где
+                инновации и надёжность работают на ваш успех
               </p>
               <div className="block md:hidden">
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -118,12 +117,16 @@ const FirstScreen: FC = () => {
           className="z-[5]"
           stats={[
             {
-              value: "197",
-              description: "Крупнейших городов России и Казахстана",
+              value: "90+",
+              description: "сотрудников в штате",
             },
             {
-              value: "197",
-              description: "Крупнейших городов России и Казахстана",
+              value: "12",
+              description: "подразделений",
+            },
+            {
+              value: "12+",
+              description: "опытных инженеров в техническом отделе",
             },
           ]}
         />
