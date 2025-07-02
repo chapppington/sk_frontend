@@ -14,7 +14,7 @@ export const sampleNews: NewsItem[] = [
   {
     id: 2,
     title: "Инновации в производстве высоковольтного оборудования",
-    category: "Технологии",
+    category: "Разработки",
     date: "28 Января 2024",
     readTime: "3 минуты",
     slug: "innovacii-v-proizvodstve-vysokovoltnyh-oborudovaniy",
@@ -24,7 +24,7 @@ export const sampleNews: NewsItem[] = [
   {
     id: 3,
     title: "Открытие нового цеха сборки распределительных устройств",
-    category: "События",
+    category: "Наши проекты",
     date: "27 Января 2024",
     readTime: "4 минуты",
     slug: "otkrytie-novogo-ceha-sborki-raspredelitelnyh-ustroystv",
@@ -34,7 +34,7 @@ export const sampleNews: NewsItem[] = [
   {
     id: 4,
     title: "Интервью с главным инженером завода",
-    category: "Интервью",
+    category: "Полезное",
     date: "26 Января 2024",
     readTime: "7 минут",
     slug: "intervyu-s-glavnym-inzhenerom-zavoda",
@@ -126,7 +126,8 @@ export const sampleNews: NewsItem[] = [
 export const categories: Category[] = [
   { name: "Все", slug: "all" },
   { name: "Производство", slug: "production" },
-  { name: "Технологии", slug: "technology" },
+  { name: "Разработки", slug: "developments" },
+  { name: "Полезное", slug: "useful" },
   { name: "События", slug: "events" },
-  { name: "Интервью", slug: "interviews" },
+  { name: "Наши проекты", slug: "projects" },
 ];
