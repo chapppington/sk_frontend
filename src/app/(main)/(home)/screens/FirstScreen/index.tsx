@@ -5,7 +5,8 @@ import { FC } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
-import styles from "@/components/ui/GradientHeading/styles.module.css";
+import styles from "./styles.module.css";
+import Image from "next/image";
 
 const FirstScreen: FC = () => {
   return (
@@ -23,6 +24,20 @@ const FirstScreen: FC = () => {
         <div className="flex mt-auto">
           {/* Bottom Left Text with Arrow */}
           <div className="flex flex-col justify-end max-w-full sm:max-w-md mb-[160px] sm:mb-[260px] md:mb-[280px] lg:mb-8">
+            {/* Small block with image and text */}
+            <div className="flex items-center gap-3 mb-6">
+              <Image
+                src="/medal.png"
+                alt="Медаль"
+                className={`w-10 h-10 object-contain rounded-full ${styles.medalImg}`}
+                width={32}
+                height={32}
+              />
+              <span className="text-xs sm:text-sm text-white/80">
+                Лауреат конкурса <br /> "Всероссийская Марка. Знак качества ХХI
+                века"
+              </span>
+            </div>
             <p className="text-sm sm:text-base md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-none">
               Производственно - инжиниринговая компания полного цикла - от
               разработки проекта до ввода в эксплуатацию
@@ -46,7 +61,6 @@ const FirstScreen: FC = () => {
 
       <BlackBoxWithStats
         transparent={true}
-        
         stats={[
           {
             value: "20+",
@@ -62,7 +76,7 @@ const FirstScreen: FC = () => {
             value: "7 лет",
             description: "максимальный срок гарантии",
             showOnMobile: true,
-          }
+          },
         ]}
       />
     </header>
