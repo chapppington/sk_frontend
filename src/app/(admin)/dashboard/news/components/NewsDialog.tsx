@@ -21,6 +21,7 @@ import Image from "next/image";
 import { BACKEND_MAIN } from "@/constants";
 import type { INews } from "@/shared/types/news.types";
 import React from "react";
+import { NEWS_CATEGORIES } from "../news.config";
 
 type NewsDialogProps = {
   isDialogOpen: boolean;
@@ -95,11 +96,11 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="production">Производство</SelectItem>
-                  <SelectItem value="developments">Разработки</SelectItem>
-                  <SelectItem value="useful">Полезное</SelectItem>
-                  <SelectItem value="events">События</SelectItem>
-                  <SelectItem value="projects">Наши проекты</SelectItem>
+                  {NEWS_CATEGORIES.map((cat) => (
+                    <SelectItem key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

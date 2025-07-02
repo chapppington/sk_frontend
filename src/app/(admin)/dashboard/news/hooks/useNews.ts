@@ -4,14 +4,15 @@ import sitemapService from "@/services/sitemap.service";
 import { useToast } from "@/hooks/use-toast";
 import type { INews } from "@/shared/types/news.types";
 import { useState } from "react";
+import { NEWS_CATEGORIES } from "../news.config";
 
-export const categoryMap: Record<string, string> = {
-  production: "Производство",
-  developments: "Разработки",
-  useful: "Полезное",
-  events: "События",
-  projects: "Наши проекты",
-};
+export const categoryMap: Record<string, string> = NEWS_CATEGORIES.reduce(
+  (acc, cat) => {
+    acc[cat.value] = cat.label;
+    return acc;
+  },
+  {} as Record<string, string>
+);
 
 export function useNewsManagement() {
   const { toast } = useToast();
