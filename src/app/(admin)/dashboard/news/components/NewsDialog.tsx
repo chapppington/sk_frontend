@@ -96,9 +96,10 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="production">Производство</SelectItem>
-                  <SelectItem value="technology">Технологии</SelectItem>
-                  <SelectItem value="event">События</SelectItem>
-                  <SelectItem value="interview">Интервью</SelectItem>
+                  <SelectItem value="developments">Разработки</SelectItem>
+                  <SelectItem value="useful">Полезное</SelectItem>
+                  <SelectItem value="events">События</SelectItem>
+                  <SelectItem value="projects">Наши проекты</SelectItem>
                 </SelectContent>
               </Select>
             </div>
