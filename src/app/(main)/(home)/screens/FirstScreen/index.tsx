@@ -6,6 +6,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
 import styles from "./styles.module.css";
+import headingStyles from "@/components/ui/GradientHeading/styles.module.css";
 import Image from "next/image";
 
 const FirstScreen: FC = () => {
@@ -14,7 +15,7 @@ const FirstScreen: FC = () => {
       {/* Main Content */}
       <CustomContainer className="flex flex-col justify-between" fullHeight>
         <GradientHeading
-          className={`${styles.fluidHeadingMain} z-10 pt-8 sm:pt-12 md:pt-16`}
+          className={`${headingStyles.fluidHeadingMain} z-10 pt-8 sm:pt-12 md:pt-16`}
           level={1}
         >
           Комплексные решения в сфере электроснабжения
