@@ -16,7 +16,7 @@ const FirstScreen: FC = () => {
     <header className="relative min-h-screen overflow-y-hidden">
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
-          src="/production_bg.webp"
+          src="/prod_bg.webp"
           alt="Production background"
           priority
           isMobile={isMobile}
@@ -85,22 +85,22 @@ const FirstScreen: FC = () => {
 
         <BlackBoxWithStats
           transparent={true}
-          className="z-[5]"
+          className="z-[5] scale-90"
           stats={[
             {
               value: "7776 м²",
               description: "собственная производственная площадка",
-              showOnMobile: true
+              showOnMobile: true,
             },
             {
               value: "90%",
               description: "оборудования — современные станки с ЧПУ",
-              showOnMobile: true
+              showOnMobile: true,
             },
             {
               value: "от 7 дней",
               description: "срок сборки типового оборудования",
-              showOnMobile: false
+              showOnMobile: false,
             },
           ]}
         />

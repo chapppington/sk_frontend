@@ -3,4 +3,7 @@ export interface ServiceCardProps {
   title: string;
   description: string;
   category: string;
+  link: string;
+  openInNewTab?: boolean;
+  isExternal?: boolean;
 }
