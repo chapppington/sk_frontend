@@ -19,11 +19,12 @@ const FirstScreen: FC = () => {
       {/* Background Image */}
       <div className="absolute inset-0 overflow-hidden">
         <ParallaxImage
-          src="/news_bg2.webp"
+          src="/вакансии.webp"
           alt="Production background"
           priority
           isMobile={isMobile}
           quality={100}
+          className="brightness-50"
         />
       </div>
 
