@@ -135,7 +135,12 @@ export default function ProductsSlider() {
               </p>
             </AnimatedText>
 
-            {showButton && <MainButton text="Узнать больше" />}
+            {showButton && (
+              <MainButton
+                text="Узнать больше"
+                href={`/catalog/${products[currentIndex].slug}`}
+              />
+            )}
 
             <div className="flex items-center mt-12">
               <div className="flex items-center space-x-3">

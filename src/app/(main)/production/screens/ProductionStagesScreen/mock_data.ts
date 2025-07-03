@@ -7,7 +7,7 @@ export const productionStages: IProductionStage[] = [
     title: "Разработка и оформление КД",
     description:
       "Разработка конструкторской документации в соответствии с ТЗ заказчика, нормами ГОСТ и ЕСКД.",
-    image: "/stage1.png",
+    image: "/этапы/1 этап.JPG",
   },
   {
     id: 2,
@@ -15,15 +15,14 @@ export const productionStages: IProductionStage[] = [
     title: "Раскрой и гибка металла",
     description:
       "Лазерная резка и гибка металлических заготовок на листогибочном прессе.",
-    image: "/construction_bg.webp",
+    image: "/этапы/2 этап_1.png",
   },
   {
     id: 3,
     number: "03",
     title: "Окраска и сборка корпуса",
-    description:
-      "Сборка корпуса с использованием сварки и порошковой окраски.",
-    image: "/construction_bg.webp",
+    description: "Сборка корпуса с использованием сварки и порошковой окраски.",
+    image: "/этапы/3 этап_.png",
   },
   {
     id: 4,
@@ -31,7 +30,7 @@ export const productionStages: IProductionStage[] = [
     title: "Монтаж сендвич-панелей",
     description:
       "Установка сэндвич-панелей для обеспечения тепло- и звукоизоляции оборудования.",
-    image: "/construction_bg.webp",
+    image: "/этапы/4 этап_.jpeg",
   },
   {
     id: 5,
@@ -39,7 +38,7 @@ export const productionStages: IProductionStage[] = [
     title: "Сборка и окраска ячеек",
     description:
       "Изготовление и окраска ячеек РУВН и РУНН с использованием клепки или сварки.",
-    image: "/construction_bg.webp",
+    image: "/этапы/5 этап_.png",
   },
   {
     id: 6,
@@ -47,7 +46,7 @@ export const productionStages: IProductionStage[] = [
     title: "Монтаж оборудования ячеек",
     description:
       "Установка электротехнических компонентов в ячейки РУВН и РУНН согласно проектной документации.",
-    image: "/construction_bg.webp",
+    image: "/этапы/6 этап.JPG",
   },
   {
     id: 7,
@@ -55,7 +54,7 @@ export const productionStages: IProductionStage[] = [
     title: "Коммутация",
     description:
       "Соединение электрических компонентов, укладка кабелей и монтаж шинопроводов.",
-    image: "/construction_bg.webp",
+    image: "/этапы/7 этап.png",
   },
   {
     id: 8,
@@ -63,7 +62,7 @@ export const productionStages: IProductionStage[] = [
     title: "Контроль ОКК",
     description:
       "Проверка сборки, электрические испытания и контроль соответствия документации.",
-    image: "/construction_bg.webp",
+    image: "/этапы/8 этап_ (1).png",
   },
   {
     id: 9,
@@ -71,7 +70,7 @@ export const productionStages: IProductionStage[] = [
     title: "Подготовка к отгрузке",
     description:
       "Разборка, комплектация и упаковка оборудования с учетом требований безопасности.",
-    image: "/construction_bg.webp",
+    image: "/этапы/9 этап_ (1).JPG",
   },
   {
     id: 10,
@@ -79,6 +78,6 @@ export const productionStages: IProductionStage[] = [
     title: "Отгрузка оборудования",
     description:
       "Загрузка оборудования в транспорт с полным пакетом документации для доставки на объект.",
-    image: "/construction_bg.webp",
+    image: "/этапы/10 этап.jpg",
   },
 ];
