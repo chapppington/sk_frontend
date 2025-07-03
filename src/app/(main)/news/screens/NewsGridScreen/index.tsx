@@ -79,6 +79,7 @@ const NewsGrid: FC = () => {
     image: item.imageUrl ? `${UPLOADS_URL}${item.imageUrl}` : "/news_bg.webp",
     alt: item.alt,
     slug: item.slug,
+    createdAt: item.createdAt,
   }));
 
   // Use backend data if available, otherwise fallback to mock
@@ -91,8 +92,8 @@ const NewsGrid: FC = () => {
         selectedCategorySlug === "all" || news.category === selectedCategory
     )
     .sort((a, b) => {
-      const dateA = parseRussianDate(a.date);
-      const dateB = parseRussianDate(b.date);
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
       return sortBy === "new"
         ? dateB.getTime() - dateA.getTime()
         : dateA.getTime() - dateB.getTime();

@@ -13,6 +13,7 @@ export type NewsItem = {
   description: string;
   image?: string;
   alt?: string;
+  createdAt?: string;
 };
 
 export type SortOption = "new" | "old";
