@@ -22,7 +22,7 @@ const FirstScreen: FC = () => {
         <div
           className="absolute inset-0 z-0 select-none pointer-events-none"
           style={{
-            backgroundImage: 'url("/production_bg.webp")',
+            backgroundImage: 'url("/about.png")',
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -30,9 +30,9 @@ const FirstScreen: FC = () => {
       ) : (
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <Parallax
-            bgImage="/production_bg.webp"
+            bgImage="/about.png"
             strength={200}
-            className="w-full h-full"
+            className="w-full h-full brightness-50"
           />
         </div>
       )}
@@ -41,8 +41,7 @@ const FirstScreen: FC = () => {
         <div className="overlay-base absolute inset-0 bg-black/90"></div>
         {/* Gradient Overlay */}
         <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black/40"></div>
-        {/* Blue Tint Overlay */}
-        <div className="absolute inset-0 bg-blue-900/15 mix-blend-overlay"></div>
+        
       </div>
       <div className="relative z-[3]">
         <Breadcrumbs
