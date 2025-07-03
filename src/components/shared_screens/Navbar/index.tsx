@@ -1,6 +1,6 @@
 "use client";
 
-import { PagesConfig } from "@/config/pages.config"
+import { PagesConfig } from "@/config/pages.config";
 
 import { FC, useState } from "react";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import DesktopMenuItemsList from "./components/DesktopMenuItemsList";
 import MobileMenu from "./components/MobileMenu";
 import MobileMenuButton from "./components/MobileMenuButton";
 import CTAButton from "./components/CTAButton";
+import DesktopDropdownMenu from "./components/DesktopDropdownMenu";
 
 const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,8 +29,11 @@ const Navbar: FC = () => {
       className="fixed top-0 left-0 right-0 z-50 border-b border-white/30 pointer-events-none"
       style={{ backdropFilter: "blur(20px)" }}
     >
-      <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto">
-        <TransitionLink href={PagesConfig.home} className="px-0 flex items-center select-none">
+      <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto relative">
+        <TransitionLink
+          href={PagesConfig.home}
+          className="px-0 flex items-center select-none"
+        >
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"
@@ -40,8 +44,15 @@ const Navbar: FC = () => {
           />
         </TransitionLink>
 
-        <DesktopMenuItemsList />
+        {/* Меню и бургер */}
+        <div className="hidden 2xl:flex items-center relative flex-shrink-0 h-full">
+          <DesktopMenuItemsList />
+          <div className="absolute top-1/2 -right-4 -translate-y-1/2 z-50">
+            <DesktopDropdownMenu />
+          </div>
+        </div>
 
+        {/* Контакты и CTA */}
         <div className="hidden 2xl:flex items-center h-full divide-x divide-white/30">
           <ContactInfo />
           <CTAButton />
@@ -53,10 +64,7 @@ const Navbar: FC = () => {
         />
       </CustomContainer>
 
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={handleCloseMenu}
-      />
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={handleCloseMenu} />
     </nav>
   );
 };
