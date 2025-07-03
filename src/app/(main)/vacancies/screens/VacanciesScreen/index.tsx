@@ -6,6 +6,8 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import JobList from "./components/JobList";
 import vacancyService from "@/services/vacancy.service";
 import type { IVacancy } from "@/shared/types/vacancy.types";
+import GradientHeading from "@/components/ui/GradientHeading";
+import BracketsText from "@/components/ui/BracketsText";
 
 const VacanciesScreen: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,6 +51,21 @@ const VacanciesScreen: FC = () => {
       />
       <div ref={containerRef}>
         <CustomContainer>
+          <div className="flex flex-col lg:flex-row justify-between items-start mb-16">
+            <div className="mb-8 md:mb-0">
+              <BracketsText>ВАКАНСИИ</BracketsText>
+            </div>
+
+            <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
+              <GradientHeading>Список вакансий</GradientHeading>
+              <p className="text-white/70 mt-6">
+                В нашей компании регулярно открываются вакансии, как для опытных
+                специалистов, так и для тех, кто только начинает свою карьеру.Вы
+                можете ознакомиться с нашими вакансиями на сайте или
+                откликнуться на одну из них через сайт hh.ru.
+              </p>
+            </div>
+          </div>
           <JobList jobs={transformedJobs} />
         </CustomContainer>
       </div>
