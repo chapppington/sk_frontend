@@ -250,15 +250,15 @@ const FirstScreen: FC = () => {
                 href={`/news/${currentNews.slug}`}
                 className="block hover:opacity-90 transition-opacity"
               >
-                <AnimatedText
-                  key={`title-${key}`}
-                  animateOnScroll={false}
-                  delay={0.1}
-                >
-                  <GradientHeading className="mb-4">
-                    {currentNews.title}
-                  </GradientHeading>
-                </AnimatedText>
+                <div className="mb-4">
+                  <AnimatedText
+                    key={`title-${key}`}
+                    animateOnScroll={false}
+                    delay={0.1}
+                  >
+                    <GradientHeading>{currentNews.title}</GradientHeading>
+                  </AnimatedText>
+                </div>
               </TransitionLink>
             </div>
 
