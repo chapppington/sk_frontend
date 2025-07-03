@@ -20,6 +20,7 @@ const FirstScreen: FC = () => {
           alt="Production background"
           priority
           isMobile={isMobile}
+          className="brightness-75"
         />
       </div>
       <div className="absolute inset-0 z-[1]">
