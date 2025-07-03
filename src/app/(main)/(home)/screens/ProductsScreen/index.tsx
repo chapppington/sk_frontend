@@ -208,7 +208,7 @@ export default function ProductsSlider() {
                 <SwiperSlide key={index}>
                   <div className="group h-full flex items-center">
                     <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
-                      <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg">
+                      <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg bg-white p-2">
                         <Image
                           src={product.image}
                           alt={product.title}
