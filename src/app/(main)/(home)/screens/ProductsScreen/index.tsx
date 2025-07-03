@@ -114,16 +114,17 @@ export default function ProductsSlider() {
             className="flex-1 flex flex-col justify-end"
             style={{ transform: "translateZ(0)" }}
           >
-            <AnimatedText
-              animateOnScroll={false}
-              delay={0.1}
-              key={currentIndex}
-            >
-              <GradientHeading className="mb-6">
-                {products[currentIndex].title}
-              </GradientHeading>
-            </AnimatedText>
-
+            <div className="mb-6">
+              <AnimatedText
+                animateOnScroll={false}
+                delay={0.1}
+                key={currentIndex}
+              >
+                <GradientHeading>
+                  {products[currentIndex].title}
+                </GradientHeading>
+              </AnimatedText>
+            </div>
             <AnimatedText
               animateOnScroll={false}
               delay={0.2}
