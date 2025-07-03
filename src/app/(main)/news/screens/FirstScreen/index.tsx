@@ -55,8 +55,11 @@ const FirstScreen: FC = () => {
     all: "Все",
     production: "Производство",
     technology: "Технологии",
-    event: "События",
+    events: "События",
     interview: "Интервью",
+    developments: "Разработки",
+    useful: "Полезное",
+    projects: "Наши проекты",
   };
 
   // Transform API data to match the expected format

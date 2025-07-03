@@ -26,8 +26,11 @@ const categoryMap: Record<string, string> = {
   all: "Все",
   production: "Производство",
   technology: "Технологии",
-  event: "События",
+  events: "События",
   interview: "Интервью",
+  developments: "Разработки",
+  useful: "Полезное",
+  projects: "Наши проекты",
 };
 
 const NewsGrid: FC = () => {

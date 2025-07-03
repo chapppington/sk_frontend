@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -20,8 +19,11 @@ export default function ArticleContentSection({
     all: "Все",
     production: "Производство",
     technology: "Технологии",
-    event: "События",
+    events: "События",
     interview: "Интервью",
+    developments: "Разработки",
+    useful: "Полезное",
+    projects: "Наши проекты",
   };
 
   return (
@@ -69,7 +71,7 @@ export default function ArticleContentSection({
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
               src={`${UPLOADS_URL}${news.imageUrl}`}
-              alt={news.alt || news.title} 
+              alt={news.alt || news.title}
               fill
               className="object-cover rounded-lg"
               priority
