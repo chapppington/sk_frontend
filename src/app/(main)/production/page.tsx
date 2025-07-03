@@ -45,9 +45,9 @@ export default function ProductionPage() {
   return (
     <main>
       <FirstScreen />
-      {/* <ProductionStagesScreen />
+      <ProductionStagesScreen />
       <EquipmentGridScreen />
-      <RecentUpdatesScreen />
+      {/* <RecentUpdatesScreen />
       <CertificatesScreen /> */}
       <ReadMoreScreen />
       <ContactUsScreen />

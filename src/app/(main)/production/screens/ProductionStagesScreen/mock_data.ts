@@ -7,7 +7,7 @@ export const productionStages: IProductionStage[] = [
     title: "Разработка и оформление КД",
     description:
       "Разработка конструкторской документации в соответствии с ТЗ заказчика, нормами ГОСТ и ЕСКД.",
-    image: "/construction_bg.webp",
+    image: "/stage1.png",
   },
   {
     id: 2,
