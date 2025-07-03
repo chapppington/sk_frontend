@@ -35,14 +35,15 @@ const CustomerReviewsScreen = () => {
       <CustomContainer>
         <div className="flex flex-col lg:flex-row justify-between items-start mb-16">
           <div className="mb-8 md:mb-0">
-            <BracketsText>ЧТО ПРЕДЛАГАЕМ</BracketsText>
+            <BracketsText>ОТЗЫВЫ</BracketsText>
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
             <GradientHeading>Мнение наших клиентов</GradientHeading>
             <p className="text-white/70 mt-6">
-              Как уже неоднократно упомянуто, действия представителей оппозиции
-              объявлены нарушающими общечеловеческие нормы этики и морали.
+              Мы ценим обратную связь и всегда открыты к вашим предложениям.
+              Ваши отзывы помогают нам развиваться и повышать качество нашей
+              работы.
             </p>
           </div>
         </div>
