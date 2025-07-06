@@ -16,9 +16,26 @@ import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 import SearchBar from "@/components/ui/SearchBar";
 import { SearchIcon } from "@/shared/icons/SearchIcon";
 import ProductCard from "../ProductCard";
+import { Skeleton } from "@/components/ui/shadcn/skeleton";
 
 import { productCategories } from "@/shared/utils/categoryMapping";
 import { ProductsTabProps } from "./types";
+
+// Кастомный skeleton для карточки товара в стиле страницы новости
+const ProductCardSkeleton = () => (
+  <div className="flex flex-col group">
+    <div className="bg-white/10 rounded-xl overflow-hidden mb-4 aspect-square w-full flex items-center justify-center animate-pulse">
+      
+    </div>
+    <div className="space-y-4 w-full">
+      <div className="h-6 bg-white/20 rounded w-3/4 animate-pulse" />
+      <div className="flex items-center space-x-2 mt-2">
+        <div className="w-12 h-12 rounded-full border border-white/10 bg-white/10 animate-pulse" />
+        <div className="h-5 w-20 bg-white/10 rounded animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
 
 const ProductsTab: FC<ProductsTabProps> = ({
   productsGridRef,
@@ -76,7 +93,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
   const apiLimit = itemsPerPage;
 
   // React Query для получения товаров
-  const { data, isLoading, isError, refetch } = useQuery<
+  const { data, isLoading, isError, isFetching, refetch } = useQuery<
     ProductCatalogResponse,
     Error
   >({
@@ -200,6 +217,17 @@ const ProductsTab: FC<ProductsTabProps> = ({
     }
   }, [isDropdownOpen]);
 
+  console.log(
+    "isLoading",
+    isLoading,
+    "isFetching",
+    isFetching,
+    "data",
+    data,
+    "currentProducts",
+    currentProducts
+  );
+
   return (
     <>
       <div className="hidden xl:flex xl:w-[400px] flex-col gap-2">
@@ -239,9 +267,14 @@ const ProductsTab: FC<ProductsTabProps> = ({
           )}
         </div>
 
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[200px]">
-            Загрузка...
+        {(isLoading || isFetching) ? (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+            style={{ minHeight: 200 }}
+          >
+            {[...Array(itemsPerPage)].map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
           </div>
         ) : isError ? (
           <div className="flex justify-center items-center min-h-[200px] text-red-500">
