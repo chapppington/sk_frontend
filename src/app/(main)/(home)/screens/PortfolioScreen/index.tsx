@@ -154,15 +154,17 @@ const PortfolioSection = () => {
           {/* Left side - Main content */}
           <div className="w-full xl:w-1/2 mb-8 xl:mb-0">
             <div className="portfolio-main-content">
-              <AnimatedText
-                key={`portfolio-title-${activeIndex}`}
-                animateOnScroll={false}
-                delay={0.1}
-              >
-                <GradientHeading className="mb-6">
-                  {portfolioItems[activeIndex].name}
-                </GradientHeading>
-              </AnimatedText>
+              <div className="mb-6">
+                <AnimatedText
+                  key={`portfolio-title-${activeIndex}`}
+                  animateOnScroll={false}
+                  delay={0.1}
+                >
+                  <GradientHeading>
+                    {portfolioItems[activeIndex].name}
+                  </GradientHeading>
+                </AnimatedText>
+              </div>
               <AnimatedText
                 key={`portfolio-desc-${activeIndex}`}
                 animateOnScroll={false}

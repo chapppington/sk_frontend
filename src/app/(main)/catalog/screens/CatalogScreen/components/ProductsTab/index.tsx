@@ -16,7 +16,6 @@ import NoResultsPlaceholder from "@/components/ui/NoResultsPlaceholder";
 import SearchBar from "@/components/ui/SearchBar";
 import { SearchIcon } from "@/shared/icons/SearchIcon";
 import ProductCard from "../ProductCard";
-import { Skeleton } from "@/components/ui/shadcn/skeleton";
 
 import { productCategories } from "@/shared/utils/categoryMapping";
 import { ProductsTabProps } from "./types";
