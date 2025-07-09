@@ -20,7 +20,7 @@ const CertificatesScreen: FC = () => {
 
           <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
-              <div className="pl-0 md:pl-8">
+              <div className="pl-0 md:pl-8 ml-auto">
                 {faqItems.map((item, idx) => (
                   <Dropdown
                     key={idx}
