@@ -57,7 +57,7 @@ const ProductDetails = ({ slug }: Props) => {
       <QuestionnaireButtonsScreen product={product} />
       <SliderScreen product={product} />
       <NumbersScreen product={product} />
-      <LogoGrid product={product} />
+      {/* <LogoGrid product={product} /> */}
       <ContactUsScreen />
     </main>
   );
