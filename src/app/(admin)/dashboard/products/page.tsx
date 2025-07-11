@@ -132,11 +132,11 @@ export default function ProductManagement() {
               className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
               disabled={isOrderEditMode}
             >
-              Изменить порядок
+              Изменить приоритет показа
             </Button>
           ) : (
             <Button variant="destructive" onClick={handleOrderModeOff}>
-              Завершить изменение порядка
+              Завершить изменение приоритета
             </Button>
           )}
         </div>

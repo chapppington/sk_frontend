@@ -90,7 +90,7 @@ export default function OrderTable({
     <>
       <div className="mb-4 px-4 py-2 rounded-md border border-yellow-300 bg-yellow-50 text-yellow-800 dark:border-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200 flex items-center gap-2 text-sm">
         <GripVertical className="inline-block w-4 h-4 text-yellow-500 dark:text-yellow-300 mr-1" />
-        Перетаскивайте строки таблицы для изменения порядка
+        Перетаскивайте строки таблицы для изменения приоритета показа
       </div>
       <div className="rounded-md border overflow-x-auto">
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
