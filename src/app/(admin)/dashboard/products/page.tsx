@@ -111,7 +111,7 @@ export default function ProductManagement() {
           </Button>
           <Button
             onClick={handleImportFromExcel}
-            className="bg-green-600 hover:bg-green-700"
+            className="bg-green-600 hover:bg-green-700 dark:text-[#f2f2f2]"
             disabled={isOrderEditMode}
           >
             <Download className="w-4 h-4 mr-2" />
@@ -120,7 +120,7 @@ export default function ProductManagement() {
           <Button
             onClick={handleExportToExcel}
             variant="outline"
-            className="border-green-600 text-green-700 hover:bg-green-50"
+            className="border-green-600 text-green-700 hover:bg-green-50 dark:border-green-400 dark:text-green-300 dark:hover:bg-green-900/40"
             disabled={isOrderEditMode}
           >
             <Upload className="w-4 h-4 mr-2" />
@@ -129,7 +129,7 @@ export default function ProductManagement() {
           {!isOrderEditMode ? (
             <Button
               onClick={handleOrderMode}
-              className="bg-blue-600 text-white hover:bg-blue-700"
+              className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
               disabled={isOrderEditMode}
             >
               Изменить порядок
