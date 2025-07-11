@@ -1,5 +1,8 @@
 import { instance, axiosClassic } from "@/api/axios";
-import { CreateProductData } from "@/shared/types/product.types";
+import {
+  CreateProductData,
+  ProductOrderUpdate,
+} from "@/shared/types/product.types";
 
 const productService = {
   fetchAll: () => {
@@ -62,6 +65,10 @@ const productService = {
     return instance.delete(
       `/products/${productId}/disconnect-portfolio/${portfolioItemId}`
     );
+  },
+
+  updateOrder: (order: ProductOrderUpdate[]) => {
+    return instance.patch("/products/order", order);
   },
 };
 

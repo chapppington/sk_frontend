@@ -42,12 +42,16 @@ export default function ProductsTable({
     setDeletePopoverOpen(null);
   };
 
+  // Сортируем товары по order (по возрастанию)
+  const sortedProducts = [...products].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
   if (isLoading) {
     return (
       <div className="rounded-md border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Порядок</TableHead>
               <TableHead>Превью</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
@@ -73,6 +77,7 @@ export default function ProductsTable({
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Порядок</TableHead>
               <TableHead>Превью</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
@@ -97,6 +102,7 @@ export default function ProductsTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Порядок</TableHead>
             <TableHead>Превью</TableHead>
             <TableHead>Название</TableHead>
             <TableHead>Категория</TableHead>
@@ -105,8 +111,9 @@ export default function ProductsTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product: IProduct) => (
+          {sortedProducts.map((product: IProduct) => (
             <TableRow key={product.id}>
+              <TableCell>{product.order ?? ''}</TableCell>
               <TableCell>
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">

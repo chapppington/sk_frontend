@@ -179,6 +179,25 @@ export const useProducts = (options?: UseProductsOptions) => {
     },
   });
 
+  // Мутация массового обновления порядка товаров
+  const updateOrderMutation = useMutation({
+    mutationFn: (order: { id: string; order: number }[]) => productService.updateOrder(order),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({
+        title: "Успех",
+        description: "Порядок товаров успешно обновлён",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить порядок товаров",
+        variant: "destructive",
+      });
+    },
+  });
+
   return {
     // Данные
     products,
@@ -197,6 +216,7 @@ export const useProducts = (options?: UseProductsOptions) => {
     updateMutation,
     deleteMutation,
     importMutation,
+    updateOrderMutation,
 
     // Утилиты
     queryClient,
