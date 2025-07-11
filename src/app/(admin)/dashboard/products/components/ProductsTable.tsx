@@ -114,7 +114,7 @@ export default function ProductsTable({
         <TableBody>
           {sortedProducts.map((product: IProduct) => (
             <TableRow key={product.id}>
-              <TableCell>{product.order ?? ''}</TableCell>
+              <TableCell className="text-center">{product.order ?? ''}</TableCell>
               <TableCell>
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
