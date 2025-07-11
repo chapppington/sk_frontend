@@ -17,6 +17,7 @@ import Image from "next/image";
 import { getCategoryLabel } from "@/shared/utils/categoryMapping";
 import { DeleteProductPopover } from "./index";
 import { UPLOADS_URL } from "@/constants";
+import { Badge } from "@/components/ui/shadcn/badge";
 
 interface ProductsTableProps {
   products: IProduct[];
