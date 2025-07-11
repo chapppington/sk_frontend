@@ -69,6 +69,7 @@ export interface IProduct {
   portfolioItems: IPortfolioItem[];
   createdAt: string;
   updatedAt: string;
+  order?: number;
 }
 
 export interface ProductCatalogResponse {
@@ -95,3 +96,8 @@ export interface CreateProductData {
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {}
+
+export interface ProductOrderUpdate {
+  id: string;
+  order: number;
+}
