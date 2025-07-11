@@ -3,7 +3,6 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -13,12 +12,9 @@ import { BACKEND_MAIN } from "@/constants";
 import { GripVertical } from "lucide-react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { IProduct } from "@/shared/types/product.types";
 import { Badge } from "@/components/ui/shadcn/badge";
 
