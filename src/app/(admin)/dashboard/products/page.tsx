@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/shadcn/button";
-import { Plus, FileSpreadsheet, Download, Upload, GripVertical } from "lucide-react";
+import { Plus, Download, Upload } from "lucide-react";
 import { IProduct } from "@/shared/types/product.types";
 import { useProducts } from "./hooks/useProducts";
 import {
@@ -11,11 +11,7 @@ import {
   ExcelImportDialog,
   ExcelExportDialog,
 } from "./components";
-import { DndContext, closestCenter } from '@dnd-kit/core';
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { useMutation } from '@tanstack/react-query';
-import { useToast } from '@/hooks/use-toast';
+import { arrayMove } from '@dnd-kit/sortable';
 import OrderTable from "./components/OrderTable";
 
 export default function ProductManagement() {
@@ -25,7 +21,6 @@ export default function ProductManagement() {
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
   const [isOrderEditMode, setIsOrderEditMode] = useState(false);
   const [orderItems, setOrderItems] = useState<IProduct[]>([]);
-  const { toast } = useToast();
 
   // Используем кастомный хук с onSuccess для обновления порядка
   const {
@@ -38,23 +33,6 @@ export default function ProductManagement() {
   } = useProducts({
     onSuccess: () => {
       setIsOrderEditMode(false);
-    },
-  });
-
-  // Мутация для обновления порядка
-  const orderMutation = useMutation({
-    mutationFn: async (orderPayload: { id: string; order: number }[]) => {
-      await fetch("/api/products/order", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderPayload),
-      });
-    },
-    onSuccess: () => {
-      toast({ title: "Порядок обновлён" });
-    },
-    onError: () => {
-      toast({ title: "Ошибка при обновлении порядка", variant: "destructive" });
     },
   });
 
@@ -122,27 +100,6 @@ export default function ProductManagement() {
       updateOrderMutation.mutate(orderPayload);
     }
   };
-
-  // Компонент строки для сортировки
-  function SortableProductItem({ product }: { product: IProduct }) {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: product.id });
-    const style = {
-      transform: CSS.Transform.toString(transform),
-      transition,
-      background: '#fff',
-      borderBottom: '1px solid #eee',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '12px',
-      cursor: 'grab',
-    };
-    return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        <GripVertical className="mr-3 text-gray-400" />
-        <span>{product.name}</span>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto py-10">
