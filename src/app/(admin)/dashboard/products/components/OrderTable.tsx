@@ -20,6 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IProduct } from "@/shared/types/product.types";
+import { Badge } from "@/components/ui/shadcn/badge";
 
 function SortableProductRow({
   product,
@@ -54,7 +55,7 @@ function SortableProductRow({
         }
         `}
     >
-      <TableCell className="w-8 text-gray-400">{order}</TableCell>
+      <TableCell className="w-8 text-gray-400"><Badge variant="secondary">{order}</Badge></TableCell>
       <TableCell className="w-8">
         <GripVertical className="text-gray-400 dark:text-gray-300 transition-transform duration-200 group-hover:scale-125 group-hover:-rotate-12" />
       </TableCell>
@@ -101,7 +102,7 @@ export default function OrderTable({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Порядок</TableHead>
+                  <TableHead>Приоритет</TableHead>
                   <TableHead></TableHead>
                   <TableHead>Превью</TableHead>
                   <TableHead>Название</TableHead>

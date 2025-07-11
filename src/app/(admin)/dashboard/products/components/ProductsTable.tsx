@@ -51,7 +51,7 @@ export default function ProductsTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Порядок</TableHead>
+              <TableHead>Приоритет</TableHead>
               <TableHead>Превью</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
@@ -77,7 +77,7 @@ export default function ProductsTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Порядок</TableHead>
+              <TableHead>Приоритет</TableHead>
               <TableHead>Превью</TableHead>
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
@@ -102,7 +102,7 @@ export default function ProductsTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Порядок</TableHead>
+            <TableHead>Приоритет</TableHead>
             <TableHead>Превью</TableHead>
             <TableHead>Название</TableHead>
             <TableHead>Категория</TableHead>
@@ -113,7 +113,7 @@ export default function ProductsTable({
         <TableBody>
           {sortedProducts.map((product: IProduct) => (
             <TableRow key={product.id}>
-              <TableCell>{product.order ?? ''}</TableCell>
+              <TableCell><Badge variant="secondary">{product.order ?? ''}</Badge></TableCell>
               <TableCell>
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
