@@ -120,14 +120,19 @@ export default function ProductManagement() {
           <Button
             onClick={handleExportToExcel}
             variant="outline"
-            className="border-blue-300 text-blue-700 hover:bg-blue-50"
+            className="border-green-600 text-green-700 hover:bg-green-50"
             disabled={isOrderEditMode}
           >
             <Upload className="w-4 h-4 mr-2" />
             Экспорт в Excel
           </Button>
           {!isOrderEditMode ? (
-            <Button variant="outline" onClick={handleOrderMode}>
+            <Button
+              variant="outline"
+              className="border-blue-600 text-blue-700 hover:bg-blue-50"
+              onClick={handleOrderMode}
+              disabled={isOrderEditMode}
+            >
               Изменить порядок
             </Button>
           ) : (
