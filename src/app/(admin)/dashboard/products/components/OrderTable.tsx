@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/shadcn/table";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
 import { GripVertical } from "lucide-react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -62,7 +62,7 @@ function SortableProductRow({
         {product.previewImageUrl ? (
           <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
             <Image
-              src={`${BACKEND_MAIN}${product.previewImageUrl}`}
+              src={`${UPLOADS_URL}${product.previewImageUrl}`}
               alt={product.name}
               fill
               className="object-cover"
