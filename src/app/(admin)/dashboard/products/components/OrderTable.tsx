@@ -55,7 +55,7 @@ function SortableProductRow({
         }
         `}
     >
-      <TableCell className="w-8 text-gray-400"><Badge variant="secondary">{order}</Badge></TableCell>
+      <TableCell className="w-8 text-gray-400">{order}</TableCell>
       <TableCell className="w-8">
         <GripVertical className="text-gray-400 dark:text-gray-300 transition-transform duration-200 group-hover:scale-125 group-hover:-rotate-12" />
       </TableCell>
@@ -94,7 +94,10 @@ export default function OrderTable({
         Перетаскивайте строки таблицы для изменения приоритета показа
       </div>
       <div className="rounded-md border overflow-x-auto">
-        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext
             items={orderItems.map((p) => p.id)}
             strategy={verticalListSortingStrategy}
