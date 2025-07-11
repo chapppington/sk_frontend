@@ -16,7 +16,6 @@ import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
 import { getCategoryLabel } from "@/shared/utils/categoryMapping";
 import { DeleteProductPopover } from "./index";
-import { Badge } from "@/components/ui/shadcn/badge";
 
 interface ProductsTableProps {
   products: IProduct[];
@@ -113,7 +112,7 @@ export default function ProductsTable({
         <TableBody>
           {sortedProducts.map((product: IProduct) => (
             <TableRow key={product.id}>
-              <TableCell><Badge variant="secondary">{product.order ?? ''}</Badge></TableCell>
+              <TableCell>{product.order ?? ''}</TableCell>
               <TableCell>
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
