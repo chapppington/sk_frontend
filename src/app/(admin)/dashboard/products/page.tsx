@@ -128,9 +128,8 @@ export default function ProductManagement() {
           </Button>
           {!isOrderEditMode ? (
             <Button
-              variant="outline"
-              className="border-blue-600 text-blue-700 hover:bg-blue-50"
               onClick={handleOrderMode}
+              className="bg-blue-600 text-white hover:bg-blue-700"
               disabled={isOrderEditMode}
             >
               Изменить порядок
