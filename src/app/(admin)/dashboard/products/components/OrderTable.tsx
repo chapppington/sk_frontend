@@ -65,7 +65,7 @@ function SortableProductRow({
               src={`${BACKEND_MAIN}${product.previewImageUrl}`}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         ) : (
