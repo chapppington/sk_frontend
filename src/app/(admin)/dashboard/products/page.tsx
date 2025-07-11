@@ -11,8 +11,9 @@ import {
   ExcelImportDialog,
   ExcelExportDialog,
 } from "./components";
-import { arrayMove } from '@dnd-kit/sortable';
+import { arrayMove } from "@dnd-kit/sortable";
 import OrderTable from "./components/OrderTable";
+import { GripVertical } from "lucide-react";
 
 export default function ProductManagement() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -78,7 +79,9 @@ export default function ProductManagement() {
 
   // Включение режима сортировки
   const handleOrderMode = () => {
-    const sorted = [...products].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const sorted = [...products].sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0)
+    );
     setOrderItems(sorted);
     setIsOrderEditMode(true);
   };
@@ -91,12 +94,15 @@ export default function ProductManagement() {
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      const oldIndex = orderItems.findIndex(i => i.id === active.id);
-      const newIndex = orderItems.findIndex(i => i.id === over.id);
+      const oldIndex = orderItems.findIndex((i) => i.id === active.id);
+      const newIndex = orderItems.findIndex((i) => i.id === over.id);
       const newItems = arrayMove(orderItems, oldIndex, newIndex);
       setOrderItems(newItems);
       // PATCH на backend через хук
-      const orderPayload = newItems.map((item, idx) => ({ id: item.id, order: idx + 1 }));
+      const orderPayload = newItems.map((item, idx) => ({
+        id: item.id,
+        order: idx + 1,
+      }));
       updateOrderMutation.mutate(orderPayload);
     }
   };
