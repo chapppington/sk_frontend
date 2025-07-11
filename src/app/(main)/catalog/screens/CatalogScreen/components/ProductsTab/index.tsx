@@ -284,19 +284,21 @@ const ProductsTab: FC<ProductsTabProps> = ({
             ref={productsGridRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           >
-            {currentProducts.map((product: IProduct) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                slug={"slug" in product ? (product as any).slug : product.id}
-                title={product.name}
-                image={
-                  product.previewImageUrl
-                    ? `${UPLOADS_URL}${product.previewImageUrl}`
-                    : product.previewImage || "/transformer.webp"
-                }
-              />
-            ))}
+            {[...currentProducts]
+              .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+              .map((product: IProduct) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  slug={"slug" in product ? (product as any).slug : product.id}
+                  title={product.name}
+                  image={
+                    product.previewImageUrl
+                      ? `${UPLOADS_URL}${product.previewImageUrl}`
+                      : product.previewImage || "/transformer.webp"
+                  }
+                />
+              ))}
           </div>
         ) : (
           <div ref={noResultsRef}>
