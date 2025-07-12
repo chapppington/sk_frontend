@@ -213,11 +213,16 @@ export default function ProductFormDialog({
           { label: "", icon: "", image: "", alt: "", description: "" },
         ],
         simpleDescription: {
-          items: (editingProduct.simpleDescription?.items || [])
-            .filter(Boolean)
-            .map((item) => ({
-              text: item.text || "",
-            })) || [{ text: "" }, { text: "" }, { text: "" }],
+          items: [
+            ...((editingProduct.simpleDescription?.items || [])
+              .filter(Boolean)
+              .map((item) => ({
+                text: item.text || "",
+              })) || []),
+            ...Array(
+              Math.max(0, 3 - (editingProduct.simpleDescription?.items?.length || 0))
+            ).fill({ text: "" }),
+          ],
         },
         detailedDescription: {
           items: (editingProduct.detailedDescription?.items || [])
