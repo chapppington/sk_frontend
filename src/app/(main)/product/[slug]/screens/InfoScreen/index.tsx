@@ -125,7 +125,10 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
                 >
                   <Image
                     src={`${UPLOADS_URL}/uploads/products/${product.advantages[previousFeatureIndex].image}`}
-                    alt={product.advantages[previousFeatureIndex].label}
+                    alt={
+                      product.advantages[previousFeatureIndex].alt ||
+                      product.advantages[previousFeatureIndex].label
+                    }
                     fill
                     className="object-cover rounded-lg"
                   />

@@ -83,6 +83,7 @@ export default function ProductFormDialog({
     name: "",
     description: "",
     previewImage: "",
+    previewImageAlt: "",
     importantCharacteristics: [
       {
         value: "",
@@ -95,18 +96,21 @@ export default function ProductFormDialog({
         label: "",
         icon: "",
         image: "",
+        alt: "",
         description: "",
       },
       {
         label: "",
         icon: "",
         image: "",
+        alt: "",
         description: "",
       },
       {
         label: "",
         icon: "",
         image: "",
+        alt: "",
         description: "",
       },
     ],
@@ -130,13 +134,14 @@ export default function ProductFormDialog({
       name: "",
       description: "",
       previewImage: "",
+      previewImageAlt: "",
       importantCharacteristics: [
         { value: "", unit: { text: "" }, description: "" },
       ],
       advantages: [
-        { label: "", icon: "", image: "", description: "" },
-        { label: "", icon: "", image: "", description: "" },
-        { label: "", icon: "", image: "", description: "" },
+        { label: "", icon: "", image: "", alt: "", description: "" },
+        { label: "", icon: "", image: "", alt: "", description: "" },
+        { label: "", icon: "", image: "", alt: "", description: "" },
       ],
       simpleDescription: {
         items: [{ text: "" }, { text: "" }, { text: "" }],
@@ -184,6 +189,7 @@ export default function ProductFormDialog({
         name: editingProduct.name || "",
         description: editingProduct.description || "",
         previewImage: editingProduct.previewImage || "",
+        previewImageAlt: editingProduct.previewImageAlt || "",
         importantCharacteristics: (
           editingProduct.importantCharacteristics || []
         )
@@ -199,11 +205,12 @@ export default function ProductFormDialog({
             label: adv.label || "",
             icon: adv.icon || "",
             image: adv.image || "",
+            alt: adv.alt || "",
             description: adv.description || "",
           })) || [
-          { label: "", icon: "", image: "", description: "" },
-          { label: "", icon: "", image: "", description: "" },
-          { label: "", icon: "", image: "", description: "" },
+          { label: "", icon: "", image: "", alt: "", description: "" },
+          { label: "", icon: "", image: "", alt: "", description: "" },
+          { label: "", icon: "", image: "", alt: "", description: "" },
         ],
         simpleDescription: {
           items: (editingProduct.simpleDescription?.items || [])
@@ -245,6 +252,9 @@ export default function ProductFormDialog({
     formDataToSend.append("category", formData.category);
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
+    if (formData.previewImageAlt) {
+      formDataToSend.append("previewImageAlt", formData.previewImageAlt);
+    }
     formDataToSend.append(
       "importantCharacteristics",
       JSON.stringify(formData.importantCharacteristics)
@@ -351,6 +361,7 @@ export default function ProductFormDialog({
         label: "",
         icon: "",
         image: "",
+        alt: "",
         description: "",
       };
     }
@@ -515,6 +526,26 @@ export default function ProductFormDialog({
                   </div>
                 </div>
               )}
+            </div>
+
+            <div>
+              <Label htmlFor="previewImageAlt" className="block mb-2">
+                Alt описание для превью изображения
+              </Label>
+              <Input
+                id="previewImageAlt"
+                placeholder="Введите описание изображения для поисковых систем"
+                value={formData.previewImageAlt || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    previewImageAlt: e.target.value || "",
+                  })
+                }
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Описание изображения для улучшения SEO и доступности
+              </p>
             </div>
           </div>
         );
@@ -686,6 +717,7 @@ export default function ProductFormDialog({
                     label: advantage?.label || "",
                     icon: advantage?.icon || "",
                     image: advantage?.image || "",
+                    alt: advantage?.alt || "",
                     description: advantage?.description || "",
                   };
 
@@ -795,6 +827,19 @@ export default function ProductFormDialog({
                                 )}
                             </div>
                           )}
+                        </div>
+                        <div className="col-span-2">
+                          <Label>Alt описание для изображения</Label>
+                          <Input
+                            placeholder="Введите описание изображения для поисковых систем"
+                            value={safeAdvantage.alt || ""}
+                            onChange={(e) =>
+                              updateAdvantage(index, "alt", e.target.value)
+                            }
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Описание изображения для улучшения SEO и доступности
+                          </p>
                         </div>
                         <div className="col-span-2">
                           <Label>Описание</Label>

@@ -3,4 +3,5 @@ export interface ProductCardProps {
   slug: string;
   title: string;
   image: string;
+  alt?: string;
 }

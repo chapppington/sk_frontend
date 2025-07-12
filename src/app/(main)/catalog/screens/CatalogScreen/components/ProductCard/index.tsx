@@ -4,7 +4,7 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import CircleIconButton from "@/components/ui/CircleIconButton";
 import { ProductCardProps } from "./types";
 
-const ProductCard: FC<ProductCardProps> = ({ id, slug, title, image }) => {
+const ProductCard: FC<ProductCardProps> = ({ id, slug, title, image, alt }) => {
   return (
     <div className="flex flex-col group">
       <TransitionLink href={`/product/${slug}`} className="block">
@@ -13,8 +13,8 @@ const ProductCard: FC<ProductCardProps> = ({ id, slug, title, image }) => {
             width={300}
             height={300}
             src={image}
-            alt={title}
-            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+            alt={alt || title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="space-y-4">
