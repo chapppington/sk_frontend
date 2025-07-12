@@ -31,7 +31,7 @@ export default function SortableProductRow({
       style={style}
       {...attributes}
       {...listeners}
-      className={`cursor-grab active:cursor-grabbing transition-colors transition-shadow duration-200
+      className={`cursor-grab active:cursor-grabbing transition-all duration-200
         ${
           isDragging
             ? "bg-accent/60 dark:bg-gray-800"
