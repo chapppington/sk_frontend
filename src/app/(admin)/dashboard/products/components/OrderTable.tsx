@@ -16,6 +16,8 @@ import {
 import { IProduct } from "@/shared/types/product.types";
 import SortableProductRow from "./SortableProductRow";
 
+
+
 export default function OrderTable({
   orderItems,
   handleDragEnd,
