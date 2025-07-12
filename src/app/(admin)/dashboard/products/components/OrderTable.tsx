@@ -4,6 +4,7 @@ import {
   Table,
   TableBody,
   TableHead,
+  TableCell,
   TableHeader,
   TableRow,
 } from "@/components/ui/shadcn/table";
@@ -13,10 +14,11 @@ import { GripVertical } from "lucide-react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
+  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { IProduct } from "@/shared/types/product.types";
-import { Badge } from "@/components/ui/shadcn/badge";
+import { CSS } from "@dnd-kit/utilities";
 
 function SortableProductRow({
   product,
