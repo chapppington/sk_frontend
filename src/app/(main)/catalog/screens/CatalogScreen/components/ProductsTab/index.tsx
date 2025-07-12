@@ -263,6 +263,7 @@ const ProductsTab: FC<ProductsTabProps> = ({
                     ? `${BACKEND_MAIN}${product.previewImageUrl}`
                     : product.previewImage || "/transformer.webp"
                 }
+                alt={product.previewImageAlt || product.name}
               />
             ))}
           </div>

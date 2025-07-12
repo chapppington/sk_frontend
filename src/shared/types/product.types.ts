@@ -8,6 +8,7 @@ export interface Advantage {
   label: string;
   icon: string;
   image: string | File;
+  alt?: string;
   description: string;
 }
 
@@ -61,6 +62,7 @@ export interface IProduct {
   description: string;
   previewImage?: string;
   previewImageUrl?: string;
+  previewImageAlt?: string;
   importantCharacteristics: ImportantCharacteristic[];
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
@@ -89,6 +91,7 @@ export interface CreateProductData {
   name: string;
   description: string;
   previewImage?: string;
+  previewImageAlt?: string;
   importantCharacteristics: ImportantCharacteristic[];
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
