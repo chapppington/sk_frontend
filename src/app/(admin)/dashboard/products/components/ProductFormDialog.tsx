@@ -36,7 +36,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/shadcn/popover";
 import IconPicker from "@/components/ui/IconPicker";
-import { BACKEND_MAIN } from "@/constants";
 import Image from "next/image";
 import { productCategories } from "@/shared/utils/categoryMapping";
 import { useProducts } from "../hooks/useProducts";
