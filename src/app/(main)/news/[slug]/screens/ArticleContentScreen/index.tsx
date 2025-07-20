@@ -87,7 +87,7 @@ export default function ArticleContentSection({
           {/* Return to News Button */}
           <div className="mt-12">
             <CircleIconButton
-              href={PagesConfig.news}
+              href={PagesConfig.news.href}
               text="Вернуться ко всем новостям"
             />
           </div>

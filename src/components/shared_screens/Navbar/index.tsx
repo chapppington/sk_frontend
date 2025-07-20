@@ -31,7 +31,7 @@ const Navbar: FC = () => {
     >
       <CustomContainer className="flex justify-between items-center h-[72px] 2xl:divide-x divide-white/30 pointer-events-auto relative">
         <TransitionLink
-          href={PagesConfig.home}
+          href={PagesConfig.home.href}
           className="px-0 flex items-center select-none"
         >
           <Image

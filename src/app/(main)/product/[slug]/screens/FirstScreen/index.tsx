@@ -70,7 +70,7 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
           <div className="flex items-center mt-4">
             <MainButton text="Узнать конечную стоимость" />
             <SecondaryButton
-              href={PagesConfig.catalog}
+              href={PagesConfig.catalog.href}
               text="Назад в каталог"
               className="ml-8 mt-5"
             />

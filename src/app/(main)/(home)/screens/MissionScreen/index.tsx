@@ -32,7 +32,7 @@ const MissionScreen: FC = () => {
               партнёром для наших заказчиков.
             </p>
             <CircleIconButton
-              href={PagesConfig.about}
+              href={PagesConfig.about.href}
               text="Больше о компании"
             />
           </div>

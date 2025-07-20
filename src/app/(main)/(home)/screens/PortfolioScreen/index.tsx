@@ -179,7 +179,7 @@ const PortfolioSection = () => {
               >
                 <MainButton
                   text="Узнать подробнее"
-                  href={`${PagesConfig.portfolio}/${portfolioItems[activeIndex].slug}`}
+                  href={`${PagesConfig.portfolio.href}/${portfolioItems[activeIndex].slug}`}
                 />
               </div>
             </div>
