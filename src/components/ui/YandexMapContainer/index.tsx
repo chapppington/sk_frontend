@@ -13,7 +13,7 @@ const YandexMapPreviewWrapper: FC<{
 }> = ({ children, preview, isActive, onActivate, height }) => {
   return (
     <div
-      className="border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+      className="relative border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
       style={{ height }}
       onMouseEnter={isActive ? undefined : onActivate}
       tabIndex={0}
