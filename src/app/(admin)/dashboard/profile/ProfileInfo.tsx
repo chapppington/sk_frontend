@@ -133,7 +133,7 @@ export function ProfileInfo() {
               {user.rights.map((right, index) => (
                 <span
                   key={index}
-                  className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-[10px] rounded-full font-medium"
+                  className="px-2 py-0.5 bg-blue-100 dark:bg-blue-400/20 text-blue-800 dark:text-blue-100 text-[10px] rounded-full font-medium"
                 >
                   {right}
                 </span>
