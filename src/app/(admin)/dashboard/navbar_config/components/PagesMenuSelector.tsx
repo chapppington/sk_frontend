@@ -220,7 +220,7 @@ export function PagesMenuSelector({
               />
             ))}
             {available.length === 0 && (
-              <li className="px-3 py-2 text-muted-foreground">Нет</li>
+              <li className="py-2 text-muted-foreground">Нет</li>
             )}
           </DroppableZone>
         </div>
@@ -233,7 +233,7 @@ export function PagesMenuSelector({
               return (
                 <li
                   key={k}
-                  className="flex items-center px-3 py-2 cursor-pointer select-none"
+                  className="flex items-center py-2 cursor-pointer select-none"
                 >
                   <span className="flex-1">
                     <Card
@@ -292,7 +292,7 @@ export function PagesMenuSelector({
               );
             })}
             {linksShown.length === 0 && (
-              <li className="px-3 py-2 text-muted-foreground">Нет</li>
+              <li className="py-2 text-muted-foreground">Нет</li>
             )}
           </DroppableZone>
         </div>
@@ -305,7 +305,7 @@ export function PagesMenuSelector({
               return (
                 <li
                   key={k}
-                  className="flex items-center px-3 py-2 cursor-pointer select-none"
+                  className="flex items-center py-2 cursor-pointer select-none"
                 >
                   <span className="flex-1">
                     <Card
@@ -364,7 +364,7 @@ export function PagesMenuSelector({
               );
             })}
             {linksHidden.length === 0 && (
-              <li className="px-3 py-2 text-muted-foreground">Нет</li>
+              <li className="py-2 text-muted-foreground">Нет</li>
             )}
           </DroppableZone>
         </div>
