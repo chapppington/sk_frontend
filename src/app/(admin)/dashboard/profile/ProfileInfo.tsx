@@ -23,6 +23,7 @@ import {
   Bot,
   Map,
 } from "lucide-react";
+import { FontSettings } from "./FontSettings";
 
 export function ProfileInfo() {
   const { isLoading, user } = useProfile();
@@ -105,47 +106,73 @@ export function ProfileInfo() {
 
   return (
     <div className="mt-10">
-      {/* Компактный профиль пользователя */}
-      <div className="p-3 border rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 mb-6 flex items-center gap-3 dark:border-transparent">
-        {user.avatarPath ? (
-          <Image
-            src={user.avatarPath}
-            alt="Avatar"
-            width={40}
-            height={40}
-            className="rounded-full border-2 border-white dark:border-slate-700 shadow"
-          />
-        ) : (
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
-            <User className="w-5 h-5" />
-          </div>
-        )}
-        <div>
-          <h2 className="text-base font-semibold text-slate-900 dark:text-white">
-            Администратор
-          </h2>
-          <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-            <Mail className="w-3 h-3" />
-            <span>{user.email}</span>
-          </div>
-          {user.rights && user.rights.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-1">
-              {user.rights.map((right, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-0.5 bg-blue-100 dark:bg-blue-400/20 text-blue-800 dark:text-blue-100 text-[10px] rounded-full font-medium"
-                >
-                  {right}
-                </span>
-              ))}
+      <div className="flex flex-col md:flex-row gap-6 items-stretch h-40 mb-8">
+        {/* Левая колонка: профиль */}
+        <div className="flex-1 min-w-0">
+          <div className="p-6 h-full border rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex flex-col justify-center gap-3 dark:border-transparent overflow-hidden">
+            {user.avatarPath ? (
+              <Image
+                src={user.avatarPath}
+                alt="Avatar"
+                width={40}
+                height={40}
+                className="rounded-full border-2 border-white dark:border-slate-700 shadow"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                <User className="w-5 h-5" />
+              </div>
+            )}
+            <div>
+              <h2 className="text-base font-semibold text-slate-900 dark:text-white">
+                Администратор
+              </h2>
+              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                <Mail className="w-3 h-3" />
+                <span>{user.email}</span>
+              </div>
+              {user.rights && user.rights.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {user.rights.map((right, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-0.5 bg-blue-100 dark:bg-blue-400/20 text-blue-800 dark:text-blue-100 text-[10px] rounded-full font-medium"
+                    >
+                      {right}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </div>
+        {/* Правая колонка: настройки шрифта */}
+        <div className="flex flex-row gap-6 h-full">
+          <div className="h-full">
+            <FontSettings />
+          </div>
+          <div className="hidden md:block h-full p-4 border rounded-lg bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 min-w-[260px] max-w-[480px] flex flex-col justify-center">
+            <div className="font-semibold text-sm mb-2">Как поменять шрифт</div>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>
+                Откройте <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer" className="underline">Google Fonts</a>
+              </li>
+              <li>
+                Выберите понравившийся шрифт, скопируйте его название
+              </li>
+              <li>
+                Нажмите на выпадающий список, вставьте название шрифта в поле поиска
+              </li>
+              <li>
+                Кликните по нужному шрифту — он применится автоматически
+              </li>
+            </ol>
+          </div>
         </div>
       </div>
-
       {/* Masonry layout for sections */}
       <div
-        className="masonry-grid"
+        className="masonry-grid w-full mt-8"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",

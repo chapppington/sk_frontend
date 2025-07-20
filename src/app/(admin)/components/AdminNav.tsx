@@ -70,12 +70,6 @@ export function AdminNav() {
           >
             SEO настройки
           </Link>
-          <Link
-            href="/dashboard/global-settings"
-            className="text-sm font-medium hover:text-primary"
-          >
-            Настройки шрифта
-          </Link>
         </div>
         <div className="flex items-center gap-2">
           <ModeToggle />
