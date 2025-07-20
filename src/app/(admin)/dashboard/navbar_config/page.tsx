@@ -144,7 +144,7 @@ export default function NavbarConfigPage() {
         <CardHeader>
           <CardTitle>Настройки верхнего меню</CardTitle>
           <CardDescription>
-            Здесь вы можете отредактировать ссылки, email, телефон и текст
+            Здесь вы можете отредактировать email, телефон и текст
             кнопки верхнего меню сайта.
           </CardDescription>
         </CardHeader>

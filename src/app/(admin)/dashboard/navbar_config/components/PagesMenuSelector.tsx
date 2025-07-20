@@ -9,6 +9,7 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 import { Card, CardContent, CardTitle } from "@/components/ui/shadcn/card";
+import { useToast } from "@/hooks/use-toast";
 
 const ALL_PAGES: { key: keyof typeof PagesConfig; label: string }[] = [
   { key: "about", label: "О компании" },
@@ -66,7 +67,9 @@ function DraggablePage({
         className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg ${className}`}
       >
         <CardContent className="py-3 px-4 flex items-center">
-          <CardTitle className="text-base font-medium text-foreground">{page.label}</CardTitle>
+          <CardTitle className="text-base font-medium text-foreground">
+            {page.label}
+          </CardTitle>
         </CardContent>
       </Card>
     </li>
@@ -104,6 +107,7 @@ export function PagesMenuSelector({
   linksHidden: string[];
   onChange: (shown: string[], hidden: string[]) => void;
 }) {
+  const { toast } = useToast();
   // Вычисляем доступные страницы (не в shown и не в hidden)
   const available = useMemo(
     () =>
@@ -122,12 +126,24 @@ export function PagesMenuSelector({
   const [overZone, setOverZone] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  const MAIN_MENU_LIMIT = 4;
+  const isMainMenuFull = linksShown.length >= MAIN_MENU_LIMIT;
+
   // DnD обработка
   function handleDragEnd(event: DragEndEvent) {
     const { over, active } = event;
     setActiveId(null);
     if (!over) return;
     if (over.id === "shown" && available.find((p) => p.key === active.id)) {
+      if (isMainMenuFull) {
+        toast({
+          title: "Лимит",
+          description: `В главном меню не более ${MAIN_MENU_LIMIT} ссылок`,
+          variant: "destructive",
+        });
+        setOverZone(null);
+        return;
+      }
       // Перетащили в главное меню
       onChange([...linksShown, active.id as string], linksHidden);
     } else if (
@@ -148,6 +164,14 @@ export function PagesMenuSelector({
   // Перемещение между списками (кнопки)
   const moveToShown = () => {
     if (selectedAvailable) {
+      if (isMainMenuFull) {
+        toast({
+          title: "Лимит",
+          description: `В главном меню не более ${MAIN_MENU_LIMIT} ссылок`,
+          variant: "destructive",
+        });
+        return;
+      }
       onChange([...linksShown, selectedAvailable], linksHidden);
       setSelectedAvailable(null);
     }
@@ -222,74 +246,84 @@ export function PagesMenuSelector({
         </div>
         {/* Главное меню */}
         <div className="flex-1">
-          <div className="font-semibold mb-2">Главное меню</div>
+          <div className="font-semibold mb-2 flex items-center gap-2">
+            <span>Главное меню</span>
+            <span className="text-base font-bold text-foreground/80">
+              ({linksShown.length}/{MAIN_MENU_LIMIT})
+            </span>
+          </div>
           <DroppableZone id="shown" isOver={overZone === "shown"}>
-            {linksShown.map((k, idx) => {
-              const page = ALL_PAGES.find((p) => p.key === k);
-              return (
-                <li
-                  key={k}
-                  className="flex items-center py-2 cursor-pointer select-none"
-                >
-                  <span className="flex-1">
-                    <Card
-                      className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg`}
-                    >
-                      <CardContent className="py-3 px-4 flex items-center justify-between">
-                        <CardTitle className="text-base font-medium text-foreground">
-                          {page?.label || k}
-                        </CardTitle>
-                        <div className="flex gap-1 items-center ml-2">
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="ghost"
-                            onClick={() =>
-                              moveUp(linksShown, idx, (arr) =>
-                                onChange(arr, linksHidden)
-                              )
-                            }
-                            disabled={idx === 0}
-                            aria-label="Вверх"
-                          >
-                            ↑
-                          </Button>
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="ghost"
-                            onClick={() =>
-                              moveDown(linksShown, idx, (arr) =>
-                                onChange(arr, linksHidden)
-                              )
-                            }
-                            disabled={idx === linksShown.length - 1}
-                            aria-label="Вниз"
-                          >
-                            ↓
-                          </Button>
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="destructive"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              removeFromShown(k);
-                            }}
-                            aria-label="Удалить"
-                          >
-                            ×
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </span>
-                </li>
-              );
-            })}
-            {linksShown.length === 0 && (
-              <li className="py-2 text-muted-foreground">Нет</li>
-            )}
+            <div>
+              {linksShown.map((k, idx) => {
+                const page = ALL_PAGES.find((p) => p.key === k);
+                return (
+                  <li
+                    key={k}
+                    className="flex items-center py-2 cursor-pointer select-none"
+                  >
+                    <span className="flex-1">
+                      <Card
+                        className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg`}
+                      >
+                        <CardContent className="py-3 px-4 flex items-center justify-between">
+                          <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
+                            <span className="font-bold text-lg">
+                              {idx + 1}.
+                            </span>
+                            {page?.label || k}
+                          </CardTitle>
+                          <div className="flex gap-1 items-center ml-2">
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="ghost"
+                              onClick={() =>
+                                moveUp(linksShown, idx, (arr) =>
+                                  onChange(arr, linksHidden)
+                                )
+                              }
+                              disabled={idx === 0}
+                              aria-label="Вверх"
+                            >
+                              ↑
+                            </Button>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="ghost"
+                              onClick={() =>
+                                moveDown(linksShown, idx, (arr) =>
+                                  onChange(arr, linksHidden)
+                                )
+                              }
+                              disabled={idx === linksShown.length - 1}
+                              aria-label="Вниз"
+                            >
+                              ↓
+                            </Button>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="destructive"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFromShown(k);
+                              }}
+                              aria-label="Удалить"
+                            >
+                              ×
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </span>
+                  </li>
+                );
+              })}
+              {linksShown.length === 0 && (
+                <li className="py-2 text-muted-foreground">Нет</li>
+              )}
+            </div>
           </DroppableZone>
         </div>
         {/* Выпадающее меню */}
@@ -308,7 +342,8 @@ export function PagesMenuSelector({
                       className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg`}
                     >
                       <CardContent className="py-3 px-4 flex items-center justify-between">
-                        <CardTitle className="text-base font-medium text-foreground">
+                        <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
+                          <span className="font-bold text-lg">{idx + 1}.</span>
                           {page?.label || k}
                         </CardTitle>
                         <div className="flex gap-1 items-center ml-2">
