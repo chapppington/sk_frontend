@@ -11,16 +11,12 @@ import {
 import { Card, CardContent, CardTitle } from "@/components/ui/shadcn/card";
 
 const ALL_PAGES: { key: keyof typeof PagesConfig; label: string }[] = [
-  { key: "home", label: "Главная" },
   { key: "about", label: "О компании" },
   { key: "catalog", label: "Каталог" },
-  { key: "portfolio", label: "Портфолио" },
   { key: "news", label: "Новости" },
   { key: "certificates", label: "Сертификаты" },
   { key: "vacancies", label: "Вакансии" },
   { key: "contacts", label: "Контакты" },
-  { key: "privacy", label: "Политика конфиденциальности" },
-  { key: "questionnaire", label: "Опросник" },
   { key: "production", label: "Производство" },
 ];
 
