@@ -7,6 +7,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { IMobileMenuProps } from "@/components/shared_screens/Navbar/types";
 import { useNavbarConfigPublic } from "@/hooks/useNavbarConfigPublic";
+import { IMenuItem } from "@/components/shared_screens/Navbar/types";
 
 const ALL_PAGES_LABELS: Record<string, string> = {
   home: "Главная",
@@ -158,7 +159,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
 
         <CustomContainer className="pt-6 pb-6">
           <div className="flex flex-col">
-            {items.map((item, index) => (
+            {items.map((item: IMenuItem, index: number) => (
               <div
                 key={item.href}
                 ref={(el) => {
