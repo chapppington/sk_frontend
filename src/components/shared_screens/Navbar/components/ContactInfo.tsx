@@ -1,27 +1,37 @@
 import { FC } from "react";
-import { CONTACT_INFO } from "./mock_data";
+import { useNavbarConfigPublic } from "@/hooks/useNavbarConfigPublic";
 
-const ContactInfo: FC = () => (
-  <div className="flex items-center h-full divide-x divide-white/30">
-    <a
-      href={`tel:${CONTACT_INFO.phone.number}`}
-      className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
-    >
-      <span className="relative z-10 group-hover:text-gray-900 transition-colors">
-        {CONTACT_INFO.phone.display}
-      </span>
-      <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
-    </a>
-    <a
-      href={`mailto:${CONTACT_INFO.email.address}`}
-      className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
-    >
-      <span className="relative z-10 group-hover:text-gray-900 transition-colors">
-        {CONTACT_INFO.email.display}
-      </span>
-      <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
-    </a>
-  </div>
-);
+const ContactInfo: FC = () => {
+  const { config } = useNavbarConfigPublic();
+  const phone = config?.navbarPhone || "";
+  const email = config?.navbarEmail || "";
+
+  return (
+    <div className="flex items-center h-full divide-x divide-white/30">
+      {phone && (
+        <a
+          href={`tel:${phone.replace(/\D/g, "")}`}
+          className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
+        >
+          <span className="relative z-10 group-hover:text-gray-900 transition-colors">
+            {phone}
+          </span>
+          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
+        </a>
+      )}
+      {email && (
+        <a
+          href={`mailto:${email}`}
+          className="text-white text-sm px-8 flex items-center h-full select-none relative overflow-hidden group"
+        >
+          <span className="relative z-10 group-hover:text-gray-900 transition-colors">
+            {email}
+          </span>
+          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
+        </a>
+      )}
+    </div>
+  );
+};
 
 export default ContactInfo;

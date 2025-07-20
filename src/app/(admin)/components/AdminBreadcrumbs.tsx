@@ -20,6 +20,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   contacts: "Контакты",
   certificates: "Сертификаты",
   privacy: "Политика конфиденциальности",
+  navbar_config: "Верхнее меню",
 };
 
 function toTitleCase(str: string) {
