@@ -4,6 +4,26 @@ import { FC, useState, useEffect } from "react";
 import { IYandexMapContainerProps } from "@/components/ui/YandexMapContainer/types";
 import Image from "next/image";
 
+const YandexMapPreviewWrapper: FC<{
+  children: React.ReactNode;
+  preview: React.ReactNode;
+  isActive: boolean;
+  onActivate: () => void;
+  height: string | number;
+}> = ({ children, preview, isActive, onActivate, height }) => {
+  return (
+    <div
+      className="border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+      style={{ height }}
+      onMouseEnter={isActive ? undefined : onActivate}
+      tabIndex={0}
+      aria-label="Активировать карту"
+    >
+      {isActive ? children : preview}
+    </div>
+  );
+};
+
 const YandexMapContainer: FC<IYandexMapContainerProps> = ({
   initialCoordinates = [53.3254, 83.6329],
   onCoordinatesChange,
@@ -71,42 +91,34 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
 
   if (isStrictMode) {
     return (
-      <div
-        className="w-full border-2 border-gray-300 rounded-lg flex items-center justify-center bg-gray-100"
-        style={{ height }}
-      >
-        <div className="text-gray-500">Map Preview (Dev Mode)</div>
-      </div>
+      <YandexMapPreviewWrapper
+        isActive={false}
+        onActivate={() => {}}
+        height={height}
+        preview={<div className="text-gray-500">Map Preview (Dev Mode)</div>}
+        children={null}
+      />
     );
   }
 
-  // До наведения мыши показываем скриншот
-  if (!isMapActive) {
-    return (
-      <div
-        className="w-full border-2 border-gray-300 rounded-lg overflow-hidden cursor-pointer"
-        style={{ height }}
-        onMouseEnter={() => setIsMapActive(true)}
-        tabIndex={0}
-        aria-label="Активировать карту"
-      >
-        <Image
-          src="/map_preview.png"
-          alt="Карта"
-          fill
-          style={{ objectFit: "cover" }}
-          sizes="100vw"
-          priority={false}
-        />
-      </div>
-    );
-  }
+  const preview = (
+    <div className="relative w-4/5 h-4/5 max-w-full max-h-full flex items-center justify-center">
+      <Image
+        src="/map_preview.png"
+        alt="Карта"
+        fill
+        style={{ objectFit: "contain" }}
+        sizes="80vw"
+        priority={false}
+      />
+    </div>
+  );
 
-  // После активации — настоящая карта
+  let mapContent = null;
   if (MapComponents) {
     const { YMaps, Map, Placemark } = MapComponents;
-    return (
-      <div className="w-full" style={{ height }}>
+    mapContent = (
+      <div className="w-full h-full">
         <YMaps>
           <Map
             defaultState={{
@@ -129,16 +141,21 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
         </YMaps>
       </div>
     );
+  } else if (isMapActive) {
+    mapContent = (
+      <div className="text-gray-500">Загрузка карты...</div>
+    );
   }
 
-  // Пока идёт динамический импорт — можно показать лоадер
   return (
-    <div
-      className="w-full flex items-center justify-center border-2 border-gray-300 rounded-lg bg-gray-100"
-      style={{ height }}
+    <YandexMapPreviewWrapper
+      isActive={isMapActive}
+      onActivate={() => setIsMapActive(true)}
+      height={height}
+      preview={preview}
     >
-      <div className="text-gray-500">Загрузка карты...</div>
-    </div>
+      {mapContent}
+    </YandexMapPreviewWrapper>
   );
 };
 
