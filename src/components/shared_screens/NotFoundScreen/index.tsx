@@ -39,7 +39,7 @@ export default function NotFoundScreen() {
               </p>
             </AnimatedText>
 
-            <MainButton text="Вернуться на главную" href={PagesConfig.home} className="mt-4" />
+            <MainButton text="Вернуться на главную" href={PagesConfig.home.href} className="mt-4" />
           </div>
 
           {/* Right side - 404 Display */}

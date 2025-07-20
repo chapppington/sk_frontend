@@ -2,20 +2,20 @@ import { ContactBlock, NavigationItem } from "./types";
 import { PagesConfig } from "@/config/pages.config";
 
 export const mobileNavigationItems: NavigationItem[] = [
-  { name: "Каталог", link: PagesConfig.catalog },
-  { name: "О компании", link: PagesConfig.about },
-  { name: "О производстве", link: PagesConfig.production },
-  { name: "Новости", link: PagesConfig.news },
-  { name: "Сертификаты", link: PagesConfig.certificates },
-  { name: "Вакансии", link: PagesConfig.vacancies },
-  { name: "Контакты", link: PagesConfig.contacts },
+  { name: "Каталог", link: PagesConfig.catalog.href },
+  { name: "О компании", link: PagesConfig.about.href },
+  { name: "О производстве", link: PagesConfig.production.href },
+  { name: "Новости", link: PagesConfig.news.href },
+  { name: "Сертификаты", link: PagesConfig.certificates.href },
+  { name: "Вакансии", link: PagesConfig.vacancies.href },
+  { name: "Контакты", link: PagesConfig.contacts.href },
 ];
 
 export const desktopNavigationItems: NavigationItem[] = [
-  { name: "О компании", link: PagesConfig.about },
-  { name: "Сертификаты", link: PagesConfig.certificates },
-  { name: "Вакансии", link: PagesConfig.vacancies },
-  { name: "Контакты", link: PagesConfig.contacts },
+  { name: "О компании", link: PagesConfig.about.href },
+  { name: "Сертификаты", link: PagesConfig.certificates.href },
+  { name: "Вакансии", link: PagesConfig.vacancies.href },
+  { name: "Контакты", link: PagesConfig.contacts.href },
 ];
 
 export const contactBlocks: ContactBlock[] = [

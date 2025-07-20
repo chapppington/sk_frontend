@@ -9,20 +9,6 @@ import { IMobileMenuProps } from "@/components/shared_screens/Navbar/types";
 import { useNavbarConfigPublic } from "@/hooks/useNavbarConfigPublic";
 import { IMenuItem } from "@/components/shared_screens/Navbar/types";
 
-const ALL_PAGES_LABELS: Record<string, string> = {
-  home: "Главная",
-  about: "О компании",
-  catalog: "Каталог",
-  portfolio: "Портфолио",
-  news: "Новости",
-  certificates: "Сертификаты",
-  vacancies: "Вакансии",
-  contacts: "Контакты",
-  privacy: "Политика конфиденциальности",
-  questionnaire: "Опросник",
-  production: "Производство",
-};
-
 const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -35,10 +21,9 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
   const items = useMemo(
     () =>
       links
-        .map((key: string) => {
-          const href = (PagesConfig as any)[key];
-          const label = ALL_PAGES_LABELS[key] || key;
-          return href ? { href, label } : null;
+        .map((key: keyof typeof PagesConfig) => {
+          const page = PagesConfig[key];
+          return page ? { href: page.href, label: page.label } : null;
         })
         .filter(Boolean),
     [links]
@@ -276,7 +261,7 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
               </p>
               <div className="space-y-2">
                 <TransitionLink
-                  href={PagesConfig.privacy}
+                  href={PagesConfig.privacy.href}
                   className="text-white/50 text-sm hover:text-white block"
                   onClick={(e) => {
                     e.stopPropagation();

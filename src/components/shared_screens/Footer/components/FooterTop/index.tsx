@@ -12,7 +12,7 @@ const FooterTop: FC = () => {
     <div className="flex flex-col md:flex-row justify-between items-start mb-12">
       {/* Logo Section */}
       <div className="mb-8 md:mb-0">
-        <TransitionLink href={PagesConfig.home} className="flex items-center">
+        <TransitionLink href={PagesConfig.home.href} className="flex items-center">
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"

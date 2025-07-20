@@ -5,20 +5,6 @@ import TransitionLink from "@/components/ui/TransitionLink";
 import { PagesConfig } from "@/config/pages.config";
 import { useNavbarConfigPublic } from "@/hooks/useNavbarConfigPublic";
 
-const ALL_PAGES_LABELS: Record<string, string> = {
-  home: "Главная",
-  about: "О компании",
-  catalog: "Каталог",
-  portfolio: "Портфолио",
-  news: "Новости",
-  certificates: "Сертификаты",
-  vacancies: "Вакансии",
-  contacts: "Контакты",
-  privacy: "Политика конфиденциальности",
-  questionnaire: "Опросник",
-  production: "Производство",
-};
-
 const DesktopDropdownMenu = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -27,10 +13,9 @@ const DesktopDropdownMenu = () => {
   const items = useMemo(
     () =>
       links
-        .map((key: string) => {
-          const href = (PagesConfig as any)[key];
-          const label = ALL_PAGES_LABELS[key] || key;
-          return href ? { href, label } : null;
+        .map((key: keyof typeof PagesConfig) => {
+          const page = PagesConfig[key];
+          return page ? { href: page.href, label: page.label } : null;
         })
         .filter(Boolean),
     [links]

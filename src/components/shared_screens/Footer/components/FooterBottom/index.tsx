@@ -14,7 +14,7 @@ const FooterBottom: FC = () => {
           © {new Date().getFullYear()}г. Все права защищены.
         </p>
         <TransitionLink
-          href={PagesConfig.privacy}
+          href={PagesConfig.privacy.href}
           className="block text-white/80 text-sm hover:text-white/70"
         >
           Политика обработки персональных данных
@@ -27,7 +27,7 @@ const FooterBottom: FC = () => {
         </p>
         <div className="flex space-x-6">
           <TransitionLink
-            href={PagesConfig.privacy}
+            href={PagesConfig.privacy.href}
             className="text-white/80 text-sm hover:text-white/70 relative select-none group transition-colors"
           >
             Политика обработки персональных данных

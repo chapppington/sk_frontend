@@ -92,7 +92,7 @@ export default function TeamScreen() {
               </div>
               <MainButton
                 text="Смотреть вакансии"
-                href={PagesConfig.vacancies}
+                href={PagesConfig.vacancies.href}
               />
             </div>
           </div>
