@@ -10,6 +10,7 @@ import {
 } from "@dnd-kit/core";
 import { Card, CardContent, CardTitle } from "@/components/ui/shadcn/card";
 import { useToast } from "@/hooks/use-toast";
+import { GripVertical } from "lucide-react";
 
 const ALL_PAGES: { key: keyof typeof PagesConfig; label: string }[] = [
   { key: "about", label: "О компании" },
@@ -43,7 +44,8 @@ function DraggablePage({
           style={{ minWidth: 180, opacity: 0.95 }}
         >
           <CardContent className="py-3 px-4 flex items-center">
-            <CardTitle className="text-base font-medium text-foreground">
+            <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
+              <GripVertical className="w-4 h-4 text-muted-foreground" />
               {page.label}
             </CardTitle>
           </CardContent>
@@ -67,7 +69,8 @@ function DraggablePage({
         className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg ${className}`}
       >
         <CardContent className="py-3 px-4 flex items-center">
-          <CardTitle className="text-base font-medium text-foreground">
+          <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
+            <GripVertical className="w-4 h-4 text-muted-foreground" />
             {page.label}
           </CardTitle>
         </CardContent>
@@ -225,6 +228,14 @@ export function PagesMenuSelector({
       onDragCancel={() => setOverZone(null)}
       onDragStart={handleDragStart}
     >
+      <div className="mb-4 px-4 py-2 rounded-md border border-yellow-300 bg-yellow-50 text-yellow-800 dark:border-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200 text-sm">
+        <div className="flex items-center gap-2">
+          <GripVertical className="inline-block w-4 h-4 text-yellow-500 dark:text-yellow-300 mr-1" />
+          Перетаскивайте карточки из левой колонки. Внутри группы меняйте
+          порядок стрелочками. <br/>Счет идет слева направо: сверху — первая, внизу —
+          последняя.
+        </div>
+      </div>
       <div className="flex flex-col md:flex-row gap-6 mt-8">
         {/* Доступные */}
         <div className="flex-1">
@@ -240,7 +251,11 @@ export function PagesMenuSelector({
               />
             ))}
             {available.length === 0 && (
-              <li className="py-2 text-muted-foreground">Нет</li>
+              <li>
+                <div className="my-2 px-3 py-2 rounded-md border border-green-300 bg-green-50 text-green-800 dark:border-green-700 dark:bg-green-900/40 dark:text-green-200 text-sm text-center">
+                  Все страницы распределены!
+                </div>
+              </li>
             )}
           </DroppableZone>
         </div>
