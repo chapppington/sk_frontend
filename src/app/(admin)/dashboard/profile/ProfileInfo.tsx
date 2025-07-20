@@ -41,7 +41,8 @@ export function ProfileInfo() {
         "Настройка мета-тегов, robots.txt, sitemap.xml и SEO-параметров сайта",
       icon: Globe,
       href: "/dashboard/seo-settings",
-      color: "bg-blue-500/10 text-blue-600 border-blue-200",
+      color:
+        "bg-blue-500/10 text-blue-600 border-blue-200 dark:bg-blue-900/40 dark:text-blue-100 dark:border-blue-700 dark:border-transparent",
       subItems: [
         {
           name: "Мета-теги страниц",
@@ -58,7 +59,8 @@ export function ProfileInfo() {
         "Управление новостями, товарами, вакансиями и проектами портфолио",
       icon: Settings,
       href: "/dashboard/news",
-      color: "bg-green-500/10 text-green-600 border-green-200",
+      color:
+        "bg-green-500/10 text-green-600 border-green-200 dark:bg-green-900/40 dark:text-green-100 dark:border-green-700 dark:border-transparent",
       subItems: [
         { name: "Новости", href: "/dashboard/news", icon: Newspaper },
         { name: "Товары", href: "/dashboard/products", icon: Package },
@@ -71,7 +73,8 @@ export function ProfileInfo() {
       description: "Редактирование основных страниц сайта",
       icon: FileText,
       href: "/dashboard/static",
-      color: "bg-purple-500/10 text-purple-600 border-purple-200",
+      color:
+        "bg-purple-500/10 text-purple-600 border-purple-200 dark:bg-purple-900/40 dark:text-purple-100 dark:border-purple-700 dark:border-transparent",
       subItems: [
         { name: "Главная", href: "/dashboard/static/home", icon: Home },
         { name: "О компании", href: "/dashboard/static/about", icon: Building },
@@ -103,7 +106,7 @@ export function ProfileInfo() {
   return (
     <div className="mt-10">
       {/* Компактный профиль пользователя */}
-      <div className="p-3 border rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 mb-6 flex items-center gap-3">
+      <div className="p-3 border rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 mb-6 flex items-center gap-3 dark:border-transparent">
         {user.avatarPath ? (
           <Image
             src={user.avatarPath}
@@ -159,38 +162,47 @@ export function ProfileInfo() {
               <div
                 className={`p-3 rounded-lg ${section.color
                   .replace("bg-", "bg-")
-                  .replace("/10", "/20")}`}
+                  .replace("/10", "/20")
+                  .replace("text-", "")
+                  .replace("border-", "")}
+dark:bg-opacity-60`}
               >
                 <section.icon className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h4 className="text-lg font-semibold mb-2">{section.title}</h4>
-                <p className="text-sm mb-4 opacity-80">{section.description}</p>
+                <h4 className="text-lg font-semibold mb-2 dark:text-white">
+                  {section.title}
+                </h4>
+                <p className="text-sm mb-4 opacity-80 dark:text-white">
+                  {section.description}
+                </p>
                 {section.subItems ? (
                   <div className="space-y-2">
                     {section.subItems.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="flex items-center justify-between p-3 rounded-md bg-white/50 dark:bg-slate-800/50 hover:bg-white/70 dark:hover:bg-slate-700/50 transition-colors"
+                        className="flex items-center justify-between p-3 rounded-md bg-white/50 hover:bg-white/70 transition-colors dark:bg-white/10 dark:hover:bg-white/20 dark:text-white"
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className="w-4 h-4" />
-                          <span className="text-sm font-medium">
+                          <item.icon className="w-4 h-4 dark:text-white" />
+                          <span className="text-sm font-medium dark:text-white">
                             {item.name}
                           </span>
                         </div>
-                        <ArrowRight className="w-4 h-4 opacity-60" />
+                        <ArrowRight className="w-4 h-4 opacity-60 dark:text-white" />
                       </Link>
                     ))}
                   </div>
                 ) : (
                   <Link
                     href={section.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-slate-800/50 hover:bg-white/70 dark:hover:bg-slate-700/50 rounded-md transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 hover:bg-white/70 rounded-md transition-colors dark:bg-white/10 dark:hover:bg-white/20 dark:text-white"
                   >
-                    <span className="text-sm font-medium">Перейти</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span className="text-sm font-medium dark:text-white">
+                      Перейти
+                    </span>
+                    <ArrowRight className="w-4 h-4 dark:text-white" />
                   </Link>
                 )}
               </div>
