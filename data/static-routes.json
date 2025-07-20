@@ -16,11 +16,6 @@
       "changeFreq": "monthly"
     },
     {
-      "route": "/portfolio",
-      "priority": 0.8,
-      "changeFreq": "monthly"
-    },
-    {
       "route": "/news",
       "priority": 0.7,
       "changeFreq": "monthly"
