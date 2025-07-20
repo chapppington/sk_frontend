@@ -45,6 +45,7 @@ import {
   Package,
   Bot,
   Map,
+  PanelTop,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -230,6 +231,25 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Настройки меню</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link
+                    href="/dashboard/navbar_config"
+                    className="flex items-center gap-3"
+                    onClick={handleMobileClose}
+                  >
+                    <PanelTop className="w-5 h-5" />
+                    <span>Верхнее меню</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
