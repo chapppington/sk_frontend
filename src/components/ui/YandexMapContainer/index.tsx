@@ -102,16 +102,14 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
   }
 
   const preview = (
-    <div className="relative w-4/5 h-4/5 max-w-full max-h-full flex items-center justify-center">
-      <Image
-        src="/map_preview.png"
-        alt="Карта"
-        fill
-        style={{ objectFit: "contain" }}
-        sizes="80vw"
-        priority={false}
-      />
-    </div>
+    <Image
+      src="/map_preview.png"
+      alt="Карта"
+      fill
+      style={{ objectFit: "cover" }}
+      sizes="100vw"
+      priority={false}
+    />
   );
 
   let mapContent = null;
