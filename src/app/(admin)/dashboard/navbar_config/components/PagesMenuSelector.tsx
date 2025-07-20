@@ -42,11 +42,11 @@ function DraggablePage({
     return (
       <li style={{ listStyle: "none" }}>
         <Card
-          className={`border-primary bg-white shadow-2xl scale-105 z-50 pointer-events-none select-none ${className}`}
+          className={`border-primary bg-background dark:border-zinc-700 shadow-2xl scale-105 z-50 pointer-events-none select-none ${className}`}
           style={{ minWidth: 180, opacity: 0.95 }}
         >
           <CardContent className="py-3 px-4 flex items-center">
-            <CardTitle className="text-base font-medium">
+            <CardTitle className="text-base font-medium text-foreground">
               {page.label}
             </CardTitle>
           </CardContent>
@@ -67,10 +67,10 @@ function DraggablePage({
       onClick={onClick}
     >
       <Card
-        className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-white border-muted hover:shadow-lg ${className}`}
+        className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg ${className}`}
       >
         <CardContent className="py-3 px-4 flex items-center">
-          <CardTitle className="text-base font-medium">{page.label}</CardTitle>
+          <CardTitle className="text-base font-medium text-foreground">{page.label}</CardTitle>
         </CardContent>
       </Card>
     </li>
@@ -90,7 +90,7 @@ function DroppableZone({
   return (
     <ul
       ref={setNodeRef}
-      className={`rounded-md min-h-[220px] bg-white transition-colors ${
+      className={`rounded-md min-h-[220px] bg-background dark:border-zinc-700 transition-colors ${
         isOver ? "ring-2 ring-primary" : ""
       }`}
     >
@@ -237,10 +237,10 @@ export function PagesMenuSelector({
                 >
                   <span className="flex-1">
                     <Card
-                      className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-white border-muted hover:shadow-lg`}
+                      className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg`}
                     >
                       <CardContent className="py-3 px-4 flex items-center justify-between">
-                        <CardTitle className="text-base font-medium">
+                        <CardTitle className="text-base font-medium text-foreground">
                           {page?.label || k}
                         </CardTitle>
                         <div className="flex gap-1 items-center ml-2">
@@ -309,10 +309,10 @@ export function PagesMenuSelector({
                 >
                   <span className="flex-1">
                     <Card
-                      className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-white border-muted hover:shadow-lg`}
+                      className={`transition-all duration-150 cursor-pointer select-none border-2 px-0 py-0 bg-background dark:border-zinc-700 border-muted hover:shadow-lg`}
                     >
                       <CardContent className="py-3 px-4 flex items-center justify-between">
-                        <CardTitle className="text-base font-medium">
+                        <CardTitle className="text-base font-medium text-foreground">
                           {page?.label || k}
                         </CardTitle>
                         <div className="flex gap-1 items-center ml-2">
