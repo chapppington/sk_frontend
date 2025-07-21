@@ -22,6 +22,7 @@ import {
   Award,
   Bot,
   Map,
+  Layers,
 } from "lucide-react";
 import { FontSettings } from "./FontSettings";
 
@@ -58,7 +59,7 @@ export function ProfileInfo() {
       title: "Динамический контент",
       description:
         "Управление новостями, товарами, вакансиями и проектами портфолио",
-      icon: Settings,
+      icon: Layers,
       href: "/dashboard/news",
       color:
         "bg-green-500/10 text-green-600 border-green-200 dark:bg-green-900/40 dark:text-green-100 dark:border-green-700 dark:border-transparent",
@@ -111,15 +112,17 @@ export function ProfileInfo() {
         <div className="flex-1 min-w-0">
           <div className="p-6 h-full border rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex flex-col justify-center gap-3 dark:border-transparent overflow-hidden">
             {user.avatarPath ? (
-              <Image
-                src={user.avatarPath}
-                alt="Avatar"
-                width={40}
-                height={40}
-                className="rounded-full border-2 border-white dark:border-slate-700 shadow"
-              />
+              <div className="w-[35px] h-[35px] rounded-full overflow-hidden border-2 border-white dark:border-slate-700 shadow relative">
+                <Image
+                  src={user.avatarPath}
+                  alt="Avatar"
+                  fill
+                  className="object-cover"
+                  sizes="35px"
+                />
+              </div>
             ) : (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
+              <div className="w-[35px] h-[35px] rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
                 <User className="w-5 h-5" />
               </div>
             )}
@@ -155,17 +158,22 @@ export function ProfileInfo() {
             <div className="font-semibold text-sm mb-2">Как поменять шрифт</div>
             <ol className="list-decimal list-inside space-y-1">
               <li>
-                Откройте <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer" className="underline">Google Fonts</a>
+                Откройте{" "}
+                <a
+                  href="https://fonts.google.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  Google Fonts
+                </a>
               </li>
+              <li>Выберите понравившийся шрифт, скопируйте его название</li>
               <li>
-                Выберите понравившийся шрифт, скопируйте его название
+                Нажмите на выпадающий список, вставьте название шрифта в поле
+                поиска
               </li>
-              <li>
-                Нажмите на выпадающий список, вставьте название шрифта в поле поиска
-              </li>
-              <li>
-                Кликните по нужному шрифту — он применится автоматически
-              </li>
+              <li>Кликните по нужному шрифту — он применится автоматически</li>
             </ol>
           </div>
         </div>
@@ -197,10 +205,10 @@ dark:bg-opacity-60`}
                 <section.icon className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h4 className="text-lg font-semibold mb-2 dark:text-white">
+                <h4 className="text-lg font-semibold mb-2 text-slate-800 dark:text-white">
                   {section.title}
                 </h4>
-                <p className="text-sm mb-4 opacity-80 dark:text-white">
+                <p className="text-sm mb-4 opacity-80 text-slate-800 dark:text-white">
                   {section.description}
                 </p>
                 {section.subItems ? (
@@ -209,27 +217,27 @@ dark:bg-opacity-60`}
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="flex items-center justify-between p-3 rounded-md bg-white/50 hover:bg-white/70 transition-colors dark:bg-white/10 dark:hover:bg-white/20 dark:text-white"
+                        className="flex items-center justify-between p-3 rounded-md bg-white/50 hover:bg-white/70 transition-colors dark:bg-white/10 dark:hover:bg-white/20 text-slate-800 dark:text-white"
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className="w-4 h-4 dark:text-white" />
-                          <span className="text-sm font-medium dark:text-white">
+                          <item.icon className="w-4 h-4 text-slate-800 dark:text-white" />
+                          <span className="text-sm font-medium text-slate-800 dark:text-white">
                             {item.name}
                           </span>
                         </div>
-                        <ArrowRight className="w-4 h-4 opacity-60 dark:text-white" />
+                        <ArrowRight className="w-4 h-4 opacity-60 text-slate-800 dark:text-white" />
                       </Link>
                     ))}
                   </div>
                 ) : (
                   <Link
                     href={section.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 hover:bg-white/70 rounded-md transition-colors dark:bg-white/10 dark:hover:bg-white/20 dark:text-white"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 hover:bg-white/70 rounded-md transition-colors dark:bg-white/10 dark:hover:bg-white/20 text-slate-800 dark:text-white"
                   >
-                    <span className="text-sm font-medium dark:text-white">
+                    <span className="text-sm font-medium text-slate-800 dark:text-white">
                       Перейти
                     </span>
-                    <ArrowRight className="w-4 h-4 dark:text-white" />
+                    <ArrowRight className="w-4 h-4 text-slate-800 dark:text-white" />
                   </Link>
                 )}
               </div>
