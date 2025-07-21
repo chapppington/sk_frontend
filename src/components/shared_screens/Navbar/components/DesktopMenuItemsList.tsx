@@ -24,7 +24,7 @@ const DesktopMenu: FC = () => {
     () =>
       links
         .map((key: string) => {
-          const href = (PagesConfig as any)[key];
+          const href = (PagesConfig as any)[key]?.href;
           const label = ALL_PAGES_LABELS[key] || key;
           return href ? { href, label } : null;
         })
