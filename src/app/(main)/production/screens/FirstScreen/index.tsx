@@ -85,7 +85,7 @@ const FirstScreen: FC = () => {
 
         <BlackBoxWithStats
           transparent={true}
-          className="z-[5] scale-90"
+          className="z-[5]"
           stats={[
             {
               value: "8500 м²",
