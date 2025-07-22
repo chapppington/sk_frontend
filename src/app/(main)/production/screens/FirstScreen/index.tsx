@@ -88,7 +88,7 @@ const FirstScreen: FC = () => {
           className="z-[5] scale-90"
           stats={[
             {
-              value: "7776 м²",
+              value: "8500 м²",
               description: "собственная производственная площадка",
               showOnMobile: true,
             },

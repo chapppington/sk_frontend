@@ -75,7 +75,7 @@ const FirstScreen: FC = () => {
           },
           {
             value: "7 лет",
-            description: "максимальный срок гарантии",
+            description: "гарантийный срок",
             showOnMobile: true,
           },
         ]}
