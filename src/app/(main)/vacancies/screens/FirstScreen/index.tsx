@@ -91,8 +91,8 @@ const FirstScreen: FC = () => {
             showOnMobile: false,
           },
           {
-            value: "4.7 NPS",
-            description: "Индекс потребительской лояльности",
+            value: "81% eNPS",
+            description: "Индекс удовлетворенности сотрудников",
             showOnMobile: true,
           },
           {
