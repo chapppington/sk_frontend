@@ -2,13 +2,13 @@ export const productCategories = [
   { id: "all", name: "Вся продукция", slug: "all" },
   {
     id: "kts",
-    name: "Комплектные трансформаторные подстанции",
-    slug: "komplektnye-transformatornye-podstancii",
+    name: "Трансформаторные подстанции",
+    slug: "transformatornye-podstancii",
   },
   {
     id: "kru",
-    name: "Распределительные устройства высокого напряжения 6(10) кВ",
-    slug: "raspredelitelnye-ustroystva-vysokogo-napryazheniya-6-10-kv",
+    name: "Распределительные устройства среднего напряжения 6(10) кВ",
+    slug: "raspredelitelnye-ustroystva-srednego-napryazheniya-6-10-kv",
   },
   {
     id: "nku",
@@ -29,8 +29,8 @@ export const productCategories = [
 
 // Маппинг для коротких ID категорий из mock_data
 export const shortCategoryMap = new Map([
-  ["kts", "Комплектные трансформаторные подстанции"],
-  ["kru", "Распределительные устройства высокого напряжения 6(10) кВ"],
+  ["kts", "Трансформаторные подстанции"],
+  ["kru", "Распределительные устройства среднего напряжения 6(10) кВ"],
   ["nku", "Распределительные устройства низкого напряжения 0,4 кВ"],
   [
     "accounting",
