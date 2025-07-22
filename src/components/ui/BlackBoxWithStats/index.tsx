@@ -9,20 +9,18 @@ const BlackBoxWithStats: FC<IBlackBoxWithStatsProps> = ({
 }) => {
   const isMobile = useIsMobile();
   return (
-    <div
-      className={`absolute bottom-0 right-0 w-full lg:w-auto xl:min-w-[800px] lg:min-w-[500px] xl:min-w-[550px] 2xl:min-w-[600px] ${className}`}
-    >
+    <div className={`absolute bottom-7 right-4 ${className}`}>
       <div className={`relative ${transparent ? "" : "md:bg-black"}`}>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 p-8 md:p-16 lg:p-10 xl:p-12 2xl:p-14 relative z-10">
+        <div className="flex flex-wrap gap-x-8 gap-y-4 p-4 md:p-12">
           {stats
             .filter((stat) => !isMobile || stat.showOnMobile !== false)
             .map((stat, index) => (
-              <div key={index}>
-                <div className="text-4xl sm:text-4xl md:text-6xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light text-white mb-2 md:mb-4">
+              <div key={index} className="min-w-[120px]">
+                <div className="text-3xl md:text-6xl font-light text-white mb-3">
                   <span>
                     {stat.value}{" "}
                     {stat.unit && (
-                      <span className="text-2xl sm:text-3xl md:text-5xl lg:text-3xl xl:text-4xl 2xl:text-5xl">
+                      <span className="text-xl md:text-3xl">
                         {stat.unit.isSuperscript ? (
                           <>
                             {stat.unit.text.split("").map((char, i) => (
@@ -36,7 +34,7 @@ const BlackBoxWithStats: FC<IBlackBoxWithStatsProps> = ({
                     )}
                   </span>
                 </div>
-                <div className="text-sm sm:text-base md:text-lg lg:text-sm xl:text-base 2xl:text-lg font-light text-white max-w-[250px] lg:max-w-[160px] xl:max-w-[180px] 2xl:max-w-[200px]">
+                <div className="text-xs md:text-sm xl:text-base font-light text-white max-w-[190px]">
                   <span>{stat.description}</span>
                 </div>
               </div>
