@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/shadcn/select";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import type { INews } from "@/shared/types/news.types";
 import React from "react";
 import { NEWS_CATEGORIES } from "../news.config";
@@ -172,7 +172,7 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                   </p>
                   <div className="relative aspect-[16/9] w-[320px]">
                     <Image
-                      src={`${BACKEND_MAIN}${editingNews.imageUrl}`}
+                      src={`${UPLOADS_URL}${editingNews.imageUrl}`}
                       alt="Current news image"
                       fill
                       className="object-cover rounded-md"

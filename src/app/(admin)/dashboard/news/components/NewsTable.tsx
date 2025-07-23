@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/shadcn/popover";
 import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import type { INews } from "@/shared/types/news.types";
 
 type NewsTableProps = {
@@ -65,7 +65,7 @@ const NewsTable: React.FC<NewsTableProps> = ({
                   {item.imageUrl && (
                     <div className="w-[100px] h-[60px] relative">
                       <Image
-                        src={`${BACKEND_MAIN}${item.imageUrl}`}
+                        src={`${UPLOADS_URL}${item.imageUrl}`}
                         alt={item.alt || item.title}
                         fill
                         className="object-cover rounded"
