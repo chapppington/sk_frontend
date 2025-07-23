@@ -118,6 +118,7 @@ export default function NewsManagement() {
                   image: undefined,
                   shortContent: "",
                   alt: "",
+                  date: "",
                 });
               }}
             >
