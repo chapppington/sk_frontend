@@ -1,10 +1,10 @@
 import { TableRow, TableCell } from "@/components/ui/shadcn/table";
 import Image from "next/image";
-import { GripVertical } from "lucide-react";
+import { BookAIcon, GripVertical } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IProduct } from "@/shared/types/product.types";
-import { UPLOADS_URL } from "@/constants";
+import { BACKEND_MAIN } from "@/constants";
 
 export default function SortableProductRow({
   product,
@@ -47,7 +47,7 @@ export default function SortableProductRow({
         {product.previewImageUrl ? (
           <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
             <Image
-              src={`${UPLOADS_URL}${product.previewImageUrl}`}
+              src={`${BACKEND_MAIN}${product.previewImageUrl}`}
               alt={product.name}
               fill
               className="object-contain"
