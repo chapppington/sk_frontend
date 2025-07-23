@@ -40,7 +40,11 @@ const ReadMoreScreen: FC = () => {
   const transformedNews: INewsItem[] = news.map((item: INews) => ({
     id: parseInt(item.id),
     category: categoryMap[item.category] || item.category,
-    date: item.date || "", // Гарантируем, что date всегда string
+    date: item.date ? new Date(item.date).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }) : "",
     readTime: `${item.readingTime} мин`,
     title: item.title,
     description: item.shortContent || item.content.substring(0, 150) + "...",
