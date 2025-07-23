@@ -67,6 +67,7 @@ export default function NewsManagement() {
     formDataToSend.append("content", formData.content);
     formDataToSend.append("shortContent", formData.shortContent);
     formDataToSend.append("alt", formData.alt);
+    formDataToSend.append("date", formData.date);
     if (formData.image) {
       console.log("File being uploaded:", {
         name: formData.image.name,
@@ -97,6 +98,7 @@ export default function NewsManagement() {
       image: undefined,
       shortContent: news.shortContent || "",
       alt: news.alt || "",
+      date: news.date ? news.date.slice(0, 10) : "",
     });
     setIsDialogOpen(true);
   };

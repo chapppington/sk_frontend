@@ -35,6 +35,7 @@ type NewsDialogProps = {
     image?: File;
     shortContent: string;
     alt: string;
+    date: string;
   };
   setFormData: (data: any) => void;
   handleSubmit: (e: React.FormEvent) => void;
@@ -62,6 +63,7 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
               image: undefined,
               shortContent: "",
               alt: "",
+              date: "",
             });
           }}
         >
@@ -137,6 +139,17 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                   setFormData({ ...formData, shortContent: e.target.value })
                 }
                 className="min-h-[80px]"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Дата публикации</label>
+              <Input
+                type="date"
+                value={formData.date}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
               />
             </div>
 

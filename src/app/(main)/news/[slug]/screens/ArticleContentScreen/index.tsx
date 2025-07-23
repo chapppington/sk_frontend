@@ -56,11 +56,17 @@ export default function ArticleContentSection({
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
           <span>
-            {new Date(news.createdAt).toLocaleDateString("ru-RU", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            })}
+            {news.date
+              ? new Date(news.date).toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })
+              : new Date(news.createdAt).toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
           </span>
           <span>•</span>
           <span>{news.readingTime} мин</span>
