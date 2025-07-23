@@ -9,4 +9,5 @@ export interface INews {
   alt?: string;
   readingTime: number;
   shortContent?: string;
+  date?: string;
 }

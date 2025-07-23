@@ -29,6 +29,7 @@ export function useNewsManagement() {
     image: undefined as File | undefined,
     shortContent: "",
     alt: "",
+    date: "",
   });
 
   const { data: news = [], isLoading: isLoadingNews } = useQuery({

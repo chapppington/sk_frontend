@@ -53,11 +53,17 @@ export default function ArticleContentSection({
         {/* Meta Information */}
         <div className="flex items-center space-x-4 text-white/60 text-sm mb-8">
           <span>
-            {new Date(news.createdAt).toLocaleDateString("ru-RU", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            })}
+            {news.date
+              ? new Date(news.date).toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })
+              : new Date(news.createdAt).toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
           </span>
           <span>•</span>
           <span>{news.readingTime} мин</span>
@@ -68,7 +74,7 @@ export default function ArticleContentSection({
           <div className="relative aspect-[16/9] mb-12 md:max-h-[600px] w-full">
             <Image
               src={`${BACKEND_MAIN}${news.imageUrl}`}
-              alt={news.alt || news.title} 
+              alt={news.alt || news.title}
               fill
               className="object-cover rounded-lg"
               priority

@@ -64,11 +64,17 @@ const NewsGrid: FC = () => {
   const backendNewsItems = backendNews.map((item: any) => ({
     id: parseInt(item.id) || 0,
     category: categoryMap[item.category] || item.category,
-    date: new Date(item.createdAt).toLocaleDateString("ru-RU", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }),
+    date: item.date
+      ? new Date(item.date).toLocaleDateString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : new Date(item.createdAt).toLocaleDateString("ru-RU", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
     readTime: `${item.readingTime} мин`,
     title: item.title,
     description: item.shortContent || item.content?.substring(0, 150) + "...",

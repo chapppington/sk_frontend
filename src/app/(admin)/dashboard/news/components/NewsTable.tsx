@@ -82,7 +82,9 @@ const NewsTable: React.FC<NewsTableProps> = ({
                 </TableCell>
                 <TableCell>{item.readingTime} мин</TableCell>
                 <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString()}
+                  {item.date
+                    ? new Date(item.date).toLocaleDateString()
+                    : new Date(item.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
