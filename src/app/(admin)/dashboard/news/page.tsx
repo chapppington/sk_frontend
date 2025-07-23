@@ -66,6 +66,12 @@ export default function NewsManagement() {
     setIsDialogOpen(true);
   };
 
+  const sortedNews = [...news].sort((a, b) => {
+    const dateA = a.date ? new Date(a.date) : new Date(a.createdAt);
+    const dateB = b.date ? new Date(b.date) : new Date(b.createdAt);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-6">
@@ -84,7 +90,7 @@ export default function NewsManagement() {
         <div>Загрузка...</div>
       ) : (
         <NewsTable
-          news={news}
+          news={sortedNews}
           categoryMap={categoryMap}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
