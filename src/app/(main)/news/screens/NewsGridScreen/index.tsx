@@ -67,17 +67,7 @@ const NewsGrid: FC = () => {
   const backendNewsItems = backendNews.map((item: any) => ({
     id: parseInt(item.id) || 0,
     category: categoryMap[item.category] || item.category,
-    date: item.date
-      ? new Date(item.date).toLocaleDateString("ru-RU", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })
-      : new Date(item.createdAt).toLocaleDateString("ru-RU", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }),
+    date: item.date || item.createdAt, // ISO string for sorting
     readTime: `${item.readingTime} мин`,
     title: item.title,
     description: item.shortContent || item.content?.substring(0, 150) + "...",
@@ -98,8 +88,8 @@ const NewsGrid: FC = () => {
         selectedCategorySlug === "all" || news.category === selectedCategory
     )
     .sort((a, b) => {
-      const dateA = new Date(a.createdAt);
-      const dateB = new Date(b.createdAt);
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
       return sortBy === "new"
         ? dateB.getTime() - dateA.getTime()
         : dateA.getTime() - dateB.getTime();
@@ -278,7 +268,11 @@ const NewsGrid: FC = () => {
                 slug={news.slug}
                 title={news.title}
                 description={news.description}
-                date={news.date}
+                date={new Date(news.date).toLocaleDateString("ru-RU", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
                 readTime={news.readTime}
                 image={news.image}
                 alt={news.alt}
