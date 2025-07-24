@@ -150,6 +150,7 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                 onChange={(e) =>
                   setFormData({ ...formData, date: e.target.value })
                 }
+                className="w-auto"
               />
             </div>
 
