@@ -56,6 +56,10 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
         <Button
           onClick={() => {
             setEditingNews(null);
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, "0");
+            const dd = String(today.getDate()).padStart(2, "0");
             setFormData({
               category: "production",
               title: "",
@@ -63,7 +67,7 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
               image: undefined,
               shortContent: "",
               alt: "",
-              date: "",
+              date: `${yyyy}-${mm}-${dd}`,
             });
           }}
         >
