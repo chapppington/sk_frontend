@@ -144,17 +144,19 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Дата публикации</label>
-              <Input
-                type="date"
-                value={formData.date}
-                onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
-                }
-                className="w-auto"
-              />
-              <p className="text-xs mt-1 px-2 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">
-                Заполняйте только если хотите выложить новость задним числом. Если не заполнить, будет использована реальная дата создания.
-              </p>
+              <div className="flex items-center gap-3">
+                <Input
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                  className="w-auto"
+                />
+                <p className="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">
+                  Если не заполнено, будет использована дата создания новости.
+                </p>
+              </div>
             </div>
 
             <div className="space-y-2">
