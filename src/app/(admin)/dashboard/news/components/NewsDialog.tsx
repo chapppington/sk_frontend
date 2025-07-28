@@ -152,6 +152,9 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                 }
                 className="w-auto"
               />
+              <p className="text-xs mt-1 px-2 py-1 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">
+                Заполняйте только если хотите выложить новость задним числом. Если не заполнить, будет использована реальная дата создания.
+              </p>
             </div>
 
             <div className="space-y-2">
