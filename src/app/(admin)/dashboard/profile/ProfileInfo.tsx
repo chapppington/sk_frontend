@@ -4,7 +4,6 @@ import { useProfile } from "@/hooks/useProfile";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Settings,
   FileText,
   Newspaper,
   Briefcase,
