@@ -46,6 +46,7 @@ import {
   Bot,
   Map,
   PanelTop,
+  PanelBottom,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -235,6 +236,18 @@ export function AppSidebar() {
                   >
                     <PanelTop className="w-5 h-5" />
                     <span>Верхнее меню</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link
+                    href="/dashboard/footer-config"
+                    className="flex items-center gap-3"
+                    onClick={handleMobileClose}
+                  >
+                    <PanelBottom className="w-5 h-5" />
+                    <span>Нижнее меню</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
