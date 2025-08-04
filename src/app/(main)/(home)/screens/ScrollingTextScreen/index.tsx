@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useHomePageConfigPublic } from "@/hooks/useHomePageConfigPublic";
 
 const ScrollingTextSection = () => {
+  const { config, loading } = useHomePageConfigPublic();
   const scrollTextRef = useRef<HTMLDivElement>(null);
   const lastScrollPosition = useRef(0);
   const scrollSpeed = 0.5;
+
+  const rotatingText = config?.rotatingText || "Мы согреваем города";
 
   useEffect(() => {
     const scrollText = scrollTextRef.current;
@@ -32,6 +36,16 @@ const ScrollingTextSection = () => {
     updateScrollText();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="scroll-text-container overflow-hidden relative py-4 lg:py-8">
+        <div className="animate-pulse">
+          <div className="h-16 bg-gray-700 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="scroll-text-container overflow-hidden relative py-4 lg:py-8">
       <div
@@ -40,12 +54,12 @@ const ScrollingTextSection = () => {
         style={{ willChange: "transform" }}
       >
         <div className="scroll-text text-[50px] md:text-[100px] text-white/10 leading-none">
-          Мы согреваем города&nbsp;&nbsp;&nbsp;Мы согреваем
-          города&nbsp;&nbsp;&nbsp;Мы согреваем города&nbsp;&nbsp;&nbsp;
+          {rotatingText}&nbsp;&nbsp;&nbsp;{rotatingText}&nbsp;&nbsp;&nbsp;
+          {rotatingText}&nbsp;&nbsp;&nbsp;
         </div>
         <div className="scroll-text text-[50px] md:text-[100px] text-white/10 leading-none">
-          Мы согреваем города&nbsp;&nbsp;&nbsp;Мы согреваем
-          города&nbsp;&nbsp;&nbsp;Мы согреваем города&nbsp;&nbsp;&nbsp;
+          {rotatingText}&nbsp;&nbsp;&nbsp;{rotatingText}&nbsp;&nbsp;&nbsp;
+          {rotatingText}&nbsp;&nbsp;&nbsp;
         </div>
       </div>
     </div>

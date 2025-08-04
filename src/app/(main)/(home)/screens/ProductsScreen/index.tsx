@@ -14,14 +14,36 @@ import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
 import { NavigationButton } from "@/components/ui/NavigationButton";
 import AnimatedText from "@/components/ui/AnimatedText";
-
-import { products } from "./mock_data";
+import { useHomePageConfig } from "@/app/(admin)/dashboard/static/home/hooks/useHomePageConfig";
+import { productCategories } from "@/shared/utils/categoryMapping";
+import { BACKEND_MAIN } from "@/constants";
 
 export default function ProductsSlider() {
   const swiperRef = useRef<any>(null);
   const indicatorsRef = useRef<HTMLDivElement>(null);
   const [showButton, setShowButton] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const { config, loading } = useHomePageConfig();
+  const products = config?.productsScreen?.products || [];
+
+  console.log("Config:", config);
+  console.log("Products:", products);
+
+  const getCategorySlug = (categoryId: string) => {
+    const category = productCategories.find((cat) => cat.id === categoryId);
+    return category ? category.slug : "";
+  };
+
+  const getCurrentProductHref = () => {
+    if (products[currentIndex]) {
+      const categorySlug = getCategorySlug(products[currentIndex].category);
+      return `/catalog?tab=products&category=${encodeURIComponent(
+        categorySlug
+      )}#catalog_section`;
+    }
+    return "#";
+  };
 
   const updateProductsIndicators = (swiper: any) => {
     if (!swiper || !swiper.slides) return;
@@ -100,6 +122,16 @@ export default function ProductsSlider() {
     };
   }, []);
 
+  if (loading || !products.length) {
+    return (
+      <section id="products_slider_section" className="bg-transparent py-24">
+        <CustomContainer>
+          <div className="text-center text-white/60">Загрузка продукции...</div>
+        </CustomContainer>
+      </section>
+    );
+  }
+
   return (
     <section id="products_slider_section" className="bg-transparent py-24">
       <CustomContainer>
@@ -121,7 +153,7 @@ export default function ProductsSlider() {
                 key={currentIndex}
               >
                 <GradientHeading>
-                  {products[currentIndex].title}
+                  {products[currentIndex]?.title || ""}
                 </GradientHeading>
               </AnimatedText>
             </div>
@@ -131,15 +163,12 @@ export default function ProductsSlider() {
               key={"desc-" + currentIndex}
             >
               <p className="text-white/60 text-lg mb-4 max-w-lg">
-                {products[currentIndex].description}
+                {products[currentIndex]?.description || ""}
               </p>
             </AnimatedText>
 
-            {showButton && (
-              <MainButton
-                text="Узнать больше"
-                href={`/catalog/${products[currentIndex].slug}`}
-              />
+            {showButton && products[currentIndex] && (
+              <MainButton text="Узнать больше" href={getCurrentProductHref()} />
             )}
 
             <div className="flex items-center mt-12">
@@ -215,7 +244,7 @@ export default function ProductsSlider() {
                     <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
                       <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg bg-white p-2">
                         <Image
-                          src={product.image}
+                          src={`${BACKEND_MAIN}/uploads/home-page/${product.image}`}
                           alt={product.title}
                           fill
                           sizes="(max-width: 768px) 60px, 80px"
