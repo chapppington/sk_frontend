@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Button } from "@/components/ui/shadcn/button";
 import { Label } from "@/components/ui/shadcn/label";
 import { Textarea } from "@/components/ui/shadcn/textarea";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import Image from "next/image";
 import homePageConfigService from "@/services/home-page-config.service";
 
@@ -169,7 +169,7 @@ export function ReviewEditModal({
                 </p>
                 <div className="relative w-32 h-32">
                   <Image
-                    src={`${BACKEND_MAIN}/uploads/home-page/${form.image}`}
+                    src={`${UPLOADS_URL}/uploads/home-page/${form.image}`}
                     alt="Review author"
                     fill
                     className="object-cover rounded-md"
@@ -211,7 +211,7 @@ export function ReviewEditModal({
                 </p>
                 <div className="relative w-32 h-32">
                   <Image
-                    src={`${BACKEND_MAIN}/uploads/home-page/${form.content_path}`}
+                    src={`${UPLOADS_URL}/uploads/home-page/${form.content_path}`}
                     alt="Review content"
                     fill
                     className="object-cover rounded-md"
