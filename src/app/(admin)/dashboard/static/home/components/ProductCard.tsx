@@ -39,10 +39,6 @@ export function ProductCard({
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-3">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-sm font-medium text-gray-600 flex-shrink-0">
-            {index + 1}
-          </div>
-
           {product.image && (
             <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
               <Image
@@ -50,16 +46,16 @@ export function ProductCard({
                 alt={product.title}
                 width={48}
                 height={48}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           )}
 
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-sm truncate mb-1">
-              {product.title}
+              {index + 1}. {product.title}
             </h3>
-            <p className="text-xs text-gray-600 line-clamp-1">
+            <p className="text-xs text-muted-foreground line-clamp-1">
               {product.description || "Описание не указано"}
             </p>
           </div>
