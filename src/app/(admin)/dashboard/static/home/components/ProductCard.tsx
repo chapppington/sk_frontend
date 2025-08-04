@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/shadcn/popover";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { productCategories } from "@/shared/utils/categoryMapping";
 import { useState } from "react";
 
@@ -46,7 +46,7 @@ export function ProductCard({
           {product.image && (
             <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
               <Image
-                src={`${BACKEND_MAIN}/uploads/home-page/${product.image}`}
+                src={`${UPLOADS_URL}/uploads/home-page/${product.image}`}
                 alt={product.title}
                 width={48}
                 height={48}
