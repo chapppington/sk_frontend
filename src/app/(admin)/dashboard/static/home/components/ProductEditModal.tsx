@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import Image from "next/image";
 import { productCategories } from "@/shared/utils/categoryMapping";
 import homePageConfigService from "@/services/home-page-config.service";
@@ -162,7 +162,7 @@ export function ProductEditModal({
                 </p>
                 <div className="relative aspect-[16/9] w-[320px]">
                   <Image
-                    src={`${BACKEND_MAIN}/uploads/home-page/${form.image}`}
+                    src={`${UPLOADS_URL}/uploads/home-page/${form.image}`}
                     alt="Product image"
                     fill
                     className="object-cover rounded-md"
