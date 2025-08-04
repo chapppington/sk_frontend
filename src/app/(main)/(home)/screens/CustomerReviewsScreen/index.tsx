@@ -8,7 +8,7 @@ import BracketsText from "@/components/ui/BracketsText";
 import ReviewSlide from "./components/ReviewSlide";
 import ReviewPopup from "./components/ReviewPopup";
 import { useHomePageConfig } from "@/app/(admin)/dashboard/static/home/hooks/useHomePageConfig";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import { useState } from "react";
 
@@ -88,8 +88,8 @@ const CustomerReviewsScreen = () => {
                   key={index}
                   title={review.title}
                   jobTitle={review.jobTitle}
-                  image={`${BACKEND_MAIN}/uploads/home-page/${review.image}`}
-                  contentPath={`${BACKEND_MAIN}/uploads/home-page/${review.content_path}`}
+                  image={`${UPLOADS_URL}/uploads/home-page/${review.image}`}
+                  contentPath={`${UPLOADS_URL}/uploads/home-page/${review.content_path}`}
                   onClick={() => openReviewPopup(index)}
                 />
               ))}
@@ -97,7 +97,7 @@ const CustomerReviewsScreen = () => {
 
             {activeReview !== null && reviews[activeReview] && (
               <ReviewPopup
-                image={`${BACKEND_MAIN}/uploads/home-page/${reviews[activeReview].content_path}`}
+                image={`${UPLOADS_URL}/uploads/home-page/${reviews[activeReview].content_path}`}
                 isClosing={isClosing}
                 onClose={closeReviewPopup}
               />

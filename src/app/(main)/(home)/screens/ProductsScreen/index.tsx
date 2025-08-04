@@ -16,7 +16,7 @@ import { NavigationButton } from "@/components/ui/NavigationButton";
 import AnimatedText from "@/components/ui/AnimatedText";
 import { useHomePageConfig } from "@/app/(admin)/dashboard/static/home/hooks/useHomePageConfig";
 import { productCategories } from "@/shared/utils/categoryMapping";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 export default function ProductsSlider() {
   const swiperRef = useRef<any>(null);
@@ -244,7 +244,7 @@ export default function ProductsSlider() {
                     <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
                       <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg bg-white p-2">
                         <Image
-                          src={`${BACKEND_MAIN}/uploads/home-page/${product.image}`}
+                          src={`${UPLOADS_URL}/uploads/home-page/${product.image}`}
                           alt={product.title}
                           fill
                           sizes="(max-width: 768px) 60px, 80px"
