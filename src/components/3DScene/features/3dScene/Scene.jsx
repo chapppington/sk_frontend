@@ -84,6 +84,7 @@ export default function Scene() {
     lenta2,
     main_static,
     road_cars,
+    parn
   ] = useLoader(
     GLTFLoader,
     [
@@ -100,6 +101,7 @@ export default function Scene() {
       "/Scene/lenta2.glb",
       "/Scene/main_union.glb",
       "/Scene/road_cars.glb",
+      "/Scene/parn_union.glb",
     ],
     (loader) => {
       const dracoLoader = new DRACOLoader();
@@ -123,7 +125,14 @@ export default function Scene() {
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
-    opacity: 0.03,
+    opacity: 0.01,
+    side: THREE.FrontSide,
+  });
+  const materialASD2 = new THREE.MeshBasicMaterial({
+    color: new THREE.Color("#ffffff"),
+    wireframe: true,
+    transparent: true,
+    opacity: 0.35,
     side: THREE.FrontSide,
   });
 
@@ -225,6 +234,12 @@ export default function Scene() {
       node.renderOrder = 1;
     });
   }, [road_cars, carsMaterial]);
+  useEffect(() => {
+    parn.scene.traverse((node) => {
+      node.material = materialASD2;
+      node.renderOrder = 2;
+    });
+  }, [parn, materialASD2]);
 
   scene.add(gltf.scene);
   scene.add(env.scene);
@@ -239,6 +254,7 @@ export default function Scene() {
   scene.add(main_static.scene);
   scene.add(chairs.scene);
   scene.add(road_cars.scene);
+  scene.add(parn.scene);
 
   useEffect(() => {
     // Setup frustum culling and optimization for all objects
@@ -277,6 +293,7 @@ export default function Scene() {
       lenta2.scene,
       main_static.scene,
       road_cars.scene,
+      parn.scene,
     ].forEach(setupOptimizations);
   }, [
     terrain,
@@ -292,6 +309,7 @@ export default function Scene() {
     lenta2,
     main_static,
     road_cars,
+    parn,
   ]);
 
   useFrame(({ clock, camera }) => {
@@ -304,12 +322,19 @@ export default function Scene() {
     if (main && main.scene) {
       const mainPosition = new THREE.Vector3();
       main.scene.getWorldPosition(mainPosition);
+      parn.scene.getWorldPosition(mainPosition);
       const distanceToCamera = camera.position.distanceTo(mainPosition);
       main.scene.traverse((node) => {
         if (node.isMesh) {
           node.visible = distanceToCamera <= 500;
         }
       });
+      parn.scene.traverse((node) => {
+        if (node.isMesh) {
+          node.visible = distanceToCamera <= 500;
+        }
+      });
+
     }
 
     lastUpdate.current = currentTime;
@@ -329,6 +354,7 @@ export default function Scene() {
   const mainAnimations = useAnimations(main.animations, main.scene);
   const roadAnimations = useAnimations(road_cars.animations, road_cars.scene);
   const carsAnimations = useAnimations(cars.animations, cars.scene);
+  const parnAnimations = useAnimations(parn.animations, parn.scene);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -363,6 +389,15 @@ export default function Scene() {
           action.paused = true;
         }
       });
+      // Handle parn animations
+      parnAnimations.names.forEach((name) => {
+        const action = parnAnimations.actions[name];
+        if (isVisible) {
+          action.paused = false;
+        } else {
+          action.paused = true;
+        }
+      });
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -386,10 +421,16 @@ export default function Scene() {
       action.setEffectiveTimeScale(0.8);
     });
 
+    parnAnimations.names.forEach((name) => {
+      const action = parnAnimations.actions[name];
+      action.reset().play();
+      action.setEffectiveTimeScale(0.8);
+    });
+
     return () => {
       // document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [mainAnimations, carsAnimations, roadAnimations]);
+  }, [mainAnimations, carsAnimations, roadAnimations, parnAnimations]);
 
   useEffect(() => {
     if (isFirstRender.current) {
