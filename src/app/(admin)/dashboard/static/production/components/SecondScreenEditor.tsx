@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -49,8 +49,29 @@ interface Props {
   saving: boolean;
 }
 
+// Ensure stage ids are unique and stable
+function ensureUniqueStageIds(stages: Stage[]): Stage[] {
+  const seen = new Set<number>();
+  const sanitized: Stage[] = [];
+  let maxId = stages.reduce((acc, s) => (s.id > acc ? s.id : acc), 0);
+  for (const stage of stages) {
+    if (seen.has(stage.id)) {
+      maxId += 1;
+      sanitized.push({ ...stage, id: maxId });
+      seen.add(maxId);
+    } else {
+      sanitized.push(stage);
+      seen.add(stage.id);
+    }
+  }
+  return sanitized;
+}
+
 export function SecondScreenEditor({ data, onSave, saving }: Props) {
-  const [form, setForm] = useState<SecondScreenData>(data);
+  const [form, setForm] = useState<SecondScreenData>(() => ({
+    ...data,
+    stages: ensureUniqueStageIds(data.stages ?? []),
+  }));
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -59,6 +80,14 @@ export function SecondScreenEditor({ data, onSave, saving }: Props) {
   const [deletePopoverOpenIndex, setDeletePopoverOpenIndex] = useState<
     number | null
   >(null);
+
+  // Re-sanitize if parent updates data prop
+  useEffect(() => {
+    setForm({
+      ...data,
+      stages: ensureUniqueStageIds(data.stages ?? []),
+    });
+  }, [data]);
 
   const handleSave = () => {
     onSave(form);
@@ -254,7 +283,10 @@ export function SecondScreenEditor({ data, onSave, saving }: Props) {
             variant="outline"
             size="sm"
             onClick={() => {
-              const nextId = (form.stages.at(-1)?.id ?? 0) + 1;
+              const maxId = form.stages.length
+                ? Math.max(...form.stages.map((s) => s.id))
+                : 0;
+              const nextId = maxId + 1;
               const nextNumber = (form.stages.length + 1)
                 .toString()
                 .padStart(2, "0");
@@ -276,8 +308,8 @@ export function SecondScreenEditor({ data, onSave, saving }: Props) {
         </div>
 
         <div className="mb-3 px-3 py-2 rounded-md border border-yellow-300 bg-yellow-50 text-yellow-800 flex items-center gap-2 text-xs">
-          
-          Чтобы изменить порядок, перетащите карточку этапа за иконку <GripVertical className="w-4 h-4 text-yellow-600" /> — изменения
+          Чтобы изменить порядок, перетащите карточку этапа за иконку{" "}
+          <GripVertical className="w-4 h-4 text-yellow-600" /> — изменения
           сохранятся автоматически, номера пересчитаются автоматически
         </div>
         <div className="rounded-md border divide-y">
