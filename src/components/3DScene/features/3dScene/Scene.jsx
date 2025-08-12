@@ -406,7 +406,7 @@ export default function Scene() {
     mainAnimations.names.forEach((name) => {
       const action = mainAnimations.actions[name];
       action.reset().play();
-      action.setEffectiveTimeScale(0.8); // Slightly slow down animations for performance
+      action.setEffectiveTimeScale(1); // Slightly slow down animations for performance
     });
 
     carsAnimations.names.forEach((name) => {
@@ -424,7 +424,7 @@ export default function Scene() {
     parnAnimations.names.forEach((name) => {
       const action = parnAnimations.actions[name];
       action.reset().play();
-      action.setEffectiveTimeScale(0.8);
+      action.setEffectiveTimeScale(1);
     });
 
     return () => {
