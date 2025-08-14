@@ -6,7 +6,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import CustomSlider from "@/components/CustomSlider";
 import RecentUpdateSliderItem from "./components/RecentUpdateSliderItem";
 
-import newsItems from "./mock_data";
+import { newsItems }from "./mock_data";
 
 interface IRecentUpdateItem {
   id: number;

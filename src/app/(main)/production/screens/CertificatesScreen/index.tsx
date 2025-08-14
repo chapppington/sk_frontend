@@ -2,11 +2,29 @@
 
 import { FC } from "react";
 import Dropdown from "@/components/ui/Dropdown";
-import { faqItems } from "./mock_data";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
+import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
+import { BACKEND_MAIN } from "@/constants";
 
 const CertificatesScreen: FC = () => {
+  const { config, loading } = useProductionPageConfig();
+
+  if (loading) {
+    return (
+      <section
+        id="certificates_section"
+        className="bg-transparent py-24 relative"
+      >
+        <CustomContainer>
+          <div className="text-center text-white text-lg">
+            Загрузка сертификатов...
+          </div>
+        </CustomContainer>
+      </section>
+    );
+  }
+
   return (
     <section
       id="certificates_section"
@@ -21,14 +39,14 @@ const CertificatesScreen: FC = () => {
           <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8">
-                {faqItems.map((item, idx) => (
+                {config?.fourthScreen?.items?.map((item, idx) => (
                   <Dropdown
                     key={idx}
-                    title={item.title}
+                    title={item.title || `Раздел ${idx + 1}`}
                     defaultOpen={idx === 0}
                   >
                     <p className="text-white/60 text-base select-none">
-                      {item.content}
+                      {item.content || "Описание раздела"}
                     </p>
 
                     {item.documents && item.documents.length > 0 && (
@@ -39,10 +57,14 @@ const CertificatesScreen: FC = () => {
                             className="doc-link flex items-center"
                           >
                             <a
-                              href={doc.link}
+                              href={
+                                doc.link ? `${BACKEND_MAIN}${doc.link}` : "#"
+                              }
                               className="text-white hover:text-white/80 flex items-center group"
                             >
-                              <span>{doc.title}</span>
+                              <span>
+                                {doc.title || `Документ ${index + 1}`}
+                              </span>
                               <svg
                                 className="w-5 h-5 ml-2 text-white/60 group-hover:text-white/80"
                                 fill="none"
@@ -62,7 +84,7 @@ const CertificatesScreen: FC = () => {
                       </div>
                     )}
                   </Dropdown>
-                ))}
+                )) || []}
               </div>
             </div>
           </div>
