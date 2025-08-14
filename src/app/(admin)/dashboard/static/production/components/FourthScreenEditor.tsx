@@ -33,7 +33,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Pencil, FileText, Download, Trash2, GripVertical } from "lucide-react";
 import productionPageConfigService from "@/services/production-page-config.service";
 import { useToast } from "@/hooks/use-toast";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 type DocumentItem = { title: string; link: string };
 type FourthItem = {
@@ -457,7 +457,7 @@ export function FourthScreenEditor({ data, onSave, saving }: Props) {
                       />
                       {doc.link && (
                         <a
-                          href={`${BACKEND_MAIN}${doc.link}`}
+                          href={`${UPLOADS_URL}${doc.link}`}
                           target="_blank"
                           rel="noreferrer"
                           className="text-sm text-blue-600 hover:text-blue-800"

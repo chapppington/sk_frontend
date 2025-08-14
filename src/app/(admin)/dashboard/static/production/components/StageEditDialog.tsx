@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Label } from "@/components/ui/shadcn/label";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import ImageCropperDialog from "./ImageCropperDialog";
 import productionPageConfigService from "@/services/production-page-config.service";
 
@@ -124,7 +124,7 @@ export default function StageEditDialog({
               />
               {form.image && (
                 <Image
-                  src={`${BACKEND_MAIN}${form.image}`}
+                  src={`${UPLOADS_URL}${form.image}`}
                   alt="stage"
                   width={320}
                   height={430}

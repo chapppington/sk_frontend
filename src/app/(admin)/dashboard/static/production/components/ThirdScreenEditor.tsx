@@ -20,7 +20,7 @@ import {
 import { Pencil } from "lucide-react";
 import productionPageConfigService from "@/services/production-page-config.service";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import ImageCropperDialog from "./ImageCropperDialog";
 
@@ -275,7 +275,7 @@ export function ThirdScreenEditor({ data, onSave, saving }: Props) {
                         className={`relative ${previewStyle} bg-gray-100 rounded-md overflow-hidden border border-gray-300 mx-auto`}
                       >
                         <Image
-                          src={`${BACKEND_MAIN}${eq.image}`}
+                          src={`${UPLOADS_URL}${eq.image}`}
                           alt={eq.title || `Элемент ${idx + 1}`}
                           fill
                           className="object-cover"
@@ -361,7 +361,7 @@ export function ThirdScreenEditor({ data, onSave, saving }: Props) {
                       })()}`}
                     >
                       <Image
-                        src={`${BACKEND_MAIN}${editForm.image}`}
+                        src={`${UPLOADS_URL}${editForm.image}`}
                         alt="Предпросмотр"
                         fill
                         className="object-cover"

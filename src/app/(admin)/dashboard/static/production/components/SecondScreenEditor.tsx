@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Button } from "@/components/ui/shadcn/button";
 import { Label } from "@/components/ui/shadcn/label";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import StageEditDialog from "./StageEditDialog";
 import {
@@ -157,7 +157,7 @@ export function SecondScreenEditor({ data, onSave, saving }: Props) {
           <div className="h-12 w-9 overflow-hidden rounded border bg-muted">
             {stage.image && (
               <Image
-                src={`${BACKEND_MAIN}${stage.image}`}
+                src={`${UPLOADS_URL}${stage.image}`}
                 alt="thumb"
                 width={56}
                 height={75}

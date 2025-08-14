@@ -15,7 +15,7 @@ import { Switch } from "@/components/ui/shadcn/switch";
 import { useToast } from "@/hooks/use-toast";
 import productionPageConfigService from "@/services/production-page-config.service";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import ImageCropperDialog from "./ImageCropperDialog";
 
 type FirstScreenData = {
@@ -112,7 +112,7 @@ export function FirstScreenEditor({
             {form.bg_image && (
               <div className="relative aspect-[16/9] w-[320px]">
                 <Image
-                  src={`${BACKEND_MAIN}${form.bg_image}`}
+                  src={`${UPLOADS_URL}${form.bg_image}`}
                   alt="bg"
                   fill
                   className="object-cover rounded-md border"
