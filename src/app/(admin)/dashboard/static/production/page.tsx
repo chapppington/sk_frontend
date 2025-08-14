@@ -22,18 +22,17 @@ function ProductionPageContent() {
   const [activeTab, setActiveTab] = useState("first-screen");
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<IProductionPageConfig | null>(null);
-  const { config, loading } = useProductionPageConfig();
+  const { config, loading, updateConfig, isUpdating } =
+    useProductionPageConfig();
 
   useEffect(() => {
     if (config) setForm(config);
   }, [config]);
 
-  const updateConfig = async (data: IProductionPageConfig) => {
+  const handleUpdateConfig = async (data: IProductionPageConfig) => {
     setSaving(true);
     try {
-      // Здесь должна быть логика обновления конфигурации
-      console.log("Updating config:", data);
-      // await refetch(); // Убираем refetch так как он не нужен
+      await updateConfig(data);
     } catch (error) {
       console.error("Error updating config:", error);
     } finally {
@@ -48,7 +47,7 @@ function ProductionPageContent() {
       firstScreen: data,
     };
     setForm(updated);
-    updateConfig(updated);
+    handleUpdateConfig(updated);
   };
   const saveSecond = (data: IProductionPageConfig["secondScreen"]) => {
     if (!form) return;
@@ -57,7 +56,7 @@ function ProductionPageContent() {
       secondScreen: data,
     };
     setForm(updated);
-    updateConfig(updated);
+    handleUpdateConfig(updated);
   };
   const saveThird = (data: IProductionPageConfig["thirdScreen"]) => {
     if (!form) return;
@@ -66,7 +65,7 @@ function ProductionPageContent() {
       thirdScreen: data,
     };
     setForm(updated);
-    updateConfig(updated);
+    handleUpdateConfig(updated);
   };
   const saveFourth = (data: IProductionPageConfig["fourthScreen"]) => {
     if (!form) return;
@@ -75,7 +74,7 @@ function ProductionPageContent() {
       fourthScreen: data,
     };
     setForm(updated);
-    updateConfig(updated);
+    handleUpdateConfig(updated);
   };
 
   useEffect(() => {
