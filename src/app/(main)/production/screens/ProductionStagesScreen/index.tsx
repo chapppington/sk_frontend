@@ -46,7 +46,7 @@ const ProductionStagesScreen: FC = () => {
           bracketsText="ЭТАПЫ"
           heading={
             <>
-              {config?.secondScreen?.title || "Этапы производства"}
+              Этапы <br /> производства
             </>
           }
           description={
