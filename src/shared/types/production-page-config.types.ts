@@ -36,8 +36,10 @@ export interface IProductionPageConfig {
   };
   fourthScreen: {
     items: Array<{
+      id: number;
       title: string;
       content: string;
+      order: number;
       documents: Array<{
         title: string;
         link: string; // stored filename
