@@ -7,7 +7,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import CustomContainer from "@/components/ui/CustomContainer";
 import LogoGrid from "@/components/ui/LogoGrid";
 import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 const EquipmentGridScreen: FC = () => {
   const { config, loading } = useProductionPageConfig();
@@ -81,7 +81,7 @@ const EquipmentGridScreen: FC = () => {
                 <Image
                   src={
                     item.image
-                      ? `${BACKEND_MAIN}${item.image}`
+                      ? `${UPLOADS_URL}${item.image}`
                       : "/transformer.webp"
                   }
                   alt={item.title || `Оборудование ${index + 1}`}

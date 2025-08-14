@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 interface ProductionStage {
   id: number;
@@ -26,7 +26,7 @@ const ProductionStageSliderItem: FC<ProductionStageSliderItemProps> = ({
         }}
       >
         <Image
-          src={`${BACKEND_MAIN}${stage.image}`}
+          src={`${UPLOADS_URL}${stage.image}`}
           alt={stage.title}
           className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
           fill

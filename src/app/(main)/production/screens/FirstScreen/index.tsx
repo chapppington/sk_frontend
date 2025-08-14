@@ -9,7 +9,7 @@ import ParallaxImage from "@/components/ui/ParallaxImage";
 import MainButton from "@/components/ui/MainButton";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 const FirstScreen: FC = () => {
   const isMobile = useIsMobile();
@@ -43,7 +43,7 @@ const FirstScreen: FC = () => {
     <header className="relative min-h-screen overflow-y-hidden">
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
-          src={`${BACKEND_MAIN}${config?.firstScreen?.bg_image}` || "/production_bg.webp"}
+          src={`${UPLOADS_URL}${config?.firstScreen?.bg_image}` || "/production_bg.webp"}
           alt="Production background"
           priority
           isMobile={isMobile}

@@ -5,7 +5,7 @@ import Dropdown from "@/components/ui/Dropdown";
 import BracketsText from "@/components/ui/BracketsText";
 import CustomContainer from "@/components/ui/CustomContainer";
 import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 const CertificatesScreen: FC = () => {
   const { config, loading } = useProductionPageConfig();
@@ -58,7 +58,7 @@ const CertificatesScreen: FC = () => {
                           >
                             <a
                               href={
-                                doc.link ? `${BACKEND_MAIN}${doc.link}` : "#"
+                                doc.link ? `${UPLOADS_URL}${doc.link}` : "#"
                               }
                               className="text-white hover:text-white/80 flex items-center group"
                             >
