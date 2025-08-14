@@ -8,15 +8,42 @@ import styles from "@/components/ui/GradientHeading/styles.module.css";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import MainButton from "@/components/ui/MainButton";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
+import { BACKEND_MAIN } from "@/constants";
 
 const FirstScreen: FC = () => {
   const isMobile = useIsMobile();
+  const { config, loading } = useProductionPageConfig();
+
+  if (loading) {
+    return (
+      <header className="relative min-h-screen overflow-y-hidden">
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <ParallaxImage
+            src="/production_bg.webp"
+            alt="Production background"
+            priority
+            isMobile={isMobile}
+            className="brightness-75"
+          />
+        </div>
+        <div className="absolute inset-0 z-[1]">
+          <div className="overlay-base absolute inset-0 bg-black/90"></div>
+          <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black/40"></div>
+          <div className="absolute inset-0 bg-blue-900/15 mix-blend-overlay"></div>
+        </div>
+        <div className="relative z-[3] flex items-center justify-center min-h-screen">
+          <div className="text-white text-lg">Загрузка...</div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="relative min-h-screen overflow-y-hidden">
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
-          src="/prod_bg.webp"
+          src={`${BACKEND_MAIN}${config?.firstScreen?.bg_image}` || "/production_bg.webp"}
           alt="Production background"
           priority
           isMobile={isMobile}
@@ -51,9 +78,8 @@ const FirstScreen: FC = () => {
             className={`${styles.fluidHeadingMain} 2xl:text-6xl z-100 pt-8 sm:pt-12 md:pt-16`}
             level={1}
           >
-            Собственное производство
-            <br />
-            полного цикла
+            {config?.firstScreen?.title ||
+              "Собственное производство полного цикла"}
           </GradientHeading>
           {/* Bottom Content */}
           <div className="flex z-10">
@@ -75,10 +101,13 @@ const FirstScreen: FC = () => {
                 </svg>
               </div>
               <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[500px]">
-                Инженерные решения для сложных технических задач и любых условий
-                эксплуатации
+                {config?.firstScreen?.subtitle ||
+                  "Инженерные решения для сложных технических задач и любых условий эксплуатации"}
               </p>
-              <MainButton text="Просмотр 3D тура" href="#" />
+              <MainButton
+                text={config?.firstScreen?.button_text || "Просмотр 3D тура"}
+                href={config?.firstScreen?.button_href || "#"}
+              />
             </div>
           </div>
         </CustomContainer>
@@ -86,23 +115,22 @@ const FirstScreen: FC = () => {
         <BlackBoxWithStats
           transparent={true}
           className="z-[5]"
-          stats={[
-            {
-              value: "8500 м²",
-              description: "собственная производственная площадка",
-              showOnMobile: true,
-            },
-            {
-              value: "90%",
-              description: "оборудования — современные станки с ЧПУ",
-              showOnMobile: true,
-            },
-            {
-              value: "от 7 дней",
-              description: "срок сборки типового оборудования",
-              showOnMobile: false,
-            },
-          ]}
+          stats={
+            config?.firstScreen?.stats?.map((stat) => ({
+              value: stat.value,
+              description: stat.description,
+              showOnMobile: stat.showOnMobile,
+            })) || [
+              {
+                value: "197",
+                description: "Крупнейших городов России и Казахстана",
+              },
+              {
+                value: "197",
+                description: "Крупнейших городов России и Казахстана",
+              },
+            ]
+          }
         />
       </div>
     </header>
