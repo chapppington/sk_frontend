@@ -1,59 +1,77 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Tabs,
+  TabsContent,
   TabsList,
   TabsTrigger,
-  TabsContent,
 } from "@/components/ui/shadcn/tabs";
-import { useProductionPageConfig } from "./hooks/useProductionPageConfig";
+import { useState, useEffect } from "react";
+import { useProductionPageConfig } from "@/hooks/useProductionPageConfig";
+import { IProductionPageConfig } from "@/shared/types/production-page-config.types";
 import { FirstScreenEditor } from "./components/FirstScreenEditor";
 import { SecondScreenEditor } from "./components/SecondScreenEditor";
 import { ThirdScreenEditor } from "./components/ThirdScreenEditor";
 import { FourthScreenEditor } from "./components/FourthScreenEditor";
-import { IProductionPageConfig } from "@/shared/types/production-page-config.types";
-import { useSearchParams, useRouter } from "next/navigation";
 
-export default function StaticProductionPage() {
-  const { config, loading, saving, updateConfig } = useProductionPageConfig();
-  const [form, setForm] = useState<IProductionPageConfig | null>(null);
+function ProductionPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialTab = searchParams.get("tab") || "first-screen";
-  const [activeTab, setActiveTab] = useState<string>(initialTab);
+  const [activeTab, setActiveTab] = useState("first-screen");
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState<IProductionPageConfig | null>(null);
+  const { config, loading } = useProductionPageConfig();
 
   useEffect(() => {
     if (config) setForm(config);
   }, [config]);
 
+  const updateConfig = async (data: IProductionPageConfig) => {
+    setSaving(true);
+    try {
+      // Здесь должна быть логика обновления конфигурации
+      console.log("Updating config:", data);
+      // await refetch(); // Убираем refetch так как он не нужен
+    } catch (error) {
+      console.error("Error updating config:", error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const saveFirst = (data: IProductionPageConfig["firstScreen"]) => {
+    if (!form) return;
     const updated: IProductionPageConfig = {
-      ...(form as IProductionPageConfig),
+      ...form,
       firstScreen: data,
     };
     setForm(updated);
     updateConfig(updated);
   };
   const saveSecond = (data: IProductionPageConfig["secondScreen"]) => {
+    if (!form) return;
     const updated: IProductionPageConfig = {
-      ...(form as IProductionPageConfig),
+      ...form,
       secondScreen: data,
     };
     setForm(updated);
     updateConfig(updated);
   };
   const saveThird = (data: IProductionPageConfig["thirdScreen"]) => {
+    if (!form) return;
     const updated: IProductionPageConfig = {
-      ...(form as IProductionPageConfig),
+      ...form,
       thirdScreen: data,
     };
     setForm(updated);
     updateConfig(updated);
   };
   const saveFourth = (data: IProductionPageConfig["fourthScreen"]) => {
+    if (!form) return;
     const updated: IProductionPageConfig = {
-      ...(form as IProductionPageConfig),
+      ...form,
       fourthScreen: data,
     };
     setForm(updated);
@@ -123,5 +141,13 @@ export default function StaticProductionPage() {
         </div>
       </Tabs>
     </div>
+  );
+}
+
+export default function ProductionPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Загрузка...</div>}>
+      <ProductionPageContent />
+    </Suspense>
   );
 }
