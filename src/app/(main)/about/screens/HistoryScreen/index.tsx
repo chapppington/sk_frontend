@@ -20,7 +20,7 @@ const HistoryScreen: FC = () => {
       <CustomContainer className="h-full flex flex-col relative z-10">
         <SectionHeader
           bracketsText="Развитие"
-          heading={<>История</>}
+          heading={<>История <br></br>компании</>}
           description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
           desktopOrder={{
             bracketsText: 1,
