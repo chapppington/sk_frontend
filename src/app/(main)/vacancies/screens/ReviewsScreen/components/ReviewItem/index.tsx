@@ -28,7 +28,7 @@ const ReviewItem: FC<ReviewItemProps> = ({ review, onClick }) => {
         </div>
       </div>
       <div className="text-white/80 text-base leading-relaxed mt-4 lg:mt-7">
-        {review.shortText}
+        «{review.shortText}»
       </div>
       <div className="mt-4 text-sm text-white/50 flex items-center">
         <span className="mr-2">Читать полностью</span>
@@ -51,4 +51,4 @@ const ReviewItem: FC<ReviewItemProps> = ({ review, onClick }) => {
   );
 };
 
-export default ReviewItem; 
+export default ReviewItem;

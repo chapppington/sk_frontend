@@ -10,17 +10,24 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import styles from "@/components/ui/GradientHeading/styles.module.css";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
+import { BACKEND_MAIN } from "@/constants";
 
 const FirstScreen: FC = () => {
   const isMobile = useIsMobile();
+  const { config, loading } = useVacanciesPageConfigPublic();
+
+  const bg = config?.firstScreen?.bg_image
+    ? `${BACKEND_MAIN}${config.firstScreen.bg_image}`
+    : "/вакансии.webp";
 
   return (
     <header className="relative min-h-screen">
       {/* Background Image */}
       <div className="absolute inset-0 overflow-hidden">
         <ParallaxImage
-          src="/вакансии.webp"
-          alt="Production background"
+          src={bg}
+          alt="Vacancies background"
           priority
           isMobile={isMobile}
           quality={100}
@@ -49,7 +56,8 @@ const FirstScreen: FC = () => {
           style={{ zIndex: 10 }}
           level={1}
         >
-          Показываем новые горизонты, превосходящие ожидания
+          {config?.firstScreen?.title ||
+            "Показываем новые горизонты, превосходящие ожидания"}
         </GradientHeading>
 
         {/* Bottom Content */}
@@ -72,10 +80,8 @@ const FirstScreen: FC = () => {
               </svg>
             </div>
             <p className="text-sm md:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
-              Компания «СибКомплект» — это сплочённая команда профессионалов
-              своего дела. Наши знания и опыт позволяют решать задачи любой
-              сложности по обеспечению потребностей качественным и надежным
-              электротехническим оборудованием.
+              {config?.firstScreen?.subtitle ||
+                "Компания «СибКомплект» — это сплочённая команда профессионалов своего дела. Наши знания и опыт позволяют решать задачи любой сложности по обеспечению потребностей качественным и надежным электротехническим оборудованием."}
             </p>
           </div>
         </div>
@@ -84,23 +90,7 @@ const FirstScreen: FC = () => {
       <BlackBoxWithStats
         className="z-[5]"
         transparent={true}
-        stats={[
-          {
-            value: "200+",
-            description: "часов ежегодного обучения сотрудников",
-            showOnMobile: false,
-          },
-          {
-            value: "81% eNPS",
-            description: "Индекс удовлетворенности сотрудников",
-            showOnMobile: true,
-          },
-          {
-            value: "85%",
-            description: "сотрудников работают в компании более 2 лет",
-            showOnMobile: true,
-          },
-        ]}
+        stats={config?.firstScreen?.stats || []}
       />
     </header>
   );

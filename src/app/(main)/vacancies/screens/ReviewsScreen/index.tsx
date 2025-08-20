@@ -8,11 +8,33 @@ import BracketsText from "@/components/ui/BracketsText";
 import ReviewPopup from "./components/ReviewPopup";
 import ReviewItem from "./components/ReviewItem";
 
-import { reviews } from "./mock_data";
+import { reviews as reviewsMock } from "./mock_data";
+import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
+import { BACKEND_MAIN } from "@/constants";
+import { Review } from "./types";
 
 const ReviewsScreen: FC = () => {
   const [activeReview, setActiveReview] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const { config } = useVacanciesPageConfigPublic();
+
+  const heading = config?.fifthScreen?.title || "Отзывы сотрудников";
+  const subtitle =
+    config?.fifthScreen?.subtitle ||
+    "Наши сотрудники ценят стабильность, профессиональный рост и дружественную атмосферу в компании. Узнайте, что они говорят о работе в нашей команде.";
+
+  const reviewsData: Review[] =
+    config?.fifthScreen?.reviews && config.fifthScreen.reviews.length
+      ? config.fifthScreen.reviews.map((r: Review) => ({
+          name: r.name,
+          position: r.position,
+          shortText: r.shortText,
+          image: r.image
+            ? `${BACKEND_MAIN}${r.image}`
+            : "/avatar_placeholder.png",
+          text: r.text,
+        }))
+      : reviewsMock;
 
   const openReviewPopup = (index: number) => {
     setIsClosing(false);
@@ -39,18 +61,13 @@ const ReviewsScreen: FC = () => {
           </div>
 
           <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-            <GradientHeading>Отзывы сотрудников</GradientHeading>
-            <p className="text-white/70 mt-6">
-              Наши сотрудники ценят стабильность, профессиональный рост и
-              дружественную атмосферу в компании. Узнайте, что они говорят о
-              работе в нашей команде.
-            </p>
+            <GradientHeading>{heading}</GradientHeading>
+            <p className="text-white/70 mt-6">{subtitle}</p>
           </div>
         </div>
 
         <CustomSlider
-          autoplay={true}
-          autoplayDelay={5000}
+          autoplay={false}
           slidesPerView={1}
           spaceBetween={20}
           loop={true}
@@ -65,7 +82,7 @@ const ReviewsScreen: FC = () => {
             },
           }}
         >
-          {reviews.map((review, index) => (
+          {reviewsData.map((review, index) => (
             <ReviewItem
               key={index}
               review={review}
@@ -77,7 +94,7 @@ const ReviewsScreen: FC = () => {
 
       {activeReview !== null && (
         <ReviewPopup
-          review={reviews[activeReview]}
+          review={reviewsData[activeReview]}
           isClosing={isClosing}
           onClose={closeReviewPopup}
         />
