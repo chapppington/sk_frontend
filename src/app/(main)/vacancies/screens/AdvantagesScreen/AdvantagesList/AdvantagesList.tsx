@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { FC } from "react";
 import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
@@ -7,7 +7,6 @@ import IconRenderer from "@/shared/utils/iconRenderer";
 interface AdvantageProps {
   icon: string;
   text: string;
-  iconName: string;
 }
 
 type AdvantageItem = { icon: string; text: string };
