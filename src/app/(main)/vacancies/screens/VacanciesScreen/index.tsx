@@ -8,9 +8,11 @@ import vacancyService from "@/services/vacancy.service";
 import type { IVacancy } from "@/shared/types/vacancy.types";
 import GradientHeading from "@/components/ui/GradientHeading";
 import BracketsText from "@/components/ui/BracketsText";
+import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
 
 const VacanciesScreen: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { config } = useVacanciesPageConfigPublic();
 
   const { data: vacancies = [], isLoading } = useQuery({
     queryKey: ["vacancies"],
@@ -57,12 +59,12 @@ const VacanciesScreen: FC = () => {
             </div>
 
             <div className="flex flex-col md:max-w-3xl pt-5 lg:pt-0">
-              <GradientHeading>Список вакансий</GradientHeading>
+              <GradientHeading>
+                {config?.secondScreen?.title || "Список вакансий"}
+              </GradientHeading>
               <p className="text-white/70 mt-6">
-                В нашей компании регулярно открываются вакансии, как для опытных
-                специалистов, так и для тех, кто только начинает свою карьеру. Вы
-                можете ознакомиться с нашими вакансиями на сайте или
-                откликнуться на одну из них через сайт hh.ru.
+                {config?.secondScreen?.subtitle ||
+                  "В нашей компании регулярно открываются вакансии, как для опытных специалистов, так и для тех, кто только начинает свою карьеру. Вы можете ознакомиться с нашими вакансиями на сайте или откликнуться на одну из них через сайт hh.ru."}
               </p>
             </div>
           </div>

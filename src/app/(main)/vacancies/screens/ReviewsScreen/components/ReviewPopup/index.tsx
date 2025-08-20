@@ -60,7 +60,7 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ review, isClosing, onClose }) => {
         </div>
 
         <div className="text-white/90 text-sm sm:text-lg leading-relaxed">
-          {review.text}
+          «{review.text}»
         </div>
       </div>
     </div>
