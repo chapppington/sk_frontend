@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Textarea } from "@/components/ui/shadcn/textarea";
 import { Switch } from "@/components/ui/shadcn/switch";
 import { Label } from "@/components/ui/shadcn/label";
-import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 interface FormData {

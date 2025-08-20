@@ -18,7 +18,7 @@ import AnimatedText from "@/components/ui/AnimatedText";
 
 import { PagesConfig } from "@/config/pages.config";
 import portfolioService from "@/services/portfolio.service";
-import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 
 const indicatorCount = 40;

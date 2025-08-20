@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/shadcn/input";
 import { Button } from "@/components/ui/shadcn/button";
 import { Label } from "@/components/ui/shadcn/label";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { IVacanciesPageConfig } from "@/shared/types/vacancies-page-config.types";
 import vacanciesPageConfigService from "@/services/vacancies-page-config.service";
 import { useToast } from "@/hooks/use-toast";
@@ -133,7 +133,7 @@ export function FirstScreenEditor({ data, onSave, saving }: Props) {
                 <div className="relative w-full pt-[56.25%]">
                   {/* 16:9, 400x225 */}
                   <Image
-                    src={`${BACKEND_MAIN}${form.bg_image}`}
+                    src={`${UPLOADS_URL}${form.bg_image}`}
                     alt="bg"
                     fill
                     className="object-cover"

@@ -8,7 +8,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import productService from "@/services/product.service";
 import { IProduct, ProductCatalogResponse } from "@/shared/types/product.types";
-import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import CategoryButton from "@/components/ui/CategoryButton";
 import Pagination from "@/components/ui/Pagination";

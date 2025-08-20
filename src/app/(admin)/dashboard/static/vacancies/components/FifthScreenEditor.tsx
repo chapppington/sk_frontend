@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/shadcn/label";
 import { IVacanciesPageConfig } from "@/shared/types/vacancies-page-config.types";
 import vacanciesPageConfigService from "@/services/vacancies-page-config.service";
 import Image from "next/image";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import ImageCropperDialog from "@/app/(admin)/dashboard/static/production/components/ImageCropperDialog";
 
@@ -187,7 +187,7 @@ export function FifthScreenEditor({ data, onSave, saving }: Props) {
                   {v.image && (
                     <div className="relative w-24 h-24 bg-gray-100 rounded overflow-hidden">
                       <Image
-                        src={`${BACKEND_MAIN}${v.image}`}
+                        src={`${UPLOADS_URL}${v.image}`}
                         alt="photo"
                         fill
                         className="object-cover"

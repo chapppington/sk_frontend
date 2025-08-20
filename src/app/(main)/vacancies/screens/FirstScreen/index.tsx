@@ -5,20 +5,19 @@ import { FC } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
-import AnimatedText from "@/components/ui/AnimatedText";
 import GradientHeading from "@/components/ui/GradientHeading";
 import styles from "@/components/ui/GradientHeading/styles.module.css";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 const FirstScreen: FC = () => {
   const isMobile = useIsMobile();
-  const { config, loading } = useVacanciesPageConfigPublic();
+  const { config } = useVacanciesPageConfigPublic();
 
   const bg = config?.firstScreen?.bg_image
-    ? `${BACKEND_MAIN}${config.firstScreen.bg_image}`
+    ? `${UPLOADS_URL}${config.firstScreen.bg_image}`
     : "/вакансии.webp";
 
   return (

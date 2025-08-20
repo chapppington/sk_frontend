@@ -10,7 +10,7 @@ import ReviewItem from "./components/ReviewItem";
 
 import { reviews as reviewsMock } from "./mock_data";
 import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import { Review } from "./types";
 
 const ReviewsScreen: FC = () => {
@@ -30,7 +30,7 @@ const ReviewsScreen: FC = () => {
           position: r.position,
           shortText: r.shortText,
           image: r.image
-            ? `${BACKEND_MAIN}${r.image}`
+            ? `${UPLOADS_URL}${r.image}`
             : "/avatar_placeholder.png",
           text: r.text,
         }))

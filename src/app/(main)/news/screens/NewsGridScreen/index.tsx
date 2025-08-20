@@ -6,7 +6,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useQuery } from "@tanstack/react-query";
 import newsService from "@/services/news.service";
-import { BACKEND_MAIN, UPLOADS_URL } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
