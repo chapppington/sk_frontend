@@ -9,7 +9,7 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
 import { useCertificatesPageConfig } from "@/hooks/useCertificatesPageConfig";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 export default function CertificatesScreen() {
   const [activeTab, setActiveTab] = useState(0);
@@ -114,7 +114,7 @@ export default function CertificatesScreen() {
                               className="doc-link flex items-center"
                             >
                               <a
-                                href={`${BACKEND_MAIN}${doc.link}`}
+                                href={`${UPLOADS_URL}${doc.link}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white hover:text-white/80 flex items-center group"

@@ -42,7 +42,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, Pencil, Trash2, FileText } from "lucide-react";
 import certificatesPageConfigService from "@/services/certificates-page-config.service";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 
 type Doc = { title: string; link: string };
 type Item = {
@@ -505,7 +505,7 @@ export default function CertificatesPage() {
                     />
                     {doc.link && (
                       <a
-                        href={`${BACKEND_MAIN}${doc.link}`}
+                        href={`${UPLOADS_URL}${doc.link}`}
                         target="_blank"
                         rel="noreferrer"
                         className="text-sm text-blue-600 hover:text-blue-800"
