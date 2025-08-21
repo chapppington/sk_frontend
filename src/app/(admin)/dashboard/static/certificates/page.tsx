@@ -43,6 +43,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, Pencil, Trash2, FileText } from "lucide-react";
 import certificatesPageConfigService from "@/services/certificates-page-config.service";
 import { BACKEND_MAIN } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
 
 type Doc = { title: string; link: string };
 type Item = {
@@ -190,6 +191,7 @@ function SortableItem({
 export default function CertificatesPage() {
   const { config, loading, updateConfig, isUpdating } =
     useCertificatesPageConfig();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("0");
   const [form, setForm] = useState<ICertificatesPageConfig | null>(null);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
@@ -216,10 +218,16 @@ export default function CertificatesPage() {
 
   if (loading || !form) return <div className="p-6">Загрузка...</div>;
 
-  const save = (updated: ICertificatesPageConfig) => {
+  const save = (updated: ICertificatesPageConfig, showToast?: boolean) => {
     setForm(updated);
     const payload: IUpdateCertificatesPageConfigData = { tabs: updated.tabs };
-    updateConfig(payload);
+    updateConfig(payload, {
+      onSuccess: () => {
+        if (showToast) {
+          toast({ title: "Готово", description: "Настройки сохранены" });
+        }
+      },
+    });
   };
 
   const addTab = () => {
@@ -437,7 +445,7 @@ export default function CertificatesPage() {
           ))}
 
           <div className="mt-4 flex justify-end">
-            <Button onClick={() => save(form)} disabled={isUpdating}>
+            <Button onClick={() => save(form, true)} disabled={isUpdating}>
               {isUpdating ? "Сохранение..." : "Сохранить"}
             </Button>
           </div>
