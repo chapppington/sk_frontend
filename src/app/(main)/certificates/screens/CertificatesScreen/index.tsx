@@ -8,11 +8,13 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
 import CustomContainer from "@/components/ui/CustomContainer";
 import CategoryButton from "@/components/ui/CategoryButton";
-
-import { faqCategories } from "./mock_data";
+import { useCertificatesPageConfig } from "@/hooks/useCertificatesPageConfig";
+import { BACKEND_MAIN } from "@/constants";
 
 export default function CertificatesScreen() {
   const [activeTab, setActiveTab] = useState(0);
+  const { config, loading } = useCertificatesPageConfig();
+  const categories = config?.tabs || [];
 
   // Main content container ref
   const tabContentRef = useRef<HTMLDivElement>(null);
@@ -27,6 +29,31 @@ export default function CertificatesScreen() {
       );
     }
   }, [activeTab]);
+
+  // Ensure activeTab is within bounds
+  const safeActiveTab = Math.min(activeTab, Math.max(0, categories.length - 1));
+
+  if (loading) {
+    return (
+      <div className="mb-10">
+        <CustomContainer className="mt-8 mb-12">
+          <GradientHeading>Сертификаты и документация</GradientHeading>
+        </CustomContainer>
+        <CustomContainer>Загрузка…</CustomContainer>
+      </div>
+    );
+  }
+
+  if (!categories.length) {
+    return (
+      <div className="mb-10">
+        <CustomContainer className="mt-8 mb-12">
+          <GradientHeading>Сертификаты и документация</GradientHeading>
+        </CustomContainer>
+        <CustomContainer>Пока нет данных</CustomContainer>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-10">
@@ -50,12 +77,12 @@ export default function CertificatesScreen() {
           {/* Sidebar Menu */}
           <div className="w-full lg:w-1/4 pr-0 lg:pr-8 mb-8 lg:mb-0">
             <ul className="space-y-4">
-              {faqCategories.map((category, index) => (
+              {categories.map((category, index) => (
                 <li key={index}>
                   <CategoryButton
                     key={index}
                     onClick={() => setActiveTab(index)}
-                    isActive={activeTab === index}
+                    isActive={safeActiveTab === index}
                     className="w-full"
                   >
                     {category.name}
@@ -68,12 +95,12 @@ export default function CertificatesScreen() {
           <div className="container mx-auto relative">
             <div className="flex flex-col md:flex-row mx-auto">
               <div className="pl-0 md:pl-8 w-full">
-                <div ref={tabContentRef} key={`tab-content-${activeTab}`}>
-                  {faqCategories[activeTab].items.map((item, index) => (
+                <div ref={tabContentRef} key={`tab-content-${safeActiveTab}`}>
+                  {categories[safeActiveTab].items.map((item, index) => (
                     <Dropdown
                       key={index}
                       title={item.title}
-                      defaultOpen={faqCategories[activeTab].items.length === 1}
+                      defaultOpen={categories[safeActiveTab].items.length === 1}
                     >
                       <p className="text-white/60 text-base select-none">
                         {item.content}
@@ -87,7 +114,7 @@ export default function CertificatesScreen() {
                               className="doc-link flex items-center"
                             >
                               <a
-                                href={doc.link}
+                                href={`${BACKEND_MAIN}${doc.link}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white hover:text-white/80 flex items-center group"
