@@ -19,7 +19,6 @@ const RUSSIAN_LABELS: Record<string, string> = {
   production: "О производстве",
   contacts: "Контакты",
   certificates: "Сертификаты",
-  privacy: "Политика конфиденциальности",
   navbar_config: "Верхнее меню",
   "footer-config": "Нижнее меню",
 };
