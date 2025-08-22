@@ -68,11 +68,6 @@ const staticContentItems = [
   { title: "Вакансии", url: "/dashboard/static/vacancies", icon: Users },
   { title: "Контакты", url: "/dashboard/static/contacts", icon: Phone },
   { title: "Сертификаты", url: "/dashboard/static/certificates", icon: Award },
-  {
-    title: "Политика конфиденциальности",
-    url: "/dashboard/static/privacy",
-    icon: Shield,
-  },
 ];
 
 const seoSettingsItems = [

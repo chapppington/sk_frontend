@@ -94,12 +94,7 @@ export function ProfileInfo() {
           name: "Сертификаты",
           href: "/dashboard/static/certificates",
           icon: Award,
-        },
-        {
-          name: "Политика конфиденциальности",
-          href: "/dashboard/static/privacy",
-          icon: Shield,
-        },
+        }
       ],
     },
   ];
