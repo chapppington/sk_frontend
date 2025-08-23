@@ -20,8 +20,12 @@ const HistoryScreen: FC = () => {
       <CustomContainer className="h-full flex flex-col relative z-10">
         <SectionHeader
           bracketsText="Развитие"
-          heading={<>История <br></br>компании</>}
-          description="Задача организации, в особенности же экономическая повестка сегодняшнего дня способствует подготовке и реализации анализа существующих паттернов поведения."
+          heading={
+            <>
+              История <br></br>компании
+            </>
+          }
+          description="С 2006 года мы прошли путь от стартапа до предприятия полного цикла: собрали сильную команду, развернули масштабное производство и внедрили передовые технологии."
           desktopOrder={{
             bracketsText: 1,
             heading: 2,
@@ -30,8 +34,7 @@ const HistoryScreen: FC = () => {
         />
 
         <CustomSlider
-          autoplay={true}
-          autoplayDelay={3000}
+          autoplay={false}
           spaceBetween={24}
           loop={true}
           showIndicators={true}
