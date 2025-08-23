@@ -140,9 +140,7 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
       </div>
     );
   } else if (isMapActive) {
-    mapContent = (
-      <div className="text-gray-500">Загрузка карты...</div>
-    );
+    mapContent = <div className="text-gray-500">Загрузка карты...</div>;
   }
 
   return (

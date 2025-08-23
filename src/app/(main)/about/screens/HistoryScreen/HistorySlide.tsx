@@ -1,13 +1,6 @@
 import { FC } from "react";
-import Image from "next/image";
-
-interface HistoryEvent {
-  id: number;
-  number: string;
-  title: string;
-  description: string;
-  image: string;
-}
+import { Users, Home } from "lucide-react";
+import { HistoryEvent } from "./types";
 
 interface HistorySlideProps {
   event: HistoryEvent;
@@ -17,57 +10,48 @@ const HistorySlide: FC<HistorySlideProps> = ({ event }) => {
   return (
     <article className="group relative overflow-hidden">
       <div
-        className="relative aspect-[3/4] overflow-hidden transition-all duration-300 ease-in-out"
+        className="relative aspect-[3/4] overflow-hidden transition-all duration-300 ease-in-out bg-white/5 backdrop-blur-sm"
         style={{
           clipPath: "polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%)",
         }}
       >
-        <Image
-          src={event.image}
-          alt={event.title}
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
-          fill
-        />
-        {/* Default overlay */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60 transition-opacity duration-300 ease-in-out"
-          style={{
-            clipPath: "polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%)",
-          }}
-        ></div>
-
-        {/* Darker overlay that appears on hover */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-transparent via-black/45 to-black/90 lg:opacity-0 opacity-100 transition-opacity duration-300 ease-in-out lg:group-hover:opacity-100"
-          style={{
-            clipPath: "polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%)",
-          }}
-        ></div>
-
-        {/* Content overlay */}
         <div className="absolute inset-0 p-6 flex flex-col z-10">
-          {/* Top content */}
           <div>
-            <span className="inline-block px-4 py-4 bg-black/70 backdrop-blur-sm text-white text-5xl rounded-md font-light">
+            <span className="inline-block px-4 py-4 bg-black/40 text-white text-3xl md:text-4xl rounded-md font-light">
               {event.number}
             </span>
           </div>
 
-          {/* Bottom content */}
-          <div className="mt-auto lg:transition-transform lg:duration-300 lg:ease-in-out lg:group-hover:-translate-y-20">
-            <h3 className="text-2xl text-white font-light leading-tight lg:mb-0 mb-4">
+          <div className="mt-auto">
+            <div className="flex flex-col gap-5 mb-10">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <Users className="text-white/80" size={40} />
+                  <div className="text-2xl md:text-4xl text-white font-light">
+                    {event.employees}
+                    {event.employeesHasPlus ? "+" : ""}
+                  </div>
+                </div>
+                <div className="text-sm text-white/70">
+                  работает сотрудников
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <Home className="text-white/80" size={40} />
+                  <div className="text-2xl md:text-4xl text-white font-light">
+                    {event.areaM2} м²
+                  </div>
+                </div>
+                <div className="text-sm text-white/70">
+                  производственная площадь
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-xl text-white font-light leading-tight">
               {event.title}
             </h3>
-
-            {/* Mobile/Tablet Description */}
-            <div className="block lg:hidden">
-              <p className="text-white/80 text-sm">{event.description}</p>
-            </div>
-          </div>
-
-          {/* Desktop hover description */}
-          <div className="absolute bottom-2 left-6 right-6 transform translate-y-16 opacity-0 transition-all duration-300 ease-in-out lg:group-hover:translate-y-0 lg:group-hover:opacity-100 hidden lg:block">
-            <p className="text-white/80 text-sm mb-6">{event.description}</p>
           </div>
         </div>
       </div>
