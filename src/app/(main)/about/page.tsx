@@ -48,7 +48,7 @@ const AboutPage: FC = () => {
   return (
     <main>
       <FirstScreen />
-      {/* <HistoryScreen /> */}
+      <HistoryScreen />
       {/* <OwnerCommentScreen /> */}
       {/* <TeamScreen /> */}
       {/* <ReviewScreen /> */}
