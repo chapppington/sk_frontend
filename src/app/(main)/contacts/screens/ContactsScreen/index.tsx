@@ -1,19 +1,19 @@
 "use client";
 
-// TODO create form component with react hook form
-
 import { FC } from "react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import MainButton from "@/components/ui/MainButton";
 import GradientHeading from "@/components/ui/GradientHeading";
-import Input from "@/components/ui/Input";
 import CustomContainer from "@/components/ui/CustomContainer";
 import YandexMapContainer from "@/components/ui/YandexMapContainer";
 import PhoneIcon from "@/shared/icons/PhoneIcon";
 import EmailIcon from "@/shared/icons/EmailIcon";
 import LocationIcon from "@/shared/icons/LocationIcon";
+import { useContactsPageConfig } from "@/hooks/useContactsPageConfig";
+import ContactForm from "@/components/ContactForm";
 
 const Contacts: FC = () => {
+  const { config } = useContactsPageConfig();
+
   return (
     <main>
       {/* Breadcrumbs */}
@@ -34,79 +34,51 @@ const Contacts: FC = () => {
                 Связаться с нами
               </GradientHeading>
               <p className="text-white/80 mb-10">
-                В своём стремлении улучшить пользовательский опыт мы упускаем,
-                что предприниматели в сети интернет лишь добавляют
+                Заполните форму — мы свяжемся с вами в рабочее время, ответим на
+                вопросы и подготовим предложение. При необходимости можно
+                прикрепить файлы с ТЗ или спецификацией.
               </p>
-              <form className="space-y-6">
-                <Input
-                  type="text"
-                  id="name"
-                  label="Ваше имя"
-                  className="w-full"
-                />
-                <Input
-                  type="email"
-                  id="email"
-                  label="Ваш E-mail"
-                  className="w-full"
-                />
-                <Input
-                  type="text"
-                  id="organization"
-                  label="Организация"
-                  className="w-full mb-6"
-                />
-                <MainButton text="Отправить заявку" />
-              </form>
+              <ContactForm />
             </div>
 
             {/* Right Column - Contact Information */}
             <div className="space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Sales Department */}
-                <div>
-                  <h3 className="text-white/80 mb-4">• Отдел продаж</h3>
-                  <div className="flex items-center mb-3">
-                    <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="tel:88809900000" className="text-white">
-                      8 (880) 990-00-00
-                    </a>
-                  </div>
-                  <div className="flex items-center">
-                    <EmailIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="mailto:test@mail.ru" className="text-white">
-                      test@mail.ru
-                    </a>
-                  </div>
+              {config?.departments?.length ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {config.departments.map((dep, idx) => (
+                    <div key={idx}>
+                      <h3 className="text-white/80 mb-4">• {dep.name}</h3>
+                      {dep.phone && (
+                        <div className="flex items-center mb-3">
+                          <PhoneIcon className="w-4 h-4 text-white mr-2" />
+                          <a
+                            href={`tel:${dep.phone.replace(/\s|\(|\)|-/g, "")}`}
+                            className="text-white"
+                          >
+                            {dep.phone}
+                          </a>
+                        </div>
+                      )}
+                      <div className="flex items-center">
+                        <EmailIcon className="w-4 h-4 text-white mr-2" />
+                        <a href={`mailto:${dep.email}`} className="text-white">
+                          {dep.email}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-
-                {/* Design Department */}
-                <div>
-                  <h3 className="text-white/80 mb-4">
-                    • Конструкторский отдел
-                  </h3>
-                  <div className="flex items-center mb-3">
-                    <PhoneIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="tel:88809900000" className="text-white">
-                      8 (880) 990-00-00
-                    </a>
-                  </div>
-                  <div className="flex items-center">
-                    <EmailIcon className="w-4 h-4 text-white mr-2" />
-                    <a href="mailto:test@mail.ru" className="text-white">
-                      test@mail.ru
-                    </a>
-                  </div>
-                </div>
-              </div>
+              ) : null}
 
               {/* Address */}
               <div>
                 <h3 className="text-white/80 mb-4">• Адрес</h3>
-                <div className="flex items-center mb-4">
-                  <LocationIcon className="w-4 h-4 text-white mr-2" />
-                  <span className="text-white">ул. Арбат, 26, Москва</span>
-                </div>
+                {config?.address && (
+                  <div className="flex items-center mb-4">
+                    <LocationIcon className="w-4 h-4 text-white mr-2" />
+                    <span className="text-white">{config.address}</span>
+                  </div>
+                )}
                 <YandexMapContainer height="300px" />
               </div>
             </div>

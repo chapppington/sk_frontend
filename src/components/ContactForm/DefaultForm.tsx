@@ -1,6 +1,5 @@
 import { FC } from "react";
 import Input from "@/components/ui/Input";
-import TextArea from "@/components/ui/TextArea";
 import MainButton from "@/components/ui/MainButton";
 import PaperClipIcon from "@/shared/icons/PaperClipIcon";
 import { formatPhoneNumber } from "@/shared/utils/formatPhoneNumber";

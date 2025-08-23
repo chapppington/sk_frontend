@@ -44,7 +44,7 @@ export function FooterAddressManager({
       <CardHeader>
         <CardTitle>Адрес компании</CardTitle>
         <CardDescription>
-          Укажите адрес, который будет отображаться в нижнем меню
+          Укажите адрес, который будет отображаться в меню
         </CardDescription>
       </CardHeader>
       <CardContent>
