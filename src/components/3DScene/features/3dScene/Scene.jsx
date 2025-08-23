@@ -4,8 +4,6 @@ import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { useAnimations } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { WfThrough } from "./materials/WfThrough.jsx";
-import { WfMid } from "./materials/WfMid.jsx";
 import { WfMid2 } from "./materials/WfMid2.jsx";
 import { WfCars } from "./materials/WfCars.jsx";
 import { WfLogo } from "./materials/WfLogo.jsx";
@@ -49,8 +47,6 @@ export default function Scene() {
   const frameInterval = 1000 / 60; // Target 60 FPS for animations
 
   // TODO: Добавить кастомные шейдеры для мелких объектов (Машины, рельсы)
-  const customShader = WfThrough();
-  const customShaderTest = WfMid();
   const customShaderTest2 = WfMid2();
   const carsMaterial = WfCars();
   const logoMaterial = WfLogo();
@@ -125,6 +121,8 @@ export default function Scene() {
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
+    depthWrite: false,
+    depthTest: true,
     opacity: 0.01,
     side: THREE.FrontSide,
   });
@@ -132,6 +130,8 @@ export default function Scene() {
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
+    depthWrite: false,
+    depthTest: true,
     opacity: 0.35,
     side: THREE.FrontSide,
   });
@@ -214,6 +214,7 @@ export default function Scene() {
   useEffect(() => {
     wallsOut.scene.traverse((node) => {
       node.material = customShaderTest2;
+      node.renderOrder = 1;
     });
   }, [wallsOut, customShaderTest2]);
   useEffect(() => {
@@ -272,7 +273,7 @@ export default function Scene() {
 
           // Optimize materials
           if (node.material) {
-            node.material.precision = "lowp"; // Use low precision for better performance
+            node.material.precision = "highp"; // Use high precision for better quality
           }
         }
       });
@@ -338,12 +339,8 @@ export default function Scene() {
     }
 
     lastUpdate.current = currentTime;
-    const progress = Math.min(1, clock.getElapsedTime() / 5);
 
     // Update shaders
-    customShader.uniforms.uProgress.value = progress;
-    customShader.uniforms.time.value = clock.getElapsedTime();
-    customShaderTest.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     customShaderTest2.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     carsMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
     logoMaterial.uniforms.uTime.value = clock.getElapsedTime() * 1.2;
@@ -435,16 +432,6 @@ export default function Scene() {
   useEffect(() => {
     if (isFirstRender.current) {
       const tl = gsap.timeline();
-      tl.to(
-        customShaderTest.uniforms.uRevealDistance,
-        {
-          value: 1,
-          duration: 1.5,
-          delay: 0,
-          ease: Power4.easeOut,
-        },
-        0
-      );
       tl.to(carsMaterial.uniforms.uRevealDistance,
         {
           value: 1,
@@ -534,7 +521,7 @@ export default function Scene() {
       // Отмечаем, что первый рендер прошел
       isFirstRender.current = false;
     }
-  }, [customShaderTest]);
+  }, []);
 
   // Modify the useEffect for static objects to use geometry merging
   useEffect(() => {

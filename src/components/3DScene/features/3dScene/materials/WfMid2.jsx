@@ -7,7 +7,7 @@ export function WfMid2() {
       return new THREE.ShaderMaterial({
         wireframe: false,
         transparent: true,
-        depthTest: false,
+        depthTest: true,
         depthWrite: false,
         side: THREE.FrontSide,
         blending: THREE.AdditiveBlending,

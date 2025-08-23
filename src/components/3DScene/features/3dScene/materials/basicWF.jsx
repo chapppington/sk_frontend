@@ -5,7 +5,7 @@ import fragmentShader from '../shaders/simpleOutline.frag.glsl'
 export function basicWF() {
   return useMemo(()=>{
       return new THREE.ShaderMaterial({
-        depthWrite: true,
+        depthWrite: false,
         depthTest: true,
         transparent: true,
         fragmentShader: fragmentShader,
