@@ -3,7 +3,11 @@ import { InfoIconProps } from "./types";
 import Popover from "@/components/ui/Popover";
 import { Info } from "lucide-react";
 
-const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
+const InfoIcon: FC<InfoIconProps> = ({
+  popoverContent,
+  color = "default",
+  side = "right",
+}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isMobilePopupOpen, setIsMobilePopupOpen] = useState(false);
 
@@ -30,7 +34,9 @@ const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
         className="w-6 h-6 rounded-full flex items-center justify-center bg-transparent hover:bg-[#e3e3e3]/40 dark:hover:bg-[#333]/40 transition-colors"
       >
         <Info
-          className="w-4 h-4 text-[#202124] dark:text-[#fff]"
+          className={`w-4 h-4 ${
+            color === "white" ? "text-white" : "text-[#202124] dark:text-[#fff]"
+          }`}
           strokeWidth={2}
         />
       </button>
@@ -42,6 +48,7 @@ const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
           isOpen={isPopoverOpen}
           onMouseEnter={() => setIsPopoverOpen(true)}
           onMouseLeave={() => setIsPopoverOpen(false)}
+          side={side}
         />
       </div>
 
@@ -56,12 +63,12 @@ const InfoIcon: FC<InfoIconProps> = ({ popoverContent }) => {
             <h3 className="text-white text-lg font-medium">Пояснение</h3>
             <button
               onClick={handleCloseClick}
-              className="text-white hover:text-white/70"
+              className={`text-white hover:text-white/70`}
             >
               ✕
             </button>
           </div>
-          <div className="text-white text-sm">{popoverContent}</div>
+          <div className={`text-white text-sm`}>{popoverContent}</div>
         </div>
       </div>
     </div>

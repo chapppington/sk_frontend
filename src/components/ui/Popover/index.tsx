@@ -10,6 +10,7 @@ const Popover: FC<IPopoverProps> = ({
   onMouseEnter,
   onMouseLeave,
   className = "",
+  side = "right",
 }) => {
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,9 @@ const Popover: FC<IPopoverProps> = ({
       ref={popoverRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 w-80 max-w-[calc(100vw-2rem)] p-3 bg-gray-800 rounded-lg text-white text-sm z-50 invisible opacity-0 select-none ${className}`}
+      className={`absolute ${
+        side === "right" ? "left-full ml-2" : "right-full mr-2"
+      } top-1/2 -translate-y-1/2 w-80 max-w-[calc(100vw-2rem)] p-3 bg-gray-800 rounded-lg text-white text-sm z-50 invisible opacity-0 select-none ${className}`}
       style={{
         maxWidth: "calc(100vw - 2rem)",
         wordBreak: "break-word",

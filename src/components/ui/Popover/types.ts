@@ -6,4 +6,5 @@ export interface IPopoverProps {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   className?: string;
+  side?: "left" | "right";
 }

@@ -15,6 +15,8 @@ const Dropdown: FC<IDropdownProps> = ({
   popoverContent,
   alwaysOpenOnMobile = false,
   hidePlusButton = false,
+  infoIconColor = "default",
+  infoIconSide = "right",
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -71,7 +73,13 @@ const Dropdown: FC<IDropdownProps> = ({
           </h3>
         </div>
         <div className="flex items-center gap-2">
-          {shouldShowInfoIcon && <InfoIcon popoverContent={popoverContent} />}
+          {shouldShowInfoIcon && (
+            <InfoIcon
+              popoverContent={popoverContent}
+              color={infoIconColor}
+              side={infoIconSide}
+            />
+          )}
           {!hidePlusButton && <PlusButton isOpen={isOpen} />}
         </div>
       </div>

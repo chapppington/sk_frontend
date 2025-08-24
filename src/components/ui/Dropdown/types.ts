@@ -8,4 +8,6 @@ export interface IDropdownProps {
   popoverContent?: ReactNode;
   alwaysOpenOnMobile?: boolean;
   hidePlusButton?: boolean;
+  infoIconColor?: "white" | "default";
+  infoIconSide?: "left" | "right";
 }
