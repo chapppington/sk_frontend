@@ -27,6 +27,8 @@ const QuestionDropdown = ({
       popoverContent={popoverContent}
       alwaysOpenOnMobile={true}
       hidePlusButton={true}
+      infoIconColor="white"
+      infoIconSide="left"
     >
       {type === "slider" ? (
         <SliderOption
