@@ -4,6 +4,8 @@ import SliderOption from "./components/SliderOption";
 import RadioOption from "./components/RadioOption";
 import CheckboxOption from "./components/CheckboxOption";
 import Input from "@/components/ui/Input";
+import FeederSectionOption from "./components/FeederSectionOption";
+import { FeederData } from "./components/FeederSectionOption/types";
 
 const QuestionDropdown = ({
   value,
@@ -15,6 +17,7 @@ const QuestionDropdown = ({
   popoverContent,
   type,
   textLabel,
+  numberOfSections,
 }: QuestionDropdownProps) => {
   return (
     <Dropdown
@@ -27,9 +30,9 @@ const QuestionDropdown = ({
     >
       {type === "slider" ? (
         <SliderOption
-          options={options}
-          value={value}
-          onChange={onChange}
+          options={options || []}
+          value={value as string | number | string[]}
+          onChange={onChange as (value: string | number | string[]) => void}
           questionId={questionId}
         />
       ) : type === "text" ? (
@@ -41,17 +44,24 @@ const QuestionDropdown = ({
         />
       ) : type === "multiple_choice" ? (
         <CheckboxOption
-          options={options}
+          options={options || []}
           value={value as string[]}
           onChange={onChange as (value: string[]) => void}
           questionId={questionId}
           title={title}
         />
+      ) : type === "feeder_sections" && typeof numberOfSections === "number" ? (
+        <FeederSectionOption
+          value={value as Record<string, FeederData[]>}
+          onChange={onChange as (value: Record<string, FeederData[]>) => void}
+          questionId={questionId}
+          numberOfSections={numberOfSections}
+        />
       ) : (
         <RadioOption
-          options={options}
-          value={value}
-          onChange={onChange}
+          options={options || []}
+          value={value as string | number | string[]}
+          onChange={onChange as (value: string | number | string[]) => void}
           questionId={questionId}
           title={title}
         />
