@@ -1,6 +1,5 @@
-#ifdef GL_ES
 precision highp float;
-#endif
+precision highp int;
 
 uniform sampler2D uGridTexture;
 uniform float uAlpha;

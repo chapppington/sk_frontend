@@ -1,3 +1,5 @@
+precision highp float;
+precision highp int;
 varying vec3 vBarycentric;
 varying float vEven;
 varying vec2 vUv;

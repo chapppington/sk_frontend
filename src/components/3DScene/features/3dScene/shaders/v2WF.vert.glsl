@@ -1,6 +1,5 @@
-#ifdef GL_ES
 precision highp float;
-#endif
+precision highp int;
 
 uniform float uTime;
 uniform vec3 uColor;

@@ -1,3 +1,5 @@
+precision highp float;
+precision highp int;
 attribute vec3 barycentric;
 attribute float even;
 

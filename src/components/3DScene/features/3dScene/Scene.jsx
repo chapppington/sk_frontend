@@ -12,7 +12,7 @@ import gsap from "gsap";
 import { Power4 } from "gsap/all";
 import { BufferGeometryUtils } from "three/examples/jsm/Addons.js";
 import { basicWF } from "./materials/basicWF.jsx";
-import { createLentaMaterial } from './materials/lentaMaterial';
+import { createLentaMaterial } from "./materials/lentaMaterial";
 
 // TODO: Добавить мемоизацию для всех материалов
 // TODO: Добавить в контекст камеры useMemo
@@ -80,7 +80,7 @@ export default function Scene() {
     lenta2,
     main_static,
     road_cars,
-    parn
+    parn,
   ] = useLoader(
     GLTFLoader,
     [
@@ -121,19 +121,25 @@ export default function Scene() {
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
-    depthWrite: false,
+    depthWrite: true,
     depthTest: true,
-    opacity: 0.01,
+    opacity: 0.05,
     side: THREE.FrontSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1,
   });
   const materialASD2 = new THREE.MeshBasicMaterial({
     color: new THREE.Color("#ffffff"),
     wireframe: true,
     transparent: true,
-    depthWrite: false,
+    depthWrite: true,
     depthTest: true,
     opacity: 0.35,
     side: THREE.FrontSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1,
   });
 
   useEffect(() => {
@@ -166,7 +172,6 @@ export default function Scene() {
     //   terrain.scene.add(mergedLines);
     //   console.log(mergedLines);
     // }
-
   }, [terrain, worldMaterial]);
 
   //TODO: БЛЯТЬ Я не знаю как сделать так чтобы оно рендерилось
@@ -335,7 +340,6 @@ export default function Scene() {
           node.visible = distanceToCamera <= 500;
         }
       });
-
     }
 
     lastUpdate.current = currentTime;
@@ -356,7 +360,7 @@ export default function Scene() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       const isVisible = !document.hidden;
-      
+
       // Handle main animations
       mainAnimations.names.forEach((name) => {
         const action = mainAnimations.actions[name];
@@ -432,7 +436,8 @@ export default function Scene() {
   useEffect(() => {
     if (isFirstRender.current) {
       const tl = gsap.timeline();
-      tl.to(carsMaterial.uniforms.uRevealDistance,
+      tl.to(
+        carsMaterial.uniforms.uRevealDistance,
         {
           value: 1,
           duration: 1.5,
@@ -440,8 +445,9 @@ export default function Scene() {
           ease: Power4.easeOut,
         },
         0
-      )
-      tl.to(logoMaterial.uniforms.uRevealDistance,
+      );
+      tl.to(
+        logoMaterial.uniforms.uRevealDistance,
         {
           value: 1,
           duration: 1.5,
@@ -449,8 +455,9 @@ export default function Scene() {
           ease: Power4.easeOut,
         },
         0
-      )
-      tl.to(logoMaterial.uniforms.uFluctuationFrequency,
+      );
+      tl.to(
+        logoMaterial.uniforms.uFluctuationFrequency,
         {
           value: 1,
           duration: 1.5,
@@ -458,8 +465,9 @@ export default function Scene() {
           ease: Power4.easeOut,
         },
         0
-      )
-      tl.to(logoMaterial.uniforms.uFluctuationAmplitude,
+      );
+      tl.to(
+        logoMaterial.uniforms.uFluctuationAmplitude,
         {
           value: 1,
           duration: 1.5,
@@ -467,7 +475,7 @@ export default function Scene() {
           ease: Power4.easeOut,
         },
         0
-      )
+      );
 
       tl.to(
         worldMaterial.uniforms.uRevealDistance,
@@ -541,10 +549,7 @@ export default function Scene() {
 
   // Очистка при размонтировании
   useEffect(() => {
-    return () => {
-      
-      
-    };
+    return () => {};
   }, []);
 
   return (

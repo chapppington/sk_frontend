@@ -1,4 +1,6 @@
 // vertex shader
+precision highp float;
+precision highp int;
 varying vec3 vPosition;
 
 void main() {

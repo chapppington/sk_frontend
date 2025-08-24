@@ -1,19 +1,45 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 // import Scene from "@/components/3DScene/features/3dScene/Scene";
 import Camera3D from "@/components/3DScene/features/3dScene/Camera3D";
-import { AdaptiveDpr, AdaptiveEvents, Preload, PerformanceMonitor } from "@react-three/drei";
+import {
+  AdaptiveDpr,
+  AdaptiveEvents,
+  Preload,
+  PerformanceMonitor,
+} from "@react-three/drei";
 import { CameraProvider } from "./features/CameraContext";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-const TempScene = dynamic(() => import("./features/3dScene/Scene"), { ssr: false });
+const TempScene = dynamic(() => import("./features/3dScene/Scene"), {
+  ssr: false,
+});
 const MainScene = React.memo(() => {
-  const [dpr, setDpr] = useState(2)
+  const [dpr, setDpr] = useState(2);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
+  // Detect Apple WebKit (Safari on iOS/macOS, including Chrome on iOS)
+  const isAppleWebKit = useMemo(() => {
+    if (typeof navigator === "undefined") return false;
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isMacSafari =
+      /Macintosh/.test(ua) &&
+      /Safari/.test(ua) &&
+      !/(Chrome|Chromium|Edg)/.test(ua);
+    // iOS browsers all use WebKit under the hood
+    return isIOS || isMacSafari;
+  }, []);
+
   // Мемоизируем настройки Canvas
   const canvasSettings = useMemo(
     () => ({
@@ -33,30 +59,40 @@ const MainScene = React.memo(() => {
         antialias: true,
         powerPreference: "high-performance" as const,
         stencil: false,
-        depth: false,
+        // Enable depth buffer to avoid transparency sorting artifacts
+        depth: true,
         outputColorSpace: THREE.SRGBColorSpace,
-        alpha: true,
-        logarithmicDepthBuffer: true,
+        // Opaque canvas avoids tile artifacts on iOS/macOS
+        alpha: false,
+        premultipliedAlpha: false,
+        // Disable log depth on Apple WebKit due to known tile/square artifacts
+        logarithmicDepthBuffer: !isAppleWebKit,
       },
       dpr: [1, 2] as [number, number],
       scene: {
         background: new THREE.Color("#121f54"),
       },
     }),
-    []
+    [isAppleWebKit]
   );
 
   // Cleanup function to properly dispose of WebGL context
   const cleanupWebGL = useCallback(() => {
     if (canvasRef.current) {
       // Directly cleanup WebGL context
-      const context = canvasRef.current.getContext('webgl2') || canvasRef.current.getContext('webgl');
+      const context =
+        canvasRef.current.getContext("webgl2") ||
+        canvasRef.current.getContext("webgl");
       if (context) {
         // Clear all buffers
-        context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT | context.STENCIL_BUFFER_BIT);
-        
+        context.clear(
+          context.COLOR_BUFFER_BIT |
+            context.DEPTH_BUFFER_BIT |
+            context.STENCIL_BUFFER_BIT
+        );
+
         // Get all WebGL extensions and lose context
-        const loseContext = context.getExtension('WEBGL_lose_context');
+        const loseContext = context.getExtension("WEBGL_lose_context");
         if (loseContext) {
           loseContext.loseContext();
         }
@@ -71,7 +107,7 @@ const MainScene = React.memo(() => {
   // Component to handle Three.js cleanup
   const CleanupHandler = () => {
     const { gl } = useThree();
-    
+
     useEffect(() => {
       return () => {
         // Cleanup Three.js renderer
@@ -84,7 +120,7 @@ const MainScene = React.memo(() => {
         }
       };
     }, [gl]);
-    
+
     return null;
   };
 
@@ -98,7 +134,6 @@ const MainScene = React.memo(() => {
   return (
     <div className="app-container fixed z-[-10]">
       <div className="canvas-container pointer-events-auto">
-        
         <Canvas
           ref={canvasRef}
           style={canvasSettings.style}
@@ -109,14 +144,17 @@ const MainScene = React.memo(() => {
         >
           <CleanupHandler />
           {/* Монитор производительности для адаптивного качества */}
-          <PerformanceMonitor factor={1} onChange={({ factor }) => setDpr(Math.floor(0.5 + 1.5 * factor))} />
-            {/* Адаптивное качество рендеринга */}
+          <PerformanceMonitor
+            factor={1}
+            onChange={({ factor }) => setDpr(Math.floor(0.5 + 1.5 * factor))}
+          />
+          {/* Адаптивное качество рендеринга */}
           {/* Оптимизация событий при низком FPS */}
           <AdaptiveEvents />
-          
+
           {/* Предзагрузка ресурсов */}
           <Preload all />
-          
+
           <CameraProvider>
             <Suspense fallback={null}>
               <TempScene />
@@ -124,12 +162,11 @@ const MainScene = React.memo(() => {
           </CameraProvider>
           <Camera3D />
         </Canvas>
-        
       </div>
     </div>
   );
 });
 
-MainScene.displayName = 'MainScene';
+MainScene.displayName = "MainScene";
 
 export default MainScene;
