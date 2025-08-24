@@ -6,6 +6,7 @@ import Questionnaire from "./components/Questionnaire";
 import QuestionnaireLeftMenu from "./components/QuestionnaireLeftMenu";
 import { initializeFormState } from "./utils/initializeFormState";
 import { IFormState } from "./types";
+import { FeederData } from "./components/QuestionDropdown/components/FeederSectionOption/types";
 import { useLenis } from "lenis/react";
 
 export default function QuestionnairePage() {
@@ -18,7 +19,7 @@ export default function QuestionnairePage() {
 
   const handleStateChange = (
     key: number,
-    value: string | number | string[]
+    value: string | number | string[] | Record<string, FeederData[]>
   ) => {
     setFormState((prev) => ({ ...prev, [key]: value }));
   };

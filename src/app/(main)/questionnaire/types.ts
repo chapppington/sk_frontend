@@ -1,3 +1,5 @@
+import { FeederData } from "./components/QuestionDropdown/components/FeederSectionOption/types";
+
 export interface IQuestionOption {
   value: string | number;
   label: string;
@@ -9,10 +11,12 @@ export interface IQuestionOption {
 export interface IQuestion {
   id: number;
   title: string;
-  options: IQuestionOption[];
+  options?: IQuestionOption[];
   popoverContent?: string;
-  type?: "slider" | "text" | "multiple_choice";
+  type?: "slider" | "text" | "multiple_choice" | "feeder_sections";
   textLabel?: string;
+  numberOfSections?: number;
+  showIf?: (answers: Record<number, any>) => boolean;
 }
 
 export interface IStage {
@@ -22,7 +26,7 @@ export interface IStage {
 }
 
 // Define the possible types of answers in our form
-export type Answer = string | number | string[];
+export type Answer = string | number | string[] | Record<string, FeederData[]>;
 
 // Form state is a record of question IDs to their answers
 export interface IFormState {
