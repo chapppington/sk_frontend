@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import Image from "next/image";
 
 import CustomContainer from "@/components/ui/CustomContainer";
+import MainButton from "@/components/ui/MainButton";
 
 export const OwnerCommentScreen: FC = () => {
   return (
@@ -14,28 +15,36 @@ export const OwnerCommentScreen: FC = () => {
             clipPath: "polygon(0% 0%, 85% 0%, 100% 15%, 100% 100%, 0% 100%)",
           }}
         >
-          <Image src="/man.png" alt="Owner" fill className="object-cover" />
+          <Image
+            src="/Полозов_Сергей_Николаевич_Генеральный_директор.png"
+            alt="Owner"
+            fill
+            className="object-cover"
+          />
         </div>
         {/* Middle Column: Name and Job Title */}
-        <div className="border border-white/10 rounded-md flex flex-col justify-end px-8 pb-8 pt-0 min-w-[180px] max-w-[220px] bg-black/20">
-          <div className="text-white text-3xl font-medium mb-2 mt-auto">
-            Иван Федоров
+        <div className="border border-white/10 rounded-md flex flex-col justify-end px-5 pb-5 pt-0 min-w-[180px] max-w-[220px] bg-black/20">
+          <div className="text-white text-2xl font-medium mb-2 mt-auto">
+            Полозов Сергей Николаевич
           </div>
-          <div className="text-gray-400 text-xl">Генеральный директор</div>
+          <div className="text-gray-400 text-lg">Генеральный директор</div>
         </div>
-        {/* Right Column: Quote */}
-        <blockquote className="border border-white/10 rounded-md flex items-center p-8 bg-black/20">
-          <p className="text-white text-2xl md:text-3xl xl:text-4xl ">
-            "В своём стремлении улучшить пользовательский опыт мы упускаем, что
-            предприниматели
-            <span className="text-gray-500/60">
-              {" "}
-              в сети интернет лишь добавляют{" "}
-            </span>
-            фракционных разногласий и представлены в исключительно положительном
-            свете."
-          </p>
-        </blockquote>
+        {/* Right Column: Quote and Button */}
+        <div className="flex flex-col">
+          <blockquote className="border border-white/10 rounded-md flex items-center p-8 bg-black/20 flex-1">
+            <p className="text-white text-2xl md:text-3xl xl:text-4xl">
+              "Наша миссия - показывать новые горизонты, превосходящие ожидания
+              клиентов. Мы являемся надежным партнером, обеспечивающим
+              безопасность, инновации и устойчивое развитие в отрасли."
+            </p>
+          </blockquote>
+          <MainButton
+            text="Cмотреть политику качества"
+            href="/quality"
+            transparent
+            fullWidth
+          />
+        </div>
       </div>
     </CustomContainer>
   );
