@@ -1,6 +1,8 @@
 import Home from "./Home";
 import type { Metadata } from "next";
 import { fetchSeoSettingsSSR } from "@/shared/utils/fetchSeoSettingsSSR";
+import { WebGLWarning } from "@/components/GpuDetector/ui/GPUWarning";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await fetchSeoSettingsSSR("/");
@@ -24,5 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function HomePage() {
-  return <Home />;
+  return (
+    <>
+      <WebGLWarning/>
+      <Home />
+    </>
+  );
 }
