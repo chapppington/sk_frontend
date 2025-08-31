@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { useLenis } from "lenis/react";
 
 import { IContactFormData, ContactFormVariant } from "./types";
+import { useSubmitForm } from "@/hooks/useSubmitForm";
+import type { FormType } from "@/shared/types/submissions.types";
 import VacancyForm from "./VacancyForm";
 import QuestionnaireForm from "./QuestionnaireForm";
 import DefaultForm from "./DefaultForm";
@@ -16,6 +18,7 @@ interface ContactFormProps {
 
 const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
   const lenis = useLenis();
+  const { submitForm, isSubmitting } = useSubmitForm();
   const {
     register,
     handleSubmit,
@@ -23,6 +26,7 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
     watch,
     setError,
     clearErrors,
+    reset,
   } = useForm<IContactFormData>();
 
   // Add effect to handle Lenis resize when errors change
@@ -32,9 +36,34 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
     }
   }, [errors, lenis]);
 
+  const getFormType = (variant: ContactFormVariant): FormType => {
+    switch (variant) {
+      case "vacancy":
+        return "VACANCY";
+      case "questionnaire":
+        return "QUESTIONNAIRE";
+      case "request":
+        return "REQUEST";
+      default:
+        return "DEFAULT";
+    }
+  };
+
   const onSubmit = (data: IContactFormData) => {
-    console.log(data);
-    // Handle form submission here
+    const files = data.resume ? Array.from(data.resume) : undefined;
+
+    submitForm({
+      formType: getFormType(variant),
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      comments: data.comments,
+      files,
+      consent: data.consent,
+    });
+
+    // Сбросить форму после успешной отправки
+    reset();
   };
 
   return variant === "vacancy" ? (
@@ -46,6 +75,7 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
       clearErrors={clearErrors}
       watch={watch}
       onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
     />
   ) : variant === "questionnaire" ? (
     <QuestionnaireForm
@@ -66,6 +96,7 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
       clearErrors={clearErrors}
       watch={watch}
       onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
     />
   ) : (
     <DefaultForm
@@ -76,6 +107,7 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
       clearErrors={clearErrors}
       watch={watch}
       onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
     />
   );
 };

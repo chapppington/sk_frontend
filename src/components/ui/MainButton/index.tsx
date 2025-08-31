@@ -16,6 +16,7 @@ const MainButton: FC<IMainButtonProps> = ({
   transparent = false,
   fullWidth = false,
   external = false,
+  disabled = false,
 }) => {
   const styles = sizeStyles[size];
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
@@ -61,7 +62,7 @@ const MainButton: FC<IMainButtonProps> = ({
   );
 
   const commonProps = {
-    onClick,
+    onClick: disabled ? undefined : onClick,
     className: `mt-6 inline-flex ${
       transparent
         ? "bg-transparent border border-white main-btn-dark-fix"
@@ -70,7 +71,7 @@ const MainButton: FC<IMainButtonProps> = ({
       className ? ` ${className}` : ""
     } ${styles.clipPathClass} ${styles.borderRadiusClass} ${
       transparent ? stylesModule["main-btn-dark-fix"] : ""
-    }`,
+    } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`,
   };
 
   if (disableRedirect) {
