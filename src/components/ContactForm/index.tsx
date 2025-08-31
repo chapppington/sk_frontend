@@ -8,6 +8,7 @@ import { IContactFormData, ContactFormVariant } from "./types";
 import VacancyForm from "./VacancyForm";
 import QuestionnaireForm from "./QuestionnaireForm";
 import DefaultForm from "./DefaultForm";
+import RequestForm from "./RequestForm";
 
 interface ContactFormProps {
   variant?: ContactFormVariant;
@@ -48,6 +49,16 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
     />
   ) : variant === "questionnaire" ? (
     <QuestionnaireForm
+      register={register}
+      handleSubmit={handleSubmit}
+      errors={errors}
+      setError={setError}
+      clearErrors={clearErrors}
+      watch={watch}
+      onSubmit={onSubmit}
+    />
+  ) : variant === "request" ? (
+    <RequestForm
       register={register}
       handleSubmit={handleSubmit}
       errors={errors}
