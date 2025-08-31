@@ -8,6 +8,7 @@ import { CameraProvider } from "@/components/3DScene/features/CameraContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { FontProvider } from "@/context/FontProvider";
+import { GpuDetectProvider } from "@/context/GpuDetectProvider";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -21,22 +22,24 @@ export default function Providers({ children }: ProvidersProps) {
       <FontProvider>
         <ViewTransitions>
           <PageTransitionProvider>
-            <CameraProvider>
-              <ReactLenis
-                root
-                options={{
-                  lerp: 0.16,
-                  wheelMultiplier: 1,
-                  smoothWheel: true,
-                  orientation: "vertical",
-                  gestureOrientation: "vertical",
-                  infinite: false,
-                  syncTouch: true,
-                }}
-              >
-                {children}
-              </ReactLenis>
-            </CameraProvider>
+            <GpuDetectProvider>
+              <CameraProvider>
+                <ReactLenis
+                  root
+                  options={{
+                    lerp: 0.16,
+                    wheelMultiplier: 1,
+                    smoothWheel: true,
+                    orientation: "vertical",
+                    gestureOrientation: "vertical",
+                    infinite: false,
+                    syncTouch: true,
+                  }}
+                >
+                  {children}
+                </ReactLenis>
+              </CameraProvider>
+            </GpuDetectProvider>
           </PageTransitionProvider>
         </ViewTransitions>
       </FontProvider>
