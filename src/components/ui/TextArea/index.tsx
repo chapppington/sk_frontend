@@ -19,7 +19,7 @@ const TextArea: FC<TextAreaProps> = ({
         </label>
       )}
       <textarea
-        className={`w-full h-[250px] resize-none px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-white/20 transition-colors ${
+        className={`w-full h-[150px] resize-none px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-white/20 transition-colors ${
           error ? "border-red-500" : ""
         } ${className}`}
         {...props}

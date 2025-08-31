@@ -7,4 +7,8 @@ export interface IContactFormData {
   consent: boolean;
 }
 
-export type ContactFormVariant = "vacancy" | "questionnaire" | "default";
+export type ContactFormVariant =
+  | "vacancy"
+  | "questionnaire"
+  | "default"
+  | "request";
