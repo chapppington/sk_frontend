@@ -47,6 +47,7 @@ import {
   Map,
   PanelTop,
   PanelBottom,
+  MessageSquare,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -59,6 +60,11 @@ const dynamicContentItems = [
   { title: "Товары", url: "/dashboard/products", icon: Package },
   { title: "Вакансии", url: "/dashboard/vacancy", icon: Users },
   { title: "Портфолио", url: "/dashboard/portfolio", icon: Briefcase },
+  {
+    title: "Заявки с сайта",
+    url: "/dashboard/submissions",
+    icon: MessageSquare,
+  },
 ];
 
 const staticContentItems = [

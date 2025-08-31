@@ -10,4 +10,5 @@ export interface IMainButtonProps {
   transparent?: boolean;
   fullWidth?: boolean;
   external?: boolean;
+  disabled?: boolean;
 }

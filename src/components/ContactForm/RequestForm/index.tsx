@@ -18,6 +18,7 @@ const RequestForm: FC<VacancyFormProps> = ({
   clearErrors,
   watch,
   onSubmit,
+  isSubmitting = false,
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const selectedFiles = watch("resume");
@@ -185,7 +186,7 @@ const RequestForm: FC<VacancyFormProps> = ({
       </label>
 
       <MainButton
-        text="Отправить"
+        text={isSubmitting ? "Отправка..." : "Отправить"}
         onClick={handleSubmit(handleFormSubmit)}
         disableRedirect
       />

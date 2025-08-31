@@ -16,6 +16,5 @@ export interface VacancyFormProps {
   clearErrors: UseFormClearErrors<IContactFormData>;
   watch: UseFormWatch<IContactFormData>;
   onSubmit: (data: IContactFormData) => void;
+  isSubmitting?: boolean;
 }
-
-
