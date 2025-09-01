@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/shadcn/popover";
 import { Eye, Trash2, Download, FileText, MessageSquare } from "lucide-react";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import type { ISubmission } from "@/shared/types/submissions.types";
 import { FORM_TYPE_MAP } from "../hooks/useSubmissions";
 
@@ -37,7 +37,7 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
   deleteMutation,
 }) => {
   const handleDownloadFile = (fileName: string) => {
-    window.open(`${BACKEND_MAIN}/uploads/submissions/${fileName}`, "_blank");
+    window.open(`${UPLOADS_URL}/uploads/submissions/${fileName}`, "_blank");
   };
 
   const renderComments = (comments: string | undefined) => {

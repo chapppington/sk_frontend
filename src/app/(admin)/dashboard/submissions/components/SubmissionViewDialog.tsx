@@ -8,7 +8,7 @@ import {
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Button } from "@/components/ui/shadcn/button";
 import { FileText, Download } from "lucide-react";
-import { BACKEND_MAIN } from "@/constants";
+import { UPLOADS_URL } from "@/constants";
 import type { ISubmission } from "@/shared/types/submissions.types";
 import { FORM_TYPE_MAP } from "../hooks/useSubmissions";
 
@@ -26,7 +26,7 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
   if (!submission) return null;
 
   const handleDownloadFile = (fileName: string) => {
-    window.open(`${BACKEND_MAIN}/uploads/submissions/${fileName}`, "_blank");
+    window.open(`${UPLOADS_URL}/uploads/submissions/${fileName}`, "_blank");
   };
 
   return (
