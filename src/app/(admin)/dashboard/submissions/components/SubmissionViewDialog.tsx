@@ -11,6 +11,7 @@ import { FileText, Download } from "lucide-react";
 import { UPLOADS_URL } from "@/constants";
 import type { ISubmission } from "@/shared/types/submissions.types";
 import { FORM_TYPE_MAP } from "../hooks/useSubmissions";
+import QuestionnaireViewer from "./QuestionnaireViewer";
 
 type SubmissionViewDialogProps = {
   submission: ISubmission | null;
@@ -157,8 +158,22 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
               </div>
             </div>
 
-            {/* Мета данные */}
-            {submission.meta && (
+            {/* Данные опросника */}
+            {submission.meta?.questionnaireData && (
+              <div>
+                <label className="text-sm font-medium text-gray-500 mb-3 block">
+                  Данные опросного листа
+                </label>
+                <QuestionnaireViewer
+                  questionnaireData={
+                    submission.meta.questionnaireData as Record<string, unknown>
+                  }
+                />
+              </div>
+            )}
+
+            {/* Прочие мета данные */}
+            {submission.meta && !submission.meta.questionnaireData && (
               <div>
                 <label className="text-sm font-medium text-gray-500">
                   Дополнительные данные

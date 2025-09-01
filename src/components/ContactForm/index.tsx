@@ -15,11 +15,13 @@ import RequestForm from "./RequestForm";
 interface ContactFormProps {
   variant?: ContactFormVariant;
   onSuccess?: () => void;
+  meta?: Record<string, unknown>;
 }
 
 const ContactForm: FC<ContactFormProps> = ({
   variant = "default",
   onSuccess,
+  meta,
 }) => {
   const lenis = useLenis();
   const { submitForm, isSubmitting } = useSubmitForm(onSuccess);
@@ -64,6 +66,7 @@ const ContactForm: FC<ContactFormProps> = ({
       comments: data.comments,
       files,
       consent: data.consent,
+      meta: meta, // Передаем метаданные (данные опросника)
     });
 
     // Сбросить форму после успешной отправки

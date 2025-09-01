@@ -97,9 +97,19 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
             submissions.map((submission) => (
               <TableRow key={submission.id}>
                 <TableCell>
-                  <Badge variant="secondary">
-                    {FORM_TYPE_MAP[submission.formType]}
-                  </Badge>
+                  <div className="flex flex-col gap-1">
+                    <Badge variant="secondary">
+                      {FORM_TYPE_MAP[submission.formType]}
+                    </Badge>
+                    {submission.meta?.questionnaireData && (
+                      <Badge
+                        variant="outline"
+                        className="text-xs bg-blue-50 text-blue-700 border-blue-200"
+                      >
+                        + Опросный лист
+                      </Badge>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className="font-medium">{submission.name}</TableCell>
                 <TableCell>{submission.email || "—"}</TableCell>

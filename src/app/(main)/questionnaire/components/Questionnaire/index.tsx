@@ -7,6 +7,7 @@ const Questionnaire = ({
   formState,
   handleStateChange,
   stageRefs,
+  onSuccess,
 }: QuestionnaireProps) => {
   // Filter visible questions and create a mapping of original IDs to new sequential numbers
   const visibleQuestions = questionsConfig.filter(
@@ -17,6 +18,15 @@ const Questionnaire = ({
     acc[question.id] = index + 1;
     return acc;
   }, {} as Record<number, number>);
+
+  // Создаем функцию-обертку для обработки успеха с данными опросника
+  const handleSuccessWithQuestionnaire = () => {
+    // Здесь можно добавить логику сохранения данных опросника
+    console.log("Questionnaire data:", formState);
+    if (onSuccess) {
+      onSuccess();
+    }
+  };
 
   return (
     <>
@@ -64,7 +74,11 @@ const Questionnaire = ({
           }
         }}
       >
-        <ContactForm variant="questionnaire" />
+        <ContactForm
+          variant="questionnaire"
+          onSuccess={handleSuccessWithQuestionnaire}
+          meta={{ questionnaireData: formState }}
+        />
       </div>
     </>
   );

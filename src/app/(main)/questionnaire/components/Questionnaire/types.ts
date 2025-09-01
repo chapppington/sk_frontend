@@ -9,4 +9,5 @@ export interface QuestionnaireProps {
     value: string | number | string[] | Record<string, FeederData[]>
   ) => void;
   stageRefs: RefObject<(HTMLDivElement | null)[]>;
+  onSuccess?: () => void;
 }
