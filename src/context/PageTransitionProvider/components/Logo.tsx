@@ -28,11 +28,11 @@ export const Logo: FC<LogoProps> = ({ logoRef, isVisible }) => {
       <Image
         src="/logo.svg"
         alt="СИБКОМПЛЕКТ"
-        width={120}
-        height={32}
+        width={150}
+        height={52}
         priority
         style={{
-          height: "32px",
+          height: "72px",
           width: "auto",
           objectFit: "contain",
           filter: "brightness(0) invert(1)",
