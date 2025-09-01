@@ -19,10 +19,10 @@ const HistoryScreen: FC = () => {
 
       <CustomContainer className="h-full flex flex-col relative z-10">
         <SectionHeader
-          bracketsText="Развитие"
+          bracketsText="История"
           heading={
             <>
-              История <br></br>компании
+              История компании
             </>
           }
           description="С 2006 года мы прошли путь от стартапа до предприятия полного цикла: собрали сильную команду, развернули масштабное производство и внедрили передовые технологии."

@@ -9,6 +9,31 @@ type QuestionnaireViewerProps = {
 const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   questionnaireData,
 }) => {
+  // Если данные пришли как строка, парсим их
+  let parsedData = questionnaireData;
+  if (typeof questionnaireData === "string") {
+    try {
+      parsedData = JSON.parse(questionnaireData);
+    } catch (e) {
+      console.error("Failed to parse questionnaire data:", e);
+      return <div>Ошибка парсинга данных опросника</div>;
+    }
+  }
+
+  // Если данные разбились на символы (объект с числовыми ключами), собираем обратно
+  if (
+    typeof parsedData === "object" &&
+    parsedData !== null &&
+    Object.keys(parsedData).every((key) => !isNaN(Number(key)))
+  ) {
+    try {
+      const reconstructed = Object.values(parsedData).join("");
+      parsedData = JSON.parse(reconstructed);
+    } catch (e) {
+      console.error("Failed to reconstruct questionnaire data:", e);
+      return <div>Ошибка восстановления данных опросника</div>;
+    }
+  }
   const getQuestionTitle = (questionId: string) => {
     const question = questionsConfig.find((q) => q.id === parseInt(questionId));
     return question?.title || `Вопрос ${questionId}`;
@@ -60,12 +85,12 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
           Опросный лист
         </Badge>
         <span className="text-sm text-gray-500">
-          {Object.keys(questionnaireData).length} ответов
+          {Object.keys(parsedData).length} ответов
         </span>
       </div>
 
       <div className="grid gap-4">
-        {Object.entries(questionnaireData).map(([questionId, value]) => {
+        {Object.entries(parsedData).map(([questionId, value]) => {
           if (!value || (Array.isArray(value) && value.length === 0))
             return null;
 
