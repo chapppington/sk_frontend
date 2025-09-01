@@ -38,8 +38,8 @@ const Navbar: FC = () => {
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"
             width={175}
-            height={28}
-            className="h-8"
+            height={35}
+            className="h-25"
             priority
           />
         </TransitionLink>
