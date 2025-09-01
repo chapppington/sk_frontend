@@ -14,11 +14,15 @@ import RequestForm from "./RequestForm";
 
 interface ContactFormProps {
   variant?: ContactFormVariant;
+  onSuccess?: () => void;
 }
 
-const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
+const ContactForm: FC<ContactFormProps> = ({
+  variant = "default",
+  onSuccess,
+}) => {
   const lenis = useLenis();
-  const { submitForm, isSubmitting } = useSubmitForm();
+  const { submitForm, isSubmitting } = useSubmitForm(onSuccess);
   const {
     register,
     handleSubmit,
@@ -107,7 +111,6 @@ const ContactForm: FC<ContactFormProps> = ({ variant = "default" }) => {
       clearErrors={clearErrors}
       watch={watch}
       onSubmit={onSubmit}
-      isSubmitting={isSubmitting}
     />
   );
 };

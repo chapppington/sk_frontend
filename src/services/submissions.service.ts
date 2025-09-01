@@ -21,7 +21,7 @@ class SubmissionsService {
 
     formData.append("formType", data.formType);
     formData.append("name", data.name);
-    formData.append("consent", data.consent.toString());
+    formData.append("consent", JSON.stringify(data.consent));
 
     if (data.email) formData.append("email", data.email);
     if (data.phone) formData.append("phone", data.phone);
