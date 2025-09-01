@@ -17,7 +17,7 @@ const HistorySlide: FC<HistorySlideProps> = ({ event }) => {
       >
         <div className="absolute inset-0 p-6 flex flex-col z-10">
           <div>
-            <span className="inline-block px-4 py-4 bg-black/40 text-white text-3xl md:text-4xl rounded-md font-light">
+            <span className="inline-block px-4 py-4 bg-black/15 text-white text-3xl md:text-4xl rounded-md font-light">
               {event.number}
             </span>
           </div>
