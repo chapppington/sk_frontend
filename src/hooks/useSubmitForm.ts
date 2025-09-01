@@ -3,7 +3,7 @@ import submissionsService from "@/services/submissions.service";
 import { useToast } from "@/hooks/use-toast";
 import type { ICreateSubmissionData } from "@/shared/types/submissions.types";
 
-export function useSubmitForm() {
+export function useSubmitForm(onSuccessCallback?: () => void) {
   const { toast } = useToast();
 
   const submitMutation = useMutation({
@@ -16,6 +16,9 @@ export function useSubmitForm() {
         description:
           "Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.",
       });
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error: any) => {
       console.error("Ошибка отправки заявки:", error);
@@ -32,5 +35,6 @@ export function useSubmitForm() {
     isSubmitting: submitMutation.isPending,
     isSuccess: submitMutation.isSuccess,
     error: submitMutation.error,
+    reset: submitMutation.reset,
   };
 }

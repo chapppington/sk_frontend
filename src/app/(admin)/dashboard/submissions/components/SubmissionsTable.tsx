@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/shadcn/popover";
-import { Eye, Trash2, Download, FileText } from "lucide-react";
+import { Eye, Trash2, Download, FileText, MessageSquare } from "lucide-react";
 import { BACKEND_MAIN } from "@/constants";
 import type { ISubmission } from "@/shared/types/submissions.types";
 import { FORM_TYPE_MAP } from "../hooks/useSubmissions";
@@ -40,6 +40,37 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
     window.open(`${BACKEND_MAIN}/uploads/submissions/${fileName}`, "_blank");
   };
 
+  const renderComments = (comments: string | undefined) => {
+    if (!comments) return "—";
+
+    const maxLength = 50;
+    const isLong = comments.length > maxLength;
+    const displayText = isLong
+      ? `${comments.substring(0, maxLength)}...`
+      : comments;
+
+    if (isLong) {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-auto p-0 text-left">
+              <span className="text-sm">{displayText}</span>
+              <MessageSquare className="h-3 w-3 ml-1 text-gray-500" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 max-h-60 overflow-y-auto">
+            <div className="space-y-2">
+              <h4 className="font-medium text-sm">Комментарий:</h4>
+              <p className="text-sm whitespace-pre-wrap">{comments}</p>
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+
+    return <span className="text-sm">{displayText}</span>;
+  };
+
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table>
@@ -49,6 +80,7 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
             <TableHead>Имя</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Телефон</TableHead>
+            <TableHead>Комментарии</TableHead>
             <TableHead>Файлы</TableHead>
             <TableHead>Дата создания</TableHead>
             <TableHead>Действия</TableHead>
@@ -57,7 +89,7 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
         <TableBody>
           {submissions.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={7} className="text-center">
+              <TableCell colSpan={8} className="text-center">
                 Нет заявок
               </TableCell>
             </TableRow>
@@ -72,6 +104,9 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
                 <TableCell className="font-medium">{submission.name}</TableCell>
                 <TableCell>{submission.email || "—"}</TableCell>
                 <TableCell>{submission.phone || "—"}</TableCell>
+                <TableCell className="max-w-xs">
+                  {renderComments(submission.comments)}
+                </TableCell>
                 <TableCell>
                   {submission.files && submission.files.length > 0 ? (
                     <div className="flex gap-1 flex-wrap">
