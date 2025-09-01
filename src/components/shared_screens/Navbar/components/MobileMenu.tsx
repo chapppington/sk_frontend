@@ -135,8 +135,8 @@ const MobileMenu: FC<IMobileMenuProps> = ({ isOpen, onClose }) => {
               src="/logo.svg"
               alt="СИБКОМПЛЕКТ"
               width={175}
-              height={32}
-              className="h-8"
+              height={35}
+              className="h-25"
               priority
             />
           </CustomContainer>
