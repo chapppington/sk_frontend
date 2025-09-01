@@ -76,11 +76,13 @@ const FirstScreen: FC = () => {
               Оборудование для надежного электроснабжения
             </GradientHeading>
 
-            <ProductsSlider3D
-              currentSlide={currentSlide}
-              setCurrentSlide={setCurrentSlide}
-              absolute
-            />
+            <div className="hidden xl:block">
+              <ProductsSlider3D
+                currentSlide={currentSlide}
+                setCurrentSlide={setCurrentSlide}
+                absolute
+              />
+            </div>
           </div>
 
           {/* Bottom Content - Three-column layout */}
@@ -108,10 +110,12 @@ const FirstScreen: FC = () => {
             </div>
 
             {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
-            <SliderSelectButtons
-              currentSlide={currentSlide}
-              setCurrentSlide={setCurrentSlide}
-            />
+            <div className="hidden xl:block">
+              <SliderSelectButtons
+                currentSlide={currentSlide}
+                setCurrentSlide={setCurrentSlide}
+              />
+            </div>
 
             {/* Column 3: Indicators (spans 6 cols) */}
             <div className="lg:col-span-6 hidden lg:block">

@@ -60,9 +60,10 @@ const FooterTop: FC = () => {
           <Image
             src="/logo.svg"
             alt="СИБКОМПЛЕКТ"
-            width={150}
-            height={32}
-            className="h-8"
+            width={175}
+            height={35}
+            className="h-25"
+            priority
           />
         </TransitionLink>
       </div>
