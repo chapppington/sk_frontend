@@ -9,9 +9,6 @@ export default function ConditionalMainScene() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  // only for this branch local dev
-  return <BackgroundGradient />;
-
   // Memoize the MainScene instance
   const memoizedScene = useMemo(() => <MainScene />, []);
 
