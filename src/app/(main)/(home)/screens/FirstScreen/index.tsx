@@ -84,12 +84,19 @@ const FirstScreen: FC = () => {
             </p>
             <div className="block md:hidden">
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <MainButton text={firstScreenData.main_button_text} size="sm" />
+                <MainButton
+                  text={firstScreenData.main_button_text}
+                  size="sm"
+                  href="#contact_us_section"
+                />
               </div>
             </div>
             <div className="hidden md:block">
               <div className="flex gap-4 mt-4">
-                <MainButton text={firstScreenData.main_button_text} />
+                <MainButton
+                  text={firstScreenData.main_button_text}
+                  href="#contact_us_section"
+                />
               </div>
             </div>
           </div>

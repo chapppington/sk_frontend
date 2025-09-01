@@ -92,10 +92,18 @@ const FirstScreen: FC = () => {
                 безопасно и бесперебойно
               </p>
               <div className="block md:hidden mt-4">
-                <MainButton text="Связаться с отделом продаж" size="sm" />
+                <MainButton
+                  text="Связаться с отделом продаж"
+                  size="sm"
+                  href="#contact_us_section"
+                />
               </div>
               <div className="hidden md:block mt-4">
-                <MainButton text="Связаться с отделом продаж" size="md" />
+                <MainButton
+                  text="Связаться с отделом продаж"
+                  size="md"
+                  href="#contact_us_section"
+                />
               </div>
             </div>
 
