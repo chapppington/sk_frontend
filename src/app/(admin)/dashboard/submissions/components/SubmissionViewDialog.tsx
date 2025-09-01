@@ -172,17 +172,28 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
               </div>
             )}
 
-            {/* Прочие мета данные */}
-            {submission.meta && !submission.meta.questionnaireData && (
-              <div>
-                <label className="text-sm font-medium text-gray-500">
-                  Дополнительные данные
-                </label>
-                <pre className="mt-1 p-3 bg-gray-50 rounded-md text-xs overflow-x-auto">
-                  {JSON.stringify(submission.meta, null, 2)}
-                </pre>
-              </div>
-            )}
+            {/* Прочие мета данные (исключая questionnaireData) */}
+            {submission.meta &&
+              Object.keys(submission.meta).some(
+                (key) => key !== "questionnaireData"
+              ) && (
+                <div>
+                  <label className="text-sm font-medium text-gray-500">
+                    Дополнительные данные
+                  </label>
+                  <pre className="mt-1 p-3 bg-gray-50 rounded-md text-xs overflow-x-auto">
+                    {JSON.stringify(
+                      Object.fromEntries(
+                        Object.entries(submission.meta).filter(
+                          ([key]) => key !== "questionnaireData"
+                        )
+                      ),
+                      null,
+                      2
+                    )}
+                  </pre>
+                </div>
+              )}
           </div>
         </div>
       </DialogContent>
