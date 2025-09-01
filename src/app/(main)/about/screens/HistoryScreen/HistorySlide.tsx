@@ -4,17 +4,34 @@ import { HistoryEvent } from "./types";
 
 interface HistorySlideProps {
   event: HistoryEvent;
+  index: number; // ← передаём индекс слайда
 }
 
-const HistorySlide: FC<HistorySlideProps> = ({ event }) => {
+const HistorySlide: FC<HistorySlideProps> = ({ event, index }) => {
   return (
     <article className="group relative overflow-hidden">
       <div
-        className="relative aspect-[3/4] overflow-hidden transition-all duration-300 ease-in-out bg-white/5 backdrop-blur-sm"
+        className="relative aspect-[3/4] overflow-hidden transition-all duration-300 ease-in-out backdrop-blur-sm bg-blue-950"
         style={{
           clipPath: "polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%)",
         }}
       >
+        {/* SVG рамка */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <polygon
+            points="0,0 85,0 100,15 100,100 0,100"
+            fill="none"
+            stroke="white"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+
         <div className="absolute inset-0 p-6 flex flex-col z-10">
           <div>
             <span className="inline-block px-4 py-4 bg-black/15 text-white text-3xl md:text-4xl rounded-md font-light">

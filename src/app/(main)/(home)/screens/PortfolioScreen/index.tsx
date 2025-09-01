@@ -189,59 +189,62 @@ const PortfolioSection = () => {
 
           {/* Right side - Slider */}
           <div className="w-full xl:w-1/2">
-            <Swiper
-              modules={[Navigation]}
-              slidesPerView={2}
-              spaceBetween={20}
-              loop={true}
-              navigation={{
-                nextEl: nextRef.current,
-                prevEl: prevRef.current,
-              }}
-              onSlideChange={(swiper) => {
-                setActiveIndex(swiper.realIndex);
-              }}
-              onInit={(swiper) => {
-                swiperRef.current = swiper;
-                setActiveIndex(swiper.realIndex);
-                // Ensure navigation refs are set after mount
-                // @ts-ignore
-                swiper.params.navigation.prevEl = prevRef.current;
-                // @ts-ignore
-                swiper.params.navigation.nextEl = nextRef.current;
-                swiper.navigation.init();
-                swiper.navigation.update();
-              }}
-              className="portfolioSwiper h-[220px] sm:h-[260px] md:h-[300px] w-full max-w-full"
-            >
-              {portfolioItems.map((item, idx) => (
-                <SwiperSlide key={item.id}>
-                  <div className="cursor-pointer group relative h-full">
-                    <div className="relative h-full overflow-hidden rounded-lg shadow-lg">
-                      <Image
-                        src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority={idx === activeIndex}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <div className="text-white/60 text-sm mb-2">
-                          {item.year}
+            {/* Thumbnails Slider - Hidden on mobile, visible on xl+ */}
+            <div className="hidden xl:block">
+              <Swiper
+                modules={[Navigation]}
+                slidesPerView={2}
+                spaceBetween={20}
+                loop={true}
+                navigation={{
+                  nextEl: nextRef.current,
+                  prevEl: prevRef.current,
+                }}
+                onSlideChange={(swiper) => {
+                  setActiveIndex(swiper.realIndex);
+                }}
+                onInit={(swiper) => {
+                  swiperRef.current = swiper;
+                  setActiveIndex(swiper.realIndex);
+                  // Ensure navigation refs are set after mount
+                  // @ts-ignore
+                  swiper.params.navigation.prevEl = prevRef.current;
+                  // @ts-ignore
+                  swiper.params.navigation.nextEl = nextRef.current;
+                  swiper.navigation.init();
+                  swiper.navigation.update();
+                }}
+                className="portfolioSwiper h-[220px] sm:h-[260px] md:h-[300px] w-full max-w-full"
+              >
+                {portfolioItems.map((item, idx) => (
+                  <SwiperSlide key={item.id}>
+                    <div className="cursor-pointer group relative h-full">
+                      <div className="relative h-full overflow-hidden rounded-lg shadow-lg">
+                        <Image
+                          src={`${UPLOADS_URL}/uploads/portfolio/${item.poster}`}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={idx === activeIndex}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <div className="text-white/60 text-sm mb-2">
+                            {item.year}
+                          </div>
+                          <h3 className="text-white text-xl font-light">
+                            {item.name}
+                          </h3>
                         </div>
-                        <h3 className="text-white text-xl font-light">
-                          {item.name}
-                        </h3>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
 
-            {/* Custom Navigation */}
+            {/* Custom Navigation - Always visible */}
             <div className="flex items-center justify-between mt-8">
               <div className="flex items-center space-x-3">
                 <NavigationButton
@@ -258,8 +261,8 @@ const PortfolioSection = () => {
                 />
               </div>
 
-              {/* Slider Indicators */}
-              <div className="flex-1 relative ml-8">
+              {/* Slider Indicators - Hidden on mobile, visible on xl+ */}
+              <div className="hidden xl:flex flex-1 relative ml-8">
                 <div className="flex items-center justify-between w-full">
                   {indicatorState.map((height, i) => (
                     <div

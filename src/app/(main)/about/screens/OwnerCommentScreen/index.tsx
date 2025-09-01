@@ -23,7 +23,7 @@ export const OwnerCommentScreen: FC = () => {
           />
         </div>
         {/* Middle Column: Name and Job Title */}
-        <div className="border border-white/10 rounded-md flex flex-col justify-end px-5 pb-5 pt-0 min-w-[180px] max-w-[220px] bg-black/20">
+        <div className="border border-white/10 rounded-md flex flex-col justify-end px-5 pb-5 pt-5 md:pt-0 w-full md:min-w-[180px] md:max-w-[220px] bg-black/20">
           <div className="text-white text-2xl font-medium mb-2 mt-auto">
             Полозов Сергей Николаевич
           </div>

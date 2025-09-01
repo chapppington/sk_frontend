@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLenis } from "lenis/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -23,6 +24,7 @@ export default function ProductsSlider() {
   const indicatorsRef = useRef<HTMLDivElement>(null);
   const [showButton, setShowButton] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const lenis = useLenis();
 
   const { config, loading } = useHomePageConfig();
   const products = config?.productsScreen?.products || [];
@@ -188,77 +190,84 @@ export default function ProductsSlider() {
           </div>
 
           <div className="w-full md:w-auto md:min-w-[500px] md:max-w-[500px] relative">
-            <div className="flex items-center justify-end h-[400px] absolute right-0 top-0 z-10">
-              <div
-                ref={indicatorsRef}
-                className="flex flex-col items-center justify-between h-full"
-                style={{ width: "40px" }}
-              />
-            </div>
+            {/* Thumbnails Slider - Hidden on mobile, visible on md+ */}
+            <div className="hidden md:block">
+              <div className="flex items-center justify-end h-[400px] absolute right-0 top-0 z-10">
+                <div
+                  ref={indicatorsRef}
+                  className="flex flex-col items-center justify-between h-full"
+                  style={{ width: "40px" }}
+                />
+              </div>
 
-            <Swiper
-              modules={[Navigation, Autoplay]}
-              direction="vertical"
-              slidesPerView={3}
-              loop={true}
-              autoplay={false}
-              navigation={{
-                nextEl: ".slider-next-products",
-                prevEl: ".slider-prev-products",
-              }}
-              onSlideChange={(swiper) => {
-                if (swiper) {
-                  updateProductsIndicators(swiper);
-                  setCurrentIndex(swiper.realIndex % products.length);
-                }
-              }}
-              onInit={(swiper) => {
-                if (swiper) {
-                  swiperRef.current = swiper;
-                  setTimeout(() => {
-                    if (swiperRef.current) {
-                      updateProductsIndicators(swiper);
-                      setCurrentIndex(swiper.realIndex % products.length);
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                direction="vertical"
+                slidesPerView={3}
+                loop={true}
+                autoplay={false}
+                navigation={{
+                  nextEl: ".slider-next-products",
+                  prevEl: ".slider-prev-products",
+                }}
+                onSlideChange={(swiper) => {
+                  if (swiper) {
+                    updateProductsIndicators(swiper);
+                    setCurrentIndex(swiper.realIndex % products.length);
+                    // Trigger lenis resize after content change
+                    if (lenis) {
+                      lenis.resize();
                     }
-                  }, 0);
-                }
-              }}
-              className="h-[400px] w-full"
-              breakpoints={{
-                320: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 3,
-                },
-              }}
-            >
-              {products.map((product, index) => (
-                <SwiperSlide key={index}>
-                  <div className="group h-full flex items-center">
-                    <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
-                      <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg bg-white p-2">
-                        <Image
-                          src={`${UPLOADS_URL}/uploads/home-page/${product.image}`}
-                          alt={product.title}
-                          fill
-                          sizes="(max-width: 768px) 60px, 80px"
-                          className="object-contain"
-                        />
+                  }
+                }}
+                onInit={(swiper) => {
+                  if (swiper) {
+                    swiperRef.current = swiper;
+                    setTimeout(() => {
+                      if (swiperRef.current) {
+                        updateProductsIndicators(swiper);
+                        setCurrentIndex(swiper.realIndex % products.length);
+                      }
+                    }, 0);
+                  }
+                }}
+                className="h-[400px] w-full"
+                breakpoints={{
+                  320: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                  },
+                }}
+              >
+                {products.map((product, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="group h-full flex items-center">
+                      <div className="relative flex items-center justify-start w-full h-[90px] border border-white/20 backdrop-blur-md rounded-xl pl-1 transition-all duration-300 max-w-[455px]">
+                        <div className="w-[60px] md:w-[80px] h-[60px] md:h-[80px] relative overflow-hidden flex-shrink-0 rounded-lg bg-white p-2">
+                          <Image
+                            src={`${UPLOADS_URL}/uploads/home-page/${product.image}`}
+                            alt={product.title}
+                            fill
+                            sizes="(max-width: 768px) 60px, 80px"
+                            className="object-contain"
+                          />
+                        </div>
+                        <h3 className="text-base md:text-xl text-white font-light ml-4 md:ml-6 line-clamp-2 text-left">
+                          {product.title}
+                        </h3>
                       </div>
-                      <h3 className="text-base md:text-xl text-white font-light ml-4 md:ml-6 line-clamp-2 text-left">
-                        {product.title}
-                      </h3>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
         </div>
       </CustomContainer>
