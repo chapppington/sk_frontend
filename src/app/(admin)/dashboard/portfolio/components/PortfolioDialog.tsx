@@ -230,6 +230,7 @@ export default function PortfolioDialog({
                   setFormData({
                     ...formData,
                     poster: e.target.files?.[0],
+                    clearPoster: false,
                   })
                 }
               />
@@ -336,6 +337,7 @@ export default function PortfolioDialog({
                   setFormData({
                     ...formData,
                     previewVideo: e.target.files?.[0],
+                    clearPreviewVideo: false,
                   })
                 }
               />
@@ -388,6 +390,7 @@ export default function PortfolioDialog({
                   setFormData({
                     ...formData,
                     fullVideo: e.target.files?.[0],
+                    clearFullVideo: false,
                   })
                 }
               />
@@ -492,7 +495,11 @@ export default function PortfolioDialog({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        setFormData({ ...formData, reviewImage: file });
+                        setFormData({
+                          ...formData,
+                          reviewImage: file,
+                          clearReviewImage: false,
+                        });
                       }
                     }}
                   />
