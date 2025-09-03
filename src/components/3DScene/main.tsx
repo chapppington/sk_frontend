@@ -9,11 +9,14 @@ import { AdaptiveDpr, AdaptiveEvents, Preload, PerformanceMonitor, Html } from "
 import { CameraProvider } from "./features/CameraContext";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+
+
 const TempScene = dynamic(() => import("./features/3dScene/Scene"), { ssr: false });
 
 const MainScene = React.memo(() => {
   const [dpr, setDpr] = useState(2)
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
   // Мемоизируем настройки Canvas
   const canvasSettings = useMemo(
     () => ({
@@ -98,7 +101,6 @@ const MainScene = React.memo(() => {
   return (
     <div className="app-container fixed z-[-10]">
       <div className="canvas-container pointer-events-auto">
-        
         <Canvas
           ref={canvasRef}
           style={canvasSettings.style}

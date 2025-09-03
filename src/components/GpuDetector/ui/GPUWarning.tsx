@@ -41,13 +41,13 @@ export const WebGLWarning: React.FC = () => {
 
   if (!context.webglSupport.isHardwareAccelerated) {
     return (
-      <div className="fixed inset-0 bg-green-500 text-black z-50 flex items-center justify-center p-8">
+      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-transparent backdrop-blur-md text-white z-50 p-8 rounded-lg shadow-xl w-auto min-w-[300px]">
         <div className="text-center max-w-2xl">
           <h1 className="text-4xl font-bold mb-4">⚠️ Графическое ускорение отключено</h1>
           <p className="text-xl mb-4">
-            Производительность 3D сцены может быть значительно снижена.
+            Визуальное наполнение сайта упрощено.
           </p>
-          <div className="bg-yellow-400 p-4 rounded-lg mb-6 text-left">
+          <div className="bg-gray-400 p-4 rounded-lg mb-6 text-left">
             <p className="text-sm mb-2"><strong>Рендерер:</strong> {context.webglSupport.renderer}</p>
             <p className="text-sm mb-2"><strong>Производитель:</strong> {context.webglSupport.vendor}</p>
             <p className="text-sm"><strong>Версия WebGL:</strong> {context.webglSupport.webglVersion}</p>
@@ -55,7 +55,7 @@ export const WebGLWarning: React.FC = () => {
           <div className="space-x-4">
             <button 
               onClick={() => window.location.reload()} 
-              className="bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-700 transition-colors"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
             >
               Продолжить
             </button>
@@ -63,7 +63,7 @@ export const WebGLWarning: React.FC = () => {
               onClick={() => window.history.back()} 
               className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
             >
-              Назад
+              Как включить? 
             </button>
           </div>
         </div>
