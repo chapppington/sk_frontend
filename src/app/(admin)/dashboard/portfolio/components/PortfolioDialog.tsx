@@ -226,7 +226,6 @@ export default function PortfolioDialog({
               <Input
                 type="file"
                 accept="image/*"
-                required
                 onChange={(e) =>
                   setFormData({
                     ...formData,
