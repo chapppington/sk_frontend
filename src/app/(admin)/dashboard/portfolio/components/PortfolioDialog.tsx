@@ -35,6 +35,12 @@ interface FormData {
   reviewImage: File | undefined;
   previewVideo: File | undefined;
   fullVideo: File | undefined;
+  // Флаги для отслеживания удаленных фотографий
+  clearPoster: boolean;
+  clearSolutionImages: boolean[];
+  clearReviewImage: boolean;
+  clearPreviewVideo: boolean;
+  clearFullVideo: boolean;
 }
 
 interface PortfolioDialogProps {
@@ -52,6 +58,11 @@ interface PortfolioDialogProps {
     isPending: boolean;
   };
   resetForm: () => void;
+  clearPoster: () => void;
+  clearSolutionImage: (index: number) => void;
+  clearReviewImage: () => void;
+  clearPreviewVideo: () => void;
+  clearFullVideo: () => void;
 }
 
 export default function PortfolioDialog({
@@ -65,6 +76,11 @@ export default function PortfolioDialog({
   createMutation,
   updateMutation,
   resetForm,
+  clearPoster,
+  clearSolutionImage,
+  clearReviewImage,
+  clearPreviewVideo,
+  clearFullVideo,
 }: PortfolioDialogProps) {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -220,18 +236,27 @@ export default function PortfolioDialog({
               />
               {(editingPortfolio?.poster || formData.poster) && (
                 <div className="mt-2 flex gap-2">
-                  {editingPortfolio?.poster && !formData.poster && (
-                    <div className="relative">
-                      <img
-                        src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.poster}`}
-                        alt="Current poster"
-                        className="w-32 aspect-[16/9] object-cover rounded"
-                      />
-                      <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                        Текущий
-                      </span>
-                    </div>
-                  )}
+                  {editingPortfolio?.poster &&
+                    !formData.poster &&
+                    !formData.clearPoster && (
+                      <div className="relative group">
+                        <img
+                          src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.poster}`}
+                          alt="Current poster"
+                          className="w-32 aspect-[16/9] object-cover rounded"
+                        />
+                        <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                          Текущий
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearPoster}
+                          className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
                   {formData.poster && (
                     <div className="relative">
                       <img
@@ -266,8 +291,9 @@ export default function PortfolioDialog({
                 <div className="mt-2 flex gap-2">
                   {editingPortfolio?.solutionImages?.map(
                     (image, index) =>
-                      !formData.solutionImages[index] && (
-                        <div key={image} className="relative">
+                      !formData.solutionImages[index] &&
+                      !formData.clearSolutionImages[index] && (
+                        <div key={image} className="relative group">
                           <img
                             src={`${UPLOADS_URL}/uploads/portfolio/${image}`}
                             alt={`Current solution image ${index + 1}`}
@@ -276,6 +302,13 @@ export default function PortfolioDialog({
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                             Текущее {index + 1}
                           </span>
+                          <button
+                            type="button"
+                            onClick={() => clearSolutionImage(index)}
+                            className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            ×
+                          </button>
                         </div>
                       )
                   )}
@@ -311,8 +344,9 @@ export default function PortfolioDialog({
                 formData.previewVideo) && (
                 <div className="mt-2 flex gap-2">
                   {editingPortfolio?.previewVideoPath &&
-                    !formData.previewVideo && (
-                      <div className="relative">
+                    !formData.previewVideo &&
+                    !formData.clearPreviewVideo && (
+                      <div className="relative group">
                         <video
                           src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.previewVideoPath}`}
                           className="w-32 h-32 object-cover rounded"
@@ -321,6 +355,13 @@ export default function PortfolioDialog({
                         <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                           Текущее
                         </span>
+                        <button
+                          type="button"
+                          onClick={clearPreviewVideo}
+                          className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ×
+                        </button>
                       </div>
                     )}
                   {formData.previewVideo && (
@@ -353,18 +394,27 @@ export default function PortfolioDialog({
               />
               {(editingPortfolio?.fullVideoPath || formData.fullVideo) && (
                 <div className="mt-2 flex gap-2">
-                  {editingPortfolio?.fullVideoPath && !formData.fullVideo && (
-                    <div className="relative">
-                      <video
-                        src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.fullVideoPath}`}
-                        className="w-32 h-32 object-cover rounded"
-                        controls
-                      />
-                      <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                        Текущее
-                      </span>
-                    </div>
-                  )}
+                  {editingPortfolio?.fullVideoPath &&
+                    !formData.fullVideo &&
+                    !formData.clearFullVideo && (
+                      <div className="relative group">
+                        <video
+                          src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.fullVideoPath}`}
+                          className="w-32 h-32 object-cover rounded"
+                          controls
+                        />
+                        <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                          Текущее
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearFullVideo}
+                          className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
                   {formData.fullVideo && (
                     <div className="relative">
                       <video
@@ -450,18 +500,27 @@ export default function PortfolioDialog({
                 </div>
                 {(editingPortfolio?.reviewImage || formData.reviewImage) && (
                   <div className="mt-2 flex gap-2">
-                    {editingPortfolio?.reviewImage && !formData.reviewImage && (
-                      <div className="relative">
-                        <img
-                          src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.reviewImage}`}
-                          alt="Current review image"
-                          className="w-32 aspect-[16/9] object-cover rounded"
-                        />
-                        <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                          Текущее
-                        </span>
-                      </div>
-                    )}
+                    {editingPortfolio?.reviewImage &&
+                      !formData.reviewImage &&
+                      !formData.clearReviewImage && (
+                        <div className="relative group">
+                          <img
+                            src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.reviewImage}`}
+                            alt="Current review image"
+                            className="w-32 aspect-[16/9] object-cover rounded"
+                          />
+                          <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            Текущее
+                          </span>
+                          <button
+                            type="button"
+                            onClick={clearReviewImage}
+                            className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      )}
                     {formData.reviewImage && (
                       <div className="relative">
                         <img

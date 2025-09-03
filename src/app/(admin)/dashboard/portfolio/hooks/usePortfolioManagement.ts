@@ -24,6 +24,12 @@ interface FormData {
   reviewImage: File | undefined;
   previewVideo: File | undefined;
   fullVideo: File | undefined;
+  // Флаги для отслеживания удаленных фотографий
+  clearPoster: boolean;
+  clearSolutionImages: boolean[];
+  clearReviewImage: boolean;
+  clearPreviewVideo: boolean;
+  clearFullVideo: boolean;
 }
 
 const initialFormData: FormData = {
@@ -46,6 +52,11 @@ const initialFormData: FormData = {
   reviewImage: undefined,
   previewVideo: undefined,
   fullVideo: undefined,
+  clearPoster: false,
+  clearSolutionImages: [],
+  clearReviewImage: false,
+  clearPreviewVideo: false,
+  clearFullVideo: false,
 };
 
 export const usePortfolioManagement = () => {
@@ -96,6 +107,7 @@ export const usePortfolioManagement = () => {
       formDataToSend.append("reviewRole", formData.reviewRole);
     }
 
+    // Обработка новых файлов
     if (formData.poster) {
       formDataToSend.append("poster", formData.poster);
     }
@@ -112,6 +124,28 @@ export const usePortfolioManagement = () => {
     }
     if (formData.fullVideo) {
       formDataToSend.append("fullVideo", formData.fullVideo);
+    }
+
+    // Обработка флагов удаления (только для редактирования)
+    if (editingPortfolio) {
+      if (formData.clearPoster) {
+        formDataToSend.append("clearPoster", "true");
+      }
+      if (formData.clearReviewImage) {
+        formDataToSend.append("clearReviewImage", "true");
+      }
+      if (formData.clearPreviewVideo) {
+        formDataToSend.append("clearPreviewVideo", "true");
+      }
+      if (formData.clearFullVideo) {
+        formDataToSend.append("clearFullVideo", "true");
+      }
+      // Для solutionImages отправляем массив индексов для удаления
+      formData.clearSolutionImages.forEach((shouldClear, index) => {
+        if (shouldClear) {
+          formDataToSend.append("clearSolutionImageIndex", index.toString());
+        }
+      });
     }
 
     if (editingPortfolio) {
@@ -148,6 +182,13 @@ export const usePortfolioManagement = () => {
       reviewImage: undefined,
       previewVideo: undefined,
       fullVideo: undefined,
+      clearPoster: false,
+      clearSolutionImages: new Array(
+        portfolio.solutionImages?.length || 0
+      ).fill(false),
+      clearReviewImage: false,
+      clearPreviewVideo: false,
+      clearFullVideo: false,
     });
     setIsDialogOpen(true);
   };
@@ -155,6 +196,48 @@ export const usePortfolioManagement = () => {
   const resetForm = () => {
     setEditingPortfolio(null);
     setFormData(initialFormData);
+  };
+
+  // Функции для удаления фотографий
+  const clearPoster = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearPoster: true,
+      poster: undefined,
+    }));
+  };
+
+  const clearSolutionImage = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      clearSolutionImages: prev.clearSolutionImages.map((clear, i) =>
+        i === index ? true : clear
+      ),
+    }));
+  };
+
+  const clearReviewImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearReviewImage: true,
+      reviewImage: undefined,
+    }));
+  };
+
+  const clearPreviewVideo = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearPreviewVideo: true,
+      previewVideo: undefined,
+    }));
+  };
+
+  const clearFullVideo = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearFullVideo: true,
+      fullVideo: undefined,
+    }));
   };
 
   return {
@@ -182,5 +265,12 @@ export const usePortfolioManagement = () => {
     handleDelete,
     handleEdit,
     resetForm,
+
+    // Clear functions
+    clearPoster,
+    clearSolutionImage,
+    clearReviewImage,
+    clearPreviewVideo,
+    clearFullVideo,
   };
 };

@@ -13,7 +13,7 @@ export const stats = [
   },
   {
     id: 3,
-    value: "7776 м²",
+    value: "8500 м²",
     description: "собственная\nпроизводственная площадка",
     height: "16px",
   },

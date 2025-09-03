@@ -32,6 +32,13 @@ export default function PortfolioManagement() {
     handleDelete,
     handleEdit,
     resetForm,
+
+    // Clear functions
+    clearPoster,
+    clearSolutionImage,
+    clearReviewImage,
+    clearPreviewVideo,
+    clearFullVideo,
   } = usePortfolioManagement();
 
   return (
@@ -48,6 +55,11 @@ export default function PortfolioManagement() {
           createMutation={createMutation}
           updateMutation={updateMutation}
           resetForm={resetForm}
+          clearPoster={clearPoster}
+          clearSolutionImage={clearSolutionImage}
+          clearReviewImage={clearReviewImage}
+          clearPreviewVideo={clearPreviewVideo}
+          clearFullVideo={clearFullVideo}
         />
       </div>
 

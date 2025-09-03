@@ -62,10 +62,10 @@ const ContactUsScreen: FC<ContactUsScreenProps> = ({ variant = "default" }) => {
               {/* Left column - Headings and description */}
               <div className="lg:w-1/2">
                 {/* Main Heading */}
-                <GradientHeading className="mb-8">
+                <GradientHeading className="mb-4">
                   {isVacancy ? (
                     <>
-                      Хотите сотрудничать <br />с нами?
+                      Хотите работать в нашей компании?
                     </>
                   ) : (
                     <>Хотите обсудить проект или получить предложение?</>
