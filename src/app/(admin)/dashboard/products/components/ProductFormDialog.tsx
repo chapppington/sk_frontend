@@ -76,7 +76,13 @@ export default function ProductFormDialog({
   const [currentStep, setCurrentStep] = useState(1);
 
   const [formData, setFormData] = useState<
-    CreateProductData & { portfolioItems: string[] }
+    CreateProductData & {
+      portfolioItems: string[];
+      // Флаги для отслеживания удаленных фотографий
+      clearPreviewImage: boolean;
+      clearAdvantageImages: boolean[];
+      clearModel3d: boolean;
+    }
   >({
     category: "",
     name: "",
@@ -125,6 +131,9 @@ export default function ProductFormDialog({
       ],
     },
     portfolioItems: [],
+    clearPreviewImage: false,
+    clearAdvantageImages: [false, false, false, false, false],
+    clearModel3d: false,
   });
 
   const resetForm = useCallback(() => {
@@ -154,6 +163,9 @@ export default function ProductFormDialog({
         ],
       },
       portfolioItems: [],
+      clearPreviewImage: false,
+      clearAdvantageImages: [false, false, false, false, false],
+      clearModel3d: false,
     });
     setModel3dFile(null);
     setPreviewImageFile(null);
@@ -219,7 +231,10 @@ export default function ProductFormDialog({
                 text: item.text || "",
               })) || []),
             ...Array(
-              Math.max(0, 3 - (editingProduct.simpleDescription?.items?.length || 0))
+              Math.max(
+                0,
+                3 - (editingProduct.simpleDescription?.items?.length || 0)
+              )
             ).fill({ text: "" }),
           ],
         },
@@ -240,6 +255,9 @@ export default function ProductFormDialog({
           (editingProduct.portfolioItems || []).map(
             (item: IPortfolioItem) => item.id
           ) || [],
+        clearPreviewImage: false,
+        clearAdvantageImages: new Array(5).fill(false),
+        clearModel3d: false,
       });
       setModel3dFile(null);
       setPreviewImageFile(null);
@@ -301,11 +319,64 @@ export default function ProductFormDialog({
       formDataToSend.append("model_3d", model3dFile);
     }
 
+    // Обработка флагов удаления (только для редактирования)
+    if (editingProduct) {
+      if (formData.clearPreviewImage) {
+        formDataToSend.append("clearPreviewImage", "true");
+      }
+      if (formData.clearModel3d) {
+        formDataToSend.append("clearModel3d", "true");
+      }
+
+      // Для advantageImages отправляем массив индексов для удаления
+      const clearIndexes = formData.clearAdvantageImages
+        .map((shouldClear, index) => (shouldClear ? index : -1))
+        .filter((index) => index !== -1);
+
+      if (clearIndexes.length > 0) {
+        formDataToSend.append(
+          "clearAdvantageImageIndex",
+          JSON.stringify(clearIndexes)
+        );
+      }
+    }
+
     if (editingProduct) {
       updateMutation.mutate({ id: editingProduct.id, data: formDataToSend });
     } else {
       createMutation.mutate(formDataToSend);
     }
+  };
+
+  // Функции для удаления фотографий
+  const clearPreviewImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearPreviewImage: true,
+      previewImage: "",
+    }));
+    setPreviewImageFile(null);
+  };
+
+  const clearAdvantageImage = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      clearAdvantageImages: prev.clearAdvantageImages.map((clear, i) =>
+        i === index ? true : clear
+      ),
+      advantages: prev.advantages.map((advantage, i) =>
+        i === index ? { ...advantage, image: "" } : advantage
+      ),
+    }));
+  };
+
+  const clearModel3d = () => {
+    setFormData((prev) => ({
+      ...prev,
+      clearModel3d: true,
+      model_3d_url: "",
+    }));
+    setModel3dFile(null);
   };
 
   const nextStep = () => {
@@ -496,25 +567,38 @@ export default function ProductFormDialog({
                 onChange={(e) => {
                   if (e.target.files) {
                     setPreviewImageFile(e.target.files[0]);
+                    setFormData((prev) => ({
+                      ...prev,
+                      clearPreviewImage: false,
+                    }));
                   }
                 }}
                 required={!editingProduct}
               />
-              {editingProduct?.previewImageUrl && !previewImageFile && (
-                <div className="mt-2">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Текущее изображение:
-                  </p>
-                  <div className="relative w-32 h-32">
-                    <Image
-                      src={`${UPLOADS_URL}${editingProduct.previewImageUrl}`}
-                      alt="Current preview image"
-                      fill
-                      className="object-cover rounded-md"
-                    />
+              {editingProduct?.previewImageUrl &&
+                !previewImageFile &&
+                !formData.clearPreviewImage && (
+                  <div className="mt-2">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Текущее изображение:
+                    </p>
+                    <div className="relative w-32 h-32 group">
+                      <Image
+                        src={`${UPLOADS_URL}${editingProduct.previewImageUrl}`}
+                        alt="Current preview image"
+                        fill
+                        className="object-cover rounded-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={clearPreviewImage}
+                        className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                      >
+                        ×
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               {previewImageFile && (
                 <div className="mt-2">
                   <p className="text-sm text-muted-foreground mb-2">
@@ -568,14 +652,30 @@ export default function ProductFormDialog({
                 onChange={(e) => {
                   if (e.target.files) {
                     setModel3dFile(e.target.files[0]);
+                    setFormData((prev) => ({
+                      ...prev,
+                      clearModel3d: false,
+                    }));
                   }
                 }}
               />
-              {editingProduct?.model_3d_url && !model3dFile && (
-                <div className="mt-2 text-sm text-gray-500">
-                  Текущая модель: {editingProduct.model_3d_url.split("/").pop()}
-                </div>
-              )}
+              {editingProduct?.model_3d_url &&
+                !model3dFile &&
+                !formData.clearModel3d && (
+                  <div className="mt-2 text-sm text-gray-500 flex items-center gap-2">
+                    <span>
+                      Текущая модель:{" "}
+                      {editingProduct.model_3d_url.split("/").pop()}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={clearModel3d}
+                      className="bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
               {model3dFile && (
                 <div className="mt-2 text-sm text-green-600">
                   Новая модель: {model3dFile.name}
@@ -796,12 +896,17 @@ export default function ProductFormDialog({
                                 setFormData({
                                   ...formData,
                                   advantages: updatedAdvantages,
+                                  clearAdvantageImages:
+                                    formData.clearAdvantageImages.map(
+                                      (clear, i) =>
+                                        i === index ? false : clear
+                                    ),
                                 });
                               }
                             }}
                           />
                           {safeAdvantage.image && (
-                            <div className="mt-2 relative w-32 aspect-[16/9] rounded-md overflow-hidden">
+                            <div className="mt-2 relative w-32 aspect-[16/9] rounded-md overflow-hidden group">
                               {typeof safeAdvantage.image === "object" ? (
                                 <Image
                                   src={URL.createObjectURL(safeAdvantage.image)}
@@ -809,7 +914,8 @@ export default function ProductFormDialog({
                                   fill
                                   className="object-cover"
                                 />
-                              ) : editingProduct?.advantages?.[index]?.image ? (
+                              ) : editingProduct?.advantages?.[index]?.image &&
+                                !formData.clearAdvantageImages[index] ? (
                                 <Image
                                   src={`${UPLOADS_URL}/uploads/products/${editingProduct.advantages[index].image}`}
                                   alt={`Текущее преимущество ${index + 1}`}
@@ -824,10 +930,22 @@ export default function ProductFormDialog({
                                 </span>
                               )}
                               {editingProduct?.advantages?.[index]?.image &&
-                                typeof safeAdvantage.image === "string" && (
+                                typeof safeAdvantage.image === "string" &&
+                                !formData.clearAdvantageImages[index] && (
                                   <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
                                     Текущее
                                   </span>
+                                )}
+                              {editingProduct?.advantages?.[index]?.image &&
+                                typeof safeAdvantage.image === "string" &&
+                                !formData.clearAdvantageImages[index] && (
+                                  <button
+                                    type="button"
+                                    onClick={() => clearAdvantageImage(index)}
+                                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                  >
+                                    ×
+                                  </button>
                                 )}
                             </div>
                           )}
