@@ -55,7 +55,9 @@ const ProductDetails = ({ slug }: Props) => {
       <InfoScreen product={product} />
       <TabsScreen product={product} />
       <QuestionnaireButtonsScreen product={product} />
-      <SliderScreen product={product} />
+      {product.portfolioItems && product.portfolioItems.length > 0 && (
+        <SliderScreen product={product} />
+      )}
       <NumbersScreen product={product} />
       {/* <LogoGrid product={product} /> */}
       <ContactUsScreen />

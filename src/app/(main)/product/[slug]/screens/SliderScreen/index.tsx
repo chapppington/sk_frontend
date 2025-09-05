@@ -24,10 +24,15 @@ interface SliderSectionProps {
 const SliderSection: FC<SliderSectionProps> = ({ product }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
-  const totalSlides = product.portfolioItems.length;
+  const totalSlides = product.portfolioItems?.length || 0;
   const mainSwiperRef = useRef<SwiperType | null>(null);
   const thumbsSwiperRef = useRef<SwiperType | null>(null);
   const sliderId = "product-slider";
+
+  // Если нет кейсов применения, не рендерим компонент
+  if (!product.portfolioItems || product.portfolioItems.length === 0) {
+    return null;
+  }
 
   // Custom navigation handlers
   const handleNext = () => {
