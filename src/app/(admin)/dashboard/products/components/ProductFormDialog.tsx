@@ -201,56 +201,166 @@ export default function ProductFormDialog({
         description: editingProduct.description || "",
         previewImage: editingProduct.previewImage || "",
         previewImageAlt: editingProduct.previewImageAlt || "",
-        importantCharacteristics: (
-          editingProduct.importantCharacteristics || []
-        )
-          .filter(Boolean)
-          .map((char) => ({
-            value: char.value || "",
-            unit: { text: char.unit?.text || "" },
-            description: char.description || "",
-          })) || [{ value: "", unit: { text: "" }, description: "" }],
-        advantages: (editingProduct.advantages || [])
-          .filter(Boolean)
-          .map((adv) => ({
-            label: adv.label || "",
-            icon: adv.icon || "",
-            image: adv.image || "",
-            alt: adv.alt || "",
-            description: adv.description || "",
-          })) || [
-          { label: "", icon: "", image: "", alt: "", description: "" },
-          { label: "", icon: "", image: "", alt: "", description: "" },
-          { label: "", icon: "", image: "", alt: "", description: "" },
-        ],
-        simpleDescription: {
-          items: [
-            ...((editingProduct.simpleDescription?.items || [])
-              .filter(Boolean)
-              .map((item) => ({
-                text: item.text || "",
-              })) || []),
-            ...Array(
-              Math.max(
-                0,
-                3 - (editingProduct.simpleDescription?.items?.length || 0)
-              )
-            ).fill({ text: "" }),
-          ],
-        },
-        detailedDescription: {
-          items: (editingProduct.detailedDescription?.items || [])
-            .filter(Boolean)
-            .map((item) => ({
-              title: item.title || "",
-              description: item.description || "",
-            })) || [
-            { title: "", description: "" },
-            { title: "", description: "" },
-            { title: "", description: "" },
-            { title: "", description: "" },
-          ],
-        },
+        importantCharacteristics: (() => {
+          const characteristics = editingProduct.importantCharacteristics;
+          if (!characteristics)
+            return [{ value: "", unit: { text: "" }, description: "" }];
+
+          // Если это строка, парсим JSON
+          if (typeof characteristics === "string") {
+            try {
+              const parsed = JSON.parse(characteristics);
+              return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+              return [{ value: "", unit: { text: "" }, description: "" }];
+            }
+          }
+
+          // Если это уже массив
+          if (Array.isArray(characteristics)) {
+            return characteristics.filter(Boolean).map((char) => ({
+              value: char.value || "",
+              unit: { text: char.unit?.text || "" },
+              description: char.description || "",
+            }));
+          }
+
+          return [{ value: "", unit: { text: "" }, description: "" }];
+        })(),
+        advantages: (() => {
+          const advantages = editingProduct.advantages;
+          if (!advantages)
+            return [
+              { label: "", icon: "", image: "", alt: "", description: "" },
+              { label: "", icon: "", image: "", alt: "", description: "" },
+              { label: "", icon: "", image: "", alt: "", description: "" },
+            ];
+
+          // Если это строка, парсим JSON
+          if (typeof advantages === "string") {
+            try {
+              const parsed = JSON.parse(advantages);
+              return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+              return [
+                { label: "", icon: "", image: "", alt: "", description: "" },
+                { label: "", icon: "", image: "", alt: "", description: "" },
+                { label: "", icon: "", image: "", alt: "", description: "" },
+              ];
+            }
+          }
+
+          // Если это уже массив
+          if (Array.isArray(advantages)) {
+            return advantages.filter(Boolean).map((adv) => ({
+              label: adv.label || "",
+              icon: adv.icon || "",
+              image: adv.image || "",
+              alt: adv.alt || "",
+              description: adv.description || "",
+            }));
+          }
+
+          return [
+            { label: "", icon: "", image: "", alt: "", description: "" },
+            { label: "", icon: "", image: "", alt: "", description: "" },
+            { label: "", icon: "", image: "", alt: "", description: "" },
+          ];
+        })(),
+        simpleDescription: (() => {
+          const simpleDesc = editingProduct.simpleDescription;
+          if (!simpleDesc)
+            return { items: [{ text: "" }, { text: "" }, { text: "" }] };
+
+          // Если это строка, парсим JSON
+          if (typeof simpleDesc === "string") {
+            try {
+              const parsed = JSON.parse(simpleDesc);
+              return parsed && parsed.items
+                ? parsed
+                : { items: [{ text: "" }, { text: "" }, { text: "" }] };
+            } catch (e) {
+              return { items: [{ text: "" }, { text: "" }, { text: "" }] };
+            }
+          }
+
+          // Если это уже объект
+          if (simpleDesc && simpleDesc.items) {
+            const items = Array.isArray(simpleDesc.items)
+              ? simpleDesc.items
+              : [];
+            return {
+              items: [
+                ...items.filter(Boolean).map((item) => ({
+                  text: item.text || "",
+                })),
+                ...Array(Math.max(0, 3 - items.length)).fill({ text: "" }),
+              ],
+            };
+          }
+
+          return { items: [{ text: "" }, { text: "" }, { text: "" }] };
+        })(),
+        detailedDescription: (() => {
+          const detailedDesc = editingProduct.detailedDescription;
+          if (!detailedDesc)
+            return {
+              items: [
+                { title: "", description: "" },
+                { title: "", description: "" },
+                { title: "", description: "" },
+                { title: "", description: "" },
+              ],
+            };
+
+          // Если это строка, парсим JSON
+          if (typeof detailedDesc === "string") {
+            try {
+              const parsed = JSON.parse(detailedDesc);
+              return parsed && parsed.items
+                ? parsed
+                : {
+                    items: [
+                      { title: "", description: "" },
+                      { title: "", description: "" },
+                      { title: "", description: "" },
+                      { title: "", description: "" },
+                    ],
+                  };
+            } catch (e) {
+              return {
+                items: [
+                  { title: "", description: "" },
+                  { title: "", description: "" },
+                  { title: "", description: "" },
+                  { title: "", description: "" },
+                ],
+              };
+            }
+          }
+
+          // Если это уже объект
+          if (detailedDesc && detailedDesc.items) {
+            const items = Array.isArray(detailedDesc.items)
+              ? detailedDesc.items
+              : [];
+            return {
+              items: items.filter(Boolean).map((item) => ({
+                title: item.title || "",
+                description: item.description || "",
+              })),
+            };
+          }
+
+          return {
+            items: [
+              { title: "", description: "" },
+              { title: "", description: "" },
+              { title: "", description: "" },
+              { title: "", description: "" },
+            ],
+          };
+        })(),
         portfolioItems:
           (editingProduct.portfolioItems || []).map(
             (item: IPortfolioItem) => item.id
