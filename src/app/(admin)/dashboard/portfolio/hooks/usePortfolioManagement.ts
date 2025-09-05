@@ -141,11 +141,16 @@ export const usePortfolioManagement = () => {
         formDataToSend.append("clearFullVideo", "true");
       }
       // Для solutionImages отправляем массив индексов для удаления
-      formData.clearSolutionImages.forEach((shouldClear, index) => {
-        if (shouldClear) {
-          formDataToSend.append("clearSolutionImageIndex", index.toString());
-        }
-      });
+      const clearIndexes = formData.clearSolutionImages
+        .map((shouldClear, index) => (shouldClear ? index : -1))
+        .filter((index) => index !== -1);
+
+      if (clearIndexes.length > 0) {
+        formDataToSend.append(
+          "clearSolutionImageIndex",
+          JSON.stringify(clearIndexes)
+        );
+      }
     }
 
     if (editingPortfolio) {
