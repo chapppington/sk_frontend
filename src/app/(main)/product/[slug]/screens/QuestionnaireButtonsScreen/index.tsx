@@ -3,6 +3,7 @@
 import { IProduct } from "@/shared/types/product.types";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface QuestionnaireButtonsScreenProps {
   product: IProduct;
@@ -11,17 +12,23 @@ interface QuestionnaireButtonsScreenProps {
 const QuestionnaireButtonsScreen = ({
   product,
 }: QuestionnaireButtonsScreenProps) => {
+  const isMobile = useIsMobile();
+
   return (
     <CustomContainer>
-      <div className="w-full flex gap-4">
-        <div className="w-1/2">
+      <div className="w-full flex flex-col sm:flex-row gap-4">
+        <div className="w-full sm:w-1/2">
           <MainButton
-            text="Заполнить опросный лист онлайн"
+            text={
+              isMobile
+                ? "Заполнить опросный лист"
+                : "Заполнить опросный лист онлайн"
+            }
             href="/questionnaire"
             fullWidth
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-full sm:w-1/2">
           <MainButton
             text="Отправить заявку"
             transparent
