@@ -13,10 +13,6 @@ interface Props {
 }
 
 export default function SolutionScreen({ portfolio }: Props) {
-  // Отладочная информация
-  console.log("SolutionScreen portfolio:", portfolio);
-  console.log("solutionImages:", portfolio.solutionImages);
-
   return (
     <section className="py-24 relative text-white">
       <CustomContainer>

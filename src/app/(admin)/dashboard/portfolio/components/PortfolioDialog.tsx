@@ -283,6 +283,8 @@ export default function PortfolioDialog({
                   setFormData({
                     ...formData,
                     solutionImages: Array.from(e.target.files || []),
+                    // Сбрасываем флаги удаления при загрузке новых файлов
+                    clearSolutionImages: [false, false],
                   })
                 }
               />
