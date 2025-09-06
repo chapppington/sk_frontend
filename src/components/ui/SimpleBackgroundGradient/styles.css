@@ -1,0 +1,80 @@
+.animated-gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--color1) 0%,
+        var(--color2) 25%,
+        var(--color3) 50%,
+        var(--color4) 75%,
+        var(--color5) 100%
+    );
+}
+
+.animated-gradient-background {
+    --color1: #1a1a2e;
+    --color2: #16213e;
+    --color3: #0f3460;
+    --color4: #533483;
+    --color5: #7209b7;
+}
+
+.animated-gradient-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        rgba(26, 26, 46, 0.8) 0%,
+        rgba(22, 33, 62, 0.6) 25%,
+        rgba(15, 52, 96, 0.4) 50%,
+        rgba(83, 52, 131, 0.6) 75%,
+        rgba(114, 9, 183, 0.8) 100%
+    );
+    z-index: 1;
+}
+
+.noise-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px, 120px 120px;
+    opacity: 0.3;
+    z-index: 2;
+}
+
+.noise-texture::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.005) 50%, transparent 60%),
+        linear-gradient(-45deg, transparent 40%, rgba(255, 255, 255, 0.003) 50%, transparent 60%);
+    background-size: 100px 100px, 150px 150px;
+}
+

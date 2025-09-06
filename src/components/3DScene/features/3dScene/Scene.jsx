@@ -549,7 +549,6 @@ export default function Scene() {
 
   return (
     <>
-      <ambientLight intensity={0.7} />
       <primitive object={scene} />
     </>
   );
