@@ -27,9 +27,9 @@ function ProductScene({ modelUrl, previewImageUrl }: ProductSceneProps) {
   // Если нет 3D модели, показываем PNG изображение
   if (!modelUrl) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-center pb-28">
         <div
-          className="relative w-full h-[600px] flex items-center justify-center"
+          className="relative w-full h-[500px] flex items-start justify-start pb-28 mr-28"
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
         >
@@ -54,14 +54,14 @@ function ProductScene({ modelUrl, previewImageUrl }: ProductSceneProps) {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-start pb-28 mr-28">
       <Canvas
         ref={canvasRef}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         style={{
           width: "100%",
-          height: "600px", // Высоту можно настроить под ваши нужды
+          height: "550px", // Высоту можно настроить под ваши нужды
           background: "transparent",
         }}
         camera={{

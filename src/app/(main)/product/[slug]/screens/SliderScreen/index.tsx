@@ -125,7 +125,9 @@ const SliderSection: FC<SliderSectionProps> = ({ product }) => {
                         </h3>
                         <div className="flex items-center justify-between mt-6">
                           <p className="text-white/80 w-3/5">
-                            {slide.description}
+                            {slide.description?.length > 150
+                              ? `${slide.description.substring(0, 150)}...`
+                              : slide.description}
                           </p>
                           <MainButton
                             text="Смотреть кейс"

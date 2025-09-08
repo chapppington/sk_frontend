@@ -3,7 +3,7 @@
 import { IProduct } from "@/shared/types/product.types";
 import CustomContainer from "@/components/ui/CustomContainer";
 import MainButton from "@/components/ui/MainButton";
-import { useIsMobile } from "@/hooks/use-mobile";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface QuestionnaireButtonsScreenProps {
   product: IProduct;
@@ -13,6 +13,7 @@ const QuestionnaireButtonsScreen = ({
   product,
 }: QuestionnaireButtonsScreenProps) => {
   const isMobile = useIsMobile();
+  const isTablet = useIsMobile(1024);
 
   return (
     <CustomContainer>
@@ -20,7 +21,7 @@ const QuestionnaireButtonsScreen = ({
         <div className="w-full sm:w-1/2">
           <MainButton
             text={
-              isMobile
+              isMobile || isTablet
                 ? "Заполнить опросный лист"
                 : "Заполнить опросный лист онлайн"
             }

@@ -9,7 +9,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CustomContainer from "@/components/ui/CustomContainer";
 import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
-import SecondaryButton from "@/components/ui/SecondaryButton";
 import dynamic from "next/dynamic";
 
 const ProductScene = dynamic(() => import("@/components/productCard3D/main"), {
@@ -27,7 +26,7 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
     <header className="flex flex-col justify-between pb-12 md:pb-24">
       {/* Main Content */}
       <CustomContainer className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
-        <div className="w-full lg:w-1/2 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 items-center justify-center hidden lg:flex">
           <ProductScene
             modelUrl={product.model_3d_url}
             previewImageUrl={product.previewImageUrl}
@@ -40,11 +39,6 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
             items={[
               { label: "Главная", href: "/", current: false },
               { label: "Каталог", href: "/catalog", current: false },
-              {
-                label: categoryLabel,
-                href: `/catalog/${product.category.toLowerCase()}`,
-                current: false,
-              },
             ]}
           />
           <span className="text-white/80 text-base md:text-lg max-w-2xl mb-4 md:mb-6 block">
@@ -70,15 +64,16 @@ const FirstScreen = ({ product }: FirstScreenProps) => {
               </div>
             ))}
           </div>
-          <div className="flex items-center mt-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 mt-4">
             <MainButton
               text="Узнать конечную стоимость"
               href="#contact_us_section"
             />
-            <SecondaryButton
+            <MainButton
               href={PagesConfig.catalog.href}
               text="Назад в каталог"
-              className="ml-8 mt-5"
+              transparent
+              className="sm:ml-8 sm:mt-5"
             />
           </div>
         </div>
