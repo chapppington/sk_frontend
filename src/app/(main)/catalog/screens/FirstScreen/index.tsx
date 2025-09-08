@@ -110,7 +110,7 @@ const FirstScreen: FC = () => {
             </div>
 
             {/* Column 2: Counter and Navigation Buttons (spans 2 cols) */}
-            <div className="hidden xl:block">
+            <div className="lg:col-span-2 hidden xl:block">
               <SliderSelectButtons
                 currentSlide={currentSlide}
                 setCurrentSlide={setCurrentSlide}
@@ -118,7 +118,7 @@ const FirstScreen: FC = () => {
             </div>
 
             {/* Column 3: Indicators (spans 6 cols) */}
-            <div className="lg:col-span-6 hidden lg:block">
+            <div className="xl:col-span-6 hidden xl:block">
               <div
                 id="slider-indicators-container"
                 className="h-12 flex items-center"
