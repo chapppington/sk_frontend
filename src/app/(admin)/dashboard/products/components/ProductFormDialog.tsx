@@ -612,6 +612,24 @@ export default function ProductFormDialog({
       case 1:
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="isShown"
+                checked={formData.isShown ?? true}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    isShown: e.target.checked,
+                  })
+                }
+                className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              />
+              <Label htmlFor="isShown" className="text-sm font-medium">
+                Показывать в каталоге
+              </Label>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="category" className="block mb-2">
@@ -748,24 +766,6 @@ export default function ProductFormDialog({
               <p className="text-xs text-muted-foreground mt-1">
                 Описание изображения для улучшения SEO и доступности
               </p>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="isShown"
-                checked={formData.isShown ?? true}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    isShown: e.target.checked,
-                  })
-                }
-                className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-              <Label htmlFor="isShown" className="text-sm font-medium">
-                Показывать в каталоге
-              </Label>
             </div>
           </div>
         );
