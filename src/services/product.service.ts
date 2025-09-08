@@ -9,6 +9,10 @@ const productService = {
     return axiosClassic.get("/products");
   },
 
+  fetchAllForAdmin: () => {
+    return instance.get("/products/admin");
+  },
+
   fetchCatalog: (category?: string, page: number = 1, limit: number = 10) => {
     const params = new URLSearchParams();
     if (category) params.append("category", category);

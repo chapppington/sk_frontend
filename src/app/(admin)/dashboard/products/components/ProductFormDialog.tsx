@@ -89,6 +89,7 @@ export default function ProductFormDialog({
     description: "",
     previewImage: "",
     previewImageAlt: "",
+    isShown: true,
     importantCharacteristics: [
       {
         value: "",
@@ -143,6 +144,7 @@ export default function ProductFormDialog({
       description: "",
       previewImage: "",
       previewImageAlt: "",
+      isShown: true,
       importantCharacteristics: [
         { value: "", unit: { text: "" }, description: "" },
       ],
@@ -201,6 +203,7 @@ export default function ProductFormDialog({
         description: editingProduct.description || "",
         previewImage: editingProduct.previewImage || "",
         previewImageAlt: editingProduct.previewImageAlt || "",
+        isShown: editingProduct.isShown ?? true,
         importantCharacteristics: (() => {
           const characteristics = editingProduct.importantCharacteristics;
           if (!characteristics)
@@ -387,6 +390,7 @@ export default function ProductFormDialog({
     if (formData.previewImageAlt) {
       formDataToSend.append("previewImageAlt", formData.previewImageAlt);
     }
+    formDataToSend.append("isShown", String(formData.isShown ?? true));
     formDataToSend.append(
       "importantCharacteristics",
       JSON.stringify(formData.importantCharacteristics)
@@ -744,6 +748,24 @@ export default function ProductFormDialog({
               <p className="text-xs text-muted-foreground mt-1">
                 Описание изображения для улучшения SEO и доступности
               </p>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="isShown"
+                checked={formData.isShown ?? true}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    isShown: e.target.checked,
+                  })
+                }
+                className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              />
+              <Label htmlFor="isShown" className="text-sm font-medium">
+                Показывать в каталоге
+              </Label>
             </div>
           </div>
         );

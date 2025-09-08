@@ -72,6 +72,7 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
   order?: number;
+  isShown?: boolean;
 }
 
 export interface ProductCatalogResponse {
@@ -96,6 +97,7 @@ export interface CreateProductData {
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
   detailedDescription: DetailedDescription;
+  isShown?: boolean;
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {}

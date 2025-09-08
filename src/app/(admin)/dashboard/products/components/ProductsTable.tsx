@@ -42,7 +42,9 @@ export default function ProductsTable({
   };
 
   // Сортируем товары по order (по возрастанию)
-  const sortedProducts = [...products].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const sortedProducts = [...products].sort(
+    (a, b) => (a.order ?? 0) - (b.order ?? 0)
+  );
 
   if (isLoading) {
     return (
@@ -55,12 +57,13 @@ export default function ProductsTable({
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
               <TableHead>Описание</TableHead>
+              <TableHead>Статус</TableHead>
               <TableHead>Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell colSpan={5} className="text-center">
+              <TableCell colSpan={7} className="text-center">
                 Загрузка...
               </TableCell>
             </TableRow>
@@ -81,12 +84,13 @@ export default function ProductsTable({
               <TableHead>Название</TableHead>
               <TableHead>Категория</TableHead>
               <TableHead>Описание</TableHead>
+              <TableHead>Статус</TableHead>
               <TableHead>Действия</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell colSpan={5} className="text-center">
+              <TableCell colSpan={7} className="text-center">
                 Нет товаров
               </TableCell>
             </TableRow>
@@ -106,13 +110,16 @@ export default function ProductsTable({
             <TableHead>Название</TableHead>
             <TableHead>Категория</TableHead>
             <TableHead>Описание</TableHead>
+            <TableHead>Статус</TableHead>
             <TableHead>Действия</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {sortedProducts.map((product: IProduct) => (
             <TableRow key={product.id}>
-              <TableCell className="text-center">{product.order ?? ''}</TableCell>
+              <TableCell className="text-center">
+                {product.order ?? ""}
+              </TableCell>
               <TableCell>
                 {product.previewImageUrl ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border relative">
@@ -135,6 +142,17 @@ export default function ProductsTable({
                 {product.description.length > 100
                   ? product.description.slice(0, 100) + "..."
                   : product.description}
+              </TableCell>
+              <TableCell>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    product.isShown ?? true
+                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                  }`}
+                >
+                  {product.isShown ?? true ? "Активен" : "Скрыт"}
+                </span>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">

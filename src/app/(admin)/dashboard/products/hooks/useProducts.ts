@@ -15,15 +15,15 @@ export const useProducts = (options?: UseProductsOptions) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Запрос всех продуктов
+  // Запрос всех продуктов для админ панели (включая скрытые)
   const {
     data: products = [],
     isLoading: isLoadingProducts,
     error: productsError,
   } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products-admin"],
     queryFn: async () => {
-      const { data } = await productService.fetchAll();
+      const { data } = await productService.fetchAllForAdmin();
       return data;
     },
   });
@@ -47,6 +47,7 @@ export const useProducts = (options?: UseProductsOptions) => {
       return productService.create(formData);
     },
     onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["products-admin"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
 
       // Regenerate sitemap after creating product
@@ -79,6 +80,7 @@ export const useProducts = (options?: UseProductsOptions) => {
     mutationFn: async ({ id, data }: { id: string; data: FormData }) =>
       productService.update(id, data),
     onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["products-admin"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
 
       // Regenerate sitemap after updating product
@@ -110,6 +112,7 @@ export const useProducts = (options?: UseProductsOptions) => {
   const deleteMutation = useMutation({
     mutationFn: (id: string) => productService.delete(id),
     onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["products-admin"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
 
       // Regenerate sitemap after deleting product
@@ -139,6 +142,7 @@ export const useProducts = (options?: UseProductsOptions) => {
       return productService.importFromExcel(products);
     },
     onSuccess: async (data) => {
+      queryClient.invalidateQueries({ queryKey: ["products-admin"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
 
       // Regenerate sitemap after importing products
@@ -181,8 +185,10 @@ export const useProducts = (options?: UseProductsOptions) => {
 
   // Мутация массового обновления порядка товаров
   const updateOrderMutation = useMutation({
-    mutationFn: (order: { id: string; order: number }[]) => productService.updateOrder(order),
+    mutationFn: (order: { id: string; order: number }[]) =>
+      productService.updateOrder(order),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products-admin"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast({
         title: "Успех",
