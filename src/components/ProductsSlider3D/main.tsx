@@ -1,7 +1,7 @@
 "use client";
 import { useScroll, ScrollControls } from "@react-three/drei";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { easing } from "maath";
 import * as THREE from "three";
 import { gsap } from "gsap";
@@ -23,20 +23,31 @@ function ProductsSlider3D({
   setCurrentSlide,
   absolute = false,
 }: ProductsSlider3DProps) {
-  // Force a one-time re-render on initial mount (prod doesn't double-render like dev)
-  const [, forceRerender] = useState(0);
-  useEffect(() => {
-    forceRerender((v) => v + 1);
-  }, []);
-  const { scrollOffset, setScrollOffset } = useScrollOffset();
+  const { scrollOffset } = useScrollOffset();
   const customShader = WfMid2();
+  const [mounted, setMounted] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const timer = setTimeout(() => {
+      setSceneReady(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   function Rig(props: any) {
     const ref = useRef<any>(null);
     const scroll = useScroll();
     const autoScrollRef = useRef(0);
     const isFirstRender = useRef(true);
+    useEffect(() => {
+      if (ref.current) {
+        ref.current.rotation.y = -scrollOffset * (Math.PI * 2);
+      }
+    }, []);
     useFrame((state: any, delta) => {
+      if (!sceneReady) return;
       customShader.uniforms.uTime.value = state.clock.getElapsedTime() * 1.2;
       autoScrollRef.current += delta * 0.05;
       scroll.offset = autoScrollRef.current % 1;
@@ -46,7 +57,7 @@ function ProductsSlider3D({
         -state.pointer.x * 2,
         state.pointer.y + 1.5,
         10,
-      ]);
+      ],0.25,delta);
       state.camera.lookAt(0, 0, 0);
     });
     useEffect(() => {
@@ -93,10 +104,12 @@ function ProductsSlider3D({
         isFirstRender.current = false;
       }
     }, [customShader]);
-    return <group ref={ref} {...props} />;
+    return <group ref={ref} {...props}>{props.children}</group>;
   }
 
   function Carousel({ radius = 2.4, count = mockup.length }) {
+
+    
     return Array.from({ length: count }, (_, i) => (
       <Model
         key={i}
@@ -116,7 +129,14 @@ function ProductsSlider3D({
     const ref = useRef<THREE.Group>(null);
     const targetScaleRef = useRef(1);
     const scaleRef = useRef(new THREE.Vector3(1, 1, 1));
-
+    useEffect(() => {
+      if (index === currentSlide - 1) {
+        targetScaleRef.current = 1.5;
+        scaleRef.current.set(1.5, 1.5, 1.5);
+      }
+    }, []);
+    
+    
     const gltf = useLoader(GLTFLoader, modelPath, (loader: GLTFLoader) => {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderConfig({ type: "js" });
@@ -128,8 +148,7 @@ function ProductsSlider3D({
       if (gltf) {
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const center = box.getCenter(new THREE.Vector3());
-        gltf.scene.position.sub(center);
-
+        gltf.scene.position.sub(center)
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 1 / maxDim;
@@ -138,7 +157,7 @@ function ProductsSlider3D({
           node.material = customShader;
         });
       }
-    }, [gltf]);
+    }, []);
 
     useEffect(() => {
       targetScaleRef.current = index === currentSlide - 1 ? 1.5 : 1;
@@ -170,9 +189,10 @@ function ProductsSlider3D({
       }
     >
       <div className="ml-8 hidden md:block w-[700px] h-[400px]">
+        {mounted && (
         <Canvas
           camera={{
-            position: [0, 0, 100],
+            position: [0, 0, 10],
             fov: 20,
           }}
         >
@@ -184,6 +204,7 @@ function ProductsSlider3D({
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
         </Canvas>
+        )}
       </div>
       <div className="absolute left-1/2 -translate-x-1/2 -bottom-10 xxl:-bottom-32 bg-black/50 backdrop-blur-md p-2 md:p-4 rounded-t-lg w-[260px] md:w-[320px] xxl:w-[380px] text-white">
         <h2 className="text-base md:text-lg xxl:text-xl font-bold mb-1 md:mb-2">
