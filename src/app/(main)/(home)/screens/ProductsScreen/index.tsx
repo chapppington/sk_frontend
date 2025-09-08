@@ -165,7 +165,10 @@ export default function ProductsSlider() {
               key={"desc-" + currentIndex}
             >
               <p className="text-white/60 text-lg mb-4 max-w-lg">
-                {products[currentIndex]?.description || ""}
+                {products[currentIndex]?.description &&
+                products[currentIndex].description.length > 150
+                  ? products[currentIndex].description.slice(0, 150) + "..."
+                  : products[currentIndex]?.description || ""}
               </p>
             </AnimatedText>
 

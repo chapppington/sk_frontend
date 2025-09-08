@@ -171,7 +171,10 @@ const PortfolioSection = () => {
                 delay={0}
               >
                 <p className="text-white/60 text-lg mb-4 portfolio-description">
-                  {portfolioItems[activeIndex].description}
+                  {portfolioItems[activeIndex].description.length > 150
+                    ? portfolioItems[activeIndex].description.slice(0, 150) +
+                      "..."
+                    : portfolioItems[activeIndex].description}
                 </p>
               </AnimatedText>
               <div
