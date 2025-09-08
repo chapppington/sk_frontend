@@ -1,7 +1,7 @@
 "use client";
 import { useScroll, ScrollControls } from "@react-three/drei";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { easing } from "maath";
 import * as THREE from "three";
 import { gsap } from "gsap";
@@ -23,6 +23,11 @@ function ProductsSlider3D({
   setCurrentSlide,
   absolute = false,
 }: ProductsSlider3DProps) {
+  // Force a one-time re-render on initial mount (prod doesn't double-render like dev)
+  const [, forceRerender] = useState(0);
+  useEffect(() => {
+    forceRerender((v) => v + 1);
+  }, []);
   const { scrollOffset, setScrollOffset } = useScrollOffset();
   const customShader = WfMid2();
 
@@ -41,7 +46,7 @@ function ProductsSlider3D({
         -state.pointer.x * 2,
         state.pointer.y + 1.5,
         10,
-      ], 0.25, delta);
+      ]);
       state.camera.lookAt(0, 0, 0);
     });
     useEffect(() => {
@@ -167,7 +172,7 @@ function ProductsSlider3D({
       <div className="ml-8 hidden md:block w-[700px] h-[400px]">
         <Canvas
           camera={{
-            position: [0, 0, 10],
+            position: [0, 0, 100],
             fov: 20,
           }}
         >
