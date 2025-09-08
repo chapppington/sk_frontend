@@ -167,7 +167,7 @@ function ProductsSlider3D({
       <div className="ml-8 hidden md:block w-[700px] h-[400px]">
         <Canvas
           camera={{
-            position: [0, 0, 100],
+            position: [0, 0, 10],
             fov: 20,
           }}
         >

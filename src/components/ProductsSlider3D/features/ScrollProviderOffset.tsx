@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useState, useContext, ReactNode, useRef } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useRef,
+} from "react";
 
 interface ScrollOffsetContextProps {
   scrollOffset: number;
@@ -28,7 +34,9 @@ export function ScrollOffsetProvider({ children }: { children: ReactNode }) {
       const progress = Math.min(elapsedTime / duration, 1);
       const easedProgress = progress * (2 - progress); // Ease-out function
 
-      setScrollOffset(startOffset + (targetOffset - startOffset) * easedProgress);
+      setScrollOffset(
+        startOffset + (targetOffset - startOffset) * easedProgress
+      );
 
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
@@ -39,8 +47,13 @@ export function ScrollOffsetProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ScrollOffsetContext.Provider value={{ scrollOffset, setScrollOffset, animateScrollOffset(targetOffset, duration) {   
-    }, }}>
+    <ScrollOffsetContext.Provider
+      value={{
+        scrollOffset,
+        setScrollOffset,
+        animateScrollOffset(targetOffset, duration) {},
+      }}
+    >
       {children}
     </ScrollOffsetContext.Provider>
   );
@@ -48,7 +61,9 @@ export function ScrollOffsetProvider({ children }: { children: ReactNode }) {
 export const useScrollOffset = () => {
   const context = useContext(ScrollOffsetContext);
   if (context === undefined) {
-    throw new Error("useScrollOffset must be used within a CameraProvider or ScrollOffsetProvider must be on top");
+    throw new Error(
+      "useScrollOffset must be used within a CameraProvider or ScrollOffsetProvider must be on top"
+    );
   }
   return context;
 };
