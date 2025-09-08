@@ -32,7 +32,7 @@ export const Logo: FC<LogoProps> = ({ logoRef, isVisible }) => {
         height={52}
         priority
         style={{
-          height: "72px",
+          height: "32px",
           width: "auto",
           objectFit: "contain",
           filter: "brightness(0) invert(1)",
