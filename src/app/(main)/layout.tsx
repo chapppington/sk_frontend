@@ -13,13 +13,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   const { addNotification, upsertNotification } = useNotification();
   const { webglSupport } = useGPUContext();
   useEffect(() => {
-    addNotification({ id: "1", message: "Первое уведомление", variant: "info", autoHideMs: 3000 });
-    addNotification({ id: "2", message: "Второе уведомление", variant: "success", autoHideMs: 3500 });
-    addNotification({ id: "3", message: "Третье уведомление", variant: "warning" });
     if (webglSupport.isSupported && !webglSupport.isHardwareAccelerated) {
       upsertNotification({ id: "webgl", message: "WebGL работает, но без аппаратного ускорения. Производительность может быть снижена.", variant: "warning", sticky: true });
-
-
     }
   }, [addNotification, upsertNotification, webglSupport]);
 
