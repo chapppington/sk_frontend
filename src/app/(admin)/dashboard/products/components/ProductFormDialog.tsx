@@ -55,7 +55,8 @@ const steps = [
   },
   { id: 4, title: "Преимущества", description: "Преимущества и особенности" },
   { id: 5, title: "Описания", description: "Простое и детальное описание" },
-  { id: 6, title: "Портфолио", description: "Связанные проекты" },
+  { id: 6, title: "Документация", description: "Файлы документации" },
+  { id: 7, title: "Портфолио", description: "Связанные проекты" },
 ];
 
 interface ProductFormDialogProps {
@@ -132,6 +133,7 @@ export default function ProductFormDialog({
         { title: "", description: "" },
       ],
     },
+    documentation: [{ title: "", url: "", type: "pdf" }],
     portfolioItems: [],
     clearPreviewImage: false,
     clearAdvantageImages: [false, false, false, false, false],
@@ -166,6 +168,7 @@ export default function ProductFormDialog({
           { title: "", description: "" },
         ],
       },
+      documentation: [{ title: "", url: "", type: "pdf" }],
       portfolioItems: [],
       clearPreviewImage: false,
       clearAdvantageImages: [false, false, false, false, false],
@@ -367,6 +370,17 @@ export default function ProductFormDialog({
             ],
           };
         })(),
+        documentation: (() => {
+          const documentation = editingProduct.documentation;
+          if (!documentation || !Array.isArray(documentation)) {
+            return [{ title: "", url: "", type: "pdf" }];
+          }
+          return documentation.filter(Boolean).map((doc) => ({
+            title: doc.title || "",
+            url: doc.url || "",
+            type: doc.type || "pdf",
+          }));
+        })(),
         portfolioItems:
           (editingProduct.portfolioItems || []).map(
             (item: IPortfolioItem) => item.id
@@ -424,6 +438,10 @@ export default function ProductFormDialog({
     formDataToSend.append(
       "detailedDescription",
       JSON.stringify(formData.detailedDescription)
+    );
+    formDataToSend.append(
+      "documentation",
+      JSON.stringify(formData.documentation)
     );
     formDataToSend.append(
       "portfolioItems",
@@ -1303,6 +1321,123 @@ export default function ProductFormDialog({
         );
 
       case 6:
+        return (
+          <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
+            <div>
+              <Label className="text-lg font-semibold block mb-4">
+                Документация
+              </Label>
+              <div className="space-y-4">
+                {(formData.documentation || []).map((doc, index) => (
+                  <div key={index} className="p-4 border-2 rounded-lg">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-medium">Документ {index + 1}</h4>
+                      {(formData.documentation || []).length > 1 && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            const updated = [...(formData.documentation || [])];
+                            updated.splice(index, 1);
+                            setFormData({
+                              ...formData,
+                              documentation: updated,
+                            });
+                          }}
+                        >
+                          Удалить
+                        </Button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label className="block mb-2">Название</Label>
+                        <Input
+                          placeholder="Название документа"
+                          value={doc.title}
+                          onChange={(e) => {
+                            const updated = [...(formData.documentation || [])];
+                            updated[index] = { ...doc, title: e.target.value };
+                            setFormData({
+                              ...formData,
+                              documentation: updated,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <Label className="block mb-2">URL</Label>
+                        <Input
+                          placeholder="https://example.com/file.pdf"
+                          value={doc.url}
+                          onChange={(e) => {
+                            const updated = [...(formData.documentation || [])];
+                            updated[index] = { ...doc, url: e.target.value };
+                            setFormData({
+                              ...formData,
+                              documentation: updated,
+                            });
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <Label className="block mb-2">Тип</Label>
+                        <Select
+                          value={doc.type}
+                          onValueChange={(
+                            value:
+                              | "pdf"
+                              | "doc"
+                              | "docx"
+                              | "xls"
+                              | "xlsx"
+                              | "other"
+                          ) => {
+                            const updated = [...(formData.documentation || [])];
+                            updated[index] = { ...doc, type: value };
+                            setFormData({
+                              ...formData,
+                              documentation: updated,
+                            });
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pdf">PDF</SelectItem>
+                            <SelectItem value="doc">DOC</SelectItem>
+                            <SelectItem value="docx">DOCX</SelectItem>
+                            <SelectItem value="xls">XLS</SelectItem>
+                            <SelectItem value="xlsx">XLSX</SelectItem>
+                            <SelectItem value="other">Другое</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const updated = [...(formData.documentation || [])];
+                    updated.push({ title: "", url: "", type: "pdf" });
+                    setFormData({
+                      ...formData,
+                      documentation: updated,
+                    });
+                  }}
+                >
+                  + Добавить документ
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 7:
         return (
           <div className="space-y-6" onWheel={(e) => e.stopPropagation()}>
             <div>

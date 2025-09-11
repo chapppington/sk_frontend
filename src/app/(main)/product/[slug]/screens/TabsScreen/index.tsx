@@ -41,7 +41,7 @@ const TabsSection: FC<TabsSectionProps> = ({ product }) => {
       <p className="text-white/70 text-lg">{product.description}</p>
 
       <div className="mt-8">
-        <DownloadButton />
+        <DownloadButton documentation={product.documentation} />
       </div>
     </div>
   );

@@ -29,6 +29,12 @@ export interface DetailedDescription {
   items: DetailedDescriptionItem[];
 }
 
+export interface DocumentationItem {
+  title: string;
+  url: string;
+  type: "pdf" | "doc" | "docx" | "xls" | "xlsx" | "other";
+}
+
 export interface IPortfolioItem {
   id: string;
   name: string;
@@ -67,6 +73,7 @@ export interface IProduct {
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
   detailedDescription: DetailedDescription;
+  documentation?: DocumentationItem[];
   model_3d_url?: string;
   portfolioItems: IPortfolioItem[];
   createdAt: string;
@@ -98,6 +105,7 @@ export interface CreateProductData {
   advantages: Advantage[];
   simpleDescription: SimpleDescription;
   detailedDescription: DetailedDescription;
+  documentation?: DocumentationItem[];
   isShown?: boolean;
   showAdvantages?: boolean;
 }
