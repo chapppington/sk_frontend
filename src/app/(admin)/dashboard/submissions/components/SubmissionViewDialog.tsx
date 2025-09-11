@@ -159,18 +159,30 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
             </div>
 
             {/* Данные опросника */}
-            {submission.meta?.questionnaireData && (
-              <div>
-                <label className="text-sm font-medium text-gray-500 mb-3 block">
-                  Данные опросного листа
-                </label>
-                <QuestionnaireViewer
-                  questionnaireData={
-                    submission.meta.questionnaireData as Record<string, unknown>
-                  }
-                />
-              </div>
-            )}
+            {(() => {
+              // Берём опросник из meta.questionnaireData если есть, иначе пытаемся взять сам meta (случай с "0":"{"...)
+              const rawQData = (submission.meta &&
+                (Object.prototype.hasOwnProperty.call(
+                  submission.meta,
+                  "questionnaireData"
+                )
+                  ? (submission.meta as any).questionnaireData
+                  : submission.meta)) as unknown;
+
+              // Рендерим, только если что-то есть
+              if (!rawQData) return null;
+
+              return (
+                <div>
+                  <label className="text-sm font-medium text-gray-500 mb-3 block">
+                    Данные опросного листа
+                  </label>
+                  <QuestionnaireViewer
+                    questionnaireData={rawQData as Record<string, unknown>}
+                  />
+                </div>
+              );
+            })()}
 
             {/* Прочие мета данные (исключая questionnaireData) */}
             {submission.meta &&
