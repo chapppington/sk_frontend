@@ -72,6 +72,11 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
     };
   }, [activeFeatureIndex, previousFeatureIndex]);
 
+  // Если преимущества скрыты, не отображаем секцию
+  if (!product.showAdvantages) {
+    return null;
+  }
+
   return (
     <section className="relative flex flex-col py-24">
       <CustomContainer className="flex flex-col md:flex-row w-full items-stretch">
@@ -144,7 +149,10 @@ const InfoScreen: FC<InfoScreenProps> = ({ product }) => {
               >
                 <Image
                   src={`${UPLOADS_URL}/uploads/products/${product.advantages[activeFeatureIndex].image}`}
-                  alt={product.advantages[activeFeatureIndex].alt || product.advantages[activeFeatureIndex].label}
+                  alt={
+                    product.advantages[activeFeatureIndex].alt ||
+                    product.advantages[activeFeatureIndex].label
+                  }
                   fill
                   className="object-cover rounded-lg"
                   priority

@@ -144,15 +144,28 @@ export default function ProductsTable({
                   : product.description}
               </TableCell>
               <TableCell>
-                <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    product.isShown ?? true
-                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                  }`}
-                >
-                  {product.isShown ?? true ? "Активен" : "Скрыт"}
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      product.isShown ?? true
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                    }`}
+                  >
+                    {product.isShown ?? true ? "Активен" : "Скрыт"}
+                  </span>
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      product.showAdvantages ?? true
+                        ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                        : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+                    }`}
+                  >
+                    {product.showAdvantages ?? true
+                      ? "Преимущества"
+                      : "Без преимуществ"}
+                  </span>
+                </div>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">

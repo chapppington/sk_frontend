@@ -90,6 +90,7 @@ export default function ProductFormDialog({
     previewImage: "",
     previewImageAlt: "",
     isShown: true,
+    showAdvantages: true,
     importantCharacteristics: [
       {
         value: "",
@@ -145,6 +146,7 @@ export default function ProductFormDialog({
       previewImage: "",
       previewImageAlt: "",
       isShown: true,
+      showAdvantages: true,
       importantCharacteristics: [
         { value: "", unit: { text: "" }, description: "" },
       ],
@@ -204,6 +206,7 @@ export default function ProductFormDialog({
         previewImage: editingProduct.previewImage || "",
         previewImageAlt: editingProduct.previewImageAlt || "",
         isShown: editingProduct.isShown ?? true,
+        showAdvantages: editingProduct.showAdvantages ?? true,
         importantCharacteristics: (() => {
           const characteristics = editingProduct.importantCharacteristics;
           if (!characteristics)
@@ -627,6 +630,24 @@ export default function ProductFormDialog({
               />
               <Label htmlFor="isShown" className="text-sm font-medium">
                 Показывать в каталоге
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="showAdvantages"
+                checked={formData.showAdvantages ?? true}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    showAdvantages: e.target.checked,
+                  })
+                }
+                className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              />
+              <Label htmlFor="showAdvantages" className="text-sm font-medium">
+                Показывать раздел преимуществ
               </Label>
             </div>
 
