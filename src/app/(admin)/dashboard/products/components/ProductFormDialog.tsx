@@ -395,6 +395,10 @@ export default function ProductFormDialog({
     }
     formDataToSend.append("isShown", String(formData.isShown ?? true));
     formDataToSend.append(
+      "showAdvantages",
+      String(formData.showAdvantages ?? true)
+    );
+    formDataToSend.append(
       "importantCharacteristics",
       JSON.stringify(formData.importantCharacteristics)
     );
