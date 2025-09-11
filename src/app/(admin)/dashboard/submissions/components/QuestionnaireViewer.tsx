@@ -9,6 +9,8 @@ type QuestionnaireViewerProps = {
 const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   questionnaireData,
 }) => {
+  console.log("Raw questionnaire data:", questionnaireData);
+
   // Если данные пришли как строка, парсим их
   let parsedData = questionnaireData;
   if (typeof questionnaireData === "string") {
@@ -16,7 +18,16 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
       parsedData = JSON.parse(questionnaireData);
     } catch (e) {
       console.error("Failed to parse questionnaire data:", e);
-      return <div>Ошибка парсинга данных опросника</div>;
+      return (
+        <div className="p-4 bg-red-50 border border-red-200 rounded">
+          <div className="text-red-800 font-medium mb-2">
+            Ошибка парсинга данных опросника
+          </div>
+          <div className="text-sm text-red-600">
+            Не удалось распарсить JSON строку
+          </div>
+        </div>
+      );
     }
   }
 
@@ -27,12 +38,44 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
     Object.keys(parsedData).every((key) => !isNaN(Number(key)))
   ) {
     try {
-      const reconstructed = Object.values(parsedData).join("");
+      // Сортируем ключи по числовому значению и собираем строку
+      const sortedKeys = Object.keys(parsedData)
+        .map(Number)
+        .sort((a, b) => a - b);
+
+      const reconstructed = sortedKeys.map((key) => parsedData[key]).join("");
+
+      console.log("Reconstructed JSON string:", reconstructed);
       parsedData = JSON.parse(reconstructed);
+      console.log("Successfully parsed questionnaire data:", parsedData);
     } catch (e) {
       console.error("Failed to reconstruct questionnaire data:", e);
-      return <div>Ошибка восстановления данных опросника</div>;
+      console.error("Original data:", parsedData);
+      return (
+        <div className="p-4 bg-red-50 border border-red-200 rounded">
+          <div className="text-red-800 font-medium mb-2">
+            Ошибка восстановления данных опросника
+          </div>
+          <div className="text-sm text-red-600">
+            Данные пришли в неожиданном формате. Обратитесь к разработчику.
+          </div>
+        </div>
+      );
     }
+  }
+
+  // Проверяем, что у нас есть валидные данные
+  if (!parsedData || typeof parsedData !== "object") {
+    return (
+      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
+        <div className="text-yellow-800 font-medium mb-2">
+          Нет данных опросника
+        </div>
+        <div className="text-sm text-yellow-600">
+          Клиент не заполнил опросный лист
+        </div>
+      </div>
+    );
   }
   const getQuestionTitle = (questionId: string) => {
     const question = questionsConfig.find((q) => q.id === parseInt(questionId));
