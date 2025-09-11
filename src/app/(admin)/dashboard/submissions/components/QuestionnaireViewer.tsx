@@ -56,6 +56,11 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
 
     if (typeof value === "object" && value !== null) {
       // Обработка сложных объектов (например, для фидерных секций)
+      if (question.type === "feeder_sections") {
+        return Object.entries(value as Record<string, any>)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join(", ");
+      }
       return JSON.stringify(value, null, 2);
     }
 
@@ -64,15 +69,72 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
     return option?.label || String(value);
   };
 
-  const formatValue = (value: unknown) => {
+  const formatValue = (questionId: string, value: unknown) => {
+    const question = questionsConfig.find((q) => q.id === parseInt(questionId));
+
     if (typeof value === "object" && value !== null) {
+      // Для фидерных секций показываем в удобном формате
+      if (question?.type === "feeder_sections") {
+        return (
+          <div className="space-y-2">
+            {Object.entries(value as Record<string, any>).map(([key, val]) => (
+              <div
+                key={key}
+                className="flex justify-between items-center py-2 px-3 bg-blue-50 rounded border"
+              >
+                <span className="font-medium text-blue-800">{key}:</span>
+                <span className="text-blue-900 font-semibold">{val}</span>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      // Для других объектов показываем JSON
       return (
-        <pre className="text-xs bg-gray-50 p-2 rounded border overflow-x-auto">
+        <pre className="text-xs bg-gray-50 p-3 rounded border overflow-x-auto whitespace-pre-wrap">
           {JSON.stringify(value, null, 2)}
         </pre>
       );
     }
-    return <span className="font-medium">{String(value)}</span>;
+
+    // Специальная обработка для разных типов вопросов
+    if (question?.type === "text") {
+      return (
+        <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
+          <div className="text-sm text-yellow-800 font-medium mb-1">
+            Текстовый ответ:
+          </div>
+          <div className="text-gray-900 whitespace-pre-wrap">
+            {String(value)}
+          </div>
+        </div>
+      );
+    }
+
+    if (question?.type === "slider") {
+      return (
+        <div className="bg-green-50 p-3 rounded border border-green-200">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-green-800 font-medium">
+              Значение:
+            </span>
+            <span className="text-lg font-bold text-green-900">
+              {String(value)}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    // Обычные ответы с выбором
+    return (
+      <div className="bg-white p-3 rounded border border-gray-200 shadow-sm">
+        <span className="font-medium text-gray-900">
+          {getAnswerLabel(questionId, value)}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -89,31 +151,49 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
         </span>
       </div>
 
-      <div className="grid gap-4">
-        {Object.entries(parsedData).map(([questionId, value]) => {
-          if (!value || (Array.isArray(value) && value.length === 0))
-            return null;
+      <div className="space-y-3">
+        {Object.entries(parsedData)
+          .filter(
+            ([_, value]) =>
+              value && !(Array.isArray(value) && value.length === 0)
+          )
+          .sort(([a], [b]) => parseInt(a) - parseInt(b)) // Сортируем по номеру вопроса
+          .map(([questionId, value]) => {
+            const question = questionsConfig.find(
+              (q) => q.id === parseInt(questionId)
+            );
 
-          return (
-            <div key={questionId} className="border rounded-lg p-4 bg-gray-50">
-              <div className="mb-2">
-                <h4 className="text-sm font-medium text-gray-700">
-                  {getQuestionTitle(questionId)}
-                </h4>
-              </div>
+            return (
+              <div
+                key={questionId}
+                className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h4 className="text-sm font-semibold text-gray-800 leading-tight">
+                    {getQuestionTitle(questionId)}
+                  </h4>
+                  {question?.popoverContent && (
+                    <div className="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      {question.type || "выбор"}
+                    </div>
+                  )}
+                </div>
 
-              <div className="text-sm text-gray-900">
-                {typeof value === "object" && value !== null ? (
-                  formatValue(value)
-                ) : (
-                  <div className="bg-white p-2 rounded border">
-                    {getAnswerLabel(questionId, value)}
-                  </div>
+                <div className="text-sm">{formatValue(questionId, value)}</div>
+
+                {question?.popoverContent && (
+                  <details className="mt-3">
+                    <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
+                      Подробное описание
+                    </summary>
+                    <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-2 rounded border">
+                      {question.popoverContent}
+                    </div>
+                  </details>
                 )}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
