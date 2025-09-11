@@ -50,7 +50,7 @@ const steps = [
   { id: 2, title: "3D Модель", description: "Загрузка 3D модели" },
   {
     id: 3,
-    title: "Характеристики",
+    title: "Комплектность",
     description: "Важные характеристики товара",
   },
   { id: 4, title: "Преимущества", description: "Преимущества и особенности" },
@@ -1181,6 +1181,37 @@ export default function ProductFormDialog({
           <div className="space-y-8" onWheel={(e) => e.stopPropagation()}>
             <div>
               <Label className="text-lg font-semibold block mb-4">
+                Документация
+              </Label>
+              <div>
+                <Label htmlFor="documentation" className="block mb-2">
+                  Файл документации (PDF, DOC, DOCX)
+                </Label>
+                <Input
+                  id="documentation"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      setDocumentationFile(e.target.files[0]);
+                    }
+                  }}
+                />
+                {editingProduct?.documentation && !documentationFile && (
+                  <div className="mt-2 text-sm text-gray-500">
+                    Текущий файл: {editingProduct.documentation}
+                  </div>
+                )}
+                {documentationFile && (
+                  <div className="mt-2 text-sm text-green-600">
+                    Новый файл: {documentationFile.name}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <Label className="text-lg font-semibold block mb-4">
                 Простое описание
               </Label>
               <div className="space-y-3">
@@ -1306,37 +1337,6 @@ export default function ProductFormDialog({
                   >
                     + Добавить пункт
                   </Button>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <Label className="text-lg font-semibold block mb-4">
-                Документация
-              </Label>
-              <div>
-                <Label htmlFor="documentation" className="block mb-2">
-                  Файл документации (PDF, DOC, DOCX)
-                </Label>
-                <Input
-                  id="documentation"
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setDocumentationFile(e.target.files[0]);
-                    }
-                  }}
-                />
-                {editingProduct?.documentation && !documentationFile && (
-                  <div className="mt-2 text-sm text-gray-500">
-                    Текущий файл: {editingProduct.documentation}
-                  </div>
-                )}
-                {documentationFile && (
-                  <div className="mt-2 text-sm text-green-600">
-                    Новый файл: {documentationFile.name}
-                  </div>
                 )}
               </div>
             </div>

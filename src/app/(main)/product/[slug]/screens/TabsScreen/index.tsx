@@ -62,7 +62,7 @@ const TabsSection: FC<TabsSectionProps> = ({ product }) => {
                 />
               </div>
             </TabContent>
-            <TabContent value="characteristics" label="Характеристики">
+            <TabContent value="characteristics" label="Комплектность">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12">
                 <LeftContent />
 
