@@ -8,8 +8,10 @@ interface DownloadButtonProps {
 const DownloadButton: FC<DownloadButtonProps> = ({ documentation }) => {
   const handleDownload = () => {
     if (documentation) {
+      const url = `${UPLOADS_URL}uploads/products/${documentation}`;
+      console.log("Downloading file from URL:", url);
       const link = document.createElement("a");
-      link.href = `${UPLOADS_URL}/products/${documentation}`;
+      link.href = url;
       link.download = documentation;
       document.body.appendChild(link);
       link.click();
