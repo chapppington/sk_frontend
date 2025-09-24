@@ -22,6 +22,7 @@ const MediaPreview: FC<IVideoWrapperProps> = ({
         src={poster}
         alt="Preview"
         fill
+        priority={true}
         className="w-full h-full object-cover"
       />
     );
