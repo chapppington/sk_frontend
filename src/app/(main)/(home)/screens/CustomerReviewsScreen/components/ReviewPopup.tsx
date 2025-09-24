@@ -32,14 +32,27 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
     }
   };
 
-  // Simple styles for 85% screen height
+  // A4 proportional sizing - 90% height on desktop, auto width
   const getImageStyles = () => {
-    return {
-      maxHeight: "85vh",
-      maxWidth: "90vw",
-      height: "auto",
-      width: "auto",
-    };
+    const screenWidth = window.innerWidth;
+    const isDesktop = screenWidth >= 1024;
+
+    if (isDesktop) {
+      // On desktop: 90% height, width auto-calculated to maintain A4 ratio
+      return {
+        height: "90vh",
+        width: "auto",
+        maxWidth: "95vw", // Prevent overflow
+      };
+    } else {
+      // On mobile: fit to screen
+      return {
+        maxHeight: "85vh",
+        maxWidth: "90vw",
+        height: "auto",
+        width: "auto",
+      };
+    }
   };
 
   return (
@@ -71,12 +84,11 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
 
         {/* Close button - positioned to the right of image */}
         <button
-          className="absolute -right-12 top-4 w-10 h-10 rounded-full flex items-center justify-center text-white/80 hover:text-white bg-black/60 hover:bg-black/80 transition-colors shadow-lg"
+          className="absolute -right-12 lg:-right-16 top-4 lg:top-6 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white/80 hover:text-white bg-black/60 hover:bg-black/80 transition-colors shadow-lg"
           onClick={onClose}
         >
           <svg
-            width="20"
-            height="20"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
