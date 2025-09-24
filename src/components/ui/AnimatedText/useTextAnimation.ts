@@ -34,6 +34,13 @@ export const useTextAnimation = ({
   const lines = useRef<Element[]>([]);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  // Initially hide the text to prevent flashing
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.set(containerRef.current, { opacity: 0 });
+    }
+  }, []);
+
   // Wait for fonts to load before initializing animations
   useEffect(() => {
     waitForFonts().then(() => {
@@ -81,7 +88,9 @@ export const useTextAnimation = ({
         lines.current.push(...split.lines);
       });
 
+      // Set initial states: hide lines and show container
       gsap.set(lines.current, { y: "100%" });
+      gsap.set(containerRef.current, { opacity: 1 });
 
       const animationProps = {
         y: "0%",
