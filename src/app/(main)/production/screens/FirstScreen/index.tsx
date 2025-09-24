@@ -18,15 +18,6 @@ const FirstScreen: FC = () => {
   if (loading) {
     return (
       <header className="relative min-h-screen overflow-y-hidden">
-        <div className="absolute inset-0 z-0 select-none pointer-events-none">
-          <ParallaxImage
-            src="/production_bg.webp"
-            alt="Production background"
-            priority
-            isMobile={isMobile}
-            className="brightness-75"
-          />
-        </div>
         <div className="absolute inset-0 z-[1]">
           <div className="overlay-base absolute inset-0 bg-black/90"></div>
           <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black/40"></div>
@@ -43,7 +34,10 @@ const FirstScreen: FC = () => {
     <header className="relative min-h-screen overflow-y-hidden">
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
-          src={`${UPLOADS_URL}${config?.firstScreen?.bg_image}` || "/production_bg.webp"}
+          src={
+            `${UPLOADS_URL}${config?.firstScreen?.bg_image}` ||
+            "/production_bg.webp"
+          }
           alt="Production background"
           priority
           isMobile={isMobile}
