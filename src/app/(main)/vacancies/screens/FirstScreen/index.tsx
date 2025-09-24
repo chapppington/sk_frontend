@@ -14,8 +14,9 @@ import { UPLOADS_URL } from "@/constants";
 
 const FirstScreen: FC = () => {
   const isMobile = useIsMobile();
-  const { config } = useVacanciesPageConfigPublic();
+  const { config, loading } = useVacanciesPageConfigPublic();
 
+  // Wait for config to load to avoid double image loading
   const bg = config?.firstScreen?.bg_image
     ? `${UPLOADS_URL}${config.firstScreen.bg_image}`
     : "/вакансии.webp";
@@ -24,14 +25,18 @@ const FirstScreen: FC = () => {
     <header className="relative min-h-screen">
       {/* Background Image */}
       <div className="absolute inset-0 overflow-hidden">
-        <ParallaxImage
-          src={bg}
-          alt="Vacancies background"
-          priority
-          isMobile={isMobile}
-          quality={100}
-          className="brightness-50"
-        />
+        {loading ? (
+          <div className="w-full h-full bg-gradient-to-b from-gray-800 via-gray-900 to-black animate-pulse" />
+        ) : (
+          <ParallaxImage
+            src={bg}
+            alt="Vacancies background"
+            priority
+            isMobile={isMobile}
+            quality={100}
+            className="brightness-50"
+          />
+        )}
       </div>
 
       {/* Base Overlay */}
