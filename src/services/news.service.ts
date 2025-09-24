@@ -8,6 +8,12 @@ class NewsService {
     return axiosClassic.get<INews[]>(this._BASE_URL);
   }
 
+  async fetchLatest(limit: number = 5) {
+    return axiosClassic.get<INews[]>(
+      `${this._BASE_URL}?limit=${limit}&sort=date&order=desc`
+    );
+  }
+
   async fetchOne(slug: string) {
     return axiosClassic.get<INews>(`${this._BASE_URL}/slug/${slug}`);
   }

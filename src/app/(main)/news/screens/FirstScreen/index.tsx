@@ -37,15 +37,15 @@ const FirstScreen: FC = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Fetch news from backend
+  // Fetch latest 5 news from backend
   const {
     data: news = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["news"],
+    queryKey: ["news", "latest", 5],
     queryFn: async () => {
-      const { data } = await newsService.fetchAll();
+      const { data } = await newsService.fetchLatest(5);
       return data;
     },
   });
@@ -62,7 +62,7 @@ const FirstScreen: FC = () => {
     projects: "Наши проекты",
   };
 
-  // Transform API data to match the expected format
+  // Transform API data to match the expected format (already limited to 5 latest items by backend)
   const newsItems: INewsItem[] = news.map((item: INews) => ({
     id: parseInt(item.id) || 0, // Fallback to 0 if parsing fails
     category: categoryMap[item.category] || item.category,
