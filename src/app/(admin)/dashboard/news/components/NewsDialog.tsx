@@ -20,8 +20,9 @@ import {
 import Image from "next/image";
 import { UPLOADS_URL } from "@/constants";
 import type { INews } from "@/shared/types/news.types";
-import React from "react";
+import React, { useState } from "react";
 import { NEWS_CATEGORIES } from "../news.config";
+import ImageCropperDialog from "@/components/ui/ImageCropperDialog";
 
 type NewsDialogProps = {
   isDialogOpen: boolean;
@@ -50,6 +51,20 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
   setFormData,
   handleSubmit,
 }) => {
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [cropperSrc, setCropperSrc] = useState<string>("");
+
+  const onUploadImage = async (file?: File | null) => {
+    if (!file) return;
+    setCropperSrc(URL.createObjectURL(file));
+    setCropperOpen(true);
+  };
+
+  const handleCroppedImage = async (croppedFile: File) => {
+    setFormData({ ...formData, image: croppedFile });
+    if (cropperSrc) URL.revokeObjectURL(cropperSrc);
+  };
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -170,9 +185,7 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
                 accept="image/*"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  if (file) {
-                    setFormData({ ...formData, image: file });
-                  }
+                  onUploadImage(file);
                 }}
               />
               {editingNews?.imageUrl && !formData.image && (
@@ -236,6 +249,17 @@ const NewsDialog: React.FC<NewsDialogProps> = ({
           </form>
         </div>
       </DialogContent>
+      <ImageCropperDialog
+        open={cropperOpen}
+        onOpenChange={setCropperOpen}
+        imageSrc={cropperSrc}
+        aspect={16 / 9}
+        outputWidth={1200}
+        outputHeight={675}
+        filename="news-image.jpg"
+        mimeType="image/jpeg"
+        onCropped={handleCroppedImage}
+      />
     </Dialog>
   );
 };
