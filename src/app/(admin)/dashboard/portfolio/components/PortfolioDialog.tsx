@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/shadcn/button";
 import {
   Dialog,
@@ -14,6 +15,7 @@ import { Switch } from "@/components/ui/shadcn/switch";
 import { Label } from "@/components/ui/shadcn/label";
 import { UPLOADS_URL } from "@/constants";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
+import ImageCropperDialog from "@/components/ui/ImageCropperDialog";
 
 interface FormData {
   name: string;
@@ -82,6 +84,64 @@ export default function PortfolioDialog({
   clearPreviewVideo,
   clearFullVideo,
 }: PortfolioDialogProps) {
+  // Состояния для кроппера
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [cropperSrc, setCropperSrc] = useState<string>("");
+  const [cropperType, setCropperType] = useState<
+    "poster" | "solution" | "review"
+  >("poster");
+  const [solutionImageIndex, setSolutionImageIndex] = useState<number>(0);
+
+  // Функции для кроппера
+  const openCropper = (
+    file: File,
+    type: "poster" | "solution" | "review",
+    index?: number
+  ) => {
+    setCropperSrc(URL.createObjectURL(file));
+    setCropperType(type);
+    if (type === "solution" && index !== undefined) {
+      setSolutionImageIndex(index);
+    }
+    setCropperOpen(true);
+  };
+
+  const handleCroppedImage = (croppedFile: File) => {
+    if (cropperType === "poster") {
+      setFormData({
+        ...formData,
+        poster: croppedFile,
+        clearPoster: false,
+      });
+    } else if (cropperType === "solution") {
+      const newSolutionImages = [...formData.solutionImages];
+      const newClearFlags = [...formData.clearSolutionImages];
+
+      // Если массив короче индекса, расширяем его
+      while (newSolutionImages.length <= solutionImageIndex) {
+        newSolutionImages.push(croppedFile);
+        newClearFlags.push(false);
+      }
+
+      newSolutionImages[solutionImageIndex] = croppedFile;
+      newClearFlags[solutionImageIndex] = false;
+
+      setFormData({
+        ...formData,
+        solutionImages: newSolutionImages,
+        clearSolutionImages: newClearFlags,
+      });
+    } else if (cropperType === "review") {
+      setFormData({
+        ...formData,
+        reviewImage: croppedFile,
+        clearReviewImage: false,
+      });
+    }
+
+    if (cropperSrc) URL.revokeObjectURL(cropperSrc);
+  };
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -226,13 +286,12 @@ export default function PortfolioDialog({
               <Input
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    poster: e.target.files?.[0],
-                    clearPoster: false,
-                  })
-                }
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    openCropper(file, "poster");
+                  }
+                }}
               />
               {(editingPortfolio?.poster || formData.poster) && (
                 <div className="mt-2 flex gap-2">
@@ -278,15 +337,17 @@ export default function PortfolioDialog({
               <Input
                 type="file"
                 accept="image/*"
-                multiple
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    solutionImages: Array.from(e.target.files || []),
-                    // Сбрасываем флаги удаления при загрузке новых файлов
-                    clearSolutionImages: [false, false],
-                  })
-                }
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    // Определяем индекс для нового изображения
+                    const nextIndex =
+                      formData.solutionImages.length < 2
+                        ? formData.solutionImages.length
+                        : 0;
+                    openCropper(file, "solution", nextIndex);
+                  }
+                }}
               />
               {(editingPortfolio?.solutionImages?.length ||
                 formData.solutionImages.length) > 0 && (
@@ -497,11 +558,7 @@ export default function PortfolioDialog({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        setFormData({
-                          ...formData,
-                          reviewImage: file,
-                          clearReviewImage: false,
-                        });
+                        openCropper(file, "review");
                       }
                     }}
                   />
@@ -560,6 +617,35 @@ export default function PortfolioDialog({
           </form>
         </div>
       </DialogContent>
+      <ImageCropperDialog
+        open={cropperOpen}
+        onOpenChange={setCropperOpen}
+        imageSrc={cropperSrc}
+        aspect={
+          cropperType === "poster"
+            ? 16 / 9
+            : cropperType === "solution"
+            ? 4 / 3
+            : 1
+        }
+        outputWidth={
+          cropperType === "poster"
+            ? 1600
+            : cropperType === "solution"
+            ? 800
+            : 400
+        }
+        outputHeight={
+          cropperType === "poster"
+            ? 900
+            : cropperType === "solution"
+            ? 600
+            : 400
+        }
+        filename={`portfolio-${cropperType}.jpg`}
+        mimeType="image/jpeg"
+        onCropped={handleCroppedImage}
+      />
     </Dialog>
   );
 }
