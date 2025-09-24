@@ -80,7 +80,7 @@ export default function ArticleContentSection({
               alt={news.alt || news.title}
               fill
               className="object-cover rounded-lg"
-              priority
+              priority={true}
             />
           </div>
         )}
