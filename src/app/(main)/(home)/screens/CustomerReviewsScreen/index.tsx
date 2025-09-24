@@ -9,12 +9,14 @@ import ReviewSlide from "./components/ReviewSlide";
 import ReviewPopup from "./components/ReviewPopup";
 import { useHomePageConfig } from "@/app/(admin)/dashboard/static/home/hooks/useHomePageConfig";
 import { UPLOADS_URL } from "@/constants";
+import { useLenis } from "lenis/react";
 
 import { useState } from "react";
 
 const CustomerReviewsScreen = () => {
   const [activeReview, setActiveReview] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const lenis = useLenis();
 
   const { config, loading } = useHomePageConfig();
   const reviewsData = config?.reviewsScreen;
@@ -31,6 +33,10 @@ const CustomerReviewsScreen = () => {
   const openReviewPopup = (index: number) => {
     setIsClosing(false);
     setActiveReview(index);
+    // Stop smooth scrolling when popup opens
+    if (lenis) {
+      lenis.stop();
+    }
   };
 
   const closeReviewPopup = () => {
@@ -39,6 +45,10 @@ const CustomerReviewsScreen = () => {
       setTimeout(() => {
         setActiveReview(null);
         setIsClosing(false);
+        // Resume smooth scrolling when popup closes
+        if (lenis) {
+          lenis.start();
+        }
       }, 300);
     }
   };

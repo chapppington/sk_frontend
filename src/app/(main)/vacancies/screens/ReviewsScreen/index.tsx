@@ -7,6 +7,7 @@ import CustomSlider from "@/components/CustomSlider";
 import BracketsText from "@/components/ui/BracketsText";
 import ReviewPopup from "./components/ReviewPopup";
 import ReviewItem from "./components/ReviewItem";
+import { useLenis } from "lenis/react";
 
 import { reviews as reviewsMock } from "./mock_data";
 import { useVacanciesPageConfigPublic } from "@/hooks/useVacanciesPageConfigPublic";
@@ -16,6 +17,7 @@ import { Review } from "./types";
 const ReviewsScreen: FC = () => {
   const [activeReview, setActiveReview] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const lenis = useLenis();
   const { config } = useVacanciesPageConfigPublic();
 
   const heading = config?.fifthScreen?.title || "Отзывы сотрудников";
@@ -39,6 +41,10 @@ const ReviewsScreen: FC = () => {
   const openReviewPopup = (index: number) => {
     setIsClosing(false);
     setActiveReview(index);
+    // Stop smooth scrolling when popup opens
+    if (lenis) {
+      lenis.stop();
+    }
   };
 
   const closeReviewPopup = () => {
@@ -48,6 +54,10 @@ const ReviewsScreen: FC = () => {
       setTimeout(() => {
         setActiveReview(null);
         setIsClosing(false);
+        // Resume smooth scrolling when popup closes
+        if (lenis) {
+          lenis.start();
+        }
       }, 300); // Match animation duration (0.3s)
     }
   };
