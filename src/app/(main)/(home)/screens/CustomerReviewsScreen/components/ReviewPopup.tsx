@@ -39,22 +39,24 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
 
-    // Minimum sizes for desktop
+    // Minimum sizes for different devices
     const minDesktopWidth = 700;
     const minDesktopHeight = 500;
+    const minMobileWidth = 350;
+    const minMobileHeight = 250;
 
     // Maximum percentages of screen
-    const maxWidthPercent = screenWidth >= 1024 ? 0.85 : 0.95; // 85% on desktop, 95% on mobile
+    const maxWidthPercent = screenWidth >= 1024 ? 0.85 : 0.98; // 85% on desktop, 98% on mobile
     const maxHeightPercent = screenWidth >= 1024 ? 0.85 : 0.95;
 
     // Calculate target dimensions
     let targetWidth = Math.max(
       imgSize.width,
-      screenWidth >= 1024 ? minDesktopWidth : 0
+      screenWidth >= 1024 ? minDesktopWidth : minMobileWidth
     );
     let targetHeight = Math.max(
       imgSize.height,
-      screenWidth >= 1024 ? minDesktopHeight : 0
+      screenWidth >= 1024 ? minDesktopHeight : minMobileHeight
     );
 
     // Constrain to screen size
@@ -75,14 +77,14 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
     return {
       maxWidth: "100%",
       maxHeight: "100%",
-      minWidth: screenWidth >= 1024 ? "600px" : "auto",
-      minHeight: screenWidth >= 1024 ? "400px" : "auto",
+      minWidth: screenWidth >= 1024 ? "600px" : "320px",
+      minHeight: screenWidth >= 1024 ? "400px" : "200px",
     };
   };
 
   return (
     <div
-      className={`fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-0 ${
+      className={`fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-1 sm:p-4 ${
         isClosing ? "animate-fadeOut" : "animate-fadeIn"
       }`}
     >
@@ -91,7 +93,7 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
         onClick={onClose}
       ></div>
       <div
-        className={`bg-blue-950 rounded-2xl p-2 sm:p-4 relative z-10 border border-white/20 flex flex-col items-center justify-center ${
+        className={`bg-blue-950 rounded-2xl p-1 sm:p-4 relative z-10 border border-white/20 flex flex-col items-center justify-center ${
           isClosing ? "animate-scaleOut" : "animate-scaleIn"
         }`}
         style={getPopupSize()}
