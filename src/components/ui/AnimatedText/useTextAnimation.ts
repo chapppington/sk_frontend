@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -6,6 +6,21 @@ import { useGSAP } from "@gsap/react";
 import { UseTextAnimationProps } from "./types";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
+
+// Function to wait for fonts to load
+const waitForFonts = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        // Add a small delay to ensure fonts are fully rendered
+        setTimeout(resolve, 50);
+      });
+    } else {
+      // Fallback for older browsers
+      setTimeout(resolve, 100);
+    }
+  });
+};
 
 export const useTextAnimation = ({
   animateOnScroll = true,
@@ -17,10 +32,18 @@ export const useTextAnimation = ({
   const elementRef = useRef<HTMLElement[]>([]);
   const splitRef = useRef<SplitText[]>([]);
   const lines = useRef<Element[]>([]);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  // Wait for fonts to load before initializing animations
+  useEffect(() => {
+    waitForFonts().then(() => {
+      setFontsLoaded(true);
+    });
+  }, []);
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !fontsLoaded) return;
 
       splitRef.current = [];
       elementRef.current = [];
@@ -92,7 +115,7 @@ export const useTextAnimation = ({
     },
     {
       scope: containerRef,
-      dependencies: [animateOnScroll, delay, triggerStart, debug],
+      dependencies: [animateOnScroll, delay, triggerStart, debug, fontsLoaded],
     }
   );
 
