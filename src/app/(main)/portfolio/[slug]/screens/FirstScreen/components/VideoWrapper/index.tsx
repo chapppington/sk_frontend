@@ -23,6 +23,7 @@ const MediaPreview: FC<IVideoWrapperProps> = ({
         alt="Preview"
         fill
         priority={true}
+        fetchPriority="high"
         className="w-full h-full object-cover"
       />
     );

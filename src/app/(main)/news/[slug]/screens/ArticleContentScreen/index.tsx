@@ -81,6 +81,7 @@ export default function ArticleContentSection({
               fill
               className="object-cover rounded-lg"
               priority={true}
+              fetchPriority="high"
             />
           </div>
         )}
