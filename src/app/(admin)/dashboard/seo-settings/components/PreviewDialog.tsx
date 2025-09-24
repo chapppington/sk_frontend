@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -105,9 +106,11 @@ export function PreviewDialog({
             <TabsContent value="og" className="space-y-4">
               <div className="border rounded-lg p-4 bg-background dark:bg-[#202124] border-[#e3e3e3] dark:border-[#333]">
                 {preview.og.image && (
-                  <img
+                  <Image
                     src={preview.og.image}
                     alt="OG Image"
+                    width={400}
+                    height={128}
                     className="w-full h-32 object-cover rounded mb-3"
                   />
                 )}

@@ -1,4 +1,5 @@
 import { FC, useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 interface ReviewPopupProps {
   image: string;
@@ -75,10 +76,12 @@ const ReviewPopup: FC<ReviewPopupProps> = ({ image, isClosing, onClose }) => {
             ></path>
           </svg>
         </button>
-        <img
+        <Image
           ref={imgRef}
           src={image}
           alt="Отзыв клиента"
+          width={imgSize?.width || 800}
+          height={imgSize?.height || 600}
           className="rounded-xl bg-white object-contain"
           style={{ maxWidth: "95vw", maxHeight: "95vh" }}
           onLoad={handleImageLoad}

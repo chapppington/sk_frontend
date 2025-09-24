@@ -1,4 +1,5 @@
 import IconRenderer from "@/shared/utils/iconRenderer";
+import Image from "next/image";
 
 interface ProductAdvantageProps {
   label: string;
@@ -32,10 +33,12 @@ export default function ProductAdvantage({
         <p className="text-gray-600">{description}</p>
 
         {image && (
-          <div className="mt-3">
-            <img
+          <div className="mt-3 relative">
+            <Image
               src={image}
               alt={label}
+              width={300}
+              height={200}
               className="w-full max-w-xs rounded-lg object-cover"
             />
           </div>

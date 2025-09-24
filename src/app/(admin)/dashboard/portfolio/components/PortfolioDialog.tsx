@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/shadcn/label";
 import { UPLOADS_URL } from "@/constants";
 import { IPortfolioItem } from "@/shared/types/portfolio.types";
 import ImageCropperDialog from "@/components/ui/ImageCropperDialog";
+import Image from "next/image";
 
 interface FormData {
   name: string;
@@ -299,9 +300,11 @@ export default function PortfolioDialog({
                     !formData.poster &&
                     !formData.clearPoster && (
                       <div className="relative group">
-                        <img
+                        <Image
                           src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.poster}`}
                           alt="Current poster"
+                          width={128}
+                          height={72}
                           className="w-32 aspect-[16/9] object-cover rounded"
                         />
                         <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
@@ -318,9 +321,11 @@ export default function PortfolioDialog({
                     )}
                   {formData.poster && (
                     <div className="relative">
-                      <img
+                      <Image
                         src={URL.createObjectURL(formData.poster)}
                         alt="New poster"
+                        width={128}
+                        height={72}
                         className="w-32 aspect-[16/9] object-cover rounded"
                       />
                       <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
@@ -357,9 +362,11 @@ export default function PortfolioDialog({
                       !formData.solutionImages[index] &&
                       !formData.clearSolutionImages[index] && (
                         <div key={image} className="relative group">
-                          <img
+                          <Image
                             src={`${UPLOADS_URL}/uploads/portfolio/${image}`}
                             alt={`Current solution image ${index + 1}`}
+                            width={128}
+                            height={72}
                             className="w-32 aspect-[16/9] object-cover rounded"
                           />
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
@@ -377,9 +384,11 @@ export default function PortfolioDialog({
                   )}
                   {formData.solutionImages.map((file, index) => (
                     <div key={index} className="relative">
-                      <img
+                      <Image
                         src={URL.createObjectURL(file)}
                         alt={`New solution image ${index + 1}`}
+                        width={128}
+                        height={72}
                         className="w-32 aspect-[16/9] object-cover rounded"
                       />
                       <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
@@ -569,9 +578,11 @@ export default function PortfolioDialog({
                       !formData.reviewImage &&
                       !formData.clearReviewImage && (
                         <div className="relative group">
-                          <img
+                          <Image
                             src={`${UPLOADS_URL}/uploads/portfolio/${editingPortfolio.reviewImage}`}
                             alt="Current review image"
+                            width={128}
+                            height={72}
                             className="w-32 aspect-[16/9] object-cover rounded"
                           />
                           <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
@@ -588,9 +599,11 @@ export default function PortfolioDialog({
                       )}
                     {formData.reviewImage && (
                       <div className="relative">
-                        <img
+                        <Image
                           src={URL.createObjectURL(formData.reviewImage)}
                           alt="New review image"
+                          width={128}
+                          height={72}
                           className="w-32 aspect-[16/9] object-cover rounded"
                         />
                         <span className="absolute top-1 left-1 bg-black/50 text-white text-xs px-1 rounded">

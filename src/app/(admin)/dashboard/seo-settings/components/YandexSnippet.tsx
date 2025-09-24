@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface YandexSnippetProps {
   title: string;
@@ -20,9 +21,11 @@ export function YandexSnippet({
       {/* Фавикон слева */}
       <div className="flex flex-col items-center min-w-[40px]">
         <div className="w-7 h-7 rounded bg-white flex items-center justify-center">
-          <img
+          <Image
             src="/favicon.ico"
             alt="favicon"
+            width={24}
+            height={24}
             className="w-6 h-6 object-contain rounded"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />

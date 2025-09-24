@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface GoogleSnippetProps {
   title: string;
@@ -20,9 +21,11 @@ export function GoogleSnippet({
       <div className="flex items-center gap-2 mb-1">
         {/* Favicon */}
         <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-[#e3e3e3] dark:border-[#333]">
-          <img
+          <Image
             src="/favicon.ico"
             alt="favicon"
+            width={32}
+            height={32}
             className="w-8 h-8 object-contain rounded-full"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />

@@ -17,12 +17,12 @@ import {
   useSidebar,
 } from "@/components/ui/shadcn/sidebar";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MiniLoader } from "@/components/ui/MiniLoader";
 import { Button } from "@/components/ui/shadcn/button";
 import authService from "@/services/auth/auth.service";
-import sitemapService from "@/services/sitemap.service";
 import { useToast } from "@/hooks/use-toast";
 import {
   Home,
@@ -115,9 +115,11 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center justify-start h-16 px-2 gap-3">
-          <img
+          <Image
             src={isDark ? "/светлый.svg" : "/цвет.svg"}
             alt="Логотип"
+            width={32}
+            height={32}
             className="h-8"
           />
           <div className="flex flex-col">

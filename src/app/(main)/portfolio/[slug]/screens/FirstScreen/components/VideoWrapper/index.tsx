@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, FC } from "react";
+import Image from "next/image";
 
 interface IVideoWrapperProps {
   src: string;
@@ -17,7 +18,12 @@ const MediaPreview: FC<IVideoWrapperProps> = ({
 
   if (onlyShowPoster && poster) {
     return (
-      <img src={poster} alt="Preview" className="w-full h-full object-cover" />
+      <Image
+        src={poster}
+        alt="Preview"
+        fill
+        className="w-full h-full object-cover"
+      />
     );
   }
 
