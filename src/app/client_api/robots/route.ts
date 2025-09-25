@@ -3,7 +3,7 @@ import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 // Base URL for the site
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://testsk2.ru";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sibkomplekt.ru";
 
 // Default robots.txt content
 const getDefaultRobotsContent = (): string => {

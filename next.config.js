@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "testsk2.ru",
+        hostname: "sibkomplekt.ru",
       },
       {
         protocol: "https",
@@ -21,7 +21,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "api.testsk2.ru",
+        hostname: "api.sibkomplekt.ru",
       },
     ],
   },
@@ -31,7 +31,7 @@ const nextConfig = {
   //       source: "/:path*",
   //       headers: [
   //         { key: "Access-Control-Allow-Credentials", value: "true" },
-  //         { key: "Access-Control-Allow-Origin", value: "https://testsk2.ru" },
+  //         { key: "Access-Control-Allow-Origin", value: "https://sibkomplekt.ru" },
   //         {
   //           key: "Access-Control-Allow-Methods",
   //           value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
@@ -49,7 +49,7 @@ const nextConfig = {
   //   return [
   //     {
   //       source: "/:path*",
-  //       destination: "http://testsk2.ru/:path*",
+  //       destination: "http://sibkomplekt.ru/:path*",
   //     },
   //   ];
   // },

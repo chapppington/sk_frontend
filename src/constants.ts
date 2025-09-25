@@ -1,3 +1,3 @@
-export const BACKEND_MAIN = "https://testsk2.ru/api";
+export const BACKEND_MAIN = "https://sibkomplekt.ru/api";
 export const API_URL = `${BACKEND_MAIN}`;
-export const UPLOADS_URL = `https://testsk2.ru/`;
+export const UPLOADS_URL = `https://sibkomplekt.ru/`;
