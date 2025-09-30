@@ -255,6 +255,7 @@ const FirstScreen: FC = () => {
               <TransitionLink
                 href={`/news/${currentNews.slug}`}
                 className="block hover:opacity-90 transition-opacity"
+                aria-label={`Читать новость: ${currentNews.title}`}
               >
                 <div className="mb-4">
                   <AnimatedText

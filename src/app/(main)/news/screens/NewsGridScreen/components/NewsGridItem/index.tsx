@@ -30,7 +30,11 @@ const NewsGridItem: FC<NewsGridItemProps> = ({
       className="group relative overflow-hidden rounded-lg p-1 transition-all duration-300"
       style={{ opacity: 0 }}
     >
-      <TransitionLink href={`/news/${slug}`} className="block">
+      <TransitionLink
+        href={`/news/${slug}`}
+        className="block"
+        aria-label={`Читать новость: ${title}`}
+      >
         <div className="relative w-full h-56 mb-4 overflow-hidden rounded-lg aspect-[4/3]">
           <Image
             src={image}
