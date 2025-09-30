@@ -18,9 +18,9 @@ const ProductCard: FC<ProductCardProps> = ({ id, slug, title, image, alt }) => {
           />
         </div>
         <div className="space-y-4">
-          <h3 className="text-white text-lg transition-colors duration-300 group-hover:text-white/80">
+          <h2 className="text-white text-lg transition-colors duration-300 group-hover:text-white/80">
             {title}
-          </h3>
+          </h2>
           <CircleIconButton text="Подробнее" />
         </div>
       </TransitionLink>
