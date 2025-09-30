@@ -75,6 +75,38 @@ export const useTextAnimation = ({
 
         splitRef.current.push(split);
 
+        // Remove any aria-label attributes from non-interactive elements to fix accessibility
+        const nonInteractiveTags = [
+          "p",
+          "span",
+          "div",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+        ];
+
+        if (nonInteractiveTags.includes(element.tagName.toLowerCase())) {
+          element.removeAttribute("aria-label");
+        }
+
+        // Also remove aria-label from any child elements created by SplitText
+        split.lines.forEach((line: Element) => {
+          if (nonInteractiveTags.includes(line.tagName.toLowerCase())) {
+            line.removeAttribute("aria-label");
+          }
+
+          // Remove aria-label from any nested elements within lines
+          const nestedElements = line.querySelectorAll(
+            "p, span, div, h1, h2, h3, h4, h5, h6"
+          );
+          nestedElements.forEach((nested: Element) => {
+            nested.removeAttribute("aria-label");
+          });
+        });
+
         const computedStyle = window.getComputedStyle(element);
         const textIndent = computedStyle.textIndent;
 
