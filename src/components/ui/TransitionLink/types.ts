@@ -7,4 +7,5 @@ export interface ITransitionLinkProps {
   onClick?: (e: MouseEvent) => void;
   style?: CSSProperties;
   ref?: Ref<HTMLAnchorElement>;
+  "aria-label"?: string;
 }

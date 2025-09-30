@@ -14,6 +14,7 @@ const TransitionLink: FC<ITransitionLinkProps> = ({
   onClick,
   style,
   ref,
+  "aria-label": ariaLabel,
 }) => {
   const router = useTransitionRouter();
   const { animateIn, animateOut, isAnimating } = usePageTransition();
@@ -66,6 +67,7 @@ const TransitionLink: FC<ITransitionLinkProps> = ({
       }`}
       onClick={handleClick}
       style={style}
+      aria-label={ariaLabel}
     >
       {children}
     </Link>
