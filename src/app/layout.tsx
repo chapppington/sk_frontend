@@ -12,14 +12,6 @@ export const metadata: Metadata = {
     shortcut: "/цвет.svg",
     apple: "/цвет.svg",
   },
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-    noarchive: true,
-    nosnippet: true,
-    noimageindex: true,
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
