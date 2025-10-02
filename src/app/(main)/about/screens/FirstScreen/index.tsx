@@ -122,8 +122,8 @@ const FirstScreen: FC = () => {
         <VideoPopup
           isOpen={isVideoOpen}
           onClose={() => setVideoOpen(false)}
-          videoSrc="https://rutube.ru/play/embed/d6f8f15c577b6d27fa7429dbf9e82ddd"
-          posterSrc={""}
+          videoSrc="/videos/about.mp4"
+          posterSrc=""
         />
       </div>
     </header>
