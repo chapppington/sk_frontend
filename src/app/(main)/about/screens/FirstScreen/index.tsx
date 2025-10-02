@@ -1,6 +1,5 @@
 "use client";
 
-import { Parallax } from "react-parallax";
 import { FC, useState } from "react";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -8,6 +7,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import BlackBoxWithStats from "@/components/ui/BlackBoxWithStats";
 import GradientHeading from "@/components/ui/GradientHeading";
 import styles from "@/components/ui/GradientHeading/styles.module.css";
+import ParallaxImage from "@/components/ui/ParallaxImage";
 import useIsMobile from "@/hooks/useIsMobile";
 import MainButton from "@/components/ui/MainButton";
 import VideoPopup from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoPopup";
@@ -18,30 +18,20 @@ const FirstScreen: FC = () => {
 
   return (
     <header className="relative min-h-screen overflow-y-hidden">
-      {isMobile ? (
-        <div
-          className="absolute inset-0 z-0 select-none pointer-events-none"
-          style={{
-            backgroundImage: 'url("/about.png")',
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+      <div className="absolute inset-0 z-0 select-none pointer-events-none">
+        <ParallaxImage
+          src="/about.png"
+          alt="About background"
+          priority
+          isMobile={isMobile}
+          className="brightness-75"
         />
-      ) : (
-        <div className="absolute inset-0 z-0 select-none pointer-events-none">
-          <Parallax
-            bgImage="/about.png"
-            strength={200}
-            className="w-full h-full brightness-50"
-          />
-        </div>
-      )}
+      </div>
       <div className="absolute inset-0 z-[1]">
         {/* Base Overlay */}
         <div className="overlay-base absolute inset-0 bg-black/90"></div>
         {/* Gradient Overlay */}
         <div className="overlay-gradient absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black/40"></div>
-        
       </div>
       <div className="relative z-[3]">
         <Breadcrumbs
