@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ITeamMemberCardProps } from "@/app/(main)/about/screens/TeamScreen/types";
+import { UPLOADS_URL } from "@/constants";
 
 export const TeamMemberCard = ({
   name,
@@ -14,7 +15,7 @@ export const TeamMemberCard = ({
           "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
       }}
     >
-      <Image src={image} alt={name} fill className="object-cover" />
+      <Image src={`${UPLOADS_URL}${image}`} alt={name} fill className="object-cover" />
     </div>
     <div className="text-white text-2xl md:text-2xl font-normal mt-2 mb-1">
       {name}
