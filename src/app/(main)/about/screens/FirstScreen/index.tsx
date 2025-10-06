@@ -97,9 +97,10 @@ const FirstScreen: FC = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <MainButton
                     text={config.firstScreen.button_text}
-                    href={config.firstScreen.button_href}
+                    onClick={() => setVideoOpen(true)}
                     size="sm"
                     className="w-fit"
+                    disableRedirect
                   />
                 </div>
               </div>
@@ -107,8 +108,9 @@ const FirstScreen: FC = () => {
                 <div className="flex gap-4 mt-4">
                   <MainButton
                     text={config.firstScreen.button_text}
-                    href={config.firstScreen.button_href}
+                    onClick={() => setVideoOpen(true)}
                     className="w-fit"
+                    disableRedirect
                   />
                 </div>
               </div>
