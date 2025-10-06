@@ -1,7 +1,5 @@
 "use client";
 
-import { PagesConfig } from "@/config/pages.config";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,26 +11,45 @@ import GradientHeading from "@/components/ui/GradientHeading";
 import MainButton from "@/components/ui/MainButton";
 import { NavigationButton } from "@/components/ui/NavigationButton";
 
-import { teamMembers } from "./mock_data";
 import { TeamMemberCard } from "@/app/(main)/about/screens/TeamScreen/components/TeamMemberCard";
+import { useAboutPageConfigPublic } from "@/hooks/useAboutPageConfigPublic";
 
 export default function TeamScreen() {
+  const { config, loading } = useAboutPageConfigPublic();
+
+  if (loading || !config) {
+    return (
+      <section className="py-20">
+        <CustomContainer>
+          <div className="text-white text-center">Загрузка...</div>
+        </CustomContainer>
+      </section>
+    );
+  }
+
+  const teamMembers = config.teamScreen.team_members.sort((a, b) => a.order - b.order);
+
   return (
     <section className="py-20">
       <CustomContainer>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16 items-start">
           {/* Left column: BracketsText */}
           <div className="md:col-span-1 flex md:block justify-start md:justify-end mb-6 md:mb-0">
-            <BracketsText className="md:mt-2">FAQ</BracketsText>
+            <BracketsText className="md:mt-2">{config.teamScreen.brackets_text}</BracketsText>
           </div>
 
           {/* Right column: Main content */}
           <div className="md:col-span-4 flex flex-col gap-8 ">
             <GradientHeading className="leading-tight text-4xl md:text-6xl">
-              Сложно сказать, почему постоянный количественный рост{" "}
-              <span className="text-white/60">
-                связывает нас с нашим прошлым
-              </span>
+              {config.teamScreen.title.split(' ').map((word, index, array) => {
+                // Показываем последние слова с пониженной прозрачностью
+                const isLastPart = index >= Math.floor(array.length * 0.6);
+                return (
+                  <span key={index} className={isLastPart ? "text-white/60" : ""}>
+                    {word}{index < array.length - 1 ? " " : ""}
+                  </span>
+                );
+              })}
             </GradientHeading>
 
             {/* Swiper Slider */}
@@ -40,10 +57,7 @@ export default function TeamScreen() {
               {/* Description and Buttons Row */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                 <p className="text-white/60 max-w-2xl">
-                  В своём стремлении улучшить пользовательский опыт мы упускаем,
-                  что предприниматели в сети интернет лишь добавляют фракционных
-                  разногласий и представлены в исключительно положительном
-                  свете.
+                  {config.teamScreen.description}
                 </p>
                 <div className="flex items-center space-x-3">
                   <NavigationButton
@@ -88,11 +102,11 @@ export default function TeamScreen() {
             {/* Call to Action */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mt-6 border-t border-white/20 pt-4">
               <div className="text-white text-xl md:text-2xl font-light">
-                Хотите к нам в команду?
+                {config.teamScreen.cta_text}
               </div>
               <MainButton
-                text="Смотреть вакансии"
-                href={PagesConfig.vacancies.href}
+                text={config.teamScreen.cta_button_text}
+                href={config.teamScreen.cta_button_href}
               />
             </div>
           </div>

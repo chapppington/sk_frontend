@@ -11,16 +11,30 @@ import ParallaxImage from "@/components/ui/ParallaxImage";
 import useIsMobile from "@/hooks/useIsMobile";
 import MainButton from "@/components/ui/MainButton";
 import VideoPopup from "@/app/(main)/portfolio/[slug]/screens/FirstScreen/components/VideoPopup";
+import { useAboutPageConfigPublic } from "@/hooks/useAboutPageConfigPublic";
+import { UPLOADS_URL } from "@/constants";
 
 const FirstScreen: FC = () => {
   const [isVideoOpen, setVideoOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { config, loading } = useAboutPageConfigPublic();
+
+  if (loading || !config) {
+    return (
+      <header className="relative min-h-screen overflow-y-hidden">
+        <div className="absolute inset-0 z-0 select-none pointer-events-none bg-black"></div>
+        <div className="relative z-[3] flex items-center justify-center min-h-screen">
+          <div className="text-white">Загрузка...</div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="relative min-h-screen overflow-y-hidden">
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <ParallaxImage
-          src="/about.png"
+          src={config.firstScreen.bg_image ? `${UPLOADS_URL}${config.firstScreen.bg_image}` : "/about.png"}
           alt="About background"
           priority
           isMobile={isMobile}
@@ -50,8 +64,12 @@ const FirstScreen: FC = () => {
             className={`${styles.fluidHeadingMain} z-10 pt-8 sm:pt-12 md:pt-16`}
             level={1}
           >
-            О компании
-            <br />и нашей команде
+            {config.firstScreen.title.split('\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                {index < config.firstScreen.title.split('\n').length - 1 && <br />}
+              </span>
+            ))}
           </GradientHeading>
           {/* Bottom Content */}
           <div className="flex z-10">
@@ -73,28 +91,24 @@ const FirstScreen: FC = () => {
                 </svg>
               </div>
               <p className="text-sm md:text-md laptop:text-lg text-white/70 lg:max-w-[400px] 2xl:max-w-[600px]">
-                Превращаем амбициозные идеи в эффективные решения по всей России
-                и Дальнему Востоку. Наша команда экспертов создаёт проекты, где
-                инновации и надёжность работают на ваш успех
+                {config.firstScreen.subtitle}
               </p>
               <div className="block md:hidden">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <MainButton
-                    text="Смотреть видео о компании"
-                    onClick={() => setVideoOpen(true)}
+                    text={config.firstScreen.button_text}
+                    href={config.firstScreen.button_href}
                     size="sm"
                     className="w-fit"
-                    disableRedirect
                   />
                 </div>
               </div>
               <div className="hidden md:block">
                 <div className="flex gap-4 mt-4">
                   <MainButton
-                    text="Смотреть видео о компании"
-                    onClick={() => setVideoOpen(true)}
+                    text={config.firstScreen.button_text}
+                    href={config.firstScreen.button_href}
                     className="w-fit"
-                    disableRedirect
                   />
                 </div>
               </div>
@@ -104,20 +118,11 @@ const FirstScreen: FC = () => {
         <BlackBoxWithStats
           transparent={true}
           className="z-[5]"
-          stats={[
-            {
-              value: "90+",
-              description: "сотрудников в штате",
-            },
-            {
-              value: "12",
-              description: "подразделений",
-            },
-            {
-              value: "12+",
-              description: "опытных инженеров в техническом отделе",
-            },
-          ]}
+          stats={config.firstScreen.stats.map(stat => ({
+            value: stat.value,
+            description: stat.description,
+            showOnMobile: stat.showOnMobile,
+          }))}
         />
         <VideoPopup
           isOpen={isVideoOpen}
