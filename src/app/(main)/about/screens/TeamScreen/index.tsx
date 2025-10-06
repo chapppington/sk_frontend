@@ -56,10 +56,11 @@ export default function TeamScreen() {
             <div className="relative">
               {/* Description and Buttons Row */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                <p className="text-white/60 max-w-2xl">
+                <p className="text-white/60 max-w-2xl mb-4 md:mb-0">
                   {config.teamScreen.description}
                 </p>
-                <div className="flex items-center space-x-3">
+                {/* Кнопки навигации - скрыты на мобильных, показаны на десктопе */}
+                <div className="hidden md:flex items-center space-x-3">
                   <NavigationButton
                     direction="prev"
                     sliderId="team"
@@ -87,7 +88,7 @@ export default function TeamScreen() {
                   1400: { slidesPerView: 4 },
                 }}
                 loop={true}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                autoplay={false}
                 touchMoveStopPropagation={true}
                 className="mt-12"
               >
@@ -97,6 +98,20 @@ export default function TeamScreen() {
                   </SwiperSlide>
                 ))}
               </Swiper>
+              
+              {/* Кнопки навигации под слайдером - показаны только на мобильных */}
+              <div className="flex md:hidden items-center justify-center space-x-3 mt-6">
+                <NavigationButton
+                  direction="prev"
+                  sliderId="team"
+                  className="slider-prev-team"
+                />
+                <NavigationButton
+                  direction="next"
+                  sliderId="team"
+                  className="slider-next-team"
+                />
+              </div>
             </div>
 
             {/* Call to Action */}
