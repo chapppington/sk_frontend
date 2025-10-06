@@ -40,7 +40,7 @@ export default function TeamScreen() {
 
           {/* Right column: Main content */}
           <div className="md:col-span-4 flex flex-col gap-8 ">
-            <GradientHeading className="leading-tight text-4xl md:text-6xl">
+            <GradientHeading className="leading-tight text-4xl md:text-5xl">
               {config.teamScreen.title.split(' ').map((word, index, array) => {
                 // Показываем последние слова с пониженной прозрачностью
                 const isLastPart = index >= Math.floor(array.length * 0.6);
