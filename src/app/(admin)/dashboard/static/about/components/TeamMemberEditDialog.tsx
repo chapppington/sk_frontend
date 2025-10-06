@@ -184,8 +184,8 @@ export default function TeamMemberEditDialog({
         onOpenChange={setCropperOpen}
         imageSrc={cropperSrc}
         aspect={1}
-        outputWidth={300}
-        outputHeight={300}
+        outputWidth={500}
+        outputHeight={500}
         filename="team-member-photo.jpg"
         mimeType="image/jpeg"
         onCropped={handleCropped}
