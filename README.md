@@ -558,31 +558,3 @@ mkdir src/components/ui/NewComponent
 touch src/components/ui/NewComponent/index.tsx
 touch src/components/ui/NewComponent/types.ts
 ```
-
-## 📊 Мониторинг производительности
-
-### Web Vitals
-- **LCP** (Largest Contentful Paint) < 2.5s
-- **FID** (First Input Delay) < 100ms
-- **CLS** (Cumulative Layout Shift) < 0.1
-
-### Lighthouse Score
-- Performance: 90+
-- Accessibility: 95+
-- Best Practices: 90+
-- SEO: 95+
-
-## 📄 Лицензия
-
-Этот проект является частной разработкой для компании СибКомплект.
-
-## 📞 Поддержка
-
-При возникновении вопросов обращайтесь к команде разработки или создавайте issue в репозитории.
-
----
-
-**Версия**: 0.1.0  
-**Node.js**: 18+  
-**Next.js**: 15.3.1  
-**React**: 19.1.0
