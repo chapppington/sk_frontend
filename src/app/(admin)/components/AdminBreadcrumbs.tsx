@@ -21,6 +21,7 @@ const RUSSIAN_LABELS: Record<string, string> = {
   certificates: "Сертификаты",
   navbar_config: "Верхнее меню",
   "footer-config": "Нижнее меню",
+  submissions: "Заявки",
 };
 
 function toTitleCase(str: string) {

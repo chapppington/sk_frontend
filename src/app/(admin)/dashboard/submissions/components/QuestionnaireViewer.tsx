@@ -180,11 +180,6 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
               <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 leading-tight flex-1">
                 {getQuestionTitle(questionId)}
               </h4>
-              {question?.type && (
-                <Badge variant="outline" className="ml-2 text-xs">
-                  {question.type}
-                </Badge>
-              )}
             </div>
 
             <div className="text-sm">{formatValue(questionId, value)}</div>
