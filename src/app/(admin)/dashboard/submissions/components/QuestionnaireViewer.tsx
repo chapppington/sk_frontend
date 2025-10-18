@@ -58,7 +58,7 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
       (Array.isArray(value) && value.length === 0)
     ) {
       return (
-        <div className="text-gray-400 italic text-sm">Не заполнено</div>
+        <div className="text-gray-400 dark:text-gray-500 italic text-sm">Не заполнено</div>
       );
     }
 
@@ -70,10 +70,10 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
             {Object.entries(value as Record<string, any>).map(([key, val]) => (
               <div
                 key={key}
-                className="flex justify-between items-center py-2 px-3 bg-blue-50 rounded border border-blue-100"
+                className="flex justify-between items-center py-2 px-3 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-100 dark:border-blue-800"
               >
-                <span className="font-medium text-blue-800">{key}:</span>
-                <span className="text-blue-900 font-semibold">{val}</span>
+                <span className="font-medium text-blue-800 dark:text-blue-300">{key}:</span>
+                <span className="text-blue-900 dark:text-blue-200 font-semibold">{val}</span>
               </div>
             ))}
           </div>
@@ -81,7 +81,7 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
       }
 
       return (
-        <pre className="text-xs bg-gray-50 p-3 rounded border overflow-x-auto whitespace-pre-wrap">
+        <pre className="text-xs bg-gray-50 dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-pre-wrap text-gray-900 dark:text-gray-100">
           {JSON.stringify(value, null, 2)}
         </pre>
       );
@@ -106,8 +106,8 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
     // Для текстовых ответов
     if (question?.type === "text" || typeof value === "string") {
       return (
-        <div className="bg-gray-50 p-3 rounded border">
-          <div className="text-gray-900 whitespace-pre-wrap">
+        <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700">
+          <div className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
             {getAnswerLabel(questionId, value)}
           </div>
         </div>
@@ -116,7 +116,7 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
 
     // Для чисел и остальных типов
     return (
-      <div className="font-medium text-gray-900">
+      <div className="font-medium text-gray-900 dark:text-gray-100">
         {getAnswerLabel(questionId, value)}
       </div>
     );
@@ -144,16 +144,16 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
         return (
           <div
             key={questionId}
-            className="flex items-start gap-3 py-2 px-3 hover:bg-gray-50 rounded transition-colors"
+            className="flex items-start gap-3 py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded transition-colors"
           >
-            <div className="text-xs font-semibold text-gray-500 min-w-[30px]">
+            <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 min-w-[30px]">
               {questionId.padStart(2, '0')}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm text-gray-600 mb-1">
+              <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                 {question?.title?.replace(/^\d+\s*·\s*/, '') || `Вопрос ${questionId}`}
               </div>
-              <div className="text-sm font-medium text-gray-900">
+              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {getAnswerLabel(questionId, value)}
               </div>
             </div>
@@ -174,10 +174,10 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
         return (
           <div
             key={questionId}
-            className="border border-gray-200 rounded-lg p-4 bg-white hover:shadow-sm transition-shadow"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 hover:shadow-sm transition-shadow"
           >
             <div className="flex items-start justify-between mb-3">
-              <h4 className="text-sm font-semibold text-gray-800 leading-tight flex-1">
+              <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 leading-tight flex-1">
                 {getQuestionTitle(questionId)}
               </h4>
               {question?.type && (
@@ -191,10 +191,10 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
 
             {question?.popoverContent && (
               <details className="mt-3">
-                <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
+                <summary className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
                   📖 Подробное описание
                 </summary>
-                <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-3 rounded border">
+                <div className="mt-2 text-xs text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700">
                   {question.popoverContent}
                 </div>
               </details>
@@ -207,17 +207,17 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b">
+      <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-3">
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+          <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
             Опросный лист
           </Badge>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
             {filledAnswers.length} {filledAnswers.length === 1 ? 'ответ' : filledAnswers.length < 5 ? 'ответа' : 'ответов'}
           </span>
         </div>
         
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+        <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
           <Button
             variant={viewMode === "compact" ? "default" : "ghost"}
             size="sm"

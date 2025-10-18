@@ -50,7 +50,7 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
             {/* Основная информация */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-500">
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   Тип формы
                 </label>
                 <div className="mt-1">
@@ -61,10 +61,10 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-500">
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   Дата создания
                 </label>
-                <p className="mt-1">
+                <p className="mt-1 text-gray-900 dark:text-gray-100">
                   {new Date(submission.createdAt).toLocaleDateString("ru-RU", {
                     day: "2-digit",
                     month: "2-digit",
@@ -78,28 +78,28 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
 
             {/* Контактные данные */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Контактные данные</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Контактные данные</h3>
 
               <div>
-                <label className="text-sm font-medium text-gray-500">Имя</label>
-                <p className="mt-1 font-medium">{submission.name}</p>
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Имя</label>
+                <p className="mt-1 font-medium text-gray-900 dark:text-gray-100">{submission.name}</p>
               </div>
 
               {submission.email && (
                 <div>
-                  <label className="text-sm font-medium text-gray-500">
+                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Email
                   </label>
-                  <p className="mt-1">{submission.email}</p>
+                  <p className="mt-1 text-gray-900 dark:text-gray-100">{submission.email}</p>
                 </div>
               )}
 
               {submission.phone && (
                 <div>
-                  <label className="text-sm font-medium text-gray-500">
+                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Телефон
                   </label>
-                  <p className="mt-1">{submission.phone}</p>
+                  <p className="mt-1 text-gray-900 dark:text-gray-100">{submission.phone}</p>
                 </div>
               )}
             </div>
@@ -107,10 +107,10 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
             {/* Комментарии */}
             {submission.comments && (
               <div>
-                <label className="text-sm font-medium text-gray-500">
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   Комментарии
                 </label>
-                <p className="mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
+                <p className="mt-1 p-3 bg-gray-50 dark:bg-gray-800 rounded-md whitespace-pre-wrap text-gray-900 dark:text-gray-100">
                   {submission.comments}
                 </p>
               </div>
@@ -119,18 +119,18 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
             {/* Файлы */}
             {submission.files && submission.files.length > 0 && (
               <div>
-                <label className="text-sm font-medium text-gray-500">
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   Прикрепленные файлы
                 </label>
                 <div className="mt-2 space-y-2">
                   {submission.files.map((fileName, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 border rounded-md"
+                      className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800"
                     >
                       <div className="flex items-center">
-                        <FileText className="h-5 w-5 text-gray-500 mr-2" />
-                        <span className="text-sm">Файл {index + 1}</span>
+                        <FileText className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
+                        <span className="text-sm text-gray-900 dark:text-gray-100">Файл {index + 1}</span>
                       </div>
                       <Button
                         variant="outline"
@@ -148,7 +148,7 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
 
             {/* Согласие */}
             <div>
-              <label className="text-sm font-medium text-gray-500">
+              <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Согласие на обработку данных
               </label>
               <div className="mt-1">
@@ -176,7 +176,7 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
 
               return (
                 <div>
-                  <label className="text-sm font-medium text-gray-500 mb-3 block">
+                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3 block">
                     Данные опросного листа
                   </label>
                   <QuestionnaireViewer
@@ -192,10 +192,10 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
                 (key) => key !== "questionnaireData"
               ) && (
                 <div>
-                  <label className="text-sm font-medium text-gray-500">
+                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Дополнительные данные
                   </label>
-                  <pre className="mt-1 p-3 bg-gray-50 rounded-md text-xs overflow-x-auto">
+                  <pre className="mt-1 p-3 bg-gray-50 dark:bg-gray-800 rounded-md text-xs overflow-x-auto text-gray-900 dark:text-gray-100">
                     {JSON.stringify(
                       Object.fromEntries(
                         Object.entries(submission.meta).filter(
