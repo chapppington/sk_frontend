@@ -160,25 +160,16 @@ const SubmissionViewDialog: React.FC<SubmissionViewDialogProps> = ({
 
             {/* Данные опросника */}
             {(() => {
-              console.log("📦 Full submission.meta:", submission.meta);
-              console.log("📦 submission.meta type:", typeof submission.meta);
-              console.log("📦 submission.meta keys:", submission.meta ? Object.keys(submission.meta).slice(0, 20) : 'null');
-              
-              // Берём опросник из meta.questionnaireData если есть, иначе пытаемся взять сам meta (случай с "0":"{"...)
+              // Берём опросник из meta.questionnaireData если есть, иначе пытаемся взять сам meta
               const hasQuestionnaireData = submission.meta && Object.prototype.hasOwnProperty.call(
                 submission.meta,
                 "questionnaireData"
               );
               
-              console.log("📦 Has questionnaireData property:", hasQuestionnaireData);
-              
               const rawQData = (submission.meta &&
                 (hasQuestionnaireData
                   ? (submission.meta as any).questionnaireData
                   : submission.meta)) as unknown;
-
-              console.log("📦 rawQData extracted:", rawQData);
-              console.log("📦 rawQData type:", typeof rawQData);
 
               // Рендерим, только если что-то есть
               if (!rawQData) return null;
