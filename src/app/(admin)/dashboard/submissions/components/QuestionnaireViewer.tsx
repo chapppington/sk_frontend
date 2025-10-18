@@ -38,18 +38,35 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
     Object.keys(parsedData).every((key) => !isNaN(Number(key)))
   ) {
     try {
+      console.log("Detected broken data, reconstructing...");
       const reconstructed = Object.values(parsedData).join("");
+      console.log("Reconstructed string:", reconstructed.substring(0, 100));
+      
       const parsed = JSON.parse(reconstructed);
+      console.log("Parsed data:", parsed);
+      
       // Если строка содержала объект-обертку { questionnaireData: {...} }
-      parsedData =
-        parsed &&
-        typeof parsed === "object" &&
-        (parsed as any).questionnaireData
-          ? ((parsed as any).questionnaireData as Record<string, unknown>)
-          : (parsed as Record<string, unknown>);
+      if (parsed && typeof parsed === "object" && (parsed as any).questionnaireData) {
+        parsedData = (parsed as any).questionnaireData as Record<string, unknown>;
+        console.log("Extracted questionnaireData:", parsedData);
+      } else {
+        parsedData = parsed as Record<string, unknown>;
+        console.log("Using parsed data directly:", parsedData);
+      }
     } catch (e) {
       console.error("Failed to reconstruct questionnaire data:", e);
-      return <div>Ошибка восстановления данных опросника</div>;
+      console.error("parsedData was:", parsedData);
+      return (
+        <div className="text-red-600">
+          <p>Ошибка восстановления данных опросника</p>
+          <details className="text-xs mt-2">
+            <summary className="cursor-pointer">Показать детали ошибки</summary>
+            <pre className="mt-2 p-2 bg-gray-100 rounded overflow-x-auto">
+              {e instanceof Error ? e.message : String(e)}
+            </pre>
+          </details>
+        </div>
+      );
     }
   }
   const getQuestionTitle = (questionId: string) => {
