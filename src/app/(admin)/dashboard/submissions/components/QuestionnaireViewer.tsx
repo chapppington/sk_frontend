@@ -9,11 +9,15 @@ type QuestionnaireViewerProps = {
 const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   questionnaireData,
 }) => {
+  console.log("🔍 QuestionnaireViewer received data:", questionnaireData);
+  console.log("🔍 Type:", typeof questionnaireData);
+  
   // Если данные пришли как строка, парсим их
   let parsedData = questionnaireData;
   if (typeof questionnaireData === "string") {
     try {
       parsedData = JSON.parse(questionnaireData);
+      console.log("✅ Parsed from string:", parsedData);
       // Если после парсинга данные обернуты в { questionnaireData: {...} }
       if (
         typeof parsedData === "object" &&
@@ -24,9 +28,10 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
           string,
           unknown
         >;
+        console.log("✅ Extracted questionnaireData from wrapper:", parsedData);
       }
     } catch (e) {
-      console.error("Failed to parse questionnaire data:", e);
+      console.error("❌ Failed to parse questionnaire data:", e);
       return <div>Ошибка парсинга данных опросника</div>;
     }
   }
@@ -35,35 +40,57 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   if (
     typeof parsedData === "object" &&
     parsedData !== null &&
+    Object.keys(parsedData).length > 0 &&
     Object.keys(parsedData).every((key) => !isNaN(Number(key)))
   ) {
     try {
-      console.log("Detected broken data, reconstructing...");
+      console.log("🔧 Detected broken data (char array), reconstructing...");
+      console.log("🔧 Keys sample:", Object.keys(parsedData).slice(0, 10));
+      console.log("🔧 Values sample:", Object.values(parsedData).slice(0, 20));
+      
       const reconstructed = Object.values(parsedData).join("");
-      console.log("Reconstructed string:", reconstructed.substring(0, 100));
+      console.log("🔧 Reconstructed string length:", reconstructed.length);
+      console.log("🔧 Reconstructed string (first 200 chars):", reconstructed.substring(0, 200));
+      console.log("🔧 Reconstructed string (last 200 chars):", reconstructed.substring(reconstructed.length - 200));
       
       const parsed = JSON.parse(reconstructed);
-      console.log("Parsed data:", parsed);
+      console.log("✅ Successfully parsed reconstructed string:", parsed);
       
       // Если строка содержала объект-обертку { questionnaireData: {...} }
       if (parsed && typeof parsed === "object" && (parsed as any).questionnaireData) {
         parsedData = (parsed as any).questionnaireData as Record<string, unknown>;
-        console.log("Extracted questionnaireData:", parsedData);
+        console.log("✅ Extracted questionnaireData from reconstructed:", parsedData);
       } else {
         parsedData = parsed as Record<string, unknown>;
-        console.log("Using parsed data directly:", parsedData);
+        console.log("✅ Using reconstructed data directly:", parsedData);
       }
     } catch (e) {
-      console.error("Failed to reconstruct questionnaire data:", e);
-      console.error("parsedData was:", parsedData);
+      console.error("❌ Failed to reconstruct questionnaire data:", e);
+      console.error("❌ Original parsedData was:", parsedData);
+      console.error("❌ parsedData keys:", Object.keys(parsedData).slice(0, 50));
+      
+      const reconstructed = Object.values(parsedData).join("");
+      console.error("❌ Attempted reconstruction:", reconstructed);
+      
       return (
         <div className="text-red-600">
-          <p>Ошибка восстановления данных опросника</p>
+          <p className="font-semibold mb-2">Ошибка восстановления данных опросника</p>
           <details className="text-xs mt-2">
-            <summary className="cursor-pointer">Показать детали ошибки</summary>
-            <pre className="mt-2 p-2 bg-gray-100 rounded overflow-x-auto">
-              {e instanceof Error ? e.message : String(e)}
-            </pre>
+            <summary className="cursor-pointer hover:underline">Показать детали ошибки</summary>
+            <div className="mt-2 space-y-2">
+              <div>
+                <strong>Ошибка:</strong>
+                <pre className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto text-xs">
+                  {e instanceof Error ? e.message : String(e)}
+                </pre>
+              </div>
+              <div>
+                <strong>Восстановленная строка (первые 300 символов):</strong>
+                <pre className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto text-xs">
+                  {reconstructed.substring(0, 300)}
+                </pre>
+              </div>
+            </div>
           </details>
         </div>
       );
