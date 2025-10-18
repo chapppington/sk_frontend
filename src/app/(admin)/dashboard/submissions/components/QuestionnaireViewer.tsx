@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/shadcn/badge";
+import { Button } from "@/components/ui/shadcn/button";
 import { questionsConfig } from "@/app/(main)/questionnaire/config/questions";
 
 type QuestionnaireViewerProps = {
@@ -9,6 +10,7 @@ type QuestionnaireViewerProps = {
 const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   questionnaireData,
 }) => {
+  const [viewMode, setViewMode] = useState<"full" | "compact">("compact");
   const getQuestionTitle = (questionId: string) => {
     const question = questionsConfig.find((q) => q.id === parseInt(questionId));
     return question?.title || `Вопрос ${questionId}`;
@@ -131,55 +133,111 @@ const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
     )
     .sort(([a], [b]) => parseInt(a) - parseInt(b));
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3 pb-2 border-b">
-        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-          Опросный лист
-        </Badge>
-        <span className="text-sm text-gray-500">
-          {filledAnswers.length} {filledAnswers.length === 1 ? 'ответ' : filledAnswers.length < 5 ? 'ответа' : 'ответов'}
-        </span>
-      </div>
+  // Компактное представление
+  const renderCompactView = () => (
+    <div className="space-y-2">
+      {filledAnswers.map(([questionId, value]) => {
+        const question = questionsConfig.find(
+          (q) => q.id === parseInt(questionId)
+        );
 
-      <div className="space-y-3">
-        {filledAnswers.map(([questionId, value]) => {
-          const question = questionsConfig.find(
-            (q) => q.id === parseInt(questionId)
-          );
-
-          return (
-            <div
-              key={questionId}
-              className="border border-gray-200 rounded-lg p-4 bg-white hover:shadow-sm transition-shadow"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <h4 className="text-sm font-semibold text-gray-800 leading-tight flex-1">
-                  {getQuestionTitle(questionId)}
-                </h4>
-                {question?.type && (
-                  <Badge variant="outline" className="ml-2 text-xs">
-                    {question.type}
-                  </Badge>
-                )}
+        return (
+          <div
+            key={questionId}
+            className="flex items-start gap-3 py-2 px-3 hover:bg-gray-50 rounded transition-colors"
+          >
+            <div className="text-xs font-semibold text-gray-500 min-w-[30px]">
+              {questionId.padStart(2, '0')}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm text-gray-600 mb-1">
+                {question?.title?.replace(/^\d+\s*·\s*/, '') || `Вопрос ${questionId}`}
               </div>
+              <div className="text-sm font-medium text-gray-900">
+                {getAnswerLabel(questionId, value)}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 
-              <div className="text-sm">{formatValue(questionId, value)}</div>
+  // Полное представление
+  const renderFullView = () => (
+    <div className="space-y-3">
+      {filledAnswers.map(([questionId, value]) => {
+        const question = questionsConfig.find(
+          (q) => q.id === parseInt(questionId)
+        );
 
-              {question?.popoverContent && (
-                <details className="mt-3">
-                  <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
-                    📖 Подробное описание
-                  </summary>
-                  <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-3 rounded border">
-                    {question.popoverContent}
-                  </div>
-                </details>
+        return (
+          <div
+            key={questionId}
+            className="border border-gray-200 rounded-lg p-4 bg-white hover:shadow-sm transition-shadow"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <h4 className="text-sm font-semibold text-gray-800 leading-tight flex-1">
+                {getQuestionTitle(questionId)}
+              </h4>
+              {question?.type && (
+                <Badge variant="outline" className="ml-2 text-xs">
+                  {question.type}
+                </Badge>
               )}
             </div>
-          );
-        })}
+
+            <div className="text-sm">{formatValue(questionId, value)}</div>
+
+            {question?.popoverContent && (
+              <details className="mt-3">
+                <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
+                  📖 Подробное описание
+                </summary>
+                <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-3 rounded border">
+                  {question.popoverContent}
+                </div>
+              </details>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b">
+        <div className="flex items-center gap-3">
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            Опросный лист
+          </Badge>
+          <span className="text-sm text-gray-500">
+            {filledAnswers.length} {filledAnswers.length === 1 ? 'ответ' : filledAnswers.length < 5 ? 'ответа' : 'ответов'}
+          </span>
+        </div>
+        
+        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+          <Button
+            variant={viewMode === "compact" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setViewMode("compact")}
+            className="h-7 text-xs"
+          >
+            Кратко
+          </Button>
+          <Button
+            variant={viewMode === "full" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setViewMode("full")}
+            className="h-7 text-xs"
+          >
+            Подробно
+          </Button>
+        </div>
       </div>
+
+      {viewMode === "compact" ? renderCompactView() : renderFullView()}
     </div>
   );
 };
