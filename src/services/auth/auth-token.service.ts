@@ -16,7 +16,9 @@ class AuthTokenService {
   }
 
   removeAccessToken() {
-    Cookies.remove(AuthToken.ACCESS_TOKEN);
+    Cookies.remove(AuthToken.ACCESS_TOKEN, {
+      domain: "sibkomplekt.ru",
+    });
   }
 }
 

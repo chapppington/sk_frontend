@@ -96,7 +96,7 @@ export function AppSidebar() {
     mutationKey: ["logout"],
     mutationFn: () => authService.logout(),
     onSuccess: () => {
-      router.push("/login");
+      router.push("/auth/login");
       queryClient.setQueryData(["profile"], null);
       queryClient.setQueryData(["new tokens"], null);
     },
