@@ -1,6 +1,4 @@
 import React from "react";
-import { Badge } from "@/components/ui/shadcn/badge";
-import { questionsConfig } from "@/app/(main)/questionnaire/config/questions";
 
 type QuestionnaireViewerProps = {
   questionnaireData: Record<string, unknown>;
@@ -9,253 +7,26 @@ type QuestionnaireViewerProps = {
 const QuestionnaireViewer: React.FC<QuestionnaireViewerProps> = ({
   questionnaireData,
 }) => {
-  console.log("🔍 QuestionnaireViewer received data:", questionnaireData);
-  console.log("🔍 Type:", typeof questionnaireData);
-  
-  // Если данные пришли как строка, парсим их
-  let parsedData = questionnaireData;
-  if (typeof questionnaireData === "string") {
-    try {
-      parsedData = JSON.parse(questionnaireData);
-      console.log("✅ Parsed from string:", parsedData);
-      // Если после парсинга данные обернуты в { questionnaireData: {...} }
-      if (
-        typeof parsedData === "object" &&
-        parsedData !== null &&
-        (parsedData as any).questionnaireData
-      ) {
-        parsedData = (parsedData as any).questionnaireData as Record<
-          string,
-          unknown
-        >;
-        console.log("✅ Extracted questionnaireData from wrapper:", parsedData);
-      }
-    } catch (e) {
-      console.error("❌ Failed to parse questionnaire data:", e);
-      return <div>Ошибка парсинга данных опросника</div>;
-    }
-  }
-
-  // Если данные разбились на символы (объект с числовыми ключами), собираем обратно
-  if (
-    typeof parsedData === "object" &&
-    parsedData !== null &&
-    Object.keys(parsedData).length > 0 &&
-    Object.keys(parsedData).every((key) => !isNaN(Number(key)))
-  ) {
-    try {
-      console.log("🔧 Detected broken data (char array), reconstructing...");
-      console.log("🔧 Keys sample:", Object.keys(parsedData).slice(0, 10));
-      console.log("🔧 Values sample:", Object.values(parsedData).slice(0, 20));
-      
-      const reconstructed = Object.values(parsedData).join("");
-      console.log("🔧 Reconstructed string length:", reconstructed.length);
-      console.log("🔧 Reconstructed string (first 200 chars):", reconstructed.substring(0, 200));
-      console.log("🔧 Reconstructed string (last 200 chars):", reconstructed.substring(reconstructed.length - 200));
-      
-      const parsed = JSON.parse(reconstructed);
-      console.log("✅ Successfully parsed reconstructed string:", parsed);
-      
-      // Если строка содержала объект-обертку { questionnaireData: {...} }
-      if (parsed && typeof parsed === "object" && (parsed as any).questionnaireData) {
-        parsedData = (parsed as any).questionnaireData as Record<string, unknown>;
-        console.log("✅ Extracted questionnaireData from reconstructed:", parsedData);
-      } else {
-        parsedData = parsed as Record<string, unknown>;
-        console.log("✅ Using reconstructed data directly:", parsedData);
-      }
-    } catch (e) {
-      console.error("❌ Failed to reconstruct questionnaire data:", e);
-      console.error("❌ Original parsedData was:", parsedData);
-      console.error("❌ parsedData keys:", Object.keys(parsedData).slice(0, 50));
-      
-      const reconstructed = Object.values(parsedData).join("");
-      console.error("❌ Attempted reconstruction:", reconstructed);
-      
-      return (
-        <div className="text-red-600">
-          <p className="font-semibold mb-2">Ошибка восстановления данных опросника</p>
-          <details className="text-xs mt-2">
-            <summary className="cursor-pointer hover:underline">Показать детали ошибки</summary>
-            <div className="mt-2 space-y-2">
-              <div>
-                <strong>Ошибка:</strong>
-                <pre className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto text-xs">
-                  {e instanceof Error ? e.message : String(e)}
-                </pre>
-              </div>
-              <div>
-                <strong>Восстановленная строка (первые 300 символов):</strong>
-                <pre className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto text-xs">
-                  {reconstructed.substring(0, 300)}
-                </pre>
-              </div>
-            </div>
-          </details>
-        </div>
-      );
-    }
-  }
-  const getQuestionTitle = (questionId: string) => {
-    const question = questionsConfig.find((q) => q.id === parseInt(questionId));
-    return question?.title || `Вопрос ${questionId}`;
-  };
-
-  const getAnswerLabel = (questionId: string, value: unknown) => {
-    const question = questionsConfig.find((q) => q.id === parseInt(questionId));
-
-    if (!question) return String(value);
-
-    // Обработка различных типов ответов
-    if (Array.isArray(value)) {
-      return value
-        .map((v) => {
-          const option = question.options?.find((opt) => opt.value === v);
-          return option?.label || v;
-        })
-        .join(", ");
-    }
-
-    if (typeof value === "object" && value !== null) {
-      // Обработка сложных объектов (например, для фидерных секций)
-      if (question.type === "feeder_sections") {
-        return Object.entries(value as Record<string, any>)
-          .map(([key, val]) => `${key}: ${val}`)
-          .join(", ");
-      }
-      return JSON.stringify(value, null, 2);
-    }
-
-    // Поиск лейбла для простых значений
-    const option = question.options?.find((opt) => opt.value === value);
-    return option?.label || String(value);
-  };
-
-  const formatValue = (questionId: string, value: unknown) => {
-    const question = questionsConfig.find((q) => q.id === parseInt(questionId));
-
-    if (typeof value === "object" && value !== null) {
-      // Для фидерных секций показываем в удобном формате
-      if (question?.type === "feeder_sections") {
-        return (
-          <div className="space-y-2">
-            {Object.entries(value as Record<string, any>).map(([key, val]) => (
-              <div
-                key={key}
-                className="flex justify-between items-center py-2 px-3 bg-blue-50 rounded border"
-              >
-                <span className="font-medium text-blue-800">{key}:</span>
-                <span className="text-blue-900 font-semibold">{val}</span>
-              </div>
-            ))}
-          </div>
-        );
-      }
-
-      // Для других объектов показываем JSON
-      return (
-        <pre className="text-xs bg-gray-50 p-3 rounded border overflow-x-auto whitespace-pre-wrap">
-          {JSON.stringify(value, null, 2)}
-        </pre>
-      );
-    }
-
-    // Специальная обработка для разных типов вопросов
-    if (question?.type === "text") {
-      return (
-        <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
-          <div className="text-sm text-yellow-800 font-medium mb-1">
-            Текстовый ответ:
-          </div>
-          <div className="text-gray-900 whitespace-pre-wrap">
-            {String(value)}
-          </div>
-        </div>
-      );
-    }
-
-    if (question?.type === "slider") {
-      return (
-        <div className="bg-green-50 p-3 rounded border border-green-200">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-green-800 font-medium">
-              Значение:
-            </span>
-            <span className="text-lg font-bold text-green-900">
-              {String(value)}
-            </span>
-          </div>
-        </div>
-      );
-    }
-
-    // Обычные ответы с выбором
-    return (
-      <div className="bg-white p-3 rounded border border-gray-200 shadow-sm">
-        <span className="font-medium text-gray-900">
-          {getAnswerLabel(questionId, value)}
-        </span>
-      </div>
-    );
-  };
-
+  // Просто показываем сырые данные с бэкенда
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 mb-4">
-        <Badge
-          variant="outline"
-          className="bg-blue-50 text-blue-700 border-blue-200"
-        >
-          Опросный лист
-        </Badge>
-        <span className="text-sm text-gray-500">
-          {Object.keys(parsedData).length} ответов
-        </span>
+      <div>
+        <h4 className="text-sm font-semibold mb-2">Сырые данные с бэкенда:</h4>
+        <pre className="p-4 bg-gray-100 rounded text-xs overflow-x-auto max-h-96 overflow-y-auto">
+          {JSON.stringify(questionnaireData, null, 2)}
+        </pre>
       </div>
-
-      <div className="space-y-3">
-        {Object.entries(parsedData)
-          .filter(
-            ([_, value]) =>
-              value && !(Array.isArray(value) && value.length === 0)
-          )
-          .sort(([a], [b]) => parseInt(a) - parseInt(b)) // Сортируем по номеру вопроса
-          .map(([questionId, value]) => {
-            const question = questionsConfig.find(
-              (q) => q.id === parseInt(questionId)
-            );
-
-            return (
-              <div
-                key={questionId}
-                className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <h4 className="text-sm font-semibold text-gray-800 leading-tight">
-                    {getQuestionTitle(questionId)}
-                  </h4>
-                  {question?.popoverContent && (
-                    <div className="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                      {question.type || "выбор"}
-                    </div>
-                  )}
-                </div>
-
-                <div className="text-sm">{formatValue(questionId, value)}</div>
-
-                {question?.popoverContent && (
-                  <details className="mt-3">
-                    <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700">
-                      Подробное описание
-                    </summary>
-                    <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-2 rounded border">
-                      {question.popoverContent}
-                    </div>
-                  </details>
-                )}
-              </div>
-            );
-          })}
+      
+      <div className="text-xs text-gray-500">
+        <p>Тип данных: <code className="bg-gray-200 px-1 rounded">{typeof questionnaireData}</code></p>
+        <p>Количество ключей: <code className="bg-gray-200 px-1 rounded">
+          {questionnaireData && typeof questionnaireData === 'object' ? Object.keys(questionnaireData).length : 'N/A'}
+        </code></p>
+        {questionnaireData && typeof questionnaireData === 'object' && Object.keys(questionnaireData).length > 0 && (
+          <p>Первые ключи: <code className="bg-gray-200 px-1 rounded">
+            {Object.keys(questionnaireData).slice(0, 10).join(', ')}
+          </code></p>
+        )}
       </div>
     </div>
   );
