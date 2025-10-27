@@ -72,6 +72,7 @@ const ContactForm: FC<ContactFormProps> = ({
     // Отслеживание цели Яндекс.Метрики
     if (typeof window !== "undefined" && window.ym) {
       window.ym(9004708, 'reachGoal', 'send_form');
+      console.log('Yandex Metrika reached goal "send_form"');
     }
 
     // Сбросить форму после успешной отправки
