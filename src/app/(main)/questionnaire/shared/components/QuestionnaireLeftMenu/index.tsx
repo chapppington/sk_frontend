@@ -17,9 +17,10 @@ export default function QuestionnaireLeftMenu({
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/", current: false },
+          { label: "Опросные листы", href: "/questionnaire", current: false },
           {
             label: breadcrumbLabel,
-            href: "/questionnaire",
+            href: "#",
             current: true,
           },
         ]}
