@@ -1,4 +1,4 @@
-import { FeederData } from "./components/QuestionDropdown/components/FeederSectionOption/types";
+import { FeederData } from "../components/QuestionDropdown/components/FeederSectionOption/types";
 
 export interface IQuestionOption {
   value: string | number;
@@ -32,3 +32,13 @@ export type Answer = string | number | string[] | Record<string, FeederData[]>;
 export interface IFormState {
   [questionId: number]: Answer;
 }
+
+// Configuration interface for questionnaire
+export interface IQuestionnaireConfig {
+  questions: IQuestion[];
+  stages: IStage[];
+  formTitle?: string;
+  submitEndpoint?: string;
+}
+
+

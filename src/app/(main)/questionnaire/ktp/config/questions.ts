@@ -1,4 +1,4 @@
-import { IQuestion } from "../types";
+import { IQuestion } from "@/app/(main)/questionnaire/shared/types";
 
 export const questionsConfig: IQuestion[] = [
   {

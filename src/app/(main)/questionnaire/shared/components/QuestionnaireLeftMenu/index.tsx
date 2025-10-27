@@ -1,13 +1,16 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
-import QuestionnaireStage from "@/app/(main)/questionnaire/ktp/components/QuestionnaireStage";
+import QuestionnaireStage from "@/app/(main)/questionnaire/shared/components/QuestionnaireStage";
 
 import { QuestionnaireLeftMenuProps } from "./types";
-import { stages } from "../../config/stages";
 
 export default function QuestionnaireLeftMenu({
   activeStage,
   setActiveStage,
+  stages,
+  title = "Опросный лист",
+  subtitle,
+  breadcrumbLabel = "Опросный лист",
 }: QuestionnaireLeftMenuProps) {
   return (
     <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen ">
@@ -15,7 +18,7 @@ export default function QuestionnaireLeftMenu({
         items={[
           { label: "Главная", href: "/", current: false },
           {
-            label: "Опросный лист",
+            label: breadcrumbLabel,
             href: "/questionnaire",
             current: true,
           },
@@ -23,12 +26,13 @@ export default function QuestionnaireLeftMenu({
         disableContainer
       />
 
-      <GradientHeading className="mt-8 mb-6">Опросный лист</GradientHeading>
+      <GradientHeading className="mt-8 mb-6">{title}</GradientHeading>
 
-      <p className="text-white/60 mb-12">
-        на изготовление комплектной трансформаторной подстанции (КТП),
-        производства ООО «СибКомплект»
-      </p>
+      {subtitle && (
+        <p className="text-white/60 mb-12">
+          {subtitle}
+        </p>
+      )}
 
       {/* Stages */}
       <div className="relative">

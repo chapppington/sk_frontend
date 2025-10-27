@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { IFormState } from "@/app/(main)/questionnaire/ktp/types";
+import { IFormState, IQuestion } from "@/app/(main)/questionnaire/shared/types";
 import { FeederData } from "../QuestionDropdown/components/FeederSectionOption/types";
 
 export interface QuestionnaireProps {
@@ -10,4 +10,5 @@ export interface QuestionnaireProps {
   ) => void;
   stageRefs: RefObject<(HTMLDivElement | null)[]>;
   onSuccess?: () => void;
+  questions: IQuestion[];
 }

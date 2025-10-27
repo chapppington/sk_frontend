@@ -1,14 +1,13 @@
-import { questionsConfig } from "../config/questions";
-import { IFormState } from "@/app/(main)/questionnaire/ktp/types";
+import { IFormState, IQuestion } from "@/app/(main)/questionnaire/shared/types";
 
 /**
  * Creates an initial form state where:
  * - Questions with multiple options start with an empty array []
  * - Questions with single answers start with an empty string ""
  */
-export const initializeFormState = (): IFormState => {
+export const initializeFormState = (questions: IQuestion[]): IFormState => {
   // Create initial state by mapping each question to its default value
-  const initialState = questionsConfig.map((question) => ({
+  const initialState = questions.map((question) => ({
     questionId: question.id,
     defaultValue: Array.isArray(question.options) ? [] : "",
   }));
@@ -22,3 +21,4 @@ export const initializeFormState = (): IFormState => {
     {}
   );
 };
+

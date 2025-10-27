@@ -1,5 +1,4 @@
 import QuestionDropdown from "../QuestionDropdown";
-import { questionsConfig } from "../../config/questions";
 import { QuestionnaireProps } from "./types";
 import ContactForm from "@/components/ContactForm";
 
@@ -8,9 +7,10 @@ const Questionnaire = ({
   handleStateChange,
   stageRefs,
   onSuccess,
+  questions,
 }: QuestionnaireProps) => {
   // Filter visible questions and create a mapping of original IDs to new sequential numbers
-  const visibleQuestions = questionsConfig.filter(
+  const visibleQuestions = questions.filter(
     (question) => !question.showIf || question.showIf(formState)
   );
 
@@ -30,7 +30,7 @@ const Questionnaire = ({
 
   return (
     <>
-      {questionsConfig.map((question, index) => {
+      {questions.map((question, index) => {
         // Skip questions that don't meet their showIf condition
         if (question.showIf && !question.showIf(formState)) {
           return null;
@@ -70,7 +70,7 @@ const Questionnaire = ({
       <div
         ref={(el) => {
           if (stageRefs.current) {
-            stageRefs.current[questionsConfig.length] = el;
+            stageRefs.current[questions.length] = el;
           }
         }}
       >
