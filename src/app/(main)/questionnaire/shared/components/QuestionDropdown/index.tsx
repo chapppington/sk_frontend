@@ -54,7 +54,7 @@ const QuestionDropdown = ({
         />
       ) : type === "feeder_sections" ? (
         <FeederSectionOption
-          value={value as Record<string, FeederData[]>}
+          value={(value as Record<string, FeederData[]>) || {}}
           onChange={onChange as (value: Record<string, FeederData[]>) => void}
           questionId={questionId}
           numberOfSections={numberOfSections || 0}

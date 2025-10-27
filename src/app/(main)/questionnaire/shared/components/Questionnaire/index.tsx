@@ -62,7 +62,9 @@ const Questionnaire = ({
               type={question.type}
               textLabel={question.textLabel}
               numberOfSections={
-                question.id === 17 ? (formState[4] as number) : undefined
+                question.id === 17 
+                  ? (formState[4] ? Number(formState[4]) : 0) 
+                  : undefined
               }
             />
           </div>

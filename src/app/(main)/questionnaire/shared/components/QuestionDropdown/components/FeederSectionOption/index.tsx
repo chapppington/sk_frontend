@@ -23,7 +23,7 @@ const FeederSectionOption = ({
     const initialData: Record<string, FeederData[]> = {};
     for (let i = 1; i <= numberOfSections; i++) {
       const sectionKey = `section-${i}`;
-      initialData[sectionKey] = value[sectionKey] || [
+      initialData[sectionKey] = value?.[sectionKey] || [
         { current: "", count: "" },
       ];
     }
