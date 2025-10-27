@@ -7,13 +7,18 @@ export const questionsConfig: IQuestion[] = [
     options: [
       { value: "mast", label: "Мачтовая (КТПМ)" },
       { value: "kiosk", label: "Киосковая (КТПК)" },
-      { value: "block", label: "Блочная (КТПБ)" },
       {
-        value: "indoor",
-        label: "Внутрицеховая",
-        type: "text",
-        textLabel: "Укажите материал стен для Внутрицеховой КТП",
+        value: "block",
+        label: "Блочная (КТПБ)",
+        type: "radio",
+        textLabel: "Выберите материал стен",
+        nestedOptions: [
+          { value: "concrete", label: "Бетон" },
+          { value: "metal", label: "Металл" },
+          { value: "sandwich", label: "Сэндвич-панели" },
+        ],
       },
+      { value: "indoor", label: "Внутрицеховая" },
       { value: "attached", label: "Пристроенная" },
       { value: "stationary", label: "Стационарная" },
       { value: "mobile", label: "Передвижная" },
@@ -233,7 +238,6 @@ export const questionsConfig: IQuestion[] = [
     ],
     popoverContent:
       "Коммутационные аппараты отходящих линий НН обеспечивают защиту и управление нагрузкой. РПС - трёхполюсный электрический коммутационный аппарат, выполняющий функции разъединителя. Tengen, КЭАЗ, Chint, Akel, System Electric - производители коммутационного оборудования с различными характеристиками и ценовыми категориями. ПВР ARS - планочные предохранители-выключатели-разъединители, предназначены для включения/выключения нагрузки, защиты от коротких замыканий и перегрузок электрических цепей напряжением до 690 В частотой 50, 60 Гц при токах до 630 А.",
-    showIf: (answers) => Number(answers[4]) >= 2,
   },
   {
     id: 17,
@@ -241,7 +245,6 @@ export const questionsConfig: IQuestion[] = [
     type: "feeder_sections",
     popoverContent:
       "Ток фидера определяет максимальный ток нагрузки, который может быть подключен к отходящей линии. Количество отходящих линий определяет число потребителей, которые могут быть подключены к одной секции РУНН.",
-    showIf: (answers) => Number(answers[4]) >= 2,
   },
   {
     id: 18,
@@ -251,7 +254,6 @@ export const questionsConfig: IQuestion[] = [
     options: [],
     popoverContent:
       "Количество отходящих линий определяет число потребителей, которые могут быть подключены к одной секции РУНН. Выбор осуществляется с учетом схемы электроснабжения и требований к надежности.",
-    showIf: (answers) => Number(answers[4]) >= 2,
   },
   {
     id: 19,
