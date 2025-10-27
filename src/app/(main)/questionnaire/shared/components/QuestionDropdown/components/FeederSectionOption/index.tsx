@@ -18,6 +18,15 @@ const FeederSectionOption = ({
   >({});
   const lenis = useLenis();
 
+  // Check if question 4 is not filled
+  if (!numberOfSections || numberOfSections === 0) {
+    return (
+      <div className="text-white/60 italic py-4">
+        Заполните пункт 4 (Количество силовых трансформаторов)
+      </div>
+    );
+  }
+
   useEffect(() => {
     // Initialize sectionsData based on numberOfSections
     const initialData: Record<string, FeederData[]> = {};

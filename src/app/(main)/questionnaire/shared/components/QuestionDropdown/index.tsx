@@ -52,12 +52,12 @@ const QuestionDropdown = ({
           questionId={questionId}
           title={title}
         />
-      ) : type === "feeder_sections" && typeof numberOfSections === "number" ? (
+      ) : type === "feeder_sections" ? (
         <FeederSectionOption
           value={value as Record<string, FeederData[]>}
           onChange={onChange as (value: Record<string, FeederData[]>) => void}
           questionId={questionId}
-          numberOfSections={numberOfSections}
+          numberOfSections={numberOfSections || 0}
         />
       ) : (
         <RadioOption
