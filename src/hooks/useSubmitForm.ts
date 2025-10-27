@@ -11,6 +11,11 @@ export function useSubmitForm(onSuccessCallback?: () => void) {
       return submissionsService.create(data);
     },
     onSuccess: () => {
+      // Отслеживание цели Яндекс.Метрики
+      if (typeof window !== "undefined" && window.ym) {
+        window.ym(9004708, "reachGoal", "send_form");
+      }
+
       toast({
         title: "Успех",
         description:
