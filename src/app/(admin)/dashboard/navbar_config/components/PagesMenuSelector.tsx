@@ -20,6 +20,7 @@ const ALL_PAGES: { key: keyof typeof PagesConfig; label: string }[] = [
   { key: "vacancies", label: "Вакансии" },
   { key: "contacts", label: "Контакты" },
   { key: "production", label: "Производство" },
+  { key: "questionnaire", label: "Опросные листы" },
 ];
 
 function DraggablePage({
