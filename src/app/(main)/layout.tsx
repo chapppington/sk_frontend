@@ -5,7 +5,6 @@ import Footer from "@/components/shared_screens/Footer";
 import ConditionalBGGradient from "@/components/ui/BackgroundGradient/ConditionalBackgroundGradient";
 import ConditionalMainScene from "@/components/3DScene/ConditionalMainScene";
 import CustomScrollbar from "@/components/CustomScrollbar";
-import YandexMetrika from "@/components/YandexMetrika";
 import "./globals.css";
 import { useNotification } from "@/components/NotificationSection/NotificationProvider";
 import { useGPUContext } from "@/context/GpuDetectProvider";
@@ -21,7 +20,6 @@ export default function MainLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <YandexMetrika />
       <ConditionalBGGradient />
       <CustomScrollbar />
       <ConditionalMainScene />
