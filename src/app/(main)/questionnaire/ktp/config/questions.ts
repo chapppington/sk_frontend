@@ -144,7 +144,7 @@ export const questionsConfig: IQuestion[] = [
       },
       {
         value: "vv",
-        label: "ВВ (вакуумный выключатель)",
+        label: "ВВ",
         type: "text",
         textLabel: "Укажите количество ВВ",
       },
