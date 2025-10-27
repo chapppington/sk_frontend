@@ -1,3 +1,5 @@
+"use client";
+
 import QuestionnaireWrapper from "@/app/(main)/questionnaire/shared/components/QuestionnaireWrapper";
 import { questionsConfig } from "./config/questions";
 import { stages } from "./config/stages";
