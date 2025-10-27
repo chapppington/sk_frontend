@@ -69,6 +69,11 @@ const ContactForm: FC<ContactFormProps> = ({
       meta: meta, // Передаем метаданные (данные опросника)
     });
 
+    // Отслеживание цели Яндекс.Метрики
+    if (typeof window !== "undefined" && window.ym) {
+      window.ym(9004708, 'reachGoal', 'send_form');
+    }
+
     // Сбросить форму после успешной отправки
     reset();
   };
