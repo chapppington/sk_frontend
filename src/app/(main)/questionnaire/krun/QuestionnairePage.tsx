@@ -9,6 +9,7 @@ export default function QuestionnairePage() {
     <QuestionnaireWrapper
       questions={questionsConfig}
       stages={stages}
+      questionnaireType="krun"
       title="Опросный лист"
       subtitle="на изготовление комплектного распределительного устройства наружной установки (КРУН/ЯКНО), производства ООО «СибКомплект»"
       breadcrumbLabel="Опросный лист КРУН/ЯКНО"

@@ -8,6 +8,7 @@ const Questionnaire = ({
   stageRefs,
   onSuccess,
   questions,
+  questionnaireType,
 }: QuestionnaireProps) => {
   // Filter visible questions and create a mapping of original IDs to new sequential numbers
   const visibleQuestions = questions.filter(
@@ -77,7 +78,7 @@ const Questionnaire = ({
         <ContactForm
           variant="questionnaire"
           onSuccess={handleSuccessWithQuestionnaire}
-          meta={{ questionnaireData: formState }}
+          meta={{ questionnaireData: formState, questionnaireType }}
         />
       </div>
     </>

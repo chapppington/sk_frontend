@@ -13,6 +13,7 @@ import { QuestionnaireWrapperProps } from "./types";
 export default function QuestionnaireWrapper({
   questions,
   stages,
+  questionnaireType,
   title = "Опросный лист",
   subtitle,
   breadcrumbLabel = "Опросный лист",
@@ -167,6 +168,7 @@ export default function QuestionnaireWrapper({
                 stageRefs={stageRefs}
                 onSuccess={handleSuccess}
                 questions={questions}
+                questionnaireType={questionnaireType}
               />
             </div>
           </div>

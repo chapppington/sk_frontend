@@ -2,6 +2,8 @@ import { RefObject } from "react";
 import { IFormState, IQuestion } from "@/app/(main)/questionnaire/shared/types";
 import { FeederData } from "../QuestionDropdown/components/FeederSectionOption/types";
 
+export type QuestionnaireType = 'ktp' | 'krun' | 'kso';
+
 export interface QuestionnaireProps {
   formState: IFormState;
   handleStateChange: (
@@ -11,4 +13,5 @@ export interface QuestionnaireProps {
   stageRefs: RefObject<(HTMLDivElement | null)[]>;
   onSuccess?: () => void;
   questions: IQuestion[];
+  questionnaireType: QuestionnaireType;
 }

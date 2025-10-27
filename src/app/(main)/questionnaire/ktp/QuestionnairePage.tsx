@@ -9,6 +9,7 @@ export default function QuestionnairePage() {
     <QuestionnaireWrapper
       questions={questionsConfig}
       stages={stages}
+      questionnaireType="ktp"
       title="Опросный лист"
       subtitle="на изготовление комплектной трансформаторной подстанции (КТП), производства ООО «СибКомплект»"
       breadcrumbLabel="Опросный лист КТП"
