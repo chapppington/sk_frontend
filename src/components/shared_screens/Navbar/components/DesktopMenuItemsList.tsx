@@ -13,7 +13,7 @@ const ALL_PAGES_LABELS: Record<string, string> = {
   vacancies: "Вакансии",
   contacts: "Контакты",
   privacy: "Политика конфиденциальности",
-  questionnaire: "Опросник",
+  questionnaire: "Опросные листы",
   production: "Производство",
 };
 
