@@ -35,15 +35,19 @@ export const Tabs: FC<TabsProps> = ({
       const targetTab = tabsElements.find(
         (tab) => tab.getAttribute("data-value") === value
       ) as HTMLElement;
-      const targetRect = targetTab.getBoundingClientRect();
-      const containerRect = tabsContainerRef.current.getBoundingClientRect();
+      
+      // Only animate if targetTab is found
+      if (targetTab) {
+        const targetRect = targetTab.getBoundingClientRect();
+        const containerRect = tabsContainerRef.current.getBoundingClientRect();
 
-      gsap.to(lineRef.current, {
-        x: targetRect.left - containerRect.left,
-        width: targetRect.width,
-        duration: 0.1,
-        ease: "power2.inOut",
-      });
+        gsap.to(lineRef.current, {
+          x: targetRect.left - containerRect.left,
+          width: targetRect.width,
+          duration: 0.1,
+          ease: "power2.inOut",
+        });
+      }
     }
     setActiveTab(value);
     onChange?.(value);
@@ -62,13 +66,17 @@ export const Tabs: FC<TabsProps> = ({
       const targetTab = tabsElements.find(
         (tab) => tab.getAttribute("data-value") === activeTab
       ) as HTMLElement;
-      const targetRect = targetTab.getBoundingClientRect();
-      const containerRect = tabsContainerRef.current.getBoundingClientRect();
+      
+      // Only set initial position if targetTab is found
+      if (targetTab) {
+        const targetRect = targetTab.getBoundingClientRect();
+        const containerRect = tabsContainerRef.current.getBoundingClientRect();
 
-      gsap.set(lineRef.current, {
-        x: targetRect.left - containerRect.left,
-        width: targetRect.width,
-      });
+        gsap.set(lineRef.current, {
+          x: targetRect.left - containerRect.left,
+          width: targetRect.width,
+        });
+      }
     }
   }, []);
 

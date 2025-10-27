@@ -18,15 +18,6 @@ const FeederSectionOption = ({
   >({});
   const lenis = useLenis();
 
-  // Check if question 4 is not filled
-  if (!numberOfSections || numberOfSections === 0) {
-    return (
-      <div className="text-white/60 italic py-4">
-        Заполните пункт 4 (Количество силовых трансформаторов)
-      </div>
-    );
-  }
-
   useEffect(() => {
     // Initialize sectionsData based on numberOfSections
     const initialData: Record<string, FeederData[]> = {};
@@ -88,6 +79,15 @@ const FeederSectionOption = ({
       }, 50);
     }
   };
+
+  // Check if question 4 is not filled
+  if (!numberOfSections || numberOfSections === 0) {
+    return (
+      <div className="text-white/60 italic py-4">
+        Заполните пункт 4 (Количество силовых трансформаторов)
+      </div>
+    );
+  }
 
   const tabs = Array.from({ length: numberOfSections }, (_, i) => {
     const sectionKey = `section-${i + 1}`;
