@@ -1,4 +1,4 @@
-import { IStage } from "../types";
+import { IStage } from "@/app/(main)/questionnaire/ktp/types";
 
 export const stages: IStage[] = [
   {

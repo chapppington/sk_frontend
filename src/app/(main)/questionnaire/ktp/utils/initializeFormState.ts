@@ -1,5 +1,5 @@
 import { questionsConfig } from "../config/questions";
-import { IFormState } from "../types";
+import { IFormState } from "@/app/(main)/questionnaire/ktp/types";
 
 /**
  * Creates an initial form state where:

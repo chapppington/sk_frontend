@@ -1,4 +1,4 @@
-import { IQuestionOption } from "../../../types";
+import { IQuestionOption } from "@/app/(main)/questionnaire/ktp/types";
 import Input from "@/components/ui/Input";
 import { useLenis } from "lenis/react";
 import { useEffect } from "react";

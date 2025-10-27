@@ -16,7 +16,7 @@ const ContactInfo: FC = () => {
           <span className="relative z-10 group-hover:text-gray-900 transition-colors">
             {phone}
           </span>
-          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
+          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         </a>
       )}
       {email && (
@@ -27,7 +27,7 @@ const ContactInfo: FC = () => {
           <span className="relative z-10 group-hover:text-gray-900 transition-colors">
             {email}
           </span>
-          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-[350ms]"></span>
+          <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         </a>
       )}
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Button } from "@/components/ui/shadcn/button";
-import { questionsConfig } from "@/app/(main)/questionnaire/config/questions";
+import { questionsConfig } from "@/app/(main)/questionnaire/ktp/config/questions";
 
 type QuestionnaireViewerProps = {
   questionnaireData: Record<string, unknown>;

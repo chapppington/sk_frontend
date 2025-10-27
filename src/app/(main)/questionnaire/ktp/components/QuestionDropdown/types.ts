@@ -1,4 +1,4 @@
-import { IQuestionOption } from "../../types";
+import { IQuestionOption } from "@/app/(main)/questionnaire/ktp/types";
 import { FeederData } from "./components/FeederSectionOption/types";
 
 export interface QuestionDropdownProps {

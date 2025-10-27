@@ -22,14 +22,6 @@ const CustomerReviewsScreen = () => {
   const reviewsData = config?.reviewsScreen;
   const reviews = reviewsData?.reviews || [];
 
-  console.log("Reviews data:", reviewsData);
-  console.log("Reviews:", reviews);
-  console.log("Active review:", activeReview);
-  console.log(
-    "Active review data:",
-    activeReview !== null ? reviews[activeReview] : null
-  );
-
   const openReviewPopup = (index: number) => {
     setIsClosing(false);
     setActiveReview(index);

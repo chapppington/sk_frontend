@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { IFormState } from "../../types";
+import { IFormState } from "@/app/(main)/questionnaire/ktp/types";
 import { FeederData } from "../QuestionDropdown/components/FeederSectionOption/types";
 
 export interface QuestionnaireProps {

@@ -29,9 +29,6 @@ export default function ProductsSlider() {
   const { config, loading } = useHomePageConfig();
   const products = config?.productsScreen?.products || [];
 
-  console.log("Config:", config);
-  console.log("Products:", products);
-
   const getCategorySlug = (categoryId: string) => {
     const category = productCategories.find((cat) => cat.id === categoryId);
     return category ? category.slug : "";

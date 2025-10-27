@@ -1,4 +1,4 @@
-import { IQuestionOption } from "../../../types";
+import { IQuestionOption } from "@/app/(main)/questionnaire/ktp/types";
 
 interface SliderOptionProps {
   options: IQuestionOption[];

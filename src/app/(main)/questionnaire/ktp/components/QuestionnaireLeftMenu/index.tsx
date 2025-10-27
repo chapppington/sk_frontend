@@ -1,6 +1,6 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import GradientHeading from "@/components/ui/GradientHeading";
-import QuestionnaireStage from "@/app/(main)/questionnaire/components/QuestionnaireStage";
+import QuestionnaireStage from "@/app/(main)/questionnaire/ktp/components/QuestionnaireStage";
 
 import { QuestionnaireLeftMenuProps } from "./types";
 import { stages } from "../../config/stages";

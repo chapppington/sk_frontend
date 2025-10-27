@@ -5,7 +5,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import Questionnaire from "./components/Questionnaire";
 import QuestionnaireLeftMenu from "./components/QuestionnaireLeftMenu";
 import { initializeFormState } from "./utils/initializeFormState";
-import { IFormState } from "./types";
+import { IFormState } from "@/app/(main)/questionnaire/ktp/types";
 import { FeederData } from "./components/QuestionDropdown/components/FeederSectionOption/types";
 import { useLenis } from "lenis/react";
 
