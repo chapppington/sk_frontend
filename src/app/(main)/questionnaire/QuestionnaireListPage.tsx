@@ -91,7 +91,7 @@ export default function QuestionnaireListPage() {
             оборудования, свяжитесь с нами любым удобным способом.
           </p>
           <div className="flex flex-wrap gap-4">
-            <MainButton text="Связаться с нами" href="/contacts" />
+            <MainButton text="Связаться с нами" href="/contacts" fullWidth />
           </div>
         </div>
       </CustomContainer>
