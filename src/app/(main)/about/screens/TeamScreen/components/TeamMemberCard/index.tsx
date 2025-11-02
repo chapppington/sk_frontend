@@ -25,9 +25,12 @@ export const TeamMemberCard = ({
       {position}
     </div>
     {email && (
-      <div className="text-white/60 text-base md:text-lg font-light mt-1">
+      <a 
+        href={`mailto:${email}`}
+        className="text-white/60 text-base md:text-lg font-light mt-1 no-underline hover:text-white/80 transition-colors"
+      >
         {email}
-      </div>
+      </a>
     )}
   </div>
 );
