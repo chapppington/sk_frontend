@@ -28,6 +28,13 @@ const questionnaires: Questionnaire[] = [
       "Опросный лист на изготовление комплектного распределительного устройства наружной установки",
     href: "/questionnaire/krun",
   },
+  {
+    id: "kso",
+    title: "КСО",
+    description:
+      "Опросный лист на изготовление камеры сборной одностороннего обслуживания",
+    href: "/questionnaire/kso",
+  },
 ];
 
 export default function QuestionnaireListPage() {
