@@ -37,6 +37,7 @@ export interface IAboutPageConfig {
       id: number;
       name: string;
       position: string;
+      email?: string;
       image: string;
       order: number;
     }>;

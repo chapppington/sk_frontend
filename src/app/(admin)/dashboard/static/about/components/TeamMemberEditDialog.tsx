@@ -21,6 +21,7 @@ type TeamMember = {
   id: number;
   name: string;
   position: string;
+  email?: string;
   image: string;
   order: number;
 };
@@ -162,6 +163,16 @@ export default function TeamMemberEditDialog({
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="email">Email (опционально)</Label>
+              <Input
+                id="email"
+                type="email"
+                value={form.email || ""}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="Введите email"
+              />
+            </div>
 
             <div className="flex justify-end gap-2">
               <Button

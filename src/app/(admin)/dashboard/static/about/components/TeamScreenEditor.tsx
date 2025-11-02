@@ -34,6 +34,7 @@ type TeamMember = {
   id: number;
   name: string;
   position: string;
+  email?: string;
   image: string;
   order: number;
 };
@@ -168,6 +169,11 @@ export function TeamScreenEditor({ data, onSave, saving }: Props) {
             <div className="text-xs text-muted-foreground truncate">
               {member.position || "Должность не указана"}
             </div>
+            {member.email && (
+              <div className="text-xs text-muted-foreground truncate">
+                {member.email}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-1 shrink-0">
@@ -329,6 +335,7 @@ export function TeamScreenEditor({ data, onSave, saving }: Props) {
                 id: nextId,
                 name: "",
                 position: "",
+                email: "",
                 image: "",
                 order: nextOrder,
               });

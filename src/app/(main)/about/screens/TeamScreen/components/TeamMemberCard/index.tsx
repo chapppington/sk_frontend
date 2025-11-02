@@ -5,6 +5,7 @@ import { UPLOADS_URL } from "@/constants";
 export const TeamMemberCard = ({
   name,
   position,
+  email,
   image,
 }: ITeamMemberCardProps) => (
   <div className="flex flex-col items-start w-full">
@@ -23,5 +24,10 @@ export const TeamMemberCard = ({
     <div className="text-white/40 text-lg md:text-xl font-light">
       {position}
     </div>
+    {email && (
+      <div className="text-white/60 text-base md:text-lg font-light mt-1">
+        {email}
+      </div>
+    )}
   </div>
 );
