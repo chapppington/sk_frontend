@@ -69,14 +69,16 @@ const DesktopMenu: FC = () => {
               </button>
               
               {dropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-black/30 border border-white/20 rounded-lg shadow-lg z-50 py-2 backdrop-blur-xl backdrop-saturate-150">
-                  <TransitionLink
-                    href={PagesConfig.production.href}
-                    className="block px-6 py-3 text-white text-sm hover:bg-white/10 transition-colors whitespace-nowrap"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    О производстве
-                  </TransitionLink>
+                <div className="absolute top-full left-0 pt-2">
+                  <div className="w-56 bg-black/30 border border-white/20 rounded-lg shadow-lg z-50 py-1 backdrop-blur-xl backdrop-saturate-150">
+                    <TransitionLink
+                      href={PagesConfig.production.href}
+                      className="block px-4 py-2 text-white text-sm hover:bg-white/10 transition-colors whitespace-nowrap"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      О производстве
+                    </TransitionLink>
+                  </div>
                 </div>
               )}
             </div>
