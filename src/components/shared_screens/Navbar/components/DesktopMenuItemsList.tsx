@@ -48,7 +48,7 @@ const DesktopMenu: FC = () => {
   }, [dropdownOpen]);
 
   return (
-    <div className="hidden 2xl:flex items-center space-x-10 px-12 h-full">
+    <div className="hidden 2xl:flex items-center space-x-8 px-12 h-full">
       {items.map((item: { href: string; label: string }, index: number) => {
         // 3-й элемент (индекс 2) с выпадающим списком
         if (index === 2) {
