@@ -36,7 +36,7 @@ const JobItem: FC<JobItemProps> = ({ job, index }) => {
             <span className="text-sm sm:text-base">₽/мес</span>
           </div>
 
-          <MainButton text="Подробнее" />
+          <MainButton text="Подробнее" href="#contact_us_section"/>
         </div>
       </div>
     </div>
