@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import CustomContainer from "@/components/ui/CustomContainer";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { IBreadcrumbsProps } from "@/components/ui/Breadcrumbs/types";
+import BreadcrumbSchema from "./BreadcrumbSchema";
 
 const Breadcrumbs: FC<IBreadcrumbsProps> = ({
   items,
@@ -28,13 +29,17 @@ const Breadcrumbs: FC<IBreadcrumbsProps> = ({
   );
 
   return (
-    <div className={`pt-32 ${className || ""}`}>
-      {disableContainer ? (
-        content
-      ) : (
-        <CustomContainer>{content}</CustomContainer>
-      )}
-    </div>
+    <>
+      {/* JSON-LD разметка для поисковых систем */}
+      <BreadcrumbSchema items={items} />
+      <div className={`pt-32 ${className || ""}`}>
+        {disableContainer ? (
+          content
+        ) : (
+          <CustomContainer>{content}</CustomContainer>
+        )}
+      </div>
+    </>
   );
 };
 
