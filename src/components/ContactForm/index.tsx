@@ -11,6 +11,7 @@ import VacancyForm from "./VacancyForm";
 import QuestionnaireForm from "./QuestionnaireForm";
 import DefaultForm from "./DefaultForm";
 import RequestForm from "./RequestForm";
+import ForumForm from "./ForumForm";
 
 interface ContactFormProps {
   variant?: ContactFormVariant;
@@ -49,6 +50,8 @@ const ContactForm: FC<ContactFormProps> = ({
       case "questionnaire":
         return "QUESTIONNAIRE";
       case "request":
+        return "REQUEST";
+      case "forum":
         return "REQUEST";
       default:
         return "DEFAULT";
@@ -102,6 +105,17 @@ const ContactForm: FC<ContactFormProps> = ({
     />
   ) : variant === "request" ? (
     <RequestForm
+      register={register}
+      handleSubmit={handleSubmit}
+      errors={errors}
+      setError={setError}
+      clearErrors={clearErrors}
+      watch={watch}
+      onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
+    />
+  ) : variant === "forum" ? (
+    <ForumForm
       register={register}
       handleSubmit={handleSubmit}
       errors={errors}

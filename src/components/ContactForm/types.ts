@@ -11,4 +11,5 @@ export type ContactFormVariant =
   | "vacancy"
   | "questionnaire"
   | "default"
-  | "request";
+  | "request"
+  | "forum";

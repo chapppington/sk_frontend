@@ -28,6 +28,7 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
   initialCoordinates = [53.3254, 83.6329],
   onCoordinatesChange,
   height = "250px",
+  zoom = 15,
 }) => {
   const [coordinates, setCoordinates] =
     useState<[number, number]>(initialCoordinates);
@@ -121,7 +122,7 @@ const YandexMapContainer: FC<IYandexMapContainerProps> = ({
           <Map
             defaultState={{
               center: coordinates,
-              zoom: 9,
+              zoom: zoom,
             }}
             width="100%"
             height="100%"

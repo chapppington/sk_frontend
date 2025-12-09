@@ -65,10 +65,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
+  // Helper function to fetch with timeout
+  const fetchWithTimeout = async <T>(
+    promise: Promise<T>,
+    timeoutMs: number = 5000
+  ): Promise<T | null> => {
+    try {
+      return await Promise.race([
+        promise,
+        new Promise<null>((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), timeoutMs)
+        ),
+      ]);
+    } catch (error) {
+      return null;
+    }
+  };
+
   try {
-    // Fetch products for dynamic product pages using productService
-    const productsResponse = await productService.fetchAll();
-    const products = productsResponse.data || [];
+    // Fetch products for dynamic product pages using productService with timeout
+    const productsResponse = await fetchWithTimeout(
+      productService.fetchAll(),
+      5000
+    );
+    const products = productsResponse?.data || [];
 
     products.forEach((product: any) => {
       sitemap.push({
@@ -79,9 +99,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     });
 
-    // Fetch news articles for dynamic news pages using newsService
-    const newsResponse = await newsService.fetchAll();
-    const news = newsResponse.data || [];
+    // Fetch news articles for dynamic news pages using newsService with timeout
+    const newsResponse = await fetchWithTimeout(
+      newsService.fetchAll(),
+      5000
+    );
+    const news = newsResponse?.data || [];
 
     news.forEach((article: any) => {
       sitemap.push({
@@ -92,9 +115,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     });
 
-    // Fetch portfolio items for dynamic portfolio pages using portfolioService
-    const portfolioResponse = await portfolioService.fetchAll();
-    const portfolioItems = portfolioResponse.data || [];
+    // Fetch portfolio items for dynamic portfolio pages using portfolioService with timeout
+    const portfolioResponse = await fetchWithTimeout(
+      portfolioService.fetchAll(),
+      5000
+    );
+    const portfolioItems = portfolioResponse?.data || [];
 
     portfolioItems.forEach((item: any) => {
       sitemap.push({
